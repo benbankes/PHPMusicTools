@@ -1,0 +1,22 @@
+{
+    "name": "ianring/PHPMusicTools",
+    "description": "A PHP library for music analysis, construction, generation, and more",
+    "keywords":["music","musicxml","lilypond","php"],
+    "type": "library",
+    "license": "GNU",
+    "homepage": "https://github.com/ianring/PHPMusicTools",
+    "authors": [
+    	{
+    		"name": "Ian Ring",
+    		"email": "ian@ianring.com",
+    		"homepage": "http://ianring.com",
+    		"role": "Codeslinger"
+    	}
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-4": {"ianring\\": "src/PHPMusicTools"}
+    }
+}
