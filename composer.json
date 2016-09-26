@@ -1,5 +1,5 @@
 {
-    "name": "ianring/PHPMusicTools",
+    "name": "ianring/php-music-tools",
     "description": "A PHP library for music analysis, construction, generation, and more",
     "keywords":["music","musicxml","lilypond","php"],
     "type": "library",
