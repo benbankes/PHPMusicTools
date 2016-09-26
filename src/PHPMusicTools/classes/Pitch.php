@@ -267,26 +267,22 @@ class Pitch extends PMTObject {
 	}
 
 	/**
-	 * returns a pitch string suitable for using in Lilypond
+	 * returns a pitch string suitable for using in Lilypond (in absolute mode)
 	 * @return [type] [description]
 	 */
 	public function toLilypond() {
 		$out = strtolower($this->step);
-
 		if ($this->alter == 1) {
 			$out .= 'is';
 		}
 		if ($this->alter == -1) {
 			$out .= 'es';
 		}
-
 		if ($this->octave > 3) {
 			$out .= str_repeat("'", $this->octave - 3);
 		} else {
 			$out .= str_repeat(",", 3 - $this->octave);
 		}
-
-//		$out .= $this->octave;
 		return $out;
 	}
 
