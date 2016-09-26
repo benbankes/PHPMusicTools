@@ -234,18 +234,77 @@ class PitchTest extends PHPMusicToolsTest
 			),
 
 			array(
-				'pitch1' => new ianring\Pitch('B', 1, 4), // b sharp 4 to the nearest C...
+				'pitch1' => new ianring\Pitch('B', 1, 4), // b sharp 4 is the same as C natural 5
+				'step' => 'C',
+				'alter' => 0,
+				'expected' => new ianring\Pitch('C', 0, 5),
+			),
+			array(
+				'pitch1' => new ianring\Pitch('B', 1, 4), // b sharp 4 to the C flat above
+				'step' => 'C',
+				'alter' => -1,
+				'expected' => new ianring\Pitch('B', 0, 5),
+			),
+			array(
+				'pitch1' => new ianring\Pitch('D', 0, -2),
+				'step' => 'E',
+				'alter' => 0,
+				'expected' => new ianring\Pitch('E', 0, -2),
+			),
+			array(
+				'pitch1' => new ianring\Pitch('D', 0, -2),
+				'step' => 'E',
+				'alter' => 1,
+				'expected' => new ianring\Pitch('F', 0, -2),
+			)
+		);
+	}
+
+
+
+	/**
+	 * tests that the isHigherThan and isLowerThan functions both work OK
+	 * @dataProvider closestDownProvider
+	 */
+	public function testClosestDown($pitch1, $step, $alter, $expected) {
+		$actual = $pitch1->closestDown($step, $alter);
+		$this->assertTrue($actual->equals($expected));
+	}
+	function closestDownProvider() {
+		return array(
+			array(
+				'pitch1' => new ianring\Pitch('C', 0, 4),
+				'step' => 'E',
+				'alter' => 0,
+				'expected' => new ianring\Pitch('E', 0, 3),
+			),
+			array(
+				'pitch1' => new ianring\Pitch('C', 0, 4),
 				'step' => 'C',
 				'alter' => 0,
 				'expected' => new ianring\Pitch('C', 0, 4),
 			),
 			array(
-				'pitch1' => new ianring\Pitch('B', 1, 4), // b sharp 4 to the C flat
+				'pitch1' => new ianring\Pitch('C', 0, 4),
+				'step' => 'C',
+				'alter' => 1,
+				'expected' => new ianring\Pitch('C', 1, 3),
+			),
+			array(
+				'pitch1' => new ianring\Pitch('C', 1, 4),
+				'step' => 'C',
+				'alter' => 0,
+				'expected' => new ianring\Pitch('C', 0, 4),
+			),
+			array(
+				'pitch1' => new ianring\Pitch('C', 0, 4),
 				'step' => 'C',
 				'alter' => -1,
-				'expected' => new ianring\Pitch('B', 1, 4),
-			)
+				'expected' => new ianring\Pitch('B', 0, 3),
+			),
+
 		);
 	}
+
 
 }

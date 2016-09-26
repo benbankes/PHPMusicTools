@@ -291,14 +291,17 @@ class Pitch extends PMTObject {
 	}
 
 	/**
-	 * finds the nearest pitch that is higher than or equal, with a step and alter.
+	 * finds the nearest pitch that is higher than (or equal), with a step and alter.
 	 * @return [type] [description]
 	 */
-	public function closestUp($step, $alter) {
-		$base = new Pitch($step, $alter, -2);
-		for ($i=0; $i<12; $i++) {
+	public function closestUp($step, $alter, $allowEqual = true) {
+		$base = new Pitch($step, $alter, -6);
+		for ($i=0; $i<25; $i++) {
 			$base->transpose(12, $alter);
 			if ($base->isHigherThan($this)) {
+				return $base;
+			}
+			if ($allowEqual && $base->isEnharmonic($this)) {
 				return $base;
 			}
 		}
@@ -310,11 +313,14 @@ class Pitch extends PMTObject {
 	 * finds the nearest pitch that is lower than or equal, with a step and alter.
 	 * @return [type] [description]
 	 */
-	public function closestDown($step, $alter) {
+	public function closestDown($step, $alter, $allowEqual = true) {
 		$base = new Pitch($step, $alter, 20);
-		for ($i=0; $i<12; $i++) {
+		for ($i=0; $i<25; $i++) {
 			$base->transpose(-12, $alter);
 			if ($base->isLowerThan($this)) {
+				return $base;
+			}
+			if ($allowEqual && $base->isEnharmonic($this)) {
 				return $base;
 			}
 		}
