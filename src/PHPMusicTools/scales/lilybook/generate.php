@@ -3,6 +3,7 @@ namespace ianring;
 error_reporting(E_ALL);
 
 require_once '../../classes/Scale.php';
+require_once '../../classes/Instrument.php';
 
 $instruments = array(
     'E Flat Alto Saxophone' => array(
@@ -12,24 +13,21 @@ $instruments = array(
     )
 );
 
+$instrument = Instrument::constructFromName('Alto Saxophone');
 
-foreach ($instruments as $instrumentName => $instrument) {
-    echo $instrumentName . "\n";
-    // loop all keys
+    // loop all keys starting with a heightless C
+    $root = new Pitch('C', 0);
+
+    
     for($i=0; $i<12; $i++) {
-        echo $i . "\n";
-        print_r($instrument['low']);
+//        echo $i . "\n";
+//        print_r($instrument->rangeMin);
         // find the lowest pitch in this instrument's range
-        $low = $instrument['low']->closestUp('C', 0);
+        $low = $instrument->rangeMin->closestUp('C', 0);
         print_r($low);
-        
+
     }
 
-
-}
-
-
-die();
 
 // in parallel motion
 // separated by octaves
@@ -73,7 +71,7 @@ for ($o=0; $o<4; $o++) {
     }
     $root->transpose(12);
 }
-$righthand .= '}'. "\n\n";
+$righthand .= "\n" . '}'. "\n\n";
 
 
 

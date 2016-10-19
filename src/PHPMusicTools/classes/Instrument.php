@@ -5,11 +5,6 @@ require_once 'PMTObject.php';
 
 class Instrument extends PMTObject {
 
-
-	function __construct($name) {
-		$this->getProperties($name);
-	}
-
 	function __construct($name, $rangeMin = null, $rangeMax = null, $transpose = 0, $family = null) {
 		$this->name = $name;
 		$this->rangeMin = $rangeMin;
@@ -20,19 +15,24 @@ class Instrument extends PMTObject {
 
 	public static function constructFromArray($props) {
 		$name = $props['name'];
-		$rangeMin = $props['rangeMin'];
-		$rangeMax = $props['rangeMax'];
+		$rangeMin = Pitch::constructFromArray($props['rangeMin']);
+		$rangeMax = Pitch::constructFromArray($props['rangeMax']);
 		$transpose = $props['transpose'];
 		$family = $props['family'];
 		return new Instrument($name, $rangeMin, $rangeMax, $transpose, $family);
 	}
 
+	public static function constructFromName($name) {
+		$instrument = new Instrument($name);
+		$instrument->getProperties();
+		return $instrument;
+	}
 
 	function getProperties() {
 		if (isset(self::$instruments[$this->name])) {
-			$i = $instruments[$this->name];
-			$this->rangeMin = $i['rangeMin'];
-			$this->rangeMax = $i['rangeMax'];
+			$i = self::$instruments[$this->name];
+			$this->rangeMin = Pitch::constructFromArray($i['rangeMin']);
+			$this->rangeMax = Pitch::constructFromArray($i['rangeMax']);
 			$this->transpose = $i['transpose'];
 			$this->family = $i['family'];
 		} else {
@@ -43,8 +43,16 @@ class Instrument extends PMTObject {
 
 	public static $instruments = array(
 		'Alto Saxophone' => array(
-	        'rangeMin' => new Pitch('D', -1, 3),
-	        'rangeMax' => new Pitch('A', 0, 5),
+	        'rangeMin' => array(
+	        	'step' => 'D',
+	        	'alter' => -1,
+	        	'octave' => 3
+	        ),
+	        'rangeMax' => array(
+	        	'step' => 'A',
+	        	'alter' => 0,
+	        	'octave' => 5
+	        ),
 	        'transpose' => 8,
 	        'family' => 'woodwind',
 	        'otherNames' => array(

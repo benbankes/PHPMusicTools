@@ -41,7 +41,7 @@ class Pitch extends PMTObject {
 	 * @return [type]        [description]
 	 */
 	public function interval($pitch) {
-		return self::toNoteNumber($pitch) - self::toNoteNumber($this);
+		return $pitch->toNoteNumber() - $this->toNoteNumber();
 	}
 
 	/**
@@ -77,6 +77,45 @@ class Pitch extends PMTObject {
 		return $pitch->step == $this->step && $pitch->alter == $this->alter && $pitch->octave == $this->octave;
 	}
 
+	/**
+	 * returns a pitch's chroma. e.g. C = 0, C# = 1, D = 2, up to B = 11
+	 * @return [type] [description]
+	 */
+	public function chroma() {
+		$steps = array(
+			'C' => 0,
+			'D' => 2,
+			'E' => 4,
+			'F' => 5,
+			'G' => 7,
+			'A' => 9,
+			'B' => 11,
+		);
+		$chroma = $steps[$this->step];
+		$chroma += $this->alter;
+		return $chroma;
+	}
+
+	/**
+	 * gives the step above the current one. e.g. given D, returns E. Given G, returns A.
+	 * @param  [type] $step [description]
+	 * @return [type]       [description]
+	 */
+	public static function stepUp($step) {
+		$steps = 'CDEFGABC';
+		$pos = strpos($steps, $step);
+		return substr($steps, $pos+1, 1);
+	}
+	/**
+	 * gives the step below the current one. e.g. given E, returns D. Given A, returns G.
+	 * @param  [type] $step [description]
+	 * @return [type]       [description]
+	 */
+	public static function stepDown($step) {
+		$steps = 'CBAGFEDC';
+		$pos = strpos($steps, $step);
+		return substr($steps, $pos+1, 1);
+	}
 
 	public static $chromas = array(
 		0 => 'C',
@@ -202,6 +241,8 @@ class Pitch extends PMTObject {
 			// set it back the way it was
 			$this->octave = null;
 		}
+		// return the pitch so we can do chaining
+		return $this;
 	}
 
 	public function toString() {
@@ -226,11 +267,11 @@ class Pitch extends PMTObject {
 	 * @param Pitch $pitch
 	 * @return int pitch number, useful for doing calculcations
 	 */
-	public static function toNoteNumber($pitch) {
+	public function toNoteNumber() {
 		$chromas = array('C' => 0, 'D' => 2, 'E' => 4, 'F' => 5, 'G' => 7, 'A' => 9, 'B' => 11);
-		$num = ($pitch->octave - 4) * 12;
-		$num += $chromas[$pitch->step];
-		$num += $pitch->alter; // adds a sharp or flat, e.g. 1 = sharp, -1 = flat, -2 = double-flat...
+		$num = ($this->octave - 4) * 12;
+		$num += $chromas[$this->step];
+		$num += $this->alter; // adds a sharp or flat, e.g. 1 = sharp, -1 = flat, -2 = double-flat...
 		return $num;
 	}
 
@@ -267,7 +308,7 @@ class Pitch extends PMTObject {
 	}
 
 	/**
-	 * returns a pitch string suitable for using in Lilypond (in absolute mode)
+	 * returns a pitch string suitable for using in Lilypond
 	 * @return [type] [description]
 	 */
 	public function toLilypond() {
@@ -290,7 +331,13 @@ class Pitch extends PMTObject {
 	 * finds the nearest pitch that is higher than (or equal), with a step and alter.
 	 * @return [type] [description]
 	 */
-	public function closestUp($step, $alter, $allowEqual = true) {
+	public function closestUp($step = 'C', $alter = 0, $allowEqual = true) {
+		// special case: if the first and only argument is a heightless Pitch
+		if (count(func_get_args()) == 1 && $step instanceof Pitch && $step->isHeightless()) {
+			$alter = $step->alter;
+			$step = $step->step;
+		}
+
 		$base = new Pitch($step, $alter, -6);
 		for ($i=0; $i<25; $i++) {
 			$base->transpose(12, $alter);
@@ -309,7 +356,11 @@ class Pitch extends PMTObject {
 	 * finds the nearest pitch that is lower than or equal, with a step and alter.
 	 * @return [type] [description]
 	 */
-	public function closestDown($step, $alter, $allowEqual = true) {
+	public function closestDown($step = 'C', $alter = 0, $allowEqual = true) {
+		if (count(func_get_args()) == 1 && $step instanceof Pitch && $step->isHeightless()) {
+			$alter = $step->alter;
+			$step = $step->step;
+		}
 		$base = new Pitch($step, $alter, 20);
 		for ($i=0; $i<25; $i++) {
 			$base->transpose(-12, $alter);
