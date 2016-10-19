@@ -42,10 +42,6 @@ echo $score->toXML();
 ```
 
 
-# Parts of MusicTools
-
-![Parts of MusicTools](https://raw.githubusercontent.com/ianring/PHPMusicXML/master/src/PHPMusicTools/demo/figure01.png)
-
 # Object construction
 
 Every class in PHPMusicTools has two ways to create an instance. The first is to use the "new" keyword, providing its properties as arguments, like this:
@@ -62,7 +58,7 @@ $pitch = Pitch::constructFromArray(array(
 	'octave' => 4,
 ))
 ```
-The constructFromArray method is recursive, so if your chord array contains a note array, and your note arrays contain a pitch array, they will be transformed into Chord and Note and Pitch objects.
+The constructFromArray method is recursive, so if your chord array contains a note array, and your note arrays contain a pitch array, they will be transformed into Chord and Note and Pitch objects. This is a convenient way to serialize a complex musical structure into things that are enumerable and fun to manipulate.
 
 ```php
 $chord = Chord::constructFromArray(
@@ -105,6 +101,12 @@ You can also use this shorthand:
 $p = new Pitch('C-4');
 ```
 
+The tools will also accept Lilypond "absolute" style:
+
+```php
+$p = new Pitch('cis,,');
+```
+
 Pitches are cool because you can do transposition on them:
 
 ```php
@@ -122,9 +124,19 @@ $p->transpose(6, -1); // will create a G flat.
 In MusicXML, pitch is described using "step", "alter", and "octave", whereas in music analysis, pitch is often described using "chroma" and "height". Chroma is the chromatic position in the 12-tone scale, for which we have names like "C sharp". Whereas music notation cares about "step" and "alter" to know the difference between the visual representation of a B flat or A sharp, chroma doesn't carry information about notation, and can be represented as a number from 0 to 12.
 "Height" is the octave in which the chroma resides. Two pitches can have the same chroma in different heights (e.g. C#4 and C#5), and notes can of course have the same height and different chromas (e.g. D4 and F4).
 
+The chroma is a number from 0 to 11. 0 is the chroma of C natural, and 11 is the chroma of B.
+
 ### Heightless pitches
 A Pitch might be "heightless", when it represents a Chroma with no "octave" property. Heightlessness is a useful concept in music analysis, because it allows you to examine the use of chromas without regard for their octave. Transposing a heightless pitch will result in another heightless pitch. Heightless pitches can be assigned to Notes (which would be a weird thing to do, but it is possible), but they can not be rendered as XML, so if you're mixing heightless pitches into music that is being rendered as XML, be careful.
 A heightless pitch may seem like a theoretical construct, but it is in fact possible to generate sounds that have no perceptual height. These are called "Shepard's Tones", and consist of layered harmonics balanced in a way that makes the pitch perceptually heightless.
+
+```php
+$pitch = new Pitch('F', 1, 3);
+echo $pitch->chroma(); // 6, aka F sharp
+$pitch->transpose(-4);
+echo $pitch->chroma(); // 2, aka D natural
+
+```
 
 
 ## Note
