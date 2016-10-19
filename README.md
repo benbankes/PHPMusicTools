@@ -126,10 +126,6 @@ In MusicXML, pitch is described using "step", "alter", and "octave", whereas in 
 
 The chroma is a number from 0 to 11. 0 is the chroma of C natural, and 11 is the chroma of B.
 
-### Heightless pitches
-A Pitch might be "heightless", when it represents a Chroma with no "octave" property. Heightlessness is a useful concept in music analysis, because it allows you to examine the use of chromas without regard for their octave. Transposing a heightless pitch will result in another heightless pitch. Heightless pitches can be assigned to Notes (which would be a weird thing to do, but it is possible), but they can not be rendered as XML, so if you're mixing heightless pitches into music that is being rendered as XML, be careful.
-A heightless pitch may seem like a theoretical construct, but it is in fact possible to generate sounds that have no perceptual height. These are called "Shepard's Tones", and consist of layered harmonics balanced in a way that makes the pitch perceptually heightless.
-
 ```php
 $pitch = new Pitch('F', 1, 3);
 echo $pitch->chroma(); // 6, aka F sharp
@@ -138,6 +134,8 @@ echo $pitch->chroma(); // 2, aka D natural
 
 ```
 
+### Heightless pitches
+A Pitch might be "heightless", when it represents a Chroma with no "octave" property. Heightlessness is a useful concept in music analysis, because it allows you to examine the use of chromas without regard for their octave. Transposing a heightless pitch will result in another heightless pitch. Heightless pitches can be assigned to Notes (which would be a weird thing to do, but it is possible), but they can not be rendered as XML, so if you're mixing heightless pitches into music that is being rendered as XML, be careful.
 
 ## Note
 
@@ -445,32 +443,28 @@ echo $score->toXML();
 PHPMusicTools contains some interesting helper classes, that have no influence on typesetting scores, but which have application for music analysis or transformation.
 
 ## Scale
-The scale class gives you access to a collection of common scales, by name. A Scale object has two properties; one is the "root" which must be a Pitch object, and the other is the "mode".
+The scale class is a utility that understands scales. A Scale object has three properties; scale, root, and direction.
+
+The scale property is an integer between 0 and 4095, essentially a bitmask describing which tones are present in the scale. 
+
 You can create a scale using shorthand, 
 
 ```php
-$scale = new Scale('D# Phrygian');
+$scale = new Scale(2741, new Pitch('C', 1, 3), Scale::ASCENDING);
 
-$scale = new Scale(array(
-	'root' => new Pitch('D#'),
-	'mode' => 'phrygian'
+$scale = Scale::constructFromArray(array(
+	'scale' => 2741,
+	'root' => array(
+		'step' => 'C',
+		'alter' => 1,
+		'octave' => 3,
+	),
+	'direction' => Scale::ASCENDING
 ));
 
-$scale = new Scale(array(
-	'root' => 'D#4',
-	'mode' => 'Phrygian',
-	'direction' => 1
-));
 
 ```
-Mode names are case-insensitive, but spelling counts. The class understands aliases for modes with more than one common name, e.g. "ionian" is the same as "major".
-
 Note that the root can be a heightless pitch to describe a heightless Scale, or it may be a pitch with an octave to anchor the scale at a certain height.
-
-Scales can also have an optional property of "direction", which is either 1 (ascending) or -1 (descending).
-```php
-$scale->setProperty('direction', -1);
-```
 
 Scale objects are used for autoTune(), can be returned by functions that do analysis, and can be used to render sequences of Notes.
 

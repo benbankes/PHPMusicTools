@@ -157,7 +157,7 @@ class Scale extends PMTObject {
 	 * @param  Pitch[] $pitches [description]
 	 * @return Pitch[]
 	 */
-	function _normalizeScalePitches($pitches) {
+	public function _normalizeScalePitches($pitches) {
 		if (in_array($this->scale, array(1387,1451,1709,1717,2773,2477,2741,1453))) {
 			// this is a scale known to have a note on every step
 			$currentStep = $pitches[0]->step;
