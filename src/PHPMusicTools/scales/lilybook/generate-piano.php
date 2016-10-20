@@ -27,11 +27,12 @@ class PianoExercise {
         $this->duration = '8';
 
         $leftroot = $root;
-        $rightroot = $root->transpose(12);
+        $rightroot = clone($root);
+        $rightroot->transpose(12);
 
         $str = $this->getHeader();
-        $str .= $this->getUpper($this->scalenum, $leftroot, $this->octaves);
-        $str .= $this->getLower($this->scalenum, $rightroot, $this->octaves);
+        $str .= $this->getUpper($this->scalenum, $rightroot, $this->octaves);
+        $str .= $this->getLower($this->scalenum, $leftroot, $this->octaves);
         $str .= $this->getDefinition();
 
         echo $str;
@@ -42,13 +43,13 @@ class PianoExercise {
     }
 
     function getUpper($scalenum, $root, $octaves) {
-        $key = 
+        $key = $root->toLilypond();
 
         $hand = 'R';
         $str = "\n\n" . 'upper = {
             \\autoBeamOn
             \\clef "treble" 
-            \\key cis
+            \\key ' . $key . '
             \\major 
             \\numericTimeSignature
             \\time 4/4 | % 1
@@ -63,11 +64,13 @@ class PianoExercise {
 
 
     function getLower($scalenum, $root, $octaves) {
+        $key = $root->toLilypond();
         $hand = 'L';
+
         $str = "\n\n" . 'lower = {
             \\autoBeamOn
             \\clef "bass" 
-            \\key c 
+            \\key ' . $key . '
             \\major 
             \\numericTimeSignature
             \\time 4/4 | % 1
@@ -258,5 +261,5 @@ EEE;
 
 // $root = new Pitch('C', 0, 3);
 // $e = new PianoExercise(2741, $root, 'parallel octaves', 3);
-$root = new Pitch('C', 1, 3);
-$e = new PianoExercise(2741, $root, 'parallel octaves', 3);
+$root = new Pitch('C', 1, 2);
+$e = new PianoExercise(2741, $root, 'parallel octaves', 4);

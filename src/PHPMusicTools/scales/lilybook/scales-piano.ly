@@ -20,26 +20,26 @@ upper = {
             \time 4/4 | % 1
         
  % going up 
-\clef "treble" cis'8-2 dis'8-3 f'8-1 fis'8-2 gis'8-3 ais'8-4 c''8-1 cis''8-2 dis''8-3 f''8-1 fis''8-2 gis''8-3 ais''8-4 c'''8-1 cis'''8-2 dis'''8-3 f'''8-1 fis'''8-2 gis'''8-3 ais'''8-4 c''''8-1 
+\clef "bass" cis8-2 dis8-3 eis8-1 fis8-2 gis8-3 ais8-4 bis8-1 \clef "treble" cis'8-2 dis'8-3 eis'8-1 fis'8-2 gis'8-3 ais'8-4 bis'8-1 cis''8-2 dis''8-3 eis''8-1 fis''8-2 gis''8-3 ais''8-4 bis''8-1 cis'''8-2 dis'''8-3 eis'''8-1 fis'''8-2 gis'''8-3 ais'''8-4 bis'''8-1 
  % top note 
 cis''''8-2
  % going down 
-\clef "treble" c''''8-1 ais'''8-4 gis'''8-3 fis'''8-2 f'''8-1 dis'''8-3 cis'''8-2 c'''8-1 ais''8-4 gis''8-3 fis''8-2 f''8-1 dis''8-3 cis''8-2 c''8-1 ais'8-4 gis'8-3 fis'8-2 f'8-1 dis'8-3 cis'8-2 \bar "|."}
+\clef "treble" bis'''8-1 ais'''8-4 gis'''8-3 fis'''8-2 eis'''8-1 dis'''8-3 cis'''8-2 bis''8-1 ais''8-4 gis''8-3 fis''8-2 eis''8-1 dis''8-3 cis''8-2 bis'8-1 ais'8-4 gis'8-3 fis'8-2 eis'8-1 dis'8-3 cis'8-2 \clef "bass" bis8-1 ais8-4 gis8-3 fis8-2 eis8-1 dis8-3 cis8-2 \bar "|."}
 
 lower = {
             \autoBeamOn
             \clef "bass" 
-            \key c 
+            \key cis,
             \major 
             \numericTimeSignature
             \time 4/4 | % 1
         
  % going up 
-\clef "treble" cis'8-2 dis'8-3 f'8-1 fis'8-2 gis'8-3 ais'8-4 c''8-1 cis''8-2 dis''8-3 f''8-1 fis''8-2 gis''8-3 ais''8-4 c'''8-1 cis'''8-2 dis'''8-3 f'''8-1 fis'''8-2 gis'''8-3 ais'''8-4 c''''8-1 
+\clef "bass" cis,8-2 dis,8-3 eis,8-1 fis,8-2 gis,8-3 ais,8-4 bis,8-1 cis8-2 dis8-3 eis8-1 fis8-2 gis8-3 ais8-4 bis8-1 \clef "treble" cis'8-2 dis'8-3 eis'8-1 fis'8-2 gis'8-3 ais'8-4 bis'8-1 cis''8-2 dis''8-3 eis''8-1 fis''8-2 gis''8-3 ais''8-4 bis''8-1 
  % top note 
-cis''''8-2
+cis'''8-2
  % going down 
-\clef "treble" c''''8-1 ais'''8-4 gis'''8-3 fis'''8-2 f'''8-1 dis'''8-3 cis'''8-2 c'''8-1 ais''8-4 gis''8-3 fis''8-2 f''8-1 dis''8-3 cis''8-2 c''8-1 ais'8-4 gis'8-3 fis'8-2 f'8-1 dis'8-3 cis'8-2 \bar "|."}\score {
+\clef "treble" bis''8-1 ais''8-4 gis''8-3 fis''8-2 eis''8-1 dis''8-3 cis''8-2 bis'8-1 ais'8-4 gis'8-3 fis'8-2 eis'8-1 dis'8-3 cis'8-2 \clef "bass" bis8-1 ais8-4 gis8-3 fis8-2 eis8-1 dis8-3 cis8-2 bis,8-1 ais,8-4 gis,8-3 fis,8-2 eis,8-1 dis,8-3 cis,8-2 \bar "|."}\score {
     \new PianoStaff <<
     \set PianoStaff.instrumentName = #"Piano  "
     \new Staff = "upper" \upper

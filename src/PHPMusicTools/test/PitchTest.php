@@ -280,11 +280,11 @@ class PitchTest extends PHPMusicToolsTest
 				'expected' => new ianring\Pitch('D', 0, 4),
 			),
 			'call it with a heightless pitch' => array(
-				'pitch1' => new ianring\Pitch('D', 0, 3),
-				'step' => new ianring\Pitch('E', 0, null),
-				'alter' => null,
+				'pitch1' => new ianring\Pitch('D', 0, null),
+				'step' => 'E',
+				'alter' => 0,
 				'allowEqual' => null,
-				'expected' => new ianring\Pitch('E', 0, 3),
+				'expected' => new ianring\Pitch('E', 0, null),
 			)
 		);
 	}
@@ -397,5 +397,96 @@ class PitchTest extends PHPMusicToolsTest
 			)
 		);
 	}
+
+
+	/**
+	 * @dataProvider enharmonicizeToStepProvider
+	 */
+	public function testEnharmonicizeToStep($pitch, $step, $expected) {
+		$pitch->enharmonicizeToStep($step);
+		$this->assertEquals($expected, $pitch);
+	}
+	function enharmonicizeToStepProvider() {
+		return array(
+			array(
+				'pitch' => new ianring\Pitch('C', 1, 4),
+				'step' => 'D',
+				'expected' => new ianring\Pitch('D', -1, 4)
+			),
+			array(
+				'pitch' => new ianring\Pitch('D', -1, 4),
+				'step' => 'C',
+				'expected' => new ianring\Pitch('C', 1, 4)
+			),
+			array(
+				'pitch' => new ianring\Pitch('F', 0, 2),
+				'step' => 'E',
+				'expected' => new ianring\Pitch('E', 1, 2)
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 0, 3),
+				'step' => 'B',
+				'expected' => new ianring\Pitch('B', 1, 3) // b sharp is in the octave above.
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', -1, 3),
+				'step' => 'B',
+				'expected' => new ianring\Pitch('B', 1, 3) // b sharp is in the octave above.
+			),
+		);
+	}
+
+
+	/**
+	 * tests stepUp.
+	 * @dataProvider stepUpProvider
+	 */
+	public function testStepUp($step, $expected) {
+		$result = ianring\Pitch::stepUp($step);
+		$this->assertEquals($result, $expected);
+	}
+	function stepUpProvider() {
+		return array(
+			array(
+				'step' => 'D',
+				'expected' => 'E'
+			),
+			array(
+				'step' => 'G',
+				'expected' => 'A'
+			),
+			array(
+				'step' => 'C',
+				'expected' => 'D'
+			),
+		);
+	}
+
+
+	/**
+	 * tests stepDown.
+	 * @dataProvider stepDownProvider
+	 */
+	public function testStepDown($step, $expected) {
+		$result = ianring\Pitch::stepDown($step);
+		$this->assertEquals($result, $expected);
+	}
+	function stepDownProvider() {
+		return array(
+			array(
+				'step' => 'E',
+				'expected' => 'D'
+			),
+			array(
+				'step' => 'A',
+				'expected' => 'G'
+			),
+			array(
+				'step' => 'D',
+				'expected' => 'C'
+			),
+		);
+	}
+
 
 }

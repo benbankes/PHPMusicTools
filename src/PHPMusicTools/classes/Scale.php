@@ -153,7 +153,7 @@ class Scale extends PMTObject {
 	 *
 	 * But it should handle complex scales like bebop properly.
 	 * Good luck!
-	 * 
+	 *
 	 * @param  Pitch[] $pitches [description]
 	 * @return Pitch[]
 	 */
@@ -165,7 +165,7 @@ class Scale extends PMTObject {
 				$prevstep = $pitches[$i-1]->step;
 				$shouldbe = Pitch::stepUp($prevstep);
 				if ($pitches[$i] != $shouldbe) {
-					$pitch[$i] = enharmonicizeToStep($pitch, $shouldbe);
+					$pitches[$i] = $pitches[$i]->enharmonicizeToStep($shouldbe);
 				}
 			}
 		}
@@ -173,20 +173,6 @@ class Scale extends PMTObject {
 		return $pitches;
 	}
 
-	/**
-	 * will change a pitch so it is spelled enharmonically using the provided step; in other words it will 
-	 * change the step but adjust the alter. This is basically designed to turn an F natural into an E sharp when 
-	 * in the context of a C# major scale. 
-	 * @param  [type] $pitch [description]
-	 * @param  [type] $step  [description]
-	 * @return [type]        [description]
-	 */
-	function enharmonicizeToStep($pitch, $step) {
-		if ($pitch->step == $step) {
-			return $pitch;
-		}
-
-	}
 
 	/**
 	 * return the levenshtein distance between two scales (a measure of similarity)

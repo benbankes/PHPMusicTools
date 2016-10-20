@@ -2,6 +2,7 @@
 
 require_once 'PHPMusicToolsTest.php';
 require_once '../classes/Scale.php';
+require_once '../classes/Pitch.php';
 
 class ScaleTest extends PHPMusicToolsTest
 {
@@ -37,57 +38,57 @@ class ScaleTest extends PHPMusicToolsTest
 	}
 
 	/**
-	 * [testPitchConstruction description]
+	 * [testNormalizeScalePitches description]
 	 * @return [type] [description]
 	 * @dataProvider normalizeScalePitchesProvider
 	 */
-	public function testNormalizeScalePitches($pitches, $expected) {
-		$scale = new Scale(2741)
-		$actual = _normalizeScalePitches($pitches);
-		$this->assertEquals($actual, $expected);
+	public function testNormalizeScalePitches($scale, $pitches, $expected) {
+		$scale = new \ianring\Scale($scale, $pitches[0]);
+		$actual = $scale->_normalizeScalePitches($pitches);
+		$this->assertEquals($expected, $actual);
 	}
 	public function normalizeScalePitchesProvider() {
 		return array(
 			array(
 				'scale' => 2741,
 				'pitches' => array(
-					new Pitch('C', 0, 3),
-					new Pitch('D', 0, 3),
-					new Pitch('F', -1, 3), // this one should change to an E natural
-					new Pitch('F', 0, 3),
-					new Pitch('G', 0, 3),
-					new Pitch('A', 0, 3),
-					new Pitch('B', 0, 3),
+					new \ianring\Pitch('C', 0, 3),
+					new \ianring\Pitch('D', 0, 3),
+					new \ianring\Pitch('F', -1, 3), // this one should change to an E natural
+					new \ianring\Pitch('F', 0, 3),
+					new \ianring\Pitch('G', 0, 3),
+					new \ianring\Pitch('A', 0, 3),
+					new \ianring\Pitch('B', 0, 3),
 				),
 				'expected' => array(
-					new Pitch('C', 0, 3),
-					new Pitch('D', 0, 3),
-					new Pitch('E', 0, 3),
-					new Pitch('F', 0, 3),
-					new Pitch('G', 0, 3),
-					new Pitch('A', 0, 3),
-					new Pitch('B', 0, 3),
+					new \ianring\Pitch('C', 0, 3),
+					new \ianring\Pitch('D', 0, 3),
+					new \ianring\Pitch('E', 0, 3),
+					new \ianring\Pitch('F', 0, 3),
+					new \ianring\Pitch('G', 0, 3),
+					new \ianring\Pitch('A', 0, 3),
+					new \ianring\Pitch('B', 0, 3),
 				)
 			),
 			array(
 				'scale' => 2741,
 				'pitches' => array(
-					new Pitch('C', 1, 3),
-					new Pitch('D', 1, 3),
-					new Pitch('F', 0, 3), // this one should change to an E sharp
-					new Pitch('F', 1, 3),
-					new Pitch('G', 1, 3),
-					new Pitch('A', 1, 3),
-					new Pitch('C', 0, 4), // this should become a B sharp
+					new \ianring\Pitch('C', 1, 3),
+					new \ianring\Pitch('D', 1, 3),
+					new \ianring\Pitch('F', 0, 3), // this one should change to an E sharp
+					new \ianring\Pitch('F', 1, 3),
+					new \ianring\Pitch('G', 1, 3),
+					new \ianring\Pitch('A', 1, 3),
+					new \ianring\Pitch('C', 0, 4), // this should become a B sharp
 				),
 				'expected' => array(
-					new Pitch('C', 1, 3),
-					new Pitch('D', 1, 3),
-					new Pitch('E', 1, 3),
-					new Pitch('F', 1, 3),
-					new Pitch('G', 1, 3),
-					new Pitch('A', 1, 3),
-					new Pitch('B', 1, 3),
+					new \ianring\Pitch('C', 1, 3),
+					new \ianring\Pitch('D', 1, 3),
+					new \ianring\Pitch('E', 1, 3),
+					new \ianring\Pitch('F', 1, 3),
+					new \ianring\Pitch('G', 1, 3),
+					new \ianring\Pitch('A', 1, 3),
+					new \ianring\Pitch('B', 1, 4),
 				)
 			)
 		);

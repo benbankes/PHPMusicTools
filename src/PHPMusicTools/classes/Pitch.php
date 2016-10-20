@@ -1,9 +1,27 @@
 <?php
+/*
+
+An octave begins and ends with C. 
+Therefore C4 is the note immediately above B3.
+The octave does not belong to the step. It is a measurement of what height range the tone is 
+in, not dependent on it's spelling.
+Therefore the enharmonic of C4 is not B#3, it is B#4.
+C-3 is not in the same octave as the C natural beside it.
+
+LILYPOND disagrees with this - it attaches the octave to its step. So in lilypond, 
+bis'' is the note above b''
+
+Chromas are numbered 0 to 11
+
+
+
+*/
+
 namespace ianring;
 require_once 'PMTObject.php';
 
 class Pitch extends PMTObject {
-	
+
 	public function __construct($step = 'C', $alter = 0, $octave = 4) {
 		$this->step = $step;
 		$this->alter = $alter;
@@ -33,7 +51,7 @@ class Pitch extends PMTObject {
 	}
 
 	/**
-	 * gives the interval between this pitch and the given one. 
+	 * gives the interval between this pitch and the given one.
 	 * 0 means the pitches are enharmonic.
 	 * < 0 means the interval is downward,
 	 * > 0 means the interval is upward
@@ -117,6 +135,35 @@ class Pitch extends PMTObject {
 		return substr($steps, $pos+1, 1);
 	}
 
+	/**
+	 * will change a pitch so it is spelled enharmonically using the provided step; in other words it will
+	 * change the step but adjust the alter. This is basically designed to turn an F natural into an E sharp when
+	 * in the context of a C# major scale.
+	 *
+	 * The enharmonic should always convert to the nearest tone, whether that's up or down. It would be
+	 * weird to enharmonicize a C sharp to an F quadruple-flat, but theoretically that's what this function would do.
+	 *
+	 * For example. For a pitch of F#, enharmonicizing to step "G" will produce G flat.
+	 * For a pitch D natural, enharmonisizing to step "C" produces a C double-sharp.
+	 * @param  [type] $pitch [description]
+	 * @param  [type] $step  [description]
+	 * @return [type]        [description]
+	 */
+	function enharmonicizeToStep($step) {
+		if ($this->step == $step) {
+			return $this;
+		}
+		$up = $this->closestUp($step, 0, true);
+		$down = $this->closestDown($step, 0, true);
+		$intervalup = $this->interval($up);
+		$intervaldown = $this->interval($down);
+		$newpitch = abs($intervalup) > abs($intervaldown) ? $down : $up;
+		$interval = $this->interval($newpitch);
+		$this->step = $step;
+		$this->alter = ($interval * -1);
+		return $this;
+	}
+
 	public static $chromas = array(
 		0 => 'C',
 		1 => array(
@@ -148,17 +195,13 @@ class Pitch extends PMTObject {
 	);
 
 
-	function setProperty($name, $value) {
-		$this->$name = $value;
-	}
-
 	public function isHeightless() {
 		return is_null($this->octave);
 	}
 
 	public function toXML() {
 		if ($this->octave == null) {
-			throw new Exception('heightless pitches can not be rendered as XML. Provide an "octave" property. '.print_r($this->properties, true));
+			throw new Exception('heightless pitches can not be rendered as XML. Provide an "octave" property. ' . print_r($this->properties, true));
 		}
 
 		$out = '<pitch>';
@@ -173,7 +216,6 @@ class Pitch extends PMTObject {
 	}
 
 	private static function _resolvePitchString($pitch) {
-
 		if (is_array($pitch)) {
 			return $pitch;
 		}
@@ -308,7 +350,7 @@ class Pitch extends PMTObject {
 	}
 
 	/**
-	 * returns a pitch string suitable for using in Lilypond
+	 * returns an absolute pitch string suitable for using in Lilypond
 	 * @return [type] [description]
 	 */
 	public function toLilypond() {
@@ -319,20 +361,34 @@ class Pitch extends PMTObject {
 		if ($this->alter == -1) {
 			$out .= 'es';
 		}
-		if ($this->octave > 3) {
-			$out .= str_repeat("'", $this->octave - 3);
+
+		// contrary to the standards in this class, lilypond thinks that B sharp belongs in the same 
+		// octave as the neighbouring B natural. So we have to adjust those specifically
+		$octave = $this->octave;
+		if ($this->step == 'B' && $this->alter > 0) {
+			$octave--;
+		}
+		// the same must be done for C flats
+		if ($this->step == 'C' && $this->alter < 0) {
+			$octave++;
+		}
+
+		if ($octave > 3) {
+			$out .= str_repeat("'", $octave - 3);
 		} else {
-			$out .= str_repeat(",", 3 - $this->octave);
+			$out .= str_repeat(",", 3 - $octave);
 		}
 		return $out;
 	}
 
 	/**
-	 * finds the nearest pitch that is higher than (or equal), with a step and alter.
+	 * Finds the nearest pitch that is higher than (or equal), with a step and alter.
+	 * May be called with only one argument which is a heightless pitch.
+	 *
 	 * @return [type] [description]
 	 */
 	public function closestUp($step = 'C', $alter = 0, $allowEqual = true) {
-		// special case: if the first and only argument is a heightless Pitch
+		// special case: if the first and only argument is a heightless Pitch.
 		if (count(func_get_args()) == 1 && $step instanceof Pitch && $step->isHeightless()) {
 			$alter = $step->alter;
 			$step = $step->step;
@@ -354,6 +410,8 @@ class Pitch extends PMTObject {
 
 	/**
 	 * finds the nearest pitch that is lower than or equal, with a step and alter.
+	 * May be called with only one argument which is a heightless pitch.
+	 *
 	 * @return [type] [description]
 	 */
 	public function closestDown($step = 'C', $alter = 0, $allowEqual = true) {
