@@ -120,7 +120,7 @@ class Scale extends PMTObject {
 	 * @param  [type] $pitches [description]
 	 * @return [type]          [description]
 	 */
-	public static function calculateScaleFromPitches($pitches, $root = null) {
+	public static function determineScaleFromPitches($pitches, $root = null) {
 
 	}
 
@@ -148,10 +148,10 @@ class Scale extends PMTObject {
 
 	/**
 	 * What this function has got to do is make sure that the C sharp major scale uses an E sharp, not
-	 * an F natural. I'm not even sure what is the right way to do that. It should look at the scale
-	 * and recognize stepwise movements, and put those on sequential note names (steps) when possible.
+	 * an F natural. To do that it recognizes scales that are diatonic, and forces each note to be on 
+	 * consecutive steps. To do that, it assumes that the first note is on the correct step!
 	 *
-	 * But it should handle complex scales like bebop properly.
+	 * TODO: it should handle complex scales like bebop and octotonic properly.
 	 * Good luck!
 	 *
 	 * @param  Pitch[] $pitches [description]

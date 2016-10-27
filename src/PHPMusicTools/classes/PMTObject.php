@@ -19,4 +19,11 @@ class PMTObject {
 		$this->$name = $value;
 	}
 
+	/**
+	 * required because PHP doesn't do modulo correctly with negative numbers.
+	 */
+	protected function _truemod($num, $mod) {
+		return ($mod + ($num % $mod)) % $mod;
+	}
+
 }

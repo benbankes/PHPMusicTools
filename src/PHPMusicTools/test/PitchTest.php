@@ -9,14 +9,12 @@ class PitchTest extends PHPMusicToolsTest
 	protected function setUp(){
 	}
 	
-	public function testConstructFromArray(){
-		$input = array(
+	public function testConstructFromArray(){		
+		$pitch = ianring\Pitch::constructFromArray(array(
 			'step' => 'C',
 			'alter' => 1,
 			'octave' => 4,
-		);
-
-		$pitch = ianring\Pitch::constructFromArray($input);
+		));
 
 		$this->assertInstanceOf(\ianring\Pitch::class, $pitch);
 		$this->assertObjectHasAttribute('step', $pitch);
@@ -28,16 +26,14 @@ class PitchTest extends PHPMusicToolsTest
 	}
 
 	/**
-	 * [testPitchConstruction description]
-	 * @return [type] [description]
-	 * @dataProvider pitchConstructionProvider
+	 * @dataProvider providerConstructFromString
 	 */
 	public function testConstructFromString($string, $expected) {
 		$this->markTestSkipped();
 		$pitch = \ianring\Pitch::constructFromString($string);
 		$this->assertEquals($expected, $pitch);
 	}
-	function pitchConstructionProvider() {
+	function providerConstructFromString() {
 		return array(
 			array(
 				'args' => 'C4',
@@ -79,8 +75,7 @@ class PitchTest extends PHPMusicToolsTest
 	}
 
 	/**
-	 * tests that the isHigherThan and isLowerThan functions both work OK
-	 * @dataProvider isHigherThanProvider
+	 * @dataProvider providerIsHigherThan
 	 */
 	public function testIsHigherThan($pitch1, $pitch2, $expected) {
 		$actual = $pitch1->isHigherThan($pitch2);
@@ -90,7 +85,7 @@ class PitchTest extends PHPMusicToolsTest
 		$actual = $pitch2->isLowerthan($pitch1);
 		$this->assertEquals($actual, $expected);
 	}
-	function isHigherThanProvider() {
+	function providerIsHigherThan() {
 		return array(
 			array(
 				'pitch1' => new ianring\Pitch('C', 0, 4),
@@ -110,16 +105,46 @@ class PitchTest extends PHPMusicToolsTest
 		);
 	}
 
+	/**
+	 * @dataProvider providerEquals
+	 */
+	public function testEquals($pitch1, $pitch2, $expected) {
+		$actual = $pitch1->equals($pitch2);
+		$this->assertEquals($actual, $expected);
+	}
+	function providerEquals() {
+		return array(
+			array(
+				'pitch1' => new ianring\Pitch('C', 0, 4),
+				'pitch2' => new ianring\Pitch('C', 0, 4),
+				'expected' => true
+			),
+			array(
+				'pitch1' => new ianring\Pitch('C', 0, 4),
+				'pitch2' => new ianring\Pitch('C', 1, 4),
+				'expected' => false
+			),
+			array(
+				'pitch1' => new ianring\Pitch('C', 0, 4),
+				'pitch2' => new ianring\Pitch('C', 0, 3),
+				'expected' => false
+			),
+			'enharmonic is not the same as equal' => array(
+				'pitch1' => new ianring\Pitch('C', 0, 4),
+				'pitch2' => new ianring\Pitch('B', 1, 3),
+				'expected' => false
+			),
+		);
+	}
 
 	/**
-	 * [testTranspose description]
-	 * @dataProvider transposeProvider
+	 * @dataProvider providerTranspose
 	 */
 	public function testTranspose($pitch, $interval, $preferredAlteration, $expected) {
 		$pitch->transpose($interval, $preferredAlteration);
 		$this->assertTrue($pitch->equals($expected));
 	}
-	function transposeProvider() {
+	function providerTranspose() {
 		return array(
 			array(
 				'pitch' => new ianring\Pitch('C', 0, 4),
@@ -156,14 +181,13 @@ class PitchTest extends PHPMusicToolsTest
 
 
 	/**
-	 * tests that the isHigherThan and isLowerThan functions both work OK
-	 * @dataProvider isEnharmonicProvider
+	 * @dataProvider providerIsEnharmonic
 	 */
 	public function testIsEnharmonic($pitch1, $pitch2, $expected) {
 		$actual = $pitch1->isEnharmonic($pitch2);
 		$this->assertEquals($actual, $expected);
 	}
-	function isEnharmonicProvider() {
+	function providerIsEnharmonic() {
 		return array(
 			array(
 				'pitch1' => new ianring\Pitch('C', 0, 4),
@@ -199,14 +223,13 @@ class PitchTest extends PHPMusicToolsTest
 	}
 
 	/**
-	 * tests that the isHigherThan and isLowerThan functions both work OK
-	 * @dataProvider closestUpProvider
+	 * @dataProvider providerClosestUp
 	 */
 	public function testClosestUp($pitch1, $step, $alter, $allowEqual, $expected) {
 		$actual = $pitch1->closestUp($step, $alter, $allowEqual);
 		$this->assertTrue($actual->equals($expected));
 	}
-	function closestUpProvider() {
+	function providerClosestUp() {
 		return array(
 			array(
 				'pitch1' => new ianring\Pitch('C', 0, 4),
@@ -236,7 +259,6 @@ class PitchTest extends PHPMusicToolsTest
 				'allowEqual' => true,
 				'expected' => new ianring\Pitch('C', 0, 5),
 			),
-
 			array(
 				'pitch1' => new ianring\Pitch('B', 1, 4), // b sharp 4 is the same as C natural 5
 				'step' => 'C',
@@ -289,17 +311,14 @@ class PitchTest extends PHPMusicToolsTest
 		);
 	}
 
-
-
 	/**
-	 * tests that the isHigherThan and isLowerThan functions both work OK
-	 * @dataProvider closestDownProvider
+	 * @dataProvider providerClosestDown
 	 */
 	public function testClosestDown($pitch1, $step, $alter, $expected) {
 		$actual = $pitch1->closestDown($step, $alter);
 		$this->assertTrue($actual->equals($expected));
 	}
-	function closestDownProvider() {
+	function providerClosestDown() {
 		return array(
 			array(
 				'pitch1' => new ianring\Pitch('C', 0, 4),
@@ -337,15 +356,14 @@ class PitchTest extends PHPMusicToolsTest
 
 
 	/**
-	 * tests that toNoteNumber works OK
-	 * @dataProvider toNoteNumberProvider
+	 * @dataProvider providerToNoteNumber
 	 */
 	public function testToNoteNumber($pitch, $expected) {
 		$actual = $pitch->toNoteNumber();
 		$this->assertEquals($expected, $actual);
 
 	}
-	function toNoteNumberProvider() {
+	function providerToNoteNumber() {
 		return array(
 			array(
 				'pitch' => new ianring\Pitch('C', 0, 4),
@@ -371,14 +389,13 @@ class PitchTest extends PHPMusicToolsTest
 	}
 
 	/**
-	 * tests interval()
-	 * @dataProvider intervalProvider
+	 * @dataProvider providerInterval
 	 */
 	public function testInterval($pitch1, $pitch2, $expected) {
 		$actual = $pitch1->interval($pitch2);
 		$this->assertEquals($expected, $actual);
 	}
-	function intervalProvider() {
+	function providerInterval() {
 		return array(
 			array(
 				'pitch1' => new ianring\Pitch('C', 0, 4),
@@ -400,13 +417,13 @@ class PitchTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider enharmonicizeToStepProvider
+	 * @dataProvider providerEnharmonicizeToStep
 	 */
 	public function testEnharmonicizeToStep($pitch, $step, $expected) {
 		$pitch->enharmonicizeToStep($step);
 		$this->assertEquals($expected, $pitch);
 	}
-	function enharmonicizeToStepProvider() {
+	function providerEnharmonicizeToStep() {
 		return array(
 			array(
 				'pitch' => new ianring\Pitch('C', 1, 4),
@@ -426,26 +443,25 @@ class PitchTest extends PHPMusicToolsTest
 			array(
 				'pitch' => new ianring\Pitch('C', 0, 3),
 				'step' => 'B',
-				'expected' => new ianring\Pitch('B', 1, 3) // b sharp is in the octave above.
+				'expected' => new ianring\Pitch('B', 1, 3)
 			),
 			array(
 				'pitch' => new ianring\Pitch('C', -1, 3),
 				'step' => 'B',
-				'expected' => new ianring\Pitch('B', 1, 3) // b sharp is in the octave above.
+				'expected' => new ianring\Pitch('B', 0, 3)
 			),
 		);
 	}
 
 
 	/**
-	 * tests stepUp.
-	 * @dataProvider stepUpProvider
+	 * @dataProvider providerStepUp
 	 */
 	public function testStepUp($step, $expected) {
 		$result = ianring\Pitch::stepUp($step);
 		$this->assertEquals($result, $expected);
 	}
-	function stepUpProvider() {
+	function providerStepUp() {
 		return array(
 			array(
 				'step' => 'D',
@@ -464,14 +480,13 @@ class PitchTest extends PHPMusicToolsTest
 
 
 	/**
-	 * tests stepDown.
-	 * @dataProvider stepDownProvider
+	 * @dataProvider providerStepDown
 	 */
 	public function testStepDown($step, $expected) {
 		$result = ianring\Pitch::stepDown($step);
 		$this->assertEquals($result, $expected);
 	}
-	function stepDownProvider() {
+	function providerStepDown() {
 		return array(
 			array(
 				'step' => 'E',
@@ -484,6 +499,31 @@ class PitchTest extends PHPMusicToolsTest
 			array(
 				'step' => 'D',
 				'expected' => 'C'
+			),
+		);
+	}
+
+
+	/**
+	 * @dataProvider providerChroma
+	 */
+	public function testChroma($pitch, $expected) {
+		$result = $pitch->chroma();
+		$this->assertEquals($result, $expected);
+	}
+	function providerChroma() {
+		return array(
+			array(
+				'pitch' => new ianring\Pitch('C', 0, 4),
+				'expected' => '0'
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 1, 4),
+				'expected' => '1'
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', -1, 4),
+				'expected' => '11'
 			),
 		);
 	}

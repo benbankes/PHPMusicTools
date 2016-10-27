@@ -13,6 +13,10 @@ bis'' is the note above b''
 
 Chromas are numbered 0 to 11
 
+For some calculations, this class defines a "note number", which is an integer line with its arbitrary 
+origin on middle C. Middle C is zero. 
+going up, C#4 is 1, D4 is 2... 
+going down, B3 is -1, A#3 is -2...
 
 
 */
@@ -111,6 +115,7 @@ class Pitch extends PMTObject {
 		);
 		$chroma = $steps[$this->step];
 		$chroma += $this->alter;
+		$chroma = $this->_truemod($chroma, 12);
 		return $chroma;
 	}
 
@@ -215,14 +220,19 @@ class Pitch extends PMTObject {
 		return $out;
 	}
 
-	private static function _resolvePitchString($pitch) {
-		if (is_array($pitch)) {
-			return $pitch;
+	/**
+	 * interprets a string like "C#4" or "Gbb"
+	 * @param  [type] $string [description]
+	 * @return [type]        [description]
+	 */
+	private static function _resolvePitchString($string) {
+		if (is_array($string)) {
+			return $string;
 		}
 
 		$properties = array();
 
-		preg_match('/([A-Ga-g+#-b]+?)(\d+)/', $pitch, $matches);
+		preg_match('/([A-Ga-g+#-b]+?)(\d+)/', $string, $matches);
 		$chroma = $matches[1];
 
 		// there might be no octave part, if we're creating a heightless pitch, like "D#". Default to octave 4.
@@ -287,6 +297,10 @@ class Pitch extends PMTObject {
 		return $this;
 	}
 
+	/**
+	 * renders a canonical string description of the pitch. Uses "#" and "-" for accidentals.
+	 * @return [type] [description]
+	 */
 	public function toString() {
 		$str = '';
 		$str .= $this->step;
@@ -305,7 +319,7 @@ class Pitch extends PMTObject {
 	}
 
 	/**
-	 * translates a pitch properties into a signed integer, abitrarily centered with zero on middle C
+	 * translates a pitch properties into a signed integer, arbitrarily centered with zero on middle C
 	 * @param Pitch $pitch
 	 * @return int pitch number, useful for doing calculcations
 	 */
@@ -343,13 +357,6 @@ class Pitch extends PMTObject {
 	}
 
 	/**
-	 * required because PHP doesn't do modulo correctly with negative numbers.
-	 */
-	private function _truemod($num, $mod) {
-		return ($mod + ($num % $mod)) % $mod;
-	}
-
-	/**
 	 * returns an absolute pitch string suitable for using in Lilypond
 	 * @return [type] [description]
 	 */
@@ -362,7 +369,7 @@ class Pitch extends PMTObject {
 			$out .= 'es';
 		}
 
-		// contrary to the standards in this class, lilypond thinks that B sharp belongs in the same 
+		// contrary to the standards in this class, lilypond thinks that B sharp belongs in the same
 		// octave as the neighbouring B natural. So we have to adjust those specifically
 		$octave = $this->octave;
 		if ($this->step == 'B' && $this->alter > 0) {

@@ -38,16 +38,14 @@ class ScaleTest extends PHPMusicToolsTest
 	}
 
 	/**
-	 * [testNormalizeScalePitches description]
-	 * @return [type] [description]
-	 * @dataProvider normalizeScalePitchesProvider
+	 * @dataProvider providerNormalizeScalePitches
 	 */
 	public function testNormalizeScalePitches($scale, $pitches, $expected) {
 		$scale = new \ianring\Scale($scale, $pitches[0]);
 		$actual = $scale->_normalizeScalePitches($pitches);
 		$this->assertEquals($expected, $actual);
 	}
-	public function normalizeScalePitchesProvider() {
+	public function providerNormalizeScalePitches() {
 		return array(
 			array(
 				'scale' => 2741,
