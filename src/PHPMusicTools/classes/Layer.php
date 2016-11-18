@@ -4,8 +4,11 @@ namespace ianring;
 require_once 'PMTObject.php';
 require_once 'Chord.php';
 
+/**
+ * Layer is a collection of chords, aka a "voice" of consecutive sets of notes in a measure
+ */
 class Layer extends PMTObject {
-	
+
 	public $chords = array();
 
 	public function __construct($name, $chords) {
@@ -46,10 +49,14 @@ class Layer extends PMTObject {
 		$this->chords[] = array();
 	}
 
-	function toXML() {
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	function toMusicXML() {
 		$out = '';
 		foreach ($this->chords as $chord) {
-			$out .= $chord->toXML();
+			$out .= $chord->toMusicXML();
 		}
 		return $out;
 	}

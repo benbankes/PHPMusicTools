@@ -525,6 +525,14 @@ class PitchTest extends PHPMusicToolsTest
 				'pitch' => new ianring\Pitch('C', -1, 4),
 				'expected' => '11'
 			),
+			array(
+				'pitch' => new ianring\Pitch('B', 0, 4),
+				'expected' => '11'
+			),
+			array(
+				'pitch' => new ianring\Pitch('A', 2, 4),
+				'expected' => '11'
+			),
 		);
 	}
 

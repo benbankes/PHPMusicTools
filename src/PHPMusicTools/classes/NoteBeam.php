@@ -3,6 +3,9 @@ namespace ianring;
 
 require_once 'PMTObject.php';
 
+/**
+ * NoteBeam is a visual glyph which may identify a note's duration
+ */
 class NoteBeam extends PMTObject {
 
 	public function __construct($number, $type) {
@@ -21,7 +24,11 @@ class NoteBeam extends PMTObject {
 		return new NoteBeam($number, $type);
 	}
 
-	function toXml() {
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	function toMusicXML() {
 		$out = '';
 		$out .= '<beam';
 		if (isset($this->number)) {

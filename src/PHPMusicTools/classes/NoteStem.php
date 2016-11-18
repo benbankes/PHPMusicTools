@@ -3,6 +3,9 @@ namespace ianring;
 
 require_once 'PMTObject.php';
 
+/**
+ * NoteStem is a vertical line which shows a note's rhythmic place within a series of notes
+ */
 class NoteStem extends PMTObject {
 	// default-x
 	// default-y
@@ -28,7 +31,11 @@ class NoteStem extends PMTObject {
 
 
 
-	function toXml() {
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	function toMusicXML() {
 		$out = '';
 		$out .= '<stem';
 		if (isset($this->defaultX)) {

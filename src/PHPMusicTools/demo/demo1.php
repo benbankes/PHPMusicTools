@@ -27,7 +27,7 @@ $measure->addNote($note);
 $part = new Part('Viola');
 $part->addMeasure($measure);
 $score->addPart($part);
-$xml2 = $score->toXML('partwise');
+$xml2 = $score->toMusicXML('partwise');
 
 ?><html>
 <head>

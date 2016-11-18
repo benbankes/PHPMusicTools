@@ -5,7 +5,11 @@ require_once 'PMTObject.php';
 
 class Arpeggiate extends PMTObject {
 
-	function toXml() {
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	function toMusicXML() {
 		$out .= '<arpeggiate';
 		$out .= ' default-x="' . $this->defaultX . '"';
 		$out .= ' number="' . $this->number . '"';

@@ -19,7 +19,11 @@ class BarlineRepeat extends PMTObject {
 		return new BarlineRepeat($direction, $winged);
 	}
 
-	function toXml() {
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	function toMusicXML() {
 		$out = '';
 			$out .= '<repeat';
 			if (isset($this->direction)) {

@@ -36,7 +36,7 @@ $part->addMeasure($measure);
 
 $score->addPart($part);
 $part->addMeasure($measure);
-$xml2 = $score->toXML('partwise');
+$xml2 = $score->toMusicXML('partwise');
 
 ?><html>
 <head>

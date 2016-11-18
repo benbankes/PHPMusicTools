@@ -2,6 +2,9 @@
 namespace ianring;
 require_once 'PMTObject.php';
 
+/**
+ * Slur is a glyph connecting two notes which indicates they should be performed smoothly and attached
+ */
 class Slur extends PMTObject {
 	
 	public function __construct($number, $placement, $type, $bezierX, $bezierY, $defaultX, $defaultY) {
@@ -31,7 +34,11 @@ class Slur extends PMTObject {
 	}
 
 
-	function toXml() {
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	function toMusicXML() {
 		$out = '';
 		$out .= '<slur';
 		$out .= ' number="' . $this->number . '"';

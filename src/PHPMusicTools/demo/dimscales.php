@@ -102,7 +102,7 @@ for($i=0; $i<12; $i++) {
 
 $score->addPart($part);
 
-$xml2 = $score->toXML();
+$xml2 = $score->toMusicXML();
 
 ?>
 <script src="vexflow/jquery.js"></script>

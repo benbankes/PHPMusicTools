@@ -4,6 +4,9 @@ namespace ianring;
 require_once 'PMTObject.php';
 require_once 'Note.php';
 
+/**
+ * Chord is a collection of notes that share the same stem, and which are sounded simultaneously.
+ */
 class Chord extends PMTObject {
 
 	public $notes = array();
@@ -62,14 +65,18 @@ class Chord extends PMTObject {
 		$this->notes[] = array();
 	}
 
-	function toXML() {
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	function toMusicXML() {
 		$out = '';
 		$n = 0;
 		foreach ($this->notes as $note) {
 			if (count($this->notes) > 1 && $n > 0) {
 				$note->setProperty('chord', true);
 			}
-			$out .= $note->toXML();
+			$out .= $note->toMusicXML();
 			$n++;
 		}
 		return $out;
@@ -86,7 +93,7 @@ class Chord extends PMTObject {
 
 
 	/**
-	 * returns an array of Pitch objects, for every pitch of every note in the layer.
+	 * returns an array of Pitch objects, for every pitch of every note in the chord.
 	 * @param  boolean  $heightless  if true, will return heightless pitches all mudulo to the same octave. Useful for
 	 *                              analysis, determining mode etc.
 	 * @return array                a key for every pitch represented in string form (like "C#4" or "A-7", and inside that an array

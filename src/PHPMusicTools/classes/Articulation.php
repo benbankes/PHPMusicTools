@@ -21,7 +21,11 @@ class Articulation extends PMTObject {
 	}
 
 
-	function toXml() {
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	function toMusicXML() {
 		$out = '';
 		switch ($this->articulationType) {
 			// todo move this into the class

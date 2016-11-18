@@ -5,6 +5,9 @@ require_once 'PMTObject.php';
 require_once 'BarlineEnding.php';
 require_once 'BarlineRepeat.php';
 
+/**
+ * Barline is a vertical separator between measures
+ */
 class Barline extends PMTObject {
 
 	public static $properties = array(
@@ -38,7 +41,11 @@ class Barline extends PMTObject {
 	}
 
 
-	function toXML() {
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	function toMusicXML() {
 		$out = '';
 		$out .= '<barline';
 		if (isset($this->location)) {
@@ -52,10 +59,10 @@ class Barline extends PMTObject {
 			$out .= '<footnote>' . $this->footnote . '</footnote>';
 		}
 		if (isset($this->ending)) {
-			$out .= $this->ending->toXml();
+			$out .= $this->ending->toMusicXML();
 		}
 		if (isset($this->repeat)) {
-			$out .= $this->repeat->toXml();
+			$out .= $this->repeat->toMusicXML();
 		}
 
 		$out .= '</barline>';

@@ -2,6 +2,9 @@
 namespace ianring;
 require_once 'PMTObject.php';
 
+/**
+ * Score is a collection of parts; it is the highest level root object of a music document
+ */
 class Score extends PMTObject {
 
 	public $parts = array();
@@ -32,7 +35,11 @@ class Score extends PMTObject {
 
 	}
 
-	function toXML($wise = 'partwise') {
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	function toMusicXML($wise = 'partwise') {
 		$out = '';
 		$out .= '<?xml version="1.0" encoding="UTF-8" standalone="no"?>';
 		$out .= '<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">';
@@ -48,7 +55,7 @@ class Score extends PMTObject {
 		$out .= '</part-list>';
 
 		foreach ($this->parts as $key => $part) {
-			$out .= $part->toXML($key);
+			$out .= $part->toMusicXML($key);
 		}
 
 		$out .= '</score-partwise>';

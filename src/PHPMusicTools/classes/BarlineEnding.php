@@ -3,6 +3,9 @@ namespace ianring;
 
 require_once 'PMTObject.php';
 
+/**
+ * BarlineEnding is a notation for the final bar in a repeated section
+ */
 class BarlineEnding extends PMTObject {
 
 	public function __construct($number, $type) {
@@ -22,7 +25,11 @@ class BarlineEnding extends PMTObject {
 		return new BarlineEnding($number, $type);
 	}
 
-	function toXml() {
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	function toMusicXML() {
 		$out .= '<ending';
 		if (isset($this->number)) {
 			$out .= ' number="' . $this->number . '"';

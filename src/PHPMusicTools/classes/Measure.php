@@ -12,6 +12,9 @@ require_once 'Direction.php';
 require_once 'DirectionMetronome.php';
 require_once 'DirectionDynamics.php';
 
+/**
+ * Measure is a collection of layers, having a rhythmic duration
+ */
 class Measure extends PMTObject {
 
 	private static $defaults = array(
@@ -133,7 +136,11 @@ class Measure extends PMTObject {
 		);
 	}
 
-	function toXML($number) {
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	function toMusicXML($number) {
 		$out = '';
 
 		$out .= '<measure ';
@@ -154,7 +161,7 @@ class Measure extends PMTObject {
 
 		$i = 0;
 		foreach ($this->layers as $layer) {
-			$out .= $layer->toXML();
+			$out .= $layer->toMusicXML();
 			$i++;
 
 			if ($i < count($this->layers)) {
@@ -172,7 +179,7 @@ class Measure extends PMTObject {
 				if (!$barline instanceof Barline) {
 					$barline = new Barline($barline);
 				}
-				$out .= $barline->toXML();
+				$out .= $barline->toMusicXML();
 			}
 		}
 
@@ -191,7 +198,7 @@ class Measure extends PMTObject {
 		$staves = 1;
 
 		if (isset($this->key)) {
-			$out .= $this->key->toXML();
+			$out .= $this->key->toMusicXML();
 		}
 
 		if (isset($this->time)) {
@@ -199,7 +206,7 @@ class Measure extends PMTObject {
 			if (!$time instanceof Time) {
 				$time = new Time($time);
 			}
-			$out .= $this->time->toXML();
+			$out .= $this->time->toMusicXML();
 		}
 
 		// we count the number of clefs, and that is our number of staves
@@ -211,7 +218,7 @@ class Measure extends PMTObject {
 			$num = 0;
 			foreach ($this->clef as $clef) {
 				$num++;
-				$clefs .= $clef->toXML($num);
+				$clefs .= $clef->toMusicXML($num);
 			}
 			$staves = $num;
 		}

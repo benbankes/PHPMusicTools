@@ -17,10 +17,11 @@ For some calculations, this class defines a "note number", which is an integer l
 origin on middle C. Middle C is zero. 
 going up, C#4 is 1, D4 is 2... 
 going down, B3 is -1, A#3 is -2...
-
-
 */
 
+/**
+ * Pitch is the conceptual represtation of sound frequency
+ */
 namespace ianring;
 require_once 'PMTObject.php';
 
@@ -204,7 +205,11 @@ class Pitch extends PMTObject {
 		return is_null($this->octave);
 	}
 
-	public function toXML() {
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	public function toMusicXML() {
 		if ($this->octave == null) {
 			throw new Exception('heightless pitches can not be rendered as XML. Provide an "octave" property. ' . print_r($this->properties, true));
 		}

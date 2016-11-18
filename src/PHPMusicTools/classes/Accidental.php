@@ -1,9 +1,14 @@
 <?php
-
+/**
+ * I belong to a file
+ */
 namespace ianring;
 
 require_once 'PMTObject.php';
 
+/**
+ * Accidental is a symbol that represents a pitch alteration, e.g. a sharp, flat, natural, etc.
+ */
 class Accidental extends PMTObject {
 
 	public static $properties = array(
@@ -26,16 +31,25 @@ class Accidental extends PMTObject {
 		'three-quarters-sharp'
 	);
 
-	public function __construct($type = 'natural', $size = false, $parentheses = false, $bracket = false, $editorial = null, $courtesy = false) {
+	/**
+	 * [__construct description]
+	 * @param string  $type        the type may be one of the $types
+	 * @param boolean $size        size of the accidental - may be "full", "cue", or "large"
+ 	 * @param boolean $parentheses true if the accidental should be enclosed in parentheses
+	 * @param boolean $bracket     true if the accidental should be enclosed in brackets
+	 * @param boolean $editorial   true if the accidental is an editorial accidental
+	 * @param boolean $courtesy    true if the accidental is a courtesy accidental, also known as a "cautionary" accidental.
+	 */
+	public function __construct($type = 'natural', $size = false, $parentheses = false, $bracket = false, $editorial = false, $courtesy = false) {
 		foreach (self::$properties as $var) {
 			$this->$var = $$var;
 		}
 	}
 
 	/**
-	 * accepts the object in the form of an array structure
-	 * @param  [winged] $scale [description]
-	 * @return [winged]        [description]
+	 * constructs the object from an array serialization
+	 * @param  array $props the array of properties
+	 * @return Accidental the Accidental object.
 	 */
 	public static function constructFromArray($props) {
 		if (!is_array($props)) {
@@ -48,6 +62,10 @@ class Accidental extends PMTObject {
 		return new Accidental($type, $size, $parentheses, $bracket, $editorial, $courtesy);
 	}
 
+	/**
+	 * returns the Unicode symbol given an accidental type.
+	 * @return string the Unicode symbol address
+	 */
 	function getUnicode() {
 		$codes = array(
 			'sharp' => '266F',
@@ -67,9 +85,15 @@ class Accidental extends PMTObject {
 		return $codes[$this->type];
 	}
 
-	function toXml() {
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	function toMusicXML() {
+		$out = '';
 		$out .= '<accidental';
 		$out .= '/>';
+		return $out;
 	}
 
 }

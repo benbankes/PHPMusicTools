@@ -1,6 +1,9 @@
 <?php
 namespace ianring;
 
+/**
+ * TimeModification is an indication that notes should occupy a time different from their notated duration. Used to render tuplets. Is the actual time modification, not the visual glyph that represents it.
+ */
 class TimeModification {
 
 	public function __construct($actualNotes, $normalNotes) {
@@ -20,7 +23,11 @@ class TimeModification {
 	}
 
 
-	function toXml() {
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	function toMusicXML() {
 		$out = '';
 		$out .= '<time-modification>';
           $out .= '<actual-notes>' . $this->actualNotes . '</actual-notes>';

@@ -3,6 +3,9 @@ namespace ianring;
 
 require_once 'PMTObject.php';
 
+/**
+ * Time is aka a "time signature", incidating number of beats in a bar, and the value of one beat.
+ */
 class Time extends PMTObject {
 
 	public static $properties = array(
@@ -28,7 +31,11 @@ class Time extends PMTObject {
 		return new Time($symbol, $beats, $beatType);
 	}
 
-	function toXml(){
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	function toMusicXML(){
 		$out = '';
 
 		$out .= '<time';

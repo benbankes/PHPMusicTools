@@ -3,6 +3,9 @@ namespace ianring;
 
 require_once 'PMTObject.php';
 
+/**
+ * Part is a collection of measures, such as would be performed by an instrument
+ */
 class Part extends PMTObject {
 
 	var $measures = array();
@@ -28,12 +31,16 @@ class Part extends PMTObject {
 		return new Part($name, $measures);
 	}
 
-	function toXML($num = 1) {
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	function toMusicXML($num = 1) {
 		$out = '<part id="P' . $num . '">';
 
 		if (!empty($this->measures)) {
 			foreach ($this->measures as $key => $measure) {
-				$out .= $measure->toXML($key);
+				$out .= $measure->toMusicXML($key);
 			}
 		}
 		$out .= '</part>';

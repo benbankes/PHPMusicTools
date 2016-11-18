@@ -3,6 +3,9 @@ namespace ianring;
 
 require_once 'PMTObject.php';
 
+/**
+ * Tie is a symbol which indicates that the duration of one note should be extended by the duration of another
+ */
 class Tie extends PMTObject {
 
 	public function __construct($type) {
@@ -19,8 +22,11 @@ class Tie extends PMTObject {
 		return new Tie($type);
 	}
 
-	// used in the context of a Note notation
-	function toXml() {
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	function toMusicXML() {
 		return '<tied type="' . $this->type . '"/>';
 	}
 

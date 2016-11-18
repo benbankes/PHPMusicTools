@@ -3,6 +3,9 @@ namespace ianring;
 
 require_once 'PMTObject.php';
 
+/**
+ * Direction is extra information added to a score to instruct the performer how to interpret the score
+ */
 class Direction extends PMTObject {
 
 	public $properties = array();
@@ -29,12 +32,16 @@ class Direction extends PMTObject {
     }
   }
 
-	function toXML() {
+  /**
+   * renders this object as MusicXML
+   * @return string MusicXML representation of the object
+   */
+	function toMusicXML() {
 
     $out = '<direction placement="'. $this->placement .'">';
     $out .= '<direction-type>';
 
-    $out .= $this->direction->toXml();
+    $out .= $this->direction->toMusicXML();
 
     $out .= '</direction-type>';
     $out .= '<staff>'.$this->staff.'</staff>';

@@ -14,6 +14,9 @@ require_once '../../classes/Scale.php';
 // in double thirds
 // contrary motion starting from a unison
 
+class LilyPage {
+
+}
 
 
 class PianoExercise {
@@ -43,21 +46,30 @@ class PianoExercise {
     }
 
     function getUpper($scalenum, $root, $octaves) {
+
         $key = $root->toLilypond();
 
         $hand = 'R';
         $str = "\n\n" . 'upper = {
             \\autoBeamOn
             \\clef "treble" 
-            \\key ' . $key . '
-            \\major 
             \\numericTimeSignature
             \\time 4/4 | % 1
         ';
-        $str .= $this->getNotesUp($scalenum, $root, $octaves, $hand);
-        $str .= $this->getTopNote($scalenum, $root, $octaves, $hand);
-        $str .= $this->getNotesDown($scalenum, $root, $octaves, $hand);
+
+        for ($i=0; $i<3; $i++) {
+            $key = $root->toLilypond();
+            $str .= "\\bar \"|.\"";
+            $str .= '\\key ' . $key . ' \\major ';
+            $str .= $this->getNotesUp($scalenum, $root, $octaves, $hand);
+            $str .= $this->getTopNote($scalenum, $root, $octaves, $hand);
+            $str .= $this->getNotesDown($scalenum, $root, $octaves, $hand);
+            $root->transpose(1);
+        }
+
+        $str .= "\n";
         $str .= "\\bar \"|.\"";
+        $str .= "\n";
         $str .= '}';
         return $str;
     }
@@ -70,15 +82,23 @@ class PianoExercise {
         $str = "\n\n" . 'lower = {
             \\autoBeamOn
             \\clef "bass" 
-            \\key ' . $key . '
-            \\major 
             \\numericTimeSignature
             \\time 4/4 | % 1
         ';
-        $str .= $this->getNotesUp($scalenum, $root, $octaves, $hand);
-        $str .= $this->getTopNote($scalenum, $root, $octaves, $hand);
-        $str .= $this->getNotesDown($scalenum, $root, $octaves, $hand);
+
+        for ($i=0; $i<3; $i++) {
+            $key = $root->toLilypond();
+            $str .= "\\bar \"|.\"";
+            $str .= '\\key ' . $key . ' \\major ';
+            $str .= $this->getNotesUp($scalenum, $root, $octaves, $hand);
+            $str .= $this->getTopNote($scalenum, $root, $octaves, $hand);
+            $str .= $this->getNotesDown($scalenum, $root, $octaves, $hand);
+            $root->transpose(1);
+        }
+
+        $str .= "\n";
         $str .= "\\bar \"|.\"";
+        $str .= "\n";
         $str .= '}';
         return $str;
     }
@@ -119,7 +139,7 @@ class PianoExercise {
     }
 
     /**
-     * starting from the bottom and going up, not including the root again at the top
+     * starting from the top and going down, not including the root again at the top
      * @param  [type] $scalenum [description]
      * @param  [type] $root     [description]
      * @param  [type] $octaves  [description]
@@ -136,13 +156,22 @@ class PianoExercise {
             $pitches = array_reverse($scale->getPitches());
             $degree = 6;
             foreach ($pitches as $pitch) {
+                $isbottom = $pitch->isEnharmonic($root);
                 $newclef = ($initialnote->interval($this->middleC) > 0) ? 'bass' : 'treble';
                 if ($newclef != $clef) {
                     $clef = $newclef;
                     $str .= '\\clef "' . $clef . '" ';
                 }
-                $str .= $pitch->toLilypond() . $this->duration;
-                $isbottom = $pitch->isEnharmonic($root);
+
+
+                $str .= $pitch->toLilypond();
+
+                if ($isbottom) {
+                    $str .= $this->getFinalDuration($octaves);
+                } else {
+                    $str .= $this->duration;
+                }
+
                 $finger = $this->getFinger($scalenum, $initialnote, $hand, $degree, false, $isbottom);
                 $str .= '-' . $finger;
                 $str .=' ';
@@ -151,6 +180,23 @@ class PianoExercise {
             $initialnote->transpose(-12);
         }
         return $str;
+    }
+
+    function getFinalDuration($octaves) {
+        switch($octaves) {
+            case 4:
+                return 1;
+                break;
+            case 3:
+                return '2.';
+                break;
+            case 2:
+                return 2;
+                break;
+            case 1:
+                return 4;
+                break;
+        }
     }
 
     function getTopNote($scalenum, $root, $octaves, $hand) {
@@ -214,6 +260,18 @@ class PianoExercise {
                         'bottom' => 2
                     ),
                 ),
+                11 => array(
+                    'R' => array(
+                        'pattern' => array(2,3,1,2,3,4,1),
+                        'top' => 2,
+                        'bottom' => 2
+                    ),
+                    'L' => array(
+                        'pattern' => array(2,3,1,2,3,4,1),
+                        'top' => 2,
+                        'bottom' => 2
+                    ),
+                ),
             )
         );
 
@@ -261,5 +319,5 @@ EEE;
 
 // $root = new Pitch('C', 0, 3);
 // $e = new PianoExercise(2741, $root, 'parallel octaves', 3);
-$root = new Pitch('C', 1, 2);
+$root = new Pitch('C', 0, 2);
 $e = new PianoExercise(2741, $root, 'parallel octaves', 4);

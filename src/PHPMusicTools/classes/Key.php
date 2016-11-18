@@ -3,6 +3,9 @@ namespace ianring;
 
 require_once 'PMTObject.php';
 
+/**
+ * Key is a concept which describes the root and pitches used in diatonic harmony
+ */
 class Key extends PMTObject {
 	
 	public $properties = array();
@@ -120,7 +123,11 @@ class Key extends PMTObject {
 
 	}
 
-	public function toXML() {
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	public function toMusicXML() {
 		$out = '';
 		$out .= '<key>';
 		if (isset($this->fifths)) {

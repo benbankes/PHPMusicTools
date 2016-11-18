@@ -2,6 +2,9 @@
 namespace ianring;
 require_once 'PMTObject.php';
 
+/**
+ * Tuplet is the visual glyph that represents a time modification.
+ */
 class Tuplet extends PMTObject {
 
 	public function __construct($bracket, $number, $placement, $type) {
@@ -24,7 +27,11 @@ class Tuplet extends PMTObject {
 		return new Tuplet($bracket, $number, $placement, $type);
 	}	
 
-	function toXml() {
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	function toMusicXML() {
 		$out = '';
 		$out .= '<tuplet';
 		$out .= ' bracket="' . $this->bracket . '"';

@@ -10,7 +10,9 @@ require_once 'NoteStem.php';
 require_once 'Pitch.php';
 require_once 'Accidental.php';
 
-
+/**
+ * Note is the representation of a sound having a pitch and duration
+ */
 class Note extends PMTObject {
 
 	public static $properties = array(
@@ -114,7 +116,11 @@ class Note extends PMTObject {
 		$this->pitch = $pitch;
 	}
 
-	function toXML() {
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	function toMusicXML() {
 		$out = '';
 
 		$out .= '<note';
@@ -141,7 +147,7 @@ class Note extends PMTObject {
 				// we'll presume it's a string then
 				$pitch = new Pitch($this->pitch);
 			}
-			$out .= $pitch->toXML();
+			$out .= $pitch->toMusicXML();
 		}
 
 		if (!empty($this->duration)) {
@@ -167,7 +173,7 @@ class Note extends PMTObject {
 		}
 
 		if (!empty($this->stem)) {
-			$out .= $this->stem->toXml();
+			$out .= $this->stem->toMusicXML();
 		}
 		if (!empty($this->staff)) {
 			$out .= '<staff>' . $this->staff . '</staff>';
@@ -178,7 +184,7 @@ class Note extends PMTObject {
 				$this->beam = array($this->beam);
 			}
 			foreach ($this->beam as $beam) {
-				$out .= $beam->toXml();
+				$out .= $beam->toMusicXML();
 			}
 		}
 
@@ -187,14 +193,14 @@ class Note extends PMTObject {
 
 			// Slur, Tie, Tuplet, Arpeggiate
 			foreach ($this->notations as $notation) {
-				$out .= $notation->toXml();
+				$out .= $notation->toMusicXML();
 			}
 
 			// staccato
 			if (!empty($this->articulations)) {
 				$out .= '<articulations>';
 				foreach ($this->articulations as $articulation) {
-					$out .= $articulation->toXml();
+					$out .= $articulation->toMusicXML();
 				}
 				$out .= '</articulations>';
 

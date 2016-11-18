@@ -11,6 +11,9 @@ require_once 'Pitch.php';
  * bit 2 is up one semitone, bit 4 is a major second, bit 8 is the minor third, etc.
  */
 
+/**
+ * Scale is a series of notes all conforming to a set, moving stepwise ascending or descending
+ */
 class Scale extends PMTObject {
 
 	const ASCENDING = 'ascending';

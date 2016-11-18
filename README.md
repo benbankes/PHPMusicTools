@@ -63,16 +63,14 @@ The constructFromArray method is recursive, so if your chord array contains a no
 ```php
 $chord = Chord::constructFromArray(
 	array(
-		0 => array(
-			'notes' => array(
-				0 => array(
-					'pitch' => array(
-						'step' => 'C',
-						'alter' => 1,
-						'octave' => 4,
-					),
-					'rest' => false,
-				)
+		'notes' => array(
+			0 => array(
+				'pitch' => array(
+					'step' => 'C',
+					'alter' => 1,
+					'octave' => 4,
+				),
+				'rest' => false,
 			)
 		)
 	)
@@ -468,6 +466,11 @@ Note that the root can be a heightless pitch to describe a heightless Scale, or 
 
 Scale objects are used for autoTune(), can be returned by functions that do analysis, and can be used to render sequences of Notes.
 
+
+
+# Developer Info
+
+PHPMusicTools uses phpdocumentor for api documentation, so all code must be properly self-documented. To generate the documentation in /docs/api, run the command ```vendor/bin/phpdoc -d ./src/PHPMusicTools/classes -t ./docs/api```
 
 
 

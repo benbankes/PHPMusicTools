@@ -3,6 +3,9 @@ namespace ianring;
 
 require_once 'PMTObject.php';
 
+/**
+ * Clef is a symbol which defines which pitches are mapped to the five staff lines.
+ */
 class Clef extends PMTObject {
 
 	public static $properties = array(
@@ -49,7 +52,11 @@ class Clef extends PMTObject {
 		}
 	}
 
-	function toXML($num) {
+	/**
+	 * renders this object as MusicXML
+	 * @return string MusicXML representation of the object
+	 */
+	function toMusicXML($num) {
 		$out = '';
 
 		$out .= '<clef number="' . $num . '">';

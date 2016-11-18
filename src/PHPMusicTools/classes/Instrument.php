@@ -3,6 +3,9 @@ namespace ianring;
 
 require_once 'PMTObject.php';
 
+/**
+ * Instrument is a physical device that produces sound, like a piano or trumpet.
+ */
 class Instrument extends PMTObject {
 
 	function __construct($name, $rangeMin = null, $rangeMax = null, $transpose = 0, $family = null) {

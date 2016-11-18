@@ -187,7 +187,7 @@ $part->addMeasure($measure);
 
 $score->addPart($part);
 
-$xml2 = $score->toXML();
+$xml2 = $score->toMusicXML();
 
 ?><html>
 <head>
