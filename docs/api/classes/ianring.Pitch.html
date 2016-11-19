@@ -114,7 +114,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">327</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">317</span>
                                 </a>
                             </li>
                             <li>
@@ -144,19 +144,19 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-2015544119"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-972540363"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-2015544119" class="accordion-body collapse in">
+            <div id="namespace-972540363" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1903286958"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-162185807"></a>
                                 <a href="../namespaces/ianring.html" style="margin-left: 30px; padding-left: 0">ianring</a>
             </div>
-            <div id="namespace-1903286958" class="accordion-body collapse ">
+            <div id="namespace-162185807" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -236,8 +236,20 @@
                     <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
 
                     <h1><small>\ianring</small>Pitch</h1>
-                    <p><em></em></p>
-                    
+                    <p><em>Pitch is the conceptual represtation of sound frequency. It&#039;s the property of a note that describes its pitch.</em></p>
+                    <p>An octave begins and ends with C.
+Therefore C4 is the note immediately above B3.
+The octave does not belong to the step. It is a measurement of what height range the tone is
+in, not dependent on it's spelling.
+Therefore the enharmonic of C4 is not B#3, it is B#4.
+C-3 is not in the same octave as the C natural beside it.</p>
+<p>LILYPOND disagrees with this - it attaches the octave to its step. So in lilypond,
+bis'' is the note above b''</p>
+<p>Chromas are numbered 0 to 11</p>
+<p>For some calculations, this class defines a &quot;note number&quot;, which is an integer line with its arbitrary
+origin on middle C. Middle C is zero.
+going up, C#4 is 1, D4 is 2...
+going down, B3 is -1, A#3 is -2...</p>
                     
                                         
                     <section id="summary">
@@ -575,27 +587,25 @@
             <article class="method">
                 <h3 class="public ">interval()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">interval(\ianring\[type]  <span class="argument">$pitch</span>) : \ianring\[type]</pre>
+                <pre class="signature" style="margin-right: 54px;">interval(\ianring\Pitch  <span class="argument">$pitch</span>) : integer</pre>
                 <p><em>gives the interval between this pitch and the given one.</em></p>
                 <p>0 means the pitches are enharmonic.
-&lt; 0 means the interval is downward,</p>
-<blockquote>
-<p>0 means the interval is upward</p>
-</blockquote>
+&lt; 0 means the interval is downward,
+&gt; 0 means the interval is upward</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td>\ianring\[type]</td>
+                                <td><a href="../classes/ianring.Pitch.html">\ianring\Pitch</a></td>
                                 <td>$pitch </td>
-                                <td><p>[description]</p></td>
+                                <td><p>the pitch being checked</p></td>
                             </tr>
                                             </table>
                 
                 
                                     <h4>Returns</h4>
-                    \ianring\[type]
-                                            &mdash; <p>[description]</p>
+                    integer
+                                            &mdash; <p>the interval in semitones</p>
                                     				
                             </article>
         </div>
@@ -616,23 +626,23 @@
             <article class="method">
                 <h3 class="public ">isLowerThan()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">isLowerThan(\ianring\[type]  <span class="argument">$pitch</span>) : boolean</pre>
+                <pre class="signature" style="margin-right: 54px;">isLowerThan(\ianring\Pitch  <span class="argument">$pitch</span>) : boolean</pre>
                 <p><em>returns true if $this is lower than the provided pitch</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td>\ianring\[type]</td>
+                                <td><a href="../classes/ianring.Pitch.html">\ianring\Pitch</a></td>
                                 <td>$pitch </td>
-                                <td><p>[description]</p></td>
+                                <td><p>the pitch being checked</p></td>
                             </tr>
                                             </table>
                 
                 
                                     <h4>Returns</h4>
                     boolean
-                                            &mdash; <p>[description]</p>
+                                            &mdash; <p>true if $this is lower than $pitch</p>
                                     				
                             </article>
         </div>
@@ -653,23 +663,23 @@
             <article class="method">
                 <h3 class="public ">isHigherThan()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">isHigherThan(\ianring\[type]  <span class="argument">$pitch</span>) : boolean</pre>
+                <pre class="signature" style="margin-right: 54px;">isHigherThan(\ianring\Pitch  <span class="argument">$pitch</span>) : boolean</pre>
                 <p><em>returns true if $this is higher than the provided pitch</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td>\ianring\[type]</td>
+                                <td><a href="../classes/ianring.Pitch.html">\ianring\Pitch</a></td>
                                 <td>$pitch </td>
-                                <td><p>[description]</p></td>
+                                <td><p>the pitch being checked</p></td>
                             </tr>
                                             </table>
                 
                 
                                     <h4>Returns</h4>
                     boolean
-                                            &mdash; <p>[description]</p>
+                                            &mdash; <p>true if $this is higher than $pitch</p>
                                     				
                             </article>
         </div>
@@ -690,14 +700,14 @@
             <article class="method">
                 <h3 class="public ">isEnharmonic()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">isEnharmonic(\ianring\[type]  <span class="argument">$pitch</span>) : boolean</pre>
+                <pre class="signature" style="margin-right: 54px;">isEnharmonic(\ianring\Pitch  <span class="argument">$pitch</span>) : boolean</pre>
                 <p><em>returns true if $this is enharmonic with the provided pitch</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td>\ianring\[type]</td>
+                                <td><a href="../classes/ianring.Pitch.html">\ianring\Pitch</a></td>
                                 <td>$pitch </td>
                                 <td><p>[description]</p></td>
                             </tr>
@@ -727,21 +737,24 @@
             <article class="method">
                 <h3 class="public ">equals()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">equals(  <span class="argument">$pitch</span>) </pre>
-                <p><em>note the difference between this and isEnharmonic - in this one, spelling counts</em></p>
+                <pre class="signature" style="margin-right: 54px;">equals(\ianring\Pitch  <span class="argument">$pitch</span>) : boolean</pre>
+                <p><em>note the difference between this and isEnharmonic - in this one, spelling counts.</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td><a href="../classes/ianring.Pitch.html">\ianring\Pitch</a></td>
                                 <td>$pitch </td>
-                                <td></td>
+                                <td><p>The pitch being compared to $this</p></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>true if the step, alter, and octave are all the same.</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -761,15 +774,15 @@
             <article class="method">
                 <h3 class="public ">chroma()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">chroma() : \ianring\[type]</pre>
-                <p><em>returns a pitch&#039;s chroma. e.g. C = 0, C# = 1, D = 2, up to B = 11</em></p>
+                <pre class="signature" style="margin-right: 54px;">chroma() : integer</pre>
+                <p><em>returns a pitch&#039;s chroma as an integer. e.g. C = 0, C# = 1, D = 2, up to B = 11</em></p>
                 
 
                 
                 
                                     <h4>Returns</h4>
-                    \ianring\[type]
-                                            &mdash; <p>[description]</p>
+                    integer
+                                            &mdash; <p>The chrome of the pitch as an integer from 0 to 11</p>
                                     				
                             </article>
         </div>
@@ -1133,26 +1146,26 @@ For a pitch D natural, enharmonisizing to step &quot;C&quot; produces a C double
             <article class="method">
                 <h3 class="public ">closestUp()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">closestUp(  <span class="argument">$step = &#039;C&#039;</span>,   <span class="argument">$alter</span>,   <span class="argument">$allowEqual = true</span>) : \ianring\[type]</pre>
+                <pre class="signature" style="margin-right: 54px;">closestUp(string  <span class="argument">$step = &#039;C&#039;</span>, integer  <span class="argument">$alter</span>, boolean  <span class="argument">$allowEqual = true</span>) : \ianring\[type]</pre>
                 <p><em>Finds the nearest pitch that is higher than (or equal), with a step and alter.</em></p>
                 <p>May be called with only one argument which is a heightless pitch.</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$step </td>
-                                <td></td>
+                                <td><p>The step we are moving to</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>integer</td>
                                 <td>$alter </td>
-                                <td></td>
+                                <td><p>the alteration we are moving to</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>boolean</td>
                                 <td>$allowEqual </td>
-                                <td></td>
+                                <td><p>when the pitch matches the step and alter, (if true) return the same pitch or (if false) go up one octave</p></td>
                             </tr>
                                             </table>
                 
@@ -1180,26 +1193,26 @@ For a pitch D natural, enharmonisizing to step &quot;C&quot; produces a C double
             <article class="method">
                 <h3 class="public ">closestDown()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">closestDown(  <span class="argument">$step = &#039;C&#039;</span>,   <span class="argument">$alter</span>,   <span class="argument">$allowEqual = true</span>) : \ianring\[type]</pre>
+                <pre class="signature" style="margin-right: 54px;">closestDown(string  <span class="argument">$step = &#039;C&#039;</span>, integer  <span class="argument">$alter</span>, boolean  <span class="argument">$allowEqual = true</span>) : \ianring\[type]</pre>
                 <p><em>finds the nearest pitch that is lower than or equal, with a step and alter.</em></p>
                 <p>May be called with only one argument which is a heightless pitch.</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$step </td>
-                                <td></td>
+                                <td><p>The step we are moving to</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>integer</td>
                                 <td>$alter </td>
-                                <td></td>
+                                <td><p>the alteration we are moving to</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>boolean</td>
                                 <td>$allowEqual </td>
-                                <td></td>
+                                <td><p>when the pitch matches the step and alter, (if true) return the same pitch or (if false) go down one octave</p></td>
                             </tr>
                                             </table>
                 
@@ -1350,7 +1363,7 @@ For a pitch D natural, enharmonisizing to step &quot;C&quot; produces a C double
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on November 18th, 2016 at 05:47.
+                    on November 18th, 2016 at 11:45.
                 </section>
             </section>
         </section>

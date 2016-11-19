@@ -1,30 +1,29 @@
 <?php
-/*
 
-An octave begins and ends with C. 
-Therefore C4 is the note immediately above B3.
-The octave does not belong to the step. It is a measurement of what height range the tone is 
-in, not dependent on it's spelling.
-Therefore the enharmonic of C4 is not B#3, it is B#4.
-C-3 is not in the same octave as the C natural beside it.
 
-LILYPOND disagrees with this - it attaches the octave to its step. So in lilypond, 
-bis'' is the note above b''
-
-Chromas are numbered 0 to 11
-
-For some calculations, this class defines a "note number", which is an integer line with its arbitrary 
-origin on middle C. Middle C is zero. 
-going up, C#4 is 1, D4 is 2... 
-going down, B3 is -1, A#3 is -2...
-*/
-
-/**
- * Pitch is the conceptual represtation of sound frequency
- */
 namespace ianring;
 require_once 'PMTObject.php';
 
+/**
+ * Pitch is the conceptual represtation of sound frequency. It's the property of a note that describes its pitch.
+ *
+ * An octave begins and ends with C.
+ * Therefore C4 is the note immediately above B3.
+ * The octave does not belong to the step. It is a measurement of what height range the tone is
+ * in, not dependent on it's spelling.
+ * Therefore the enharmonic of C4 is not B#3, it is B#4.
+ * C-3 is not in the same octave as the C natural beside it.
+ *
+ * LILYPOND disagrees with this - it attaches the octave to its step. So in lilypond,
+ * bis'' is the note above b''
+ *
+ * Chromas are numbered 0 to 11
+ *
+ * For some calculations, this class defines a "note number", which is an integer line with its arbitrary
+ * origin on middle C. Middle C is zero.
+ * going up, C#4 is 1, D4 is 2...
+ * going down, B3 is -1, A#3 is -2...
+ */
 class Pitch extends PMTObject {
 
 	public function __construct($step = 'C', $alter = 0, $octave = 4) {
@@ -58,10 +57,10 @@ class Pitch extends PMTObject {
 	/**
 	 * gives the interval between this pitch and the given one.
 	 * 0 means the pitches are enharmonic.
-	 * < 0 means the interval is downward,
-	 * > 0 means the interval is upward
-	 * @param  [type] $pitch [description]
-	 * @return [type]        [description]
+	 * &lt; 0 means the interval is downward,
+	 * &gt; 0 means the interval is upward
+	 * @param  Pitch $pitch the pitch being checked
+	 * @return integer the interval in semitones
 	 */
 	public function interval($pitch) {
 		return $pitch->toNoteNumber() - $this->toNoteNumber();
@@ -69,8 +68,8 @@ class Pitch extends PMTObject {
 
 	/**
 	 * returns true if $this is lower than the provided pitch
-	 * @param  [type]  $pitch [description]
-	 * @return boolean        [description]
+	 * @param  Pitch  $pitch the pitch being checked
+	 * @return boolean       true if $this is lower than $pitch
 	 */
 	public function isLowerThan($pitch) {
 		return $this->interval($pitch) > 0;
@@ -78,15 +77,15 @@ class Pitch extends PMTObject {
 
 	/**
 	 * returns true if $this is higher than the provided pitch
-	 * @param  [type]  $pitch [description]
-	 * @return boolean        [description]
+	 * @param  Pitch  $pitch the pitch being checked
+	 * @return boolean       true if $this is higher than $pitch
 	 */
 	public function isHigherThan($pitch) {
 		return $this->interval($pitch) < 0;
 	}
 	/**
 	 * returns true if $this is enharmonic with the provided pitch
-	 * @param  [type]  $pitch [description]
+	 * @param  Pitch  $pitch [description]
 	 * @return boolean        [description]
 	 */
 	public function isEnharmonic($pitch) {
@@ -94,15 +93,18 @@ class Pitch extends PMTObject {
 	}
 
 	/**
-	 * note the difference between this and isEnharmonic - in this one, spelling counts
+	 * note the difference between this and isEnharmonic - in this one, spelling counts.
+	 *
+	 * @param  Pitch $pitch The pitch being compared to $this
+	 * @return  boolean true if the step, alter, and octave are all the same.
 	 */
 	public function equals($pitch) {
 		return $pitch->step == $this->step && $pitch->alter == $this->alter && $pitch->octave == $this->octave;
 	}
 
 	/**
-	 * returns a pitch's chroma. e.g. C = 0, C# = 1, D = 2, up to B = 11
-	 * @return [type] [description]
+	 * returns a pitch's chroma as an integer. e.g. C = 0, C# = 1, D = 2, up to B = 11
+	 * @return int The chrome of the pitch as an integer from 0 to 11
 	 */
 	public function chroma() {
 		$steps = array(
@@ -397,6 +399,9 @@ class Pitch extends PMTObject {
 	 * Finds the nearest pitch that is higher than (or equal), with a step and alter.
 	 * May be called with only one argument which is a heightless pitch.
 	 *
+	 * @param  string $step The step we are moving to
+	 * @param  int $alter the alteration we are moving to
+	 * @param  bool $allowEqual when the pitch matches the step and alter, (if true) return the same pitch or (if false) go up one octave
 	 * @return [type] [description]
 	 */
 	public function closestUp($step = 'C', $alter = 0, $allowEqual = true) {
@@ -424,6 +429,9 @@ class Pitch extends PMTObject {
 	 * finds the nearest pitch that is lower than or equal, with a step and alter.
 	 * May be called with only one argument which is a heightless pitch.
 	 *
+	 * @param  string $step The step we are moving to
+	 * @param  int $alter the alteration we are moving to
+	 * @param  bool $allowEqual when the pitch matches the step and alter, (if true) return the same pitch or (if false) go down one octave
 	 * @return [type] [description]
 	 */
 	public function closestDown($step = 'C', $alter = 0, $allowEqual = true) {

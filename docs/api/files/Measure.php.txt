@@ -14,9 +14,11 @@ require_once 'DirectionDynamics.php';
 
 /**
  * Measure is a collection of layers, having a rhythmic duration
+ *
  */
 class Measure extends PMTObject {
 
+	/** @var array the default values for all the object properties */
 	private static $defaults = array(
 		'layers' => array(),
 		'directions' => array(),
@@ -30,7 +32,7 @@ class Measure extends PMTObject {
 		'width' => null
 	);
 
-	var $properties = array();
+	/** @var array an array of Layer objects */
 	var $layers = array();
 
 	function __construct(
@@ -194,7 +196,7 @@ class Measure extends PMTObject {
 	private function _renderproperties() {
 		$out = '';
 
-		$out .= '<divisions>'.$this->properties['divisions'].'</divisions>';
+		$out .= '<divisions>'.$this->divisions.'</divisions>';
 		$staves = 1;
 
 		if (isset($this->key)) {

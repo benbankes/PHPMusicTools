@@ -470,7 +470,15 @@ Scale objects are used for autoTune(), can be returned by functions that do anal
 
 # Developer Info
 
-PHPMusicTools uses phpdocumentor for api documentation, so all code must be properly self-documented. To generate the documentation in /docs/api, run the command ```vendor/bin/phpdoc -d ./src/PHPMusicTools/classes -t ./docs/api```
+
+## Documentation
+PHPMusicTools uses phpdocumentor for api documentation, so all code must be properly self-documented. 
+To generate the documentation in /docs/api, run this command:
+```
+vendor/bin/phpdoc -d ./src/PHPMusicTools/classes -t ./docs/api
+```
+If you are submitting a pull request into PHPMusicTools, do not alter any of the auto-generated files because they'll just be overwritten.
+Learn more at https://www.phpdoc.org/
 
 
 
