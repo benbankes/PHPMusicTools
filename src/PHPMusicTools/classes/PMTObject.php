@@ -22,7 +22,7 @@ class PMTObject {
 	/**
 	 * required because PHP doesn't do modulo correctly with negative numbers.
 	 */
-	protected function _truemod($num, $mod) {
+	public function _truemod($num, $mod) {
 		return ($mod + ($num % $mod)) % $mod;
 	}
 

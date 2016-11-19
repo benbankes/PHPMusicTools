@@ -11,7 +11,7 @@ require_once 'PMTObject.php';
  * Therefore C4 is the note immediately above B3.
  * The octave does not belong to the step. It is a measurement of what height range the tone is
  * in, not dependent on its spelling.
- * Therefore the enharmonic of C4 is not B#3, it is B#4.
+ * Therefore the enharmonic of C4 is not B#3, it is B#4.	
  * C-3 is not in the same octave as the C natural beside it.
  *
  * LILYPOND disagrees with this - it attaches the octave to its step. So in lilypond,
