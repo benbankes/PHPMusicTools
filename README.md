@@ -470,6 +470,8 @@ Scale objects are used for autoTune(), can be returned by functions that do anal
 
 # Developer Info
 
+If you're looking for something to work on, check the most wanted list at https://github.com/ianring/PHPMusicTools/issues
+Make sure all your code is good quality and that you've tested it, and run the Unit tests before submitting.
 
 ## Documentation
 PHPMusicTools uses phpdocumentor for api documentation, so all code must be properly self-documented. 
@@ -480,6 +482,11 @@ vendor/bin/phpdoc -d ./src/PHPMusicTools/classes -t ./docs/api
 If you are submitting a pull request into PHPMusicTools, do not alter any of the auto-generated files because they'll just be overwritten.
 Learn more at https://www.phpdoc.org/
 
+
+# License
+GPL. See https://www.gnu.org/licenses/gpl-3.0.en.html .
+
+I can't imagine what sort of trouble you could possibly get into using this code, but the authors and maintainers don't accept any responsibility for losses resulting from its use. It's a work in progress, so this comes with no warranteee whatsoever, and functionality may be incomplete or not exactly as described.
 
 
 # Resources
