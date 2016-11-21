@@ -467,6 +467,25 @@ Note that the root can be a heightless pitch to describe a heightless Scale, or 
 Scale objects are used for autoTune(), can be returned by functions that do analysis, and can be used to render sequences of Notes.
 
 
+# What should this library accomplish?
+
+The big picture vision for this library is to be able to answer questions about music, generate representations of music programmatically, and manipulate music constructs. Here are a short list of goals:
+
+ - Count many G's are in Moonlight Sonata
+ - What is the pitch range of Chopin's Etudes?
+ - Generate a D minor harmonic scale, starting at D3 and ascending for three octaves.
+ - Generate a random 16th-note solo over the Giant Steps chord pattern, using no more than a major third leap
+ - Take a score in Lilypond format in C, and output it transposed for Alto Saxophone.
+ - Given a piece of music, guess what key and scale it's in
+ - Create a Markov chain that learns the next probable note given two notes and a body of music to analyze
+ - Accept a MusicXML document and output it as MIDI
+ - Identify French Sixth chords in a piece of music
+ - Measure whether large leaps land on notes with longer durations.
+ - Find places where a piano score requires a span of greater than an octave
+ - Check if a clarinet part has sufficient pauses for breath
+ - Find similar phrases in two or more pieces of music
+ - Find parts that are out of range for their instrument
+ - Locate tone rows in a score, and identify variants
 
 # Developer Info
 
