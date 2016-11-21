@@ -396,6 +396,33 @@ class Pitch extends PMTObject {
 	}
 
 	/**
+	 * returns the MIDI note number of a pitch.
+	 * MIDI notes are numbered from 0 (C-1) to 127 (G9)
+	 * @return int
+	 * @todo
+	 */
+	public function toMidiKeyNumber() {
+		$o = new Pitch('C', 0, -1);
+		return $o->interval($this);
+	}
+
+	/**
+	 * returns the frequency of a pitch in Hz
+	 * @param  string  $tuning  presumably we would want to be able to do this for more than just Equal Temperament
+	 * @param  integer $a       the frequency of "A", in case someone wants to use something other than the standard 440Hz
+	 * @return number           the frequency in Hz
+	 */
+	public function toFrequency($tuning = 'equal', $a = 440, $precision = 2) {
+		$ap = new Pitch('A', 0, 4);
+		$n = $ap->interval($this); // get the interval between our note and A
+		$s = pow(2, (1/12)); // the twelfth root of 2
+		$p = pow($s, $n); // raised to the power of the interval in semitones
+		$f = $p * $a; // multiplied by the frequency of "A"
+		$f = round($f, $precision, PHP_ROUND_HALF_UP);
+		return $f;
+	}
+
+	/**
 	 * Finds the nearest pitch that is higher than (or equal), with a step and alter.
 	 * May be called with only one argument which is a heightless pitch.
 	 *

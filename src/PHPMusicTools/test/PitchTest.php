@@ -537,4 +537,99 @@ class PitchTest extends PHPMusicToolsTest
 	}
 
 
+	/**
+	 * @dataProvider providerToFrequency
+	 */
+	public function testToFrequency($pitch, $expected) {
+		$result = $pitch->toFrequency();
+		$this->assertEquals($result, $expected);
+	}
+	function providerToFrequency() {
+		return array(
+			array(
+				'pitch' => new ianring\Pitch('C', 0, 4),
+				'expected' => 261.63
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 1, 4),
+				'expected' => 277.18
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 0, 0),
+				'expected' => 16.35
+			),
+			array(
+				'pitch' => new ianring\Pitch('B', 0, 2),
+				'expected' => 123.47
+			),
+			array(
+				'pitch' => new ianring\Pitch('G', 0, 9),
+				'expected' => 12543.85
+			),
+			array(
+				'pitch' => new ianring\Pitch('A', 0, 4),
+				'expected' => 440
+			),
+			array(
+				'pitch' => new ianring\Pitch('A', 1, 4),
+				'expected' => 466.16
+			),
+			array(
+				'pitch' => new ianring\Pitch('A', -1, 4),
+				'expected' => 415.30
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 0, 2),
+				'expected' => 65.41
+			),
+			array(
+				'pitch' => new ianring\Pitch('B', 0, 5),
+				'expected' => 987.77
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 1, 5),
+				'expected' => 554.37
+			),
+		);
+	}
+
+
+
+	/**
+	 * @dataProvider providerToMidiKeyNumber
+	 */
+	public function testToMidiKeyNumber($pitch, $expected) {
+		$result = $pitch->toMidiKeyNumber();
+		$this->assertEquals($result, $expected);
+	}
+	function providerToMidiKeyNumber() {
+		return array(
+			array(
+				'pitch' => new ianring\Pitch('C', 0, -1),
+				'expected' => 0
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 1, -1),
+				'expected' => 1
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 0, 4),
+				'expected' => 60
+			),
+			array(
+				'pitch' => new ianring\Pitch('A', 0, 4),
+				'expected' => 69
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 0, 7),
+				'expected' => 96
+			),
+			array(
+				'pitch' => new ianring\Pitch('G', 0, 9),
+				'expected' => 127
+			),
+		);
+	}
+
+
 }

@@ -45,6 +45,24 @@ class Instrument extends PMTObject {
 	}
 
 	public static $instruments = array(
+		'Piano' => array(
+	        'rangeMin' => array(
+	        	'step' => 'A',
+	        	'alter' => 0,
+	        	'octave' => 1
+	        ),
+	        'rangeMax' => array(
+	        	'step' => 'C',
+	        	'alter' => 0,
+	        	'octave' => 8
+	        ),
+	        'transpose' => 0,
+	        'family' => 'percussion',
+	        'otherNames' => array(
+	        	'Pianoforte',
+	        ),
+	        'abbreviation' => 'Piano'
+		),
 		'Alto Saxophone' => array(
 	        'rangeMin' => array(
 	        	'step' => 'D',
