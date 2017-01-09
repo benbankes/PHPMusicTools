@@ -1,6 +1,4 @@
 <?php
-
-
 namespace ianring;
 require_once 'PMTObject.php';
 

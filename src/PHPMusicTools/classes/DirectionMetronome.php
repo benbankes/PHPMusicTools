@@ -1,10 +1,8 @@
 <?php
 namespace ianring;
-
-require_once 'PMTObject.php';
 require_once 'Direction.php';
 
-class DirectionMetronome extends PMTObject {
+class DirectionMetronome extends Direction {
 
     function __construct($placement, $staff, $parentheses, $beatUnit, $perMinute) {
     	foreach (array('placement', 'staff', 'parentheses', 'beatUnit', 'perMinute') as $var) {

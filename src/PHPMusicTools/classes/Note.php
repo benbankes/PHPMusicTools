@@ -101,7 +101,13 @@ class Note extends PMTObject {
 		);
 	}
 
-
+	/**
+	 * converts this Note into a Rest, which basically just nulls out the pitch and changes some properties
+	 * @return Rest
+	 */
+	function convertToRest() {
+		// todo
+	}
 
 
 	/**

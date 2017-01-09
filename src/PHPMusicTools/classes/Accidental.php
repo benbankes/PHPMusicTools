@@ -1,9 +1,5 @@
 <?php
-/**
- * I belong to a file
- */
 namespace ianring;
-
 require_once 'PMTObject.php';
 
 /**

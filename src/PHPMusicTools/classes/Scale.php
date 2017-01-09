@@ -2,6 +2,7 @@
 namespace ianring;
 require_once 'PMTObject.php';
 require_once 'Pitch.php';
+
 /**
  * This class operates on the understanding that all scales are made from the set of 12 chromatic tempered
  * pitches, and that there is a limited number of possible combinations of those pitches. The "power set"
