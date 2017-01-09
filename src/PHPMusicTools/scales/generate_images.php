@@ -5,7 +5,6 @@
  * beginning of canvas_save.php
  */
 
-
 ini_set('display_errors', true);
 error_reporting(E_ALL);
 
@@ -16,7 +15,6 @@ error_reporting(E_ALL);
 	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="../demo/vexflow/vexflow-debug.js"></script>
 </head>
-
 
 </head>
 <body>

@@ -477,12 +477,13 @@ The big picture vision for this library is to be able to answer questions about 
  - Generate a random 16th-note solo over the Giant Steps chord pattern, using no more than a major third leap
  - Take a score in Lilypond format in C, and output it transposed for Alto Saxophone.
  - Given a piece of music, guess what key and scale it's in
- - Create a Markov chain that learns the next probable note given two notes and a body of music to analyze
+ - Create a trie that learns the next probable note given two notes and a body of music to analyze
  - Accept a MusicXML document and output it as MIDI
  - Identify French Sixth chords in a piece of music
  - Measure whether large leaps land on notes with longer durations.
- - Find places where a piano score requires a span of greater than an octave
+ - Find places where a piano score requires a span of greater than an octave in a single hand
  - Check if a clarinet part has sufficient pauses for breath
+ - Check if a flute part goes out of range
  - Find similar phrases in two or more pieces of music
  - Find parts that are out of range for their instrument
  - Locate tone rows in a score, and identify variants
