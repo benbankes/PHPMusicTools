@@ -1,6 +1,4 @@
 <?php
-
-
 namespace ianring;
 require_once 'PMTObject.php';
 
@@ -10,8 +8,8 @@ require_once 'PMTObject.php';
  * An octave begins and ends with C.
  * Therefore C4 is the note immediately above B3.
  * The octave does not belong to the step. It is a measurement of what height range the tone is
- * in, not dependent on it's spelling.
- * Therefore the enharmonic of C4 is not B#3, it is B#4.
+ * in, not dependent on its spelling.
+ * Therefore the enharmonic of C4 is not B#3, it is B#4.	
  * C-3 is not in the same octave as the C natural beside it.
  *
  * LILYPOND disagrees with this - it attaches the octave to its step. So in lilypond,
@@ -393,6 +391,33 @@ class Pitch extends PMTObject {
 			$out .= str_repeat(",", 3 - $octave);
 		}
 		return $out;
+	}
+
+	/**
+	 * returns the MIDI note number of a pitch.
+	 * MIDI notes are numbered from 0 (C-1) to 127 (G9)
+	 * @return int
+	 * @todo
+	 */
+	public function toMidiKeyNumber() {
+		$o = new Pitch('C', 0, -1);
+		return $o->interval($this);
+	}
+
+	/**
+	 * returns the frequency of a pitch in Hz
+	 * @param  string  $tuning  presumably we would want to be able to do this for more than just Equal Temperament
+	 * @param  integer $a       the frequency of "A", in case someone wants to use something other than the standard 440Hz
+	 * @return number           the frequency in Hz
+	 */
+	public function toFrequency($tuning = 'equal', $a = 440, $precision = 2) {
+		$ap = new Pitch('A', 0, 4);
+		$n = $ap->interval($this); // get the interval between our note and A
+		$s = pow(2, (1/12)); // the twelfth root of 2
+		$p = pow($s, $n); // raised to the power of the interval in semitones
+		$f = $p * $a; // multiplied by the frequency of "A"
+		$f = round($f, $precision, PHP_ROUND_HALF_UP);
+		return $f;
 	}
 
 	/**

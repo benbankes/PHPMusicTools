@@ -28,9 +28,9 @@ class Accidental extends PMTObject {
 	);
 
 	/**
-	 * [__construct description]
+	 * Constructor.
 	 * @param string  $type        the type may be one of the $types
-	 * @param boolean $size        size of the accidental - may be "full", "cue", or "large"
+	 * @param string  $size        size of the accidental - may be "full", "cue", or "large"
  	 * @param boolean $parentheses true if the accidental should be enclosed in parentheses
 	 * @param boolean $bracket     true if the accidental should be enclosed in brackets
 	 * @param boolean $editorial   true if the accidental is an editorial accidental

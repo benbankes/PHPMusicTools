@@ -1,6 +1,5 @@
 <?php
 namespace ianring;
-
 require_once 'PMTObject.php';
 require_once 'BarlineEnding.php';
 require_once 'BarlineRepeat.php';

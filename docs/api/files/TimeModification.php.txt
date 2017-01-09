@@ -1,10 +1,11 @@
 <?php
 namespace ianring;
+require_once 'PMTObject.php';
 
 /**
  * TimeModification is an indication that notes should occupy a time different from their notated duration. Used to render tuplets. Is the actual time modification, not the visual glyph that represents it.
  */
-class TimeModification {
+class TimeModification extends PMTObject{
 
 	public function __construct($actualNotes, $normalNotes) {
 		$this->actualNotes = $actualNotes;

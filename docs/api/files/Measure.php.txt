@@ -1,6 +1,5 @@
 <?php
 namespace ianring;
-
 require_once 'PMTObject.php';
 require_once 'Layer.php';
 require_once 'Clef.php';
@@ -8,7 +7,6 @@ require_once 'Key.php';
 require_once 'Time.php';
 require_once 'Barline.php';
 require_once 'Direction.php';
-
 require_once 'DirectionMetronome.php';
 require_once 'DirectionDynamics.php';
 

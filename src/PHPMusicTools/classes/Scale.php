@@ -63,7 +63,7 @@ class Scale extends PMTObject {
 	);
 
 	/**
-	 * [__construct description]
+	 * Constructor.
 	 * @param int|string         $scale     [description]
 	 * @param Pitch|string|null  $root      [description]
 	 * @param string             $direction [description]
