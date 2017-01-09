@@ -2,6 +2,7 @@
 namespace ianring;
 require_once 'Direction.php';
 
-class DirectionImage extends Direction {
-	
-}
+class DirectionImage extends Direction
+{
+
+}//end class

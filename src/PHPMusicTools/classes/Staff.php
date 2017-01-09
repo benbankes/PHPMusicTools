@@ -2,6 +2,7 @@
 namespace ianring;
 require_once 'PMTObject.php';
 
-class Staff extends PMTObject {
-	
-}
+class Staff extends PMTObject
+{
+
+}//end class

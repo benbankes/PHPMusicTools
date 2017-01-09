@@ -2,6 +2,7 @@
 namespace ianring;
 require_once 'Direction.php';
 
-class DirectionPercussion extends Direction {
-	
-}
+class DirectionPercussion extends Direction
+{
+
+}//end class

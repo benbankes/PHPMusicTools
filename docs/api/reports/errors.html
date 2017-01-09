@@ -67,7 +67,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">327</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">323</span>
                                 </a>
                             </li>
                             <li>
@@ -120,7 +120,9 @@
                                                                                                     <li><a href="#Pitch.php"><i class="icon-file"></i> Pitch.php</a></li>
                                                                                                     <li><a href="#DirectionDynamics.php"><i class="icon-file"></i> DirectionDynamics.php</a></li>
                                                                                                     <li><a href="#Chord.php"><i class="icon-file"></i> Chord.php</a></li>
+                                                                                                    <li><a href="#NoteDot.php"><i class="icon-file"></i> NoteDot.php</a></li>
                                                                                                     <li><a href="#Layer.php"><i class="icon-file"></i> Layer.php</a></li>
+                                                                                                    <li><a href="#Staff.php"><i class="icon-file"></i> Staff.php</a></li>
                                                                                                     <li><a href="#DirectionDamp.php"><i class="icon-file"></i> DirectionDamp.php</a></li>
                                                                                                     <li><a href="#DirectionAccordionRegistration.php"><i class="icon-file"></i> DirectionAccordionRegistration.php</a></li>
                                                                                                     <li><a href="#DirectionStringMute.php"><i class="icon-file"></i> DirectionStringMute.php</a></li>
@@ -131,6 +133,7 @@
                                                                                                     <li><a href="#Arpeggiate.php"><i class="icon-file"></i> Arpeggiate.php</a></li>
                                                                                                     <li><a href="#Note.php"><i class="icon-file"></i> Note.php</a></li>
                                                                                                     <li><a href="#Part.php"><i class="icon-file"></i> Part.php</a></li>
+                                                                                                    <li><a href="#Rest.php"><i class="icon-file"></i> Rest.php</a></li>
                                                                                                     <li><a href="#DirectionPrincipalVoice.php"><i class="icon-file"></i> DirectionPrincipalVoice.php</a></li>
                                                                                                     <li><a href="#Direction.php"><i class="icon-file"></i> Direction.php</a></li>
                                                                                                     <li><a href="#Measure.php"><i class="icon-file"></i> Measure.php</a></li>
@@ -146,9 +149,6 @@
                                                                                                     <li><a href="#Key.php"><i class="icon-file"></i> Key.php</a></li>
                                                                                                     <li><a href="#Barline.php"><i class="icon-file"></i> Barline.php</a></li>
                                                                                                     <li><a href="#DirectionOctaveShift.php"><i class="icon-file"></i> DirectionOctaveShift.php</a></li>
-                                                                                                    <li><a href="#NoteDot.php"><i class="icon-file"></i> NoteDot.php</a></li>
-                                                                                                    <li><a href="#Rest.php"><i class="icon-file"></i> Rest.php</a></li>
-                                                                                                    <li><a href="#Staff.php"><i class="icon-file"></i> Staff.php</a></li>
                                                                     </ul>
         </div>
 
@@ -1346,7 +1346,7 @@
                         <h3>
                             <i class="icon-file"></i>
                             Chord.php
-                            <small style="float: right;padding-right: 10px;">9</small>
+                            <small style="float: right;padding-right: 10px;">5</small>
                         </h3>
                         <div>
                             <table class="table markers table-bordered">
@@ -1365,43 +1365,54 @@
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>13</td>
-                                        <td>Argument $notes is missing from the Docblock of __construct</td>
-                                    </tr>
-                                                                    <tr>
-                                        <td>error</td>
-                                        <td>13</td>
-                                        <td>No summary for method __construct()</td>
-                                    </tr>
-                                                                    <tr>
-                                        <td>error</td>
-                                        <td>27</td>
-                                        <td>Name of argument $props does not match with the DocBlock&#039;s name $scale in constructFromArray()</td>
-                                    </tr>
-                                                                    <tr>
-                                        <td>notice</td>
-                                        <td>27</td>
-                                        <td>Parameter $scale could not be found in constructFromArray()</td>
-                                    </tr>
-                                                                    <tr>
-                                        <td>error</td>
-                                        <td>56</td>
+                                        <td>63</td>
                                         <td>Argument $note is missing from the Docblock of addNote</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>56</td>
+                                        <td>63</td>
                                         <td>No summary for method addNote()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>63</td>
+                                        <td>70</td>
                                         <td>No summary for method clear()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>11</td>
+                                        <td>14</td>
                                         <td>No summary for property $notes</td>
+                                    </tr>
+                                                            </tbody>
+                            </table>
+                        </div>
+                                    </div>
+                            <div class="package-contents">
+                                            <a name="NoteDot.php" id="NoteDot.php"></a>
+                        <h3>
+                            <i class="icon-file"></i>
+                            NoteDot.php
+                            <small style="float: right;padding-right: 10px;">2</small>
+                        </h3>
+                        <div>
+                            <table class="table markers table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Line</th>
+                                    <th>Description</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>0</td>
+                                        <td>No summary was found for this file</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>10</td>
+                                        <td>No summary for property $types</td>
                                     </tr>
                                                             </tbody>
                             </table>
@@ -1483,6 +1494,37 @@
                                         <td>error</td>
                                         <td>11</td>
                                         <td>No summary for property $chords</td>
+                                    </tr>
+                                                            </tbody>
+                            </table>
+                        </div>
+                                    </div>
+                            <div class="package-contents">
+                                            <a name="Staff.php" id="Staff.php"></a>
+                        <h3>
+                            <i class="icon-file"></i>
+                            Staff.php
+                            <small style="float: right;padding-right: 10px;">2</small>
+                        </h3>
+                        <div>
+                            <table class="table markers table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Line</th>
+                                    <th>Description</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>0</td>
+                                        <td>No summary was found for this file</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>5</td>
+                                        <td>No summary for class \ianring\Staff</td>
                                     </tr>
                                                             </tbody>
                             </table>
@@ -2013,6 +2055,42 @@
                                         <td>error</td>
                                         <td>10</td>
                                         <td>No summary for property $measures</td>
+                                    </tr>
+                                                            </tbody>
+                            </table>
+                        </div>
+                                    </div>
+                            <div class="package-contents">
+                                            <a name="Rest.php" id="Rest.php"></a>
+                        <h3>
+                            <i class="icon-file"></i>
+                            Rest.php
+                            <small style="float: right;padding-right: 10px;">3</small>
+                        </h3>
+                        <div>
+                            <table class="table markers table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Line</th>
+                                    <th>Description</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>0</td>
+                                        <td>No summary was found for this file</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>5</td>
+                                        <td>No summary for class \ianring\Rest</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>7</td>
+                                        <td>No summary for method transpose()</td>
                                     </tr>
                                                             </tbody>
                             </table>
@@ -2788,104 +2866,6 @@
                             </table>
                         </div>
                                     </div>
-                            <div class="package-contents">
-                                            <a name="NoteDot.php" id="NoteDot.php"></a>
-                        <h3>
-                            <i class="icon-file"></i>
-                            NoteDot.php
-                            <small style="float: right;padding-right: 10px;">2</small>
-                        </h3>
-                        <div>
-                            <table class="table markers table-bordered">
-                                <thead>
-                                <tr>
-                                    <th>Type</th>
-                                    <th>Line</th>
-                                    <th>Description</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                                                    <tr>
-                                        <td>error</td>
-                                        <td>0</td>
-                                        <td>No summary was found for this file</td>
-                                    </tr>
-                                                                    <tr>
-                                        <td>error</td>
-                                        <td>10</td>
-                                        <td>No summary for property $types</td>
-                                    </tr>
-                                                            </tbody>
-                            </table>
-                        </div>
-                                    </div>
-                            <div class="package-contents">
-                                            <a name="Rest.php" id="Rest.php"></a>
-                        <h3>
-                            <i class="icon-file"></i>
-                            Rest.php
-                            <small style="float: right;padding-right: 10px;">3</small>
-                        </h3>
-                        <div>
-                            <table class="table markers table-bordered">
-                                <thead>
-                                <tr>
-                                    <th>Type</th>
-                                    <th>Line</th>
-                                    <th>Description</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                                                    <tr>
-                                        <td>error</td>
-                                        <td>0</td>
-                                        <td>No summary was found for this file</td>
-                                    </tr>
-                                                                    <tr>
-                                        <td>error</td>
-                                        <td>5</td>
-                                        <td>No summary for class \ianring\Rest</td>
-                                    </tr>
-                                                                    <tr>
-                                        <td>error</td>
-                                        <td>7</td>
-                                        <td>No summary for method transpose()</td>
-                                    </tr>
-                                                            </tbody>
-                            </table>
-                        </div>
-                                    </div>
-                            <div class="package-contents">
-                                            <a name="Staff.php" id="Staff.php"></a>
-                        <h3>
-                            <i class="icon-file"></i>
-                            Staff.php
-                            <small style="float: right;padding-right: 10px;">2</small>
-                        </h3>
-                        <div>
-                            <table class="table markers table-bordered">
-                                <thead>
-                                <tr>
-                                    <th>Type</th>
-                                    <th>Line</th>
-                                    <th>Description</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                                                    <tr>
-                                        <td>error</td>
-                                        <td>0</td>
-                                        <td>No summary was found for this file</td>
-                                    </tr>
-                                                                    <tr>
-                                        <td>error</td>
-                                        <td>5</td>
-                                        <td>No summary for class \ianring\Staff</td>
-                                    </tr>
-                                                            </tbody>
-                            </table>
-                        </div>
-                                    </div>
                     </div>
     </section>
 
@@ -2926,7 +2906,7 @@
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on January 9th, 2017 at 18:46.
+                    on January 9th, 2017 at 20:35.
                 </section>
             </section>
         </section>

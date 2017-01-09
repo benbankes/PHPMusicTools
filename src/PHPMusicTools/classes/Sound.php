@@ -1,6 +1,7 @@
 <?php
 namespace ianring;
 
-class Sound {
-	
-}
+class Sound
+{
+
+}//end class

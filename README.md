@@ -495,12 +495,23 @@ Make sure all your code is good quality and that you've tested it, and run the U
 
 ## Documentation
 PHPMusicTools uses phpdocumentor for api documentation, so all code must be properly self-documented. 
-To generate the documentation in /docs/api, run this command:
+To generate the documentation in /docs/api, first you need to make sure you've already loaded the vendor extras using composer, then run this command:
 ```
 vendor/bin/phpdoc -d ./src/PHPMusicTools/classes -t ./docs/api
 ```
 If you are submitting a pull request into PHPMusicTools, do not alter any of the auto-generated files because they'll just be overwritten.
 Learn more at https://www.phpdoc.org/
+
+## Code Standards
+
+PHPMusicTools follows "Squiz" standards. To check the project for standards compliance, run this command, from the root:
+```
+vendor/bin/phpcs src/PHPMusicTools/classes/ --standard=Squiz
+```
+Run the beautifier and fixer:
+```
+vendor/bin/phpcbf src/PHPMusicTools/classes/
+```
 
 
 # License

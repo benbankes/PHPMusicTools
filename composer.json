@@ -15,7 +15,8 @@
     ],
     "require": {
         "php": ">=5.3.0",
-        "phpdocumentor/phpdocumentor": "2.*"
+        "phpdocumentor/phpdocumentor": "2.*",
+        "squizlabs/php_codesniffer":"*"
     },
     "autoload": {
         "psr-4": {"ianring\\": "src/PHPMusicTools"}

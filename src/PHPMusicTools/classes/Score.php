@@ -5,77 +5,101 @@ require_once 'PMTObject.php';
 /**
  * Score is a collection of parts; it is the highest level root object of a music document
  */
-class Score extends PMTObject {
+class Score extends PMTObject
+{
 
-	public $parts = array();
-
-	function __construct($name = '', $parts = array()) {
-		$this->name = $name;
-		$this->parts = $parts;
-	}
-
-	public static function constructFromArray($props) {
-		$name = $props['name'];
-		$parts = array();
-		if (isset($props['parts'])) {
-			foreach ($props['parts'] as $part) {
-				if ($part instanceof Part) {
-					$parts[] = $part;
-				} else {
-					$parts[] = Part::constructFromArray($part);
-				}
-			}
-		}
-
-		return new Score($name, $parts);
-	}
+    public $parts = array();
 
 
-	function setAttribute($property) {
+    function __construct($name='', $parts=array())
+    {
+        $this->name  = $name;
+        $this->parts = $parts;
 
-	}
+    }//end __construct()
 
-	/**
-	 * renders this object as MusicXML
-	 * @return string MusicXML representation of the object
-	 */
-	function toMusicXML($wise = 'partwise') {
-		$out = '';
-		$out .= '<?xml version="1.0" encoding="UTF-8" standalone="no"?>';
-		$out .= '<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">';
 
-		$out .= '<score-partwise version="3.0">';
+    public static function constructFromArray($props)
+    {
+        $name  = $props['name'];
+        $parts = array();
+        if (isset($props['parts'])) {
+            foreach ($props['parts'] as $part) {
+                if ($part instanceof Part) {
+                    $parts[] = $part;
+                } else {
+                    $parts[] = Part::constructFromArray($part);
+                }
+            }
+        }
 
-		$out .= '<part-list>';
-		foreach ($this->parts as $key => $part) {
-			$out .= '<score-part id="P' . $key . '">';
-			$out .= '<part-name>' . $part->name . '</part-name>';
-			$out .= '</score-part>';
-		}
-		$out .= '</part-list>';
+        return new Score($name, $parts);
 
-		foreach ($this->parts as $key => $part) {
-			$out .= $part->toMusicXML($key);
-		}
+    }//end constructFromArray()
 
-		$out .= '</score-partwise>';
-		return $out;
-	}
 
-	function toPNG() {
+    function setAttribute($property)
+    {
 
-	}
+    }//end setAttribute()
 
-	function toPDF() {
-		
-	}
 
-	function addPart($part) {
-		$this->parts[] = clone $part;
-	}
+    /**
+     * renders this object as MusicXML
+     *
+     * @return string MusicXML representation of the object
+     */
+    function toMusicXML($wise='partwise')
+    {
+        $out  = '';
+        $out .= '<?xml version="1.0" encoding="UTF-8" standalone="no"?>';
+        $out .= '<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">';
 
-	function addMeasure($measure) {
-		$this->measures[] = clone $measure;
-	}
+        $out .= '<score-partwise version="3.0">';
 
-}
+        $out .= '<part-list>';
+        foreach ($this->parts as $key => $part) {
+            $out .= '<score-part id="P'.$key.'">';
+            $out .= '<part-name>'.$part->name.'</part-name>';
+            $out .= '</score-part>';
+        }
+
+        $out .= '</part-list>';
+
+        foreach ($this->parts as $key => $part) {
+            $out .= $part->toMusicXML($key);
+        }
+
+        $out .= '</score-partwise>';
+        return $out;
+
+    }//end toMusicXML()
+
+
+    function toPNG()
+    {
+
+    }//end toPNG()
+
+
+    function toPDF()
+    {
+
+    }//end toPDF()
+
+
+    function addPart($part)
+    {
+        $this->parts[] = clone $part;
+
+    }//end addPart()
+
+
+    function addMeasure($measure)
+    {
+        $this->measures[] = clone $measure;
+
+    }//end addMeasure()
+
+
+}//end class

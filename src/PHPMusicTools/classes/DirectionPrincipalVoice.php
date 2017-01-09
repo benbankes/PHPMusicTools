@@ -2,6 +2,7 @@
 namespace ianring;
 require_once 'Direction.php';
 
-class DirectionPrincipalVoice extends Direction {
-	
-}
+class DirectionPrincipalVoice extends Direction
+{
+
+}//end class

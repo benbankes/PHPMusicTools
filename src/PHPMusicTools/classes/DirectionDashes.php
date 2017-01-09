@@ -2,6 +2,7 @@
 namespace ianring;
 require_once 'Direction.php';
 
-class DirectionDashes extends Direction {
-	
-}
+class DirectionDashes extends Direction
+{
+
+}//end class

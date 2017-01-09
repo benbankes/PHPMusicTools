@@ -2,6 +2,7 @@
 namespace ianring;
 require_once 'Direction.php';
 
-class DirectionOctaveShift extends Direction {
-	
-}
+class DirectionOctaveShift extends Direction
+{
+
+}//end class

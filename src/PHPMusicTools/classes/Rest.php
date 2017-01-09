@@ -2,10 +2,14 @@
 namespace ianring;
 require_once 'Note.php';
 
-class Rest extends Note {
+class Rest extends Note
+{
 
-	function transpose() {
-		// overridden
-	}
 
-}
+    function transpose()
+    {
+        // overridden
+    }//end transpose()
+
+
+}//end class

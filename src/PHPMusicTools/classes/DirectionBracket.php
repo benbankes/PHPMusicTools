@@ -2,6 +2,7 @@
 namespace ianring;
 require_once 'Direction.php';
 
-class DirectionBracket extends Direction{
-	
-}
+class DirectionBracket extends Direction
+{
+
+}//end class

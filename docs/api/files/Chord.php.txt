@@ -5,11 +5,18 @@ require_once 'Note.php';
 
 /**
  * Chord is a collection of notes that share the same stem, and which are sounded simultaneously.
+ * 
+ * @package      ianring/PHPMusicTools
+ * @author       Ian Ring <httpwebwitch@gmail.com>
  */
 class Chord extends PMTObject {
 
 	public $notes = array();
 
+	/**
+	 * Constructor
+	 * @param array notes And array of Note objects
+	 */
 	public function __construct($notes = array()) {
 		if (!is_array($notes)) {
 			$notes = array($notes);
@@ -20,8 +27,8 @@ class Chord extends PMTObject {
 	}
 
 	/**
-	 * accepts the scale object in the form of an array structure
-	 * @param  [winged] $scale [description]
+	 * accepts the props object in the form of an array structure
+	 * @param  [winged] $props [description]
 	 * @return [winged]        [description]
 	 */
 	public static function constructFromArray($props) {

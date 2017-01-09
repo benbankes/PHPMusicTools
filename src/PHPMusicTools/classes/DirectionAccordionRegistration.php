@@ -2,6 +2,7 @@
 namespace ianring;
 require_once 'Direction.php';
 
-class DirectionAccordionRegistration extends Direction {
-	
-}
+class DirectionAccordionRegistration extends Direction
+{
+
+}//end class

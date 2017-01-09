@@ -2,6 +2,7 @@
 namespace ianring;
 require_once 'Direction.php';
 
-class DirectionEyeglasses extends Direction {
-	
-}
+class DirectionEyeglasses extends Direction
+{
+
+}//end class
