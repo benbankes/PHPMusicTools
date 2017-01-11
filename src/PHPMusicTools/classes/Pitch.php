@@ -9,7 +9,7 @@ require_once 'PMTObject.php';
  * Therefore C4 is the note immediately above B3.
  * The octave does not belong to the step. It is a measurement of what height range the tone is
  * in, not dependent on its spelling.
- * Therefore the enharmonic of C4 is not B#3, it is B#4.    
+ * Therefore the enharmonic of C4 is not B#3, it is B#4.
  * C-3 is not in the same octave as the C natural beside it.
  *
  * LILYPOND disagrees with this - it attaches the octave to its step. So in lilypond,
@@ -25,8 +25,7 @@ require_once 'PMTObject.php';
 class Pitch extends PMTObject
 {
 
-    public function __construct($step = 'C', $alter = 0, $octave = 4) 
-    {
+    public function __construct($step = 'C', $alter = 0, $octave = 4) {
         $this->step = $step;
         $this->alter = $alter;
         $this->octave = $octave;
@@ -38,8 +37,7 @@ class Pitch extends PMTObject
      * @param  [winged] $scale [description]
      * @return [winged]        [description]
      */
-    public static function constructFromArray($props) 
-    {
+    public static function constructFromArray($props) {
         $step = $props['step'];
         $alter = $props['alter'];
         $octave = $props['octave'];
@@ -52,8 +50,7 @@ class Pitch extends PMTObject
      * @param  [winged] $scale [description]
      * @return [winged]        [description]
      */
-    public static function constructFromString($string) 
-    {
+    public static function constructFromString($string) {
         $props = self::_resolvePitchString($string);
         return self::constructFromArray($props);
     }
@@ -67,8 +64,7 @@ class Pitch extends PMTObject
      * @param  Pitch $pitch the pitch being checked
      * @return integer the interval in semitones
      */
-    public function interval($pitch) 
-    {
+    public function interval($pitch) {
         return $pitch->toNoteNumber() - $this->toNoteNumber();
     }
 
@@ -78,8 +74,7 @@ class Pitch extends PMTObject
      * @param  Pitch $pitch the pitch being checked
      * @return boolean       true if $this is lower than $pitch
      */
-    public function isLowerThan($pitch) 
-    {
+    public function isLowerThan($pitch) {
         return $this->interval($pitch) > 0;
     }
 
@@ -89,8 +84,7 @@ class Pitch extends PMTObject
      * @param  Pitch $pitch the pitch being checked
      * @return boolean       true if $this is higher than $pitch
      */
-    public function isHigherThan($pitch) 
-    {
+    public function isHigherThan($pitch) {
         return $this->interval($pitch) < 0;
     }
     /**
@@ -99,8 +93,7 @@ class Pitch extends PMTObject
      * @param  Pitch $pitch [description]
      * @return boolean        [description]
      */
-    public function isEnharmonic($pitch) 
-    {
+    public function isEnharmonic($pitch) {
         return $this->interval($pitch) == 0;
     }
 
@@ -110,8 +103,7 @@ class Pitch extends PMTObject
      * @param  Pitch $pitch The pitch being compared to $this
      * @return boolean true if the step, alter, and octave are all the same.
      */
-    public function equals($pitch) 
-    {
+    public function equals($pitch) {
         return $pitch->step == $this->step && $pitch->alter == $this->alter && $pitch->octave == $this->octave;
     }
 
@@ -120,8 +112,7 @@ class Pitch extends PMTObject
   *
      * @return int The chrome of the pitch as an integer from 0 to 11
      */
-    public function chroma() 
-    {
+    public function chroma() {
         $steps = array(
          'C' => 0,
          'D' => 2,
@@ -143,8 +134,7 @@ class Pitch extends PMTObject
      * @param  [type] $step [description]
      * @return [type]       [description]
      */
-    public static function stepUp($step) 
-    {
+    public static function stepUp($step) {
         $steps = 'CDEFGABC';
         $pos = strpos($steps, $step);
         return substr($steps, $pos+1, 1);
@@ -155,8 +145,7 @@ class Pitch extends PMTObject
      * @param  [type] $step [description]
      * @return [type]       [description]
      */
-    public static function stepDown($step) 
-    {
+    public static function stepDown($step) {
         $steps = 'CBAGFEDC';
         $pos = strpos($steps, $step);
         return substr($steps, $pos+1, 1);
@@ -177,8 +166,7 @@ class Pitch extends PMTObject
      * @param  [type] $step  [description]
      * @return [type]        [description]
      */
-    function enharmonicizeToStep($step) 
-    {
+    function enharmonicizeToStep($step) {
         if ($this->step == $step) {
             return $this;
         }
@@ -224,8 +212,7 @@ class Pitch extends PMTObject
     );
 
 
-    public function isHeightless() 
-    {
+    public function isHeightless() {
         return is_null($this->octave);
     }
 
@@ -234,8 +221,7 @@ class Pitch extends PMTObject
   *
      * @return string MusicXML representation of the object
      */
-    public function toMusicXML() 
-    {
+    public function toMusicXML() {
         if ($this->octave == null) {
             throw new Exception('heightless pitches can not be rendered as XML. Provide an "octave" property. ' . print_r($this->properties, true));
         }
@@ -257,8 +243,7 @@ class Pitch extends PMTObject
      * @param  [type] $string [description]
      * @return [type]        [description]
      */
-    private static function _resolvePitchString($string) 
-    {
+    private static function _resolvePitchString($string) {
         if (is_array($string)) {
             return $string;
         }
@@ -311,8 +296,7 @@ class Pitch extends PMTObject
      * @param  integer $preferredAlteration either 1, or -1 to indicate whether the transposition should prefer sharps or flats.
      * @return null
      */
-    public function transpose($interval, $preferredAlteration = 1) 
-    {
+    public function transpose($interval, $preferredAlteration = 1) {
         $isHeightless = $this->isHeightless();
         if (!in_array($preferredAlteration, array(1, -1))) {
             $preferredAlteration = 1; // default to prefer sharps.
@@ -337,8 +321,7 @@ class Pitch extends PMTObject
   *
      * @return [type] [description]
      */
-    public function toString() 
-    {
+    public function toString() {
         $str = '';
         $str .= $this->step;
         switch ($this->alter) {
@@ -361,8 +344,7 @@ class Pitch extends PMTObject
      * @param  Pitch $pitch
      * @return int pitch number, useful for doing calculcations
      */
-    public function toNoteNumber() 
-    {
+    public function toNoteNumber() {
         $chromas = array('C' => 0, 'D' => 2, 'E' => 4, 'F' => 5, 'G' => 7, 'A' => 9, 'B' => 11);
         $num = ($this->octave - 4) * 12;
         $num += $chromas[$this->step];
@@ -377,8 +359,7 @@ class Pitch extends PMTObject
      * @param  integer $preferredAlteration 1 for sharp or -1 for flats
      * @return array                       returns a pitch array, containing step and alter elements.
      */
-    public function noteNumberToPitch($noteNumber, $preferredAlteration = 1) 
-    {
+    public function noteNumberToPitch($noteNumber, $preferredAlteration = 1) {
         $chroma = $this->_truemod($noteNumber, 12); // chroma is the note pitch independent of octave, eg C = 0, Eb/D# = 3, E = 4
         $octave = (($noteNumber - $chroma) / 12) + 4;
         $this->octave = $octave;
@@ -402,8 +383,7 @@ class Pitch extends PMTObject
   *
      * @return [type] [description]
      */
-    public function toLilypond() 
-    {
+    public function toLilypond() {
         $out = strtolower($this->step);
         if ($this->alter == 1) {
             $out .= 'is';
@@ -438,8 +418,7 @@ class Pitch extends PMTObject
      * @return int
      * @todo
      */
-    public function toMidiKeyNumber() 
-    {
+    public function toMidiKeyNumber() {
         $o = new Pitch('C', 0, -1);
         return $o->interval($this);
     }
@@ -451,8 +430,7 @@ class Pitch extends PMTObject
      * @param  integer $a      the frequency of "A", in case someone wants to use something other than the standard 440Hz
      * @return number           the frequency in Hz
      */
-    public function toFrequency($tuning = 'equal', $a = 440, $precision = 2) 
-    {
+    public function toFrequency($tuning = 'equal', $a = 440, $precision = 2) {
         $ap = new Pitch('A', 0, 4);
         $n = $ap->interval($this); // get the interval between our note and A
         $s = pow(2, (1/12)); // the twelfth root of 2
@@ -471,8 +449,7 @@ class Pitch extends PMTObject
      * @param  bool   $allowEqual when the pitch matches the step and alter, (if true) return the same pitch or (if false) go up one octave
      * @return [type] [description]
      */
-    public function closestUp($step = 'C', $alter = 0, $allowEqual = true) 
-    {
+    public function closestUp($step = 'C', $alter = 0, $allowEqual = true) {
         // special case: if the first and only argument is a heightless Pitch.
         if (count(func_get_args()) == 1 && $step instanceof Pitch && $step->isHeightless()) {
             $alter = $step->alter;
@@ -502,8 +479,7 @@ class Pitch extends PMTObject
      * @param  bool   $allowEqual when the pitch matches the step and alter, (if true) return the same pitch or (if false) go down one octave
      * @return [type] [description]
      */
-    public function closestDown($step = 'C', $alter = 0, $allowEqual = true) 
-    {
+    public function closestDown($step = 'C', $alter = 0, $allowEqual = true) {
         if (count(func_get_args()) == 1 && $step instanceof Pitch && $step->isHeightless()) {
             $alter = $step->alter;
             $step = $step->step;

@@ -5,4 +5,4 @@ require_once 'Direction.php';
 class DirectionOctaveShift extends Direction
 {
 
-}//end class
+}

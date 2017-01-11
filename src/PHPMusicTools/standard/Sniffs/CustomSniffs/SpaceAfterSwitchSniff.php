@@ -1,14 +1,14 @@
 <?php
 /**
- * PMT_Sniffs_ElseifSniff.
+ * standard_Sniffs_SpaceAfterSwitchSniff.
  *
- * Looks for "else if", where we should use "elseif".
+ * Makes sure there is a space after a switch statement
  *
  * @category  PHP
  * @package	  PHP_CodeSniffer
- * @author	  Ian Ring <httpwebwitch@gmail.com>
+ * @author	  Ian Ring <iring@netsuite.com>
  */
-class PMT_Sniffs_CustomSniffs_ElseifSniff implements PHP_CodeSniffer_Sniff
+class standard_Sniffs_CustomSniffs_SpaceAfterSwitchSniff implements PHP_CodeSniffer_Sniff
 {
 
 	/**
@@ -17,24 +17,23 @@ class PMT_Sniffs_CustomSniffs_ElseifSniff implements PHP_CodeSniffer_Sniff
 	 * @return array
 	 */
 	public function register() {
-		return array(T_ELSE);
+		return array(T_SWITCH);
 	}
 
 	/**
 	 * Processes this test, when one of its tokens is encountered.
 	 *
 	 * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-	 * @param int $stackPtr The position of the current token in the stack passed in $tokens.
+	 * @param int				   $stackPtr  The position of the current token in the
+	 *										  stack passed in $tokens.
 	 * @return void
 	 */
 	public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr) {
 		$tokens = $phpcsFile->getTokens();
-
-		if ($tokens[($stackPtr + 1)]['code'] == T_WHITESPACE && $tokens[($stackPtr + 2)]['code'] == T_IF) {
-			$message = 'Detected else if. Use elseif instead.';
+		if ($tokens[($stackPtr + 1)]['code'] !== T_WHITESPACE) {
+			$message = 'Switch Statement must be followed by a space';
 			$phpcsFile->addError($message, $stackPtr, 'Missing');
 		}
-
 	}
 
 }

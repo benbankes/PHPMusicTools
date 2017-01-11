@@ -11,16 +11,14 @@ class Part extends PMTObject
     var $measures = array();
 
 
-    function __construct($name=null, $measures=array())
-    {
+    function __construct($name=null, $measures=array()) {
         $this->name     = $name;
         $this->measures = $measures;
 
-    }//end __construct()
+    }
 
 
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         $name     = $props['name'];
         $measures = array();
         if (isset($props['measures'])) {
@@ -35,7 +33,7 @@ class Part extends PMTObject
 
         return new Part($name, $measures);
 
-    }//end constructFromArray()
+    }
 
 
     /**
@@ -43,8 +41,7 @@ class Part extends PMTObject
      *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML($num=1)
-    {
+    function toMusicXML($num=1) {
         $out = '<part id="P'.$num.'">';
 
         if (!empty($this->measures)) {
@@ -56,16 +53,15 @@ class Part extends PMTObject
         $out .= '</part>';
 
         return $out;
+    }
 
-    }//end toMusicXML()
 
 
-    function addMeasure($measure)
-    {
+    function addMeasure($measure) {
         $newmeasure       = clone $measure;
         $this->measures[] = $newmeasure;
 
     }//end addMeasure()
 
 
-}//end class
+}

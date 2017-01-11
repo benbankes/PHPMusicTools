@@ -11,16 +11,14 @@ class Score extends PMTObject
     public $parts = array();
 
 
-    function __construct($name='', $parts=array())
-    {
+    function __construct($name='', $parts=array()) {
         $this->name  = $name;
         $this->parts = $parts;
 
-    }//end __construct()
+    }
 
 
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         $name  = $props['name'];
         $parts = array();
         if (isset($props['parts'])) {
@@ -35,11 +33,10 @@ class Score extends PMTObject
 
         return new Score($name, $parts);
 
-    }//end constructFromArray()
+    }
 
 
-    function setAttribute($property)
-    {
+    function setAttribute($property) {
 
     }//end setAttribute()
 
@@ -49,8 +46,7 @@ class Score extends PMTObject
      *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML($wise='partwise')
-    {
+    function toMusicXML($wise='partwise') {
         $out  = '';
         $out .= '<?xml version="1.0" encoding="UTF-8" standalone="no"?>';
         $out .= '<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">';
@@ -72,34 +68,30 @@ class Score extends PMTObject
 
         $out .= '</score-partwise>';
         return $out;
+    }
 
-    }//end toMusicXML()
 
 
-    function toPNG()
-    {
+    function toPNG() {
 
     }//end toPNG()
 
 
-    function toPDF()
-    {
+    function toPDF() {
 
     }//end toPDF()
 
 
-    function addPart($part)
-    {
+    function addPart($part) {
         $this->parts[] = clone $part;
 
     }//end addPart()
 
 
-    function addMeasure($measure)
-    {
+    function addMeasure($measure) {
         $this->measures[] = clone $measure;
 
     }//end addMeasure()
 
 
-}//end class
+}

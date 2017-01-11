@@ -15,4 +15,4 @@ class NoteDot extends PMTObject
     // this one is special. See http://ianring.com/stardots/
                  );
 
-}//end class
+}

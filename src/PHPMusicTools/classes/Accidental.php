@@ -1,37 +1,51 @@
 <?php
+/**
+ * Accidental Class
+ *
+ * Accidental is a symbol that represents a pitch alteration, e.g. a sharp, flat, natural, etc.
+ *
+ * @package      PHPMusicTools
+ * @author       Ian Ring <httpwebwitch@email.com>
+ */
+
 namespace ianring;
 require_once 'PMTObject.php';
 
 /**
- * Accidental is a symbol that represents a pitch alteration, e.g. a sharp, flat, natural, etc.
+ * Accidental Class
  */
-class Accidental extends PMTObject
-{
+class Accidental extends PMTObject {
 
+    /**
+     * @var  array  $properties    the properties of this object
+     */
     public static $properties = array(
-                                 'type',
-                                 'size',
-                                 'parentheses',
-                                 'bracket',
-                                 'editorial',
-                                 'courtesy',
-                                );
+     'type',
+     'size',
+     'parentheses',
+     'bracket',
+     'editorial',
+     'courtesy',
+    );
 
+    /**
+     * @var  array  $types         the types of accidentals
+     */
     public static $types = array(
-                            'sharp',
-                            'flat',
-                            'natural',
-                            'double-sharp',
-                            'double-flat',
-                            'sharp-sharp',
-                            'flat-flat',
-                            'natural-sharp',
-                            'natural-flat',
-                            'quarter-flat',
-                            'quarter-sharp',
-                            'three-quarters-flat',
-                            'three-quarters-sharp',
-                           );
+        'sharp',
+        'flat',
+        'natural',
+        'double-sharp',
+        'double-flat',
+        'sharp-sharp',
+        'flat-flat',
+        'natural-sharp',
+        'natural-flat',
+        'quarter-flat',
+        'quarter-sharp',
+        'three-quarters-flat',
+        'three-quarters-sharp',
+       );
 
 
     /**
@@ -44,13 +58,12 @@ class Accidental extends PMTObject
      * @param boolean $editorial   true if the accidental is an editorial accidental
      * @param boolean $courtesy    true if the accidental is a courtesy accidental, also known as a "cautionary" accidental.
      */
-    public function __construct($type='natural', $size=false, $parentheses=false, $bracket=false, $editorial=false, $courtesy=false)
-    {
+    public function __construct($type='natural', $size=false, $parentheses=false, $bracket=false, $editorial=false, $courtesy=false) {
         foreach (self::$properties as $var) {
             $this->$var = $$var;
         }
 
-    }//end __construct()
+    }
 
 
     /**
@@ -59,8 +72,7 @@ class Accidental extends PMTObject
      * @param  array $props the array of properties
      * @return Accidental the Accidental object.
      */
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         if (!is_array($props)) {
             $props = array('type' => $props);
         }
@@ -71,7 +83,7 @@ class Accidental extends PMTObject
 
         return new Accidental($type, $size, $parentheses, $bracket, $editorial, $courtesy);
 
-    }//end constructFromArray()
+    }
 
 
     /**
@@ -79,8 +91,7 @@ class Accidental extends PMTObject
      *
      * @return string the Unicode symbol address
      */
-    function getUnicode()
-    {
+    function getUnicode() {
         $codes = array(
                   'sharp'                => '266F',
                   'flat'                 => '266D',
@@ -106,14 +117,13 @@ class Accidental extends PMTObject
      *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML()
-    {
+    function toMusicXML() {
         $out  = '';
         $out .= '<accidental';
         $out .= '/>';
         return $out;
+    }
 
-    }//end toMusicXML()
 
 
-}//end class
+}

@@ -5,4 +5,4 @@ require_once 'Direction.php';
 class DirectionRehearsal extends Direction
 {
 
-}//end class
+}

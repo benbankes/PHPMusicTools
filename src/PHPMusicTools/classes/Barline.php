@@ -19,13 +19,12 @@ class Barline extends PMTObject
                                 );
 
 
-    public function __construct($location, $barStyle, $footnote, $ending, $repeat)
-    {
+    public function __construct($location, $barStyle, $footnote, $ending, $repeat) {
         foreach (self::$properties as $var) {
             $this->$var = $$var;
         }
 
-    }//end __construct()
+    }
 
 
     /**
@@ -34,8 +33,7 @@ class Barline extends PMTObject
      * @param  [type] $scale [description]
      * @return [type]        [description]
      */
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         $defaults = array_fill_keys(self::$properties, null);
         $props    = array_merge($defaults, $props);
         extract($props);
@@ -50,7 +48,7 @@ class Barline extends PMTObject
 
         return new Barline($location, $barStyle, $footnote, $ending, $repeat);
 
-    }//end constructFromArray()
+    }
 
 
     /**
@@ -58,8 +56,7 @@ class Barline extends PMTObject
      *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML()
-    {
+    function toMusicXML() {
         $out  = '';
         $out .= '<barline';
         if (isset($this->location)) {
@@ -85,8 +82,8 @@ class Barline extends PMTObject
 
         $out .= '</barline>';
         return $out;
+    }
 
-    }//end toMusicXML()
 
 
-}//end class
+}

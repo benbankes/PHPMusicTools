@@ -9,14 +9,13 @@ class Tuplet extends PMTObject
 {
 
 
-    public function __construct($bracket, $number, $placement, $type)
-    {
+    public function __construct($bracket, $number, $placement, $type) {
         $this->bracket   = $bracket;
         $this->number    = $number;
         $this->placement = $placement;
         $this->type      = $type;
 
-    }//end __construct()
+    }
 
 
     /**
@@ -25,15 +24,14 @@ class Tuplet extends PMTObject
      * @param  [type] $scale [description]
      * @return [type]        [description]
      */
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         $bracket   = $props['bracket'];
         $number    = $props['number'];
         $placement = $props['placement'];
         $type      = $props['type'];
         return new Tuplet($bracket, $number, $placement, $type);
 
-    }//end constructFromArray()
+    }
 
 
     /**
@@ -41,8 +39,7 @@ class Tuplet extends PMTObject
      *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML()
-    {
+    function toMusicXML() {
         $out  = '';
         $out .= '<tuplet';
         $out .= ' bracket="'.$this->bracket.'"';
@@ -51,8 +48,8 @@ class Tuplet extends PMTObject
         $out .= ' type="'.$this->type.'"';
         $out .= '/>';
         return $out;
+    }
 
-    }//end toMusicXML()
 
 
-}//end class
+}

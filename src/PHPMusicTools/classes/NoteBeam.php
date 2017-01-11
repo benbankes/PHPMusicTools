@@ -8,8 +8,7 @@ require_once 'PMTObject.php';
 class NoteBeam extends PMTObject
 {
 
-    public function __construct($number, $type) 
-    {
+    public function __construct($number, $type) {
         $this->number = $number;
         $this->type = $type; // begin, continue, end
     }
@@ -20,8 +19,7 @@ class NoteBeam extends PMTObject
      * @param  [type] $scale [description]
      * @return [type]        [description]
      */
-    public static function constructFromArray($props) 
-    {
+    public static function constructFromArray($props) {
         $number = $props['number'];
         $type = $props['type'];
         return new NoteBeam($number, $type);
@@ -32,8 +30,7 @@ class NoteBeam extends PMTObject
   *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML() 
-    {
+    function toMusicXML() {
         $out = '';
         $out .= '<beam';
         if (isset($this->number)) {

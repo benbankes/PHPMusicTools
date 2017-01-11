@@ -9,8 +9,7 @@ class Slur extends PMTObject
 {
 
 
-    public function __construct($number, $placement, $type, $bezierX, $bezierY, $defaultX, $defaultY)
-    {
+    public function __construct($number, $placement, $type, $bezierX, $bezierY, $defaultX, $defaultY) {
         $this->number    = $number;
         $this->placement = $placement;
         $this->type      = $type;
@@ -19,7 +18,7 @@ class Slur extends PMTObject
         $this->defaultX  = $defaultX;
         $this->defaultY  = $defaultY;
 
-    }//end __construct()
+    }
 
 
     /**
@@ -28,8 +27,7 @@ class Slur extends PMTObject
      * @param  [type] $scale [description]
      * @return [type]        [description]
      */
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         $number    = $props['number'];
         $placement = $props['placement'];
         $type      = $props['type'];
@@ -39,7 +37,7 @@ class Slur extends PMTObject
         $defaultY  = $props['defaultY'];
         return new Slur($number, $placement, $type, $bezierX, $bezierY, $defaultX, $defaultY);
 
-    }//end constructFromArray()
+    }
 
 
     /**
@@ -47,8 +45,7 @@ class Slur extends PMTObject
      *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML()
-    {
+    function toMusicXML() {
         $out  = '';
         $out .= '<slur';
         $out .= ' number="'.$this->number.'"';
@@ -60,8 +57,8 @@ class Slur extends PMTObject
         $out .= ' default-y="'.$this->defaultY.'"';
         $out .= '/>';
         return $out;
+    }
 
-    }//end toMusicXML()
 
 
-}//end class
+}

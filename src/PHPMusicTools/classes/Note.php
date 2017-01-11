@@ -69,11 +69,10 @@ class Note extends PMTObject
             $this->$var = $$var;
         }
 
-    }//end __construct()
+    }
 
 
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         $defaults = array_fill_keys(self::$properties, null);
         $props    = array_merge($defaults, $props);
         extract($props);
@@ -120,7 +119,7 @@ class Note extends PMTObject
             $staff
         );
 
-    }//end constructFromArray()
+    }
 
 
     /**
@@ -128,8 +127,7 @@ class Note extends PMTObject
      *
      * @return Rest
      */
-    function convertToRest()
-    {
+    function convertToRest() {
         // todo
 
     }//end convertToRest()
@@ -142,8 +140,7 @@ class Note extends PMTObject
      * @param  integer $preferredAlteration either 1, or -1 to indicate whether the transposition should prefer sharps or flats.
      * @return null
      */
-    function transpose($interval, $preferredAlteration=1)
-    {
+    function transpose($interval, $preferredAlteration=1) {
         $pitch = $this->pitch;
         $pitch->transpose($interval, $preferredAlteration = 1);
         $this->pitch = $pitch;
@@ -156,8 +153,7 @@ class Note extends PMTObject
      *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML()
-    {
+    function toMusicXML() {
         $out = '';
 
         $out .= '<note';
@@ -256,8 +252,8 @@ class Note extends PMTObject
 
         $out .= '</note>';
         return $out;
+    }
 
-    }//end toMusicXML()
 
 
-}//end class
+}

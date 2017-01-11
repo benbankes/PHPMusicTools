@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<ruleset name="PMT">
+	<description>A custom coding standard for PHPMusicTools.</description>
+	
+	<!-- include a sniff from inside the app -->
+	<rule ref="../../../../../src/PHPMusicTools/standard/"/>
+
+	<!-- Find any unused function parameters -->
+	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
+	
+	<!-- space after function argument -->
+	<rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
+	
+	<!-- detects if statements that are always true or false -->
+	<rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
+	
+	<!-- detects empty statements, e.g. if($bool){} -->
+	<rule ref="Generic.CodeAnalysis.EmptyStatement"/>
+	
+	<!--  detects constants that are not in all-caps -->
+	<rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+	
+	<!--  detects strings that don't need to be concatenated, e.g. $x = "this" . "that"; -->
+	<rule ref="Generic.Strings.UnnecessaryStringConcat"/>
+	
+	<!-- enforce opening brace on the same line as the declaration, and a space after the closing parenthesis.-->
+	<rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie"/>
+	
+	<!-- detect function cyclomatic complexity. warning if it exceeds 10, error if greater than 20 -->
+	<rule ref="Generic.Metrics.CyclomaticComplexity"/>
+	
+	<!-- detect nesting level. warning at 5, error if exceeds 10 --> 
+	<rule ref="Generic.Metrics.NestingLevel"/>
+	
+	<!-- detect space before square brackets, space after square brackets -->
+	<rule ref="Squiz.Arrays.ArrayBracketSpacing"/>
+	
+	<!-- enforce that control structures (if, foreach, etc) are formatted according to standard-->
+	<rule ref="Squiz.ControlStructures.ControlSignature"/>
+	
+	<!-- enforce spaces around "as" in foreach declarations, and spaces around double-arrows -->
+	<rule ref="Squiz.ControlStructures.ForEachLoopDeclaration"/>
+	
+	<!-- prefer increment and decrement operators. use $i++ instead of $i+=1 -->
+	<rule ref="Squiz.Operators.IncrementDecrementUsage"/>
+	
+	<!-- use symbol operators &&, || ^, instead of and, or, and xor -->
+	<rule ref="Squiz.Operators.ValidLogicalOperators"/>
+	
+	<!-- detects problems with the formatting of a for loop declaration -->
+	<rule ref="Squiz.ControlStructures.ForLoopDeclaration"/>
+	
+	<!-- detects use of parentheses in echo statements, like echo($string). -->
+	<rule ref="Squiz.Strings.EchoedStrings"/>
+	
+	<!-- detects the use of $this in static methods. A static method should not use $this, because it might be called statically (not instantiated object) -->
+	<rule ref="Squiz.Scope.StaticThisUsage"/>
+	
+	<!-- detect unwanted blank lines after opening function brace -->
+	<rule ref="Squiz.WhiteSpace.FunctionOpeningBraceSpace"/>
+	
+	<!-- enforce single spaces around logical operators -->
+	<rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
+	
+	<!-- do not allow space before a semicolon -->
+	<rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
+	
+	<!-- detects whitespace at the end of lines, and multiple empty lines inside functions -->
+	<rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
+	
+	<!-- detects a control structure that isn't enclosed in curly brackets -->
+	<rule ref="Generic.ControlStructures.InlineControlStructure"/>
+
+	<rule ref="Squiz.CSS.SemicolonSpacing"/>
+	<rule ref="Squiz.CSS.ColonSpacing"/>
+	<rule ref="Squiz.CSS.MissingColon"/>
+	
+</ruleset>

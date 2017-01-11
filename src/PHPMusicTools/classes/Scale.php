@@ -70,8 +70,7 @@ class Scale extends PMTObject
      * @param Pitch|string|null $root      [description]
      * @param string            $direction [description]
      */
-    public function __construct($scale, $root, $direction = self::ASCENDING) 
-    {
+    public function __construct($scale, $root, $direction = self::ASCENDING) {
         if ($root instanceof Pitch) {
             $this->root = $root;
         } elseif (is_null($root)) {
@@ -96,8 +95,7 @@ class Scale extends PMTObject
      * @param  [type] $scale [description]
      * @return [type]        [description]
      */
-    public static function constructFromArray($props) 
-    {
+    public static function constructFromArray($props) {
         if (isset($props['root'])) {
             if ($props['root'] instanceof Pitch) {
                 $root = $props['root'];
@@ -117,8 +115,7 @@ class Scale extends PMTObject
      * @param  [type] $string [description]
      * @return int         the scale number
      */
-    function _resolveScaleFromString($string) 
-    {
+    function _resolveScaleFromString($string) {
         // todo: this
         return 4095;
     }
@@ -130,15 +127,13 @@ class Scale extends PMTObject
      * @param  [type] $pitches [description]
      * @return [type]          [description]
      */
-    public static function determineScaleFromPitches($pitches, $root = null) 
-    {
+    public static function determineScaleFromPitches($pitches, $root = null) {
 
     }
 
     // gets pitches in sequence for the scale, of one octave
     // todo: make this better
-    function getPitches() 
-    {
+    function getPitches() {
         $pitches = array();
         for ($i = 0; $i < 12; $i++) {
             if ($this->direction == self::ASCENDING) {
@@ -160,7 +155,7 @@ class Scale extends PMTObject
 
     /**
      * What this function has got to do is make sure that the C sharp major scale uses an E sharp, not
-     * an F natural. To do that it recognizes scales that are diatonic, and forces each note to be on 
+     * an F natural. To do that it recognizes scales that are diatonic, and forces each note to be on
      * consecutive steps. To do that, it assumes that the first note is on the correct step!
      *
      * TODO: it should handle complex scales like bebop and octotonic properly.
@@ -169,8 +164,7 @@ class Scale extends PMTObject
      * @param  Pitch[] $pitches [description]
      * @return Pitch[]
      */
-    public function _normalizeScalePitches($pitches) 
-    {
+    public function _normalizeScalePitches($pitches) {
         if (in_array($this->scale, array(1387,1451,1709,1717,2773,2477,2741,1453))) {
             // this is a scale known to have a note on every step
             $currentStep = $pitches[0]->step;
@@ -194,8 +188,7 @@ class Scale extends PMTObject
      * @param  Scale $scale2 the second scale
      * @return int    Levenshtein distance between the two scales
      */
-    static function levenshtein_scale($scale1, $scale2) 
-    {
+    static function levenshtein_scale($scale1, $scale2) {
         // todo
     }
 
@@ -205,19 +198,16 @@ class Scale extends PMTObject
      * @param  Note, Chord, Layer, Measure $obj the thing that has pitches in it, however deep they may be
      * @return array of Scales
      */
-    public static function getScales($obj) 
-    {
+    public static function getScales($obj) {
         $pitches = $obj->getAllPitches();
         // todo figure out how to do this efficiently
     }
 
-    public function imperfections() 
-    {
+    public function imperfections() {
 
     }
 
-    public static function findImperfections($scale) 
-    {
+    public static function findImperfections($scale) {
         $imperfections = array();
         for ($i = 0; $i<12; $i++) {
             $fifthAbove = ($i + 7) % 12;
@@ -234,8 +224,7 @@ class Scale extends PMTObject
      * @param  [type] $scale [description]
      * @return [type]        [description]
      */
-    public static function findSpectrum($scale) 
-    {
+    public static function findSpectrum($scale) {
         $spectrum = array();
         $rotateme = $scale;
         for ($i=0; $i<6; $i++) {
@@ -253,8 +242,7 @@ class Scale extends PMTObject
      * @param  [type] $spectrum [description]
      * @return [type]           [description]
      */
-    function renderPmn($spectrum) 
-    {
+    function renderPmn($spectrum) {
         $string = '';
         // remember these are 0-based, so they're like the number of semitones minus 1
         $classes = array('p' => 4, 'm' => 3, 'n' => 2, 's' => 1, 'd' => 0, 't' => 5);
@@ -277,8 +265,7 @@ class Scale extends PMTObject
      * @param  [type] $scale [description]
      * @return [type]        [description]
      */
-    function hasRootTone($scale) 
-    {
+    function hasRootTone($scale) {
         // returns true if the first bit is not a zero
         return (1 & $scale) != 0;
     }
@@ -290,8 +277,7 @@ class Scale extends PMTObject
      * @param  [type] $scale [description]
      * @return [type]        [description]
      */
-    public static function doesNotHaveFourConsecutiveOffBits($scale) 
-    {
+    public static function doesNotHaveFourConsecutiveOffBits($scale) {
         $c = 0;
         for ($i=0; $i<12; $i++) {
             if (!($scale & (1 << ($i)))) {
@@ -312,8 +298,7 @@ class Scale extends PMTObject
      * @param  [type] $scale [description]
      * @return [type]        [description]
      */
-    function modes($scale) 
-    {
+    function modes($scale) {
         $rotateme = $scale;
         $modes = array();
         for ($i = 0; $i < 12; $i++) {
@@ -332,8 +317,7 @@ class Scale extends PMTObject
      * @param  [type] $scale [description]
      * @return [type]        [description]
      */
-    function symmetries($scale) 
-    {
+    function symmetries($scale) {
         $rotateme = $scale;
         $symmetries = array();
         for ($i = 0; $i < 12; $i++) {
@@ -352,8 +336,7 @@ class Scale extends PMTObject
   *
      * @return boolean [description]
      */
-    public function isPalindromic() 
-    {
+    public function isPalindromic() {
         for ($i=1; $i<=5; $i++) {
             if ((bool)($this->scale & (1 << $i)) !== (bool)($this->scale & (1 << (12 - $i))) ) {
                 return false;
@@ -367,8 +350,7 @@ class Scale extends PMTObject
   *
      * @return [type] [description]
      */
-    public static function countTones($scale) 
-    {
+    public static function countTones($scale) {
         $tones = 0;
         for ($i = 0; $i < 12; $i++) {
             if (($scale & (1 << $i)) == 0) {
@@ -378,8 +360,7 @@ class Scale extends PMTObject
         return $tones;
     }
 
-    static function scaletype($num) 
-    {
+    static function scaletype($num) {
         $types = array(
          4 => 'tetratonic',
          5 => 'pentatonic',
@@ -393,8 +374,7 @@ class Scale extends PMTObject
         return null;
     }
 
-    function rotateBitmask($bits, $direction = 1, $amount = 1) 
-    {
+    function rotateBitmask($bits, $direction = 1, $amount = 1) {
         for ($i = 0; $i < $amount; $i++) {
             if ($direction == 1) {
                 $firstbit = $bits & 1;
@@ -410,8 +390,7 @@ class Scale extends PMTObject
         return $bits;
     }
 
-    function drawSVGBracelet($scale, $size = 200, $text = null, $showImperfections = false) 
-    {
+    function drawSVGBracelet($scale, $size = 200, $text = null, $showImperfections = false) {
         if ($showImperfections) {
             $imperfections = findImperfections($scale);
             $symmetries = symmetries($scale);

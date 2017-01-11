@@ -5,4 +5,4 @@ require_once 'Direction.php';
 class DirectionDamp extends Direction
 {
 
-}//end class
+}

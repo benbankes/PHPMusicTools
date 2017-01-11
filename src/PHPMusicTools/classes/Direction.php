@@ -11,13 +11,12 @@ class Direction extends PMTObject
     public $properties = array();
 
 
-    function __construct($placement, $staff, $direction)
-    {
+    function __construct($placement, $staff, $direction) {
         $this->placement = $placement;
         $this->staff     = $staff;
         $this->direction = $direction;
 
-    }//end __construct()
+    }
 
 
     /**
@@ -26,8 +25,7 @@ class Direction extends PMTObject
      * @param  [winged] $scale [description]
      * @return [winged]        [description]
      */
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         switch ($props['directionType']) {
             case 'metronome':
             return DirectionMetronome::constructFromArray($props);
@@ -39,7 +37,7 @@ class Direction extends PMTObject
             break;
         }
 
-    }//end constructFromArray()
+    }
 
 
     /**
@@ -47,8 +45,7 @@ class Direction extends PMTObject
      *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML()
-    {
+    function toMusicXML() {
           $out  = '<direction placement="'.$this->placement.'">';
           $out .= '<direction-type>';
 
@@ -84,8 +81,8 @@ class Direction extends PMTObject
 
         */
         return 'it works!';
+}
 
-    }//end toMusicXML()
 
 
-}//end class
+}

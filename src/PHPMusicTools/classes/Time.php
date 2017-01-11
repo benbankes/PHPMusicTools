@@ -15,13 +15,12 @@ class Time extends PMTObject
                                 );
 
 
-    public function __construct($symbol, $beats, $beatType)
-    {
+    public function __construct($symbol, $beats, $beatType) {
         foreach (self::$properties as $var) {
             $this->$var = $$var;
         }
 
-    }//end __construct()
+    }
 
 
     /**
@@ -30,15 +29,14 @@ class Time extends PMTObject
      * @param  [type] $scale [description]
      * @return [type]        [description]
      */
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         $defaults = array_fill_keys(self::$properties, null);
         $props    = array_merge($defaults, $props);
         extract($props);
 
         return new Time($symbol, $beats, $beatType);
 
-    }//end constructFromArray()
+    }
 
 
     /**
@@ -46,8 +44,7 @@ class Time extends PMTObject
      *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML()
-    {
+    function toMusicXML() {
         $out = '';
 
         $out .= '<time';
@@ -67,8 +64,8 @@ class Time extends PMTObject
         $out .= '</time>';
 
         return $out;
+    }
 
-    }//end toMusicXML()
 
 
-}//end class
+}

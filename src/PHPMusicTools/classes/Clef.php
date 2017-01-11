@@ -14,13 +14,12 @@ class Clef extends PMTObject
                                 );
 
 
-    public function __construct($sign, $line)
-    {
+    public function __construct($sign, $line) {
         foreach (self::$properties as $var) {
             $this->$var = $$var;
         }
 
-    }//end __construct()
+    }
 
 
     /**
@@ -29,19 +28,17 @@ class Clef extends PMTObject
      * @param  [winged] $scale [description]
      * @return [winged]        [description]
      */
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         $defaults = array_fill_keys(self::$properties, null);
         $props    = array_merge($defaults, $props);
         extract($props);
 
         return new Clef($sign, $line);
 
-    }//end constructFromArray()
+    }
 
 
-    private function _resolveClefString($string)
-    {
+    private function _resolveClefString($string) {
         $string = strtolower($string);
         switch ($string) {
             case 'treble':
@@ -70,8 +67,7 @@ class Clef extends PMTObject
      *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML($num)
-    {
+    function toMusicXML($num) {
         $out = '';
 
         $out  .= '<clef number="'.$num.'">';
@@ -80,8 +76,8 @@ class Clef extends PMTObject
         $out  .= '</clef>';
 
         return $out;
+}
 
-    }//end toMusicXML()
 
 
-}//end class
+}

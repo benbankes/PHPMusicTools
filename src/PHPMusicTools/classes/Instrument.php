@@ -9,19 +9,17 @@ class Instrument extends PMTObject
 {
 
 
-    function __construct($name, $rangeMin=null, $rangeMax=null, $transpose=0, $family=null)
-    {
+    function __construct($name, $rangeMin=null, $rangeMax=null, $transpose=0, $family=null) {
         $this->name      = $name;
         $this->rangeMin  = $rangeMin;
         $this->rangeMax  = $rangeMax;
         $this->transpose = $transpose;
         $this->family    = $family;
 
-    }//end __construct()
+    }
 
 
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         $name      = $props['name'];
         $rangeMin  = Pitch::constructFromArray($props['rangeMin']);
         $rangeMax  = Pitch::constructFromArray($props['rangeMax']);
@@ -29,11 +27,10 @@ class Instrument extends PMTObject
         $family    = $props['family'];
         return new Instrument($name, $rangeMin, $rangeMax, $transpose, $family);
 
-    }//end constructFromArray()
+    }
 
 
-    public static function constructFromName($name)
-    {
+    public static function constructFromName($name) {
         $instrument = new Instrument($name);
         $instrument->getProperties();
         return $instrument;
@@ -41,8 +38,7 @@ class Instrument extends PMTObject
     }//end constructFromName()
 
 
-    function getProperties()
-    {
+    function getProperties() {
         if (isset(self::$instruments[$this->name])) {
             $i               = self::$instruments[$this->name];
             $this->rangeMin  = Pitch::constructFromArray($i['rangeMin']);
@@ -54,7 +50,7 @@ class Instrument extends PMTObject
             // search for it in otherNames
         }
 
-    }//end getProperties()
+    }
 
 
     public static $instruments = array(
@@ -96,4 +92,4 @@ class Instrument extends PMTObject
                                                       ),
                                  );
 
-}//end class
+}

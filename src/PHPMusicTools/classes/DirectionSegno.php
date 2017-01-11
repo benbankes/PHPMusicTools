@@ -5,4 +5,4 @@ require_once 'Direction.php';
 class DirectionSegno extends Direction
 {
 
-}//end class
+}

@@ -6,108 +6,144 @@ require_once 'Chord.php';
 /**
  * Layer is a collection of chords, aka a "voice" of consecutive sets of notes in a measure
  */
-class Layer extends PMTObject {
+class Layer extends PMTObject
+{
 
-	public $chords = array();
-
-	public function __construct($name, $chords) {
-		foreach (array('name', 'chords') as $var) {
-			$this->$var = $$var;
-		}
-	}
+    public $chords = array();
 
 
-	public static function constructFromArray($props) {
-		$name = $props['name'];
-		$chords = array();
-		if (isset($props['chords'])) {
-			foreach ($props['chords'] as $chord) {
-				if ($chord instanceof Chord) {
-					$chords[] = $chord;
-				} else {
-					$chords[] = Chord::constructFromArray($chord);
-				}
-			}
-		}
+    public function __construct($name, $chords)
+    {
+        foreach (array('name', 'chords') as $var) {
+            $this->$var = $$var;
+        }
 
-		return new Layer($name, $chords);
-	}
+    }
 
 
-	function addNote($note) {
-		$chord = new Chord();
-		$chord->addNote($note);
-		$this->addChord($chord);
-	}
+    public static function constructFromArray($props)
+    {
+        $name   = $props['name'];
+        $chords = array();
+        if (isset($props['chords'])) {
+            foreach ($props['chords'] as $chord) {
+                if ($chord instanceof Chord) {
+                    $chords[] = $chord;
+                } else {
+                    $chords[] = Chord::constructFromArray($chord);
+                }
+            }
+        }
 
-	function addChord($chord) {
-		$this->chords[] = clone $chord;
-	}
+        return new Layer($name, $chords);
 
-	function clear() {
-		$this->chords[] = array();
-	}
+    }
 
-	/**
-	 * renders this object as MusicXML
-	 * @return string MusicXML representation of the object
-	 */
-	function toMusicXML() {
-		$out = '';
-		foreach ($this->chords as $chord) {
-			$out .= $chord->toMusicXML();
-		}
-		return $out;
-	}
 
-	/**
-	 * transposes all the notes in this layer by $interval
-	 * @param  integer  $interval  a signed integer telling how many semitones to transpose up or down
-	 * @param  integer  $preferredAlteration  either 1, or -1 to indicate whether the transposition should prefer sharps or flats.
-	 * @return  null     
-	 */
-	public function transpose($interval, $preferredAlteration = 1) {
-		foreach ($this->chords as &$chord) {
-			$chord->transpose($interval, $preferredAlteration);
-		}
-	}
+    function addNote($note)
+    {
+        $chord = new Chord();
+        $chord->addNote($note);
+        $this->addChord($chord);
 
-	/**
-	 * using the 's own Key, will quantize all the notes to be part of a given scale.
-	 * If scale is omitted, will use the scale implied by the Key's "mode" property.
-	 * @param   $key    a Pitch, like "C" or "G#"
-	 * @param   $scale  a Scale object
-	 * @return null
-	 */
-	public function autoTune($key, $scale = null) {
-		foreach ($this->chords as &$chord) {
-			$chord->autoTune($key, $scale);
-		}
-	}
+    }//end addNote()
 
-	/**
-	 * analyze the current layer, and return an array of all the Scales that its notes fit into.
-	 * @param  Pitch  $root  if the root is known and we only want to learn about matching modes, provide a Pitch for the root.
-	 * @return [type] [description]
-	 */
-	public function getScales($root = null) {
-		$scales = Scale::getScales($this);
-	}
 
-	/**
-	 * returns an array of Pitch objects, for every pitch of every note in the layer.
-	 * @param  boolean  $heightless  if true, will return heightless pitches all mudul to the same octave. Useful for
-	 *                              analysis, determining mode etc.
-	 * @return array  an array of Pitch objects
-	 */
-	public function getAllPitches($heightless = false) {
-		$pitches = array();
-		foreach ($this->chords as $chord) {
-			$chordPitches = $chord->getAllPitches($heightless);
-			$pitches = array_merge_recursive($pitches, $chordPitches);
-		}
-		return $pitches;
-	}
+    function addChord($chord)
+    {
+        $this->chords[] = clone $chord;
+
+    }//end addChord()
+
+
+    function clear()
+    {
+        $this->chords[] = array();
+
+    }//end clear()
+
+
+    /**
+     * renders this object as MusicXML
+     *
+     * @return string MusicXML representation of the object
+     */
+    function toMusicXML()
+    {
+        $out = '';
+        foreach ($this->chords as $chord) {
+            $out .= $chord->toMusicXML();
+        }
+
+        return $out;
+    }
+    
+
+
+    /**
+     * transposes all the notes in this layer by $interval
+     *
+     * @param  integer $interval            a signed integer telling how many semitones to transpose up or down
+     * @param  integer $preferredAlteration either 1, or -1 to indicate whether the transposition should prefer sharps or flats.
+     * @return null
+     */
+    public function transpose($interval, $preferredAlteration=1)
+    {
+        foreach ($this->chords as &$chord) {
+            $chord->transpose($interval, $preferredAlteration);
+        }
+
+    }//end transpose()
+
+
+    /**
+     * using the 's own Key, will quantize all the notes to be part of a given scale.
+     * If scale is omitted, will use the scale implied by the Key's "mode" property.
+     *
+     * @param  $key    a Pitch, like "C" or "G#"
+     * @param  $scale  a Scale object
+     * @return null
+     */
+    public function autoTune($key, $scale=null)
+    {
+        foreach ($this->chords as &$chord) {
+            $chord->autoTune($key, $scale);
+        }
+
+    }//end autoTune()
+
+
+    /**
+     * analyze the current layer, and return an array of all the Scales that its notes fit into.
+     *
+     * @param  Pitch $root if the root is known and we only want to learn about matching modes, provide a Pitch for the root.
+     * @return [type] [description]
+     */
+    public function getScales($root=null)
+    {
+        $scales = Scale::getScales($this);
+
+    }//end getScales()
+
+
+    /**
+     * returns an array of Pitch objects, for every pitch of every note in the layer.
+     *
+     * @param  boolean $heightless if true, will return heightless pitches all mudul to the same octave. Useful for analysis, determining mode etc. analysis, determining mode etc.
+     *                              analysis, determining mode etc.
+     * @return array  an array of Pitch objects
+     */
+    public function getAllPitches($heightless=false)
+    {
+        $pitches = array();
+        foreach ($this->chords as $chord) {
+            $chordPitches = $chord->getAllPitches($heightless);
+            $pitches      = array_merge_recursive($pitches, $chordPitches);
+        }
+
+        return $pitches;
+
+    }//end getAllPitches()
 
 
 }

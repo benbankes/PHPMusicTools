@@ -9,13 +9,12 @@ class BarlineEnding extends PMTObject
 {
 
 
-    public function __construct($number, $type)
-    {
+    public function __construct($number, $type) {
         foreach (array('number', 'type') as $var) {
             $this->$var = $$var;
         }
 
-    }//end __construct()
+    }
 
 
     /**
@@ -24,13 +23,12 @@ class BarlineEnding extends PMTObject
      * @param  [type] $scale [description]
      * @return [type]        [description]
      */
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         $number = $props['number'];
         $type   = $props['type'];
         return new BarlineEnding($number, $type);
 
-    }//end constructFromArray()
+    }
 
 
     /**
@@ -38,8 +36,7 @@ class BarlineEnding extends PMTObject
      *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML()
-    {
+    function toMusicXML() {
         $out .= '<ending';
         if (isset($this->number)) {
             $out .= ' number="'.$this->number.'"';
@@ -54,7 +51,7 @@ class BarlineEnding extends PMTObject
         $out .= '>';
         $out .= '</ending>';
 
-    }//end toMusicXML()
+    }
 
 
-}//end class
+}

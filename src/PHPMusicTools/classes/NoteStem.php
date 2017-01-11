@@ -11,8 +11,7 @@ class NoteStem extends PMTObject
     // default-y
     // direction
 
-    public function __construct($defaultX, $defaultY, $direction) 
-    {
+    public function __construct($defaultX, $defaultY, $direction) {
         $this->defaultX = $defaultX;
         $this->defaultY = $defaultY;
         $this->direction = $direction;
@@ -24,8 +23,7 @@ class NoteStem extends PMTObject
      * @param  [defaultY] $scale [description]
      * @return [defaultY]        [description]
      */
-    public static function constructFromArray($props) 
-    {
+    public static function constructFromArray($props) {
         $defaultX = $props['defaultX'];
         $defaultY = $props['defaultY'];
         $direction = $props['direction'];
@@ -39,8 +37,7 @@ class NoteStem extends PMTObject
   *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML() 
-    {
+    function toMusicXML() {
         $out = '';
         $out .= '<stem';
         if (isset($this->defaultX)) {

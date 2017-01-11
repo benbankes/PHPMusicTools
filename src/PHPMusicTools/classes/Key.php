@@ -11,12 +11,11 @@ class Key extends PMTObject
     public $properties = array();
 
 
-    public function __construct($fifths, $mode)
-    {
+    public function __construct($fifths, $mode) {
         $this->fifths = $fifths;
         $this->mode   = $mode;
 
-    }//end __construct()
+    }
 
 
     /**
@@ -25,13 +24,12 @@ class Key extends PMTObject
      * @param  [winged] $scale [description]
      * @return [winged]        [description]
      */
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         $fifths = $props['fifths'];
         $mode   = $props['mode'];
         return new Key($fifths, $mode);
 
-    }//end constructFromArray()
+    }
 
 
     /**
@@ -42,8 +40,7 @@ class Key extends PMTObject
      * @param  [type] $string [description]
      * @return [type]         [description]
      */
-    private function _resolveKeyString($string)
-    {
+    private function _resolveKeyString($string) {
         $string     = strtolower($string);
         $properties = array(
                        'fifths' => 0,
@@ -131,8 +128,7 @@ class Key extends PMTObject
     }//end _resolveKeyString()
 
 
-    function getName()
-    {
+    function getName() {
 
     }//end getName()
 
@@ -142,8 +138,7 @@ class Key extends PMTObject
      *
      * @return string MusicXML representation of the object
      */
-    public function toMusicXML()
-    {
+    public function toMusicXML() {
         $out  = '';
         $out .= '<key>';
         if (isset($this->fifths)) {
@@ -156,8 +151,8 @@ class Key extends PMTObject
 
         $out .= '</key>';
         return $out;
+    }
 
-    }//end toMusicXML()
 
 
-}//end class
+}

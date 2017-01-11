@@ -5,4 +5,4 @@ require_once 'Direction.php';
 class DirectionStringMute extends Direction
 {
 
-}//end class
+}

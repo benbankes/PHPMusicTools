@@ -9,11 +9,10 @@ class Tie extends PMTObject
 {
 
 
-    public function __construct($type)
-    {
+    public function __construct($type) {
         $this->type = $type;
 
-    }//end __construct()
+    }
 
 
     /**
@@ -22,12 +21,11 @@ class Tie extends PMTObject
      * @param  [type] $scale [description]
      * @return [type]        [description]
      */
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         $type = $props['type'];
         return new Tie($type);
 
-    }//end constructFromArray()
+    }
 
 
     /**
@@ -35,11 +33,10 @@ class Tie extends PMTObject
      *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML()
-    {
+    function toMusicXML() {
         return '<tied type="'.$this->type.'"/>';
+    }
 
-    }//end toMusicXML()
 
 
-}//end class
+}

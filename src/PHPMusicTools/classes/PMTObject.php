@@ -10,8 +10,7 @@ class PMTObject
      *
      * @return [type] [description]
      */
-    public function __clone()
-    {
+    public function __clone() {
         foreach ($this as $key => $val) {
             if (is_object($val) || (is_array($val))) {
                 $this->{$key} = unserialize(serialize($val));
@@ -21,8 +20,7 @@ class PMTObject
     }//end __clone()
 
 
-    function setProperty($name, $value)
-    {
+    function setProperty($name, $value) {
         $this->$name = $value;
 
     }//end setProperty()
@@ -31,11 +29,10 @@ class PMTObject
     /**
      * required because PHP doesn't do modulo correctly with negative numbers.
      */
-    public function _truemod($num, $mod)
-    {
+    public function _truemod($num, $mod) {
         return (($mod + ($num % $mod)) % $mod);
 
     }//end _truemod()
 
 
-}//end class
+}

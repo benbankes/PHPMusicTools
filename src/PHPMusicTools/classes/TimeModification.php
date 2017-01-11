@@ -9,12 +9,11 @@ class TimeModification extends PMTObject
 {
 
 
-    public function __construct($actualNotes, $normalNotes)
-    {
+    public function __construct($actualNotes, $normalNotes) {
         $this->actualNotes = $actualNotes;
         $this->normalNotes = $normalNotes;
 
-    }//end __construct()
+    }
 
 
     /**
@@ -23,13 +22,12 @@ class TimeModification extends PMTObject
      * @param  [type] $scale [description]
      * @return [type]        [description]
      */
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         $actualNotes = $props['actualNotes'];
         $normalNotes = $props['normalNotes'];
         return new TimeModification($actualNotes, $normalNotes);
 
-    }//end constructFromArray()
+    }
 
 
     /**
@@ -37,16 +35,15 @@ class TimeModification extends PMTObject
      *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML()
-    {
+    function toMusicXML() {
         $out    = '';
         $out   .= '<time-modification>';
           $out .= '<actual-notes>'.$this->actualNotes.'</actual-notes>';
           $out .= '<normal-notes>'.$this->normalNotes.'</normal-notes>';
         $out   .= '</time-modification>';
         return $out;
+    }
 
-    }//end toMusicXML()
 
 
-}//end class
+}

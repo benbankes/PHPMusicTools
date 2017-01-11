@@ -12,17 +12,15 @@ class Layer extends PMTObject
     public $chords = array();
 
 
-    public function __construct($name, $chords)
-    {
+    public function __construct($name, $chords) {
         foreach (array('name', 'chords') as $var) {
             $this->$var = $$var;
         }
 
-    }//end __construct()
+    }
 
 
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         $name   = $props['name'];
         $chords = array();
         if (isset($props['chords'])) {
@@ -37,11 +35,10 @@ class Layer extends PMTObject
 
         return new Layer($name, $chords);
 
-    }//end constructFromArray()
+    }
 
 
-    function addNote($note)
-    {
+    function addNote($note) {
         $chord = new Chord();
         $chord->addNote($note);
         $this->addChord($chord);
@@ -49,15 +46,13 @@ class Layer extends PMTObject
     }//end addNote()
 
 
-    function addChord($chord)
-    {
+    function addChord($chord) {
         $this->chords[] = clone $chord;
 
     }//end addChord()
 
 
-    function clear()
-    {
+    function clear() {
         $this->chords[] = array();
 
     }//end clear()
@@ -68,16 +63,15 @@ class Layer extends PMTObject
      *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML()
-    {
+    function toMusicXML() {
         $out = '';
         foreach ($this->chords as $chord) {
             $out .= $chord->toMusicXML();
         }
 
         return $out;
+    }
 
-    }//end toMusicXML()
 
 
     /**
@@ -87,8 +81,7 @@ class Layer extends PMTObject
      * @param  integer $preferredAlteration either 1, or -1 to indicate whether the transposition should prefer sharps or flats.
      * @return null
      */
-    public function transpose($interval, $preferredAlteration=1)
-    {
+    public function transpose($interval, $preferredAlteration=1) {
         foreach ($this->chords as &$chord) {
             $chord->transpose($interval, $preferredAlteration);
         }
@@ -104,8 +97,7 @@ class Layer extends PMTObject
      * @param  $scale  a Scale object
      * @return null
      */
-    public function autoTune($key, $scale=null)
-    {
+    public function autoTune($key, $scale=null) {
         foreach ($this->chords as &$chord) {
             $chord->autoTune($key, $scale);
         }
@@ -119,8 +111,7 @@ class Layer extends PMTObject
      * @param  Pitch $root if the root is known and we only want to learn about matching modes, provide a Pitch for the root.
      * @return [type] [description]
      */
-    public function getScales($root=null)
-    {
+    public function getScales($root=null) {
         $scales = Scale::getScales($this);
 
     }//end getScales()
@@ -133,8 +124,7 @@ class Layer extends PMTObject
      *                              analysis, determining mode etc.
      * @return array  an array of Pitch objects
      */
-    public function getAllPitches($heightless=false)
-    {
+    public function getAllPitches($heightless=false) {
         $pitches = array();
         foreach ($this->chords as $chord) {
             $chordPitches = $chord->getAllPitches($heightless);
@@ -146,4 +136,4 @@ class Layer extends PMTObject
     }//end getAllPitches()
 
 
-}//end class
+}

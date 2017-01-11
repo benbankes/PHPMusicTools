@@ -5,4 +5,4 @@ require_once 'PMTObject.php';
 class Staff extends PMTObject
 {
 
-}//end class
+}

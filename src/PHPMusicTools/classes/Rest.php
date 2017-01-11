@@ -6,10 +6,9 @@ class Rest extends Note
 {
 
 
-    function transpose()
-    {
+    function transpose() {
         // overridden
     }//end transpose()
 
 
-}//end class
+}

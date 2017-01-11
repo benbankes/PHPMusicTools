@@ -5,4 +5,4 @@ require_once 'Direction.php';
 class DirectionEyeglasses extends Direction
 {
 
-}//end class
+}

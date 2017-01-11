@@ -2,8 +2,7 @@
 namespace ianring;
 require_once 'PMTObject.php';
 
-class Arpeggiate extends PMTObject
-{
+class Arpeggiate extends PMTObject {
 
 
     /**
@@ -11,14 +10,13 @@ class Arpeggiate extends PMTObject
      *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML()
-    {
+    function toMusicXML() {
         $out .= '<arpeggiate';
         $out .= ' default-x="'.$this->defaultX.'"';
         $out .= ' number="'.$this->number.'"';
         $out .= '/>';
 
-    }//end toMusicXML()
+    }
 
 
-}//end class
+}

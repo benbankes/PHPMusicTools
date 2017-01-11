@@ -5,4 +5,4 @@ require_once 'Direction.php';
 class DirectionBracket extends Direction
 {
 
-}//end class
+}

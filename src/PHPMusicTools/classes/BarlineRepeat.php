@@ -6,12 +6,11 @@ class BarlineRepeat extends PMTObject
 {
 
 
-    public function __construct($direction, $winged)
-    {
+    public function __construct($direction, $winged) {
         $this->direction = $direction;
         $this->winged    = $winged;
 
-    }//end __construct()
+    }
 
 
     /**
@@ -20,14 +19,13 @@ class BarlineRepeat extends PMTObject
      * @param  [winged] $scale [description]
      * @return [winged]        [description]
      */
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         $direction = $props['direction'];
         // forward, backward
         $winged = $props['winged'];
         return new BarlineRepeat($direction, $winged);
 
-    }//end constructFromArray()
+    }
 
 
     /**
@@ -35,8 +33,7 @@ class BarlineRepeat extends PMTObject
      *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML()
-    {
+    function toMusicXML() {
         $out   = '';
          $out .= '<repeat';
         if (isset($this->direction)) {
@@ -50,7 +47,7 @@ class BarlineRepeat extends PMTObject
          $out .= '></repeat>';
          return $out;
 
-    }//end toMusicXML()
+    }
 
 
-}//end class
+}

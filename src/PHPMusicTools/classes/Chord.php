@@ -20,8 +20,7 @@ class Chord extends PMTObject
      *
      * @param array notes And array of Note objects
      */
-    public function __construct($notes=array())
-    {
+    public function __construct($notes=array()) {
         if (!is_array($notes)) {
             $notes = array($notes);
         }
@@ -30,7 +29,7 @@ class Chord extends PMTObject
             $this->addNote($note);
         }
 
-    }//end __construct()
+    }
 
 
     /**
@@ -39,8 +38,7 @@ class Chord extends PMTObject
      * @param  [winged] $props [description]
      * @return [winged]        [description]
      */
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         $notes = array();
         if (isset($props['notes'])) {
             foreach ($props['notes'] as $note) {
@@ -54,7 +52,7 @@ class Chord extends PMTObject
 
         return new Chord($notes);
 
-    }//end constructFromArray()
+    }
 
 
     /**
@@ -64,8 +62,7 @@ class Chord extends PMTObject
      * @param  integer $preferredAlteration either 1, or -1 to indicate whether the transposition should prefer sharps or flats.
      * @return null
      */
-    public function transpose($interval, $preferredAlteration=1)
-    {
+    public function transpose($interval, $preferredAlteration=1) {
         foreach ($this->notes as &$note) {
             $note->transpose($interval, $preferredAlteration);
         }
@@ -78,8 +75,7 @@ class Chord extends PMTObject
      *
      * @param array|Note $note
      */
-    function addNote($note)
-    {
+    function addNote($note) {
         if (!$note instanceof Note) {
             $note = new Note($note);
         }
@@ -89,8 +85,7 @@ class Chord extends PMTObject
     }//end addNote()
 
 
-    function clear()
-    {
+    function clear() {
         $this->notes[] = array();
 
     }//end clear()
@@ -101,8 +96,7 @@ class Chord extends PMTObject
      *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML()
-    {
+    function toMusicXML() {
         $out = '';
         $n   = 0;
         foreach ($this->notes as $note) {
@@ -115,8 +109,8 @@ class Chord extends PMTObject
         }
 
         return $out;
+    }
 
-    }//end toMusicXML()
 
 
     /**
@@ -125,8 +119,7 @@ class Chord extends PMTObject
      * @param  Pitch $root if the root is known and we only want to learn about matching modes, provide a Pitch for the root.
      * @return [type] [description]
      */
-    public function getScales($root=null)
-    {
+    public function getScales($root=null) {
         $scales = Scale::getScales($this);
 
     }//end getScales()
@@ -140,8 +133,7 @@ class Chord extends PMTObject
      * @return array                a key for every pitch represented in string form (like "C#4" or "A-7", and inside that an array
      *                              of Pitch objects.
      */
-    public function getAllPitches($heightless=false)
-    {
+    public function getAllPitches($heightless=false) {
         $pitches = array();
 
         foreach ($this->notes as $note) {
@@ -164,4 +156,4 @@ class Chord extends PMTObject
     }//end getAllPitches()
 
 
-}//end class
+}

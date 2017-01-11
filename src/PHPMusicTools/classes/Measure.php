@@ -80,11 +80,10 @@ class Measure extends PMTObject
         // this line allows us to chain commands!
         return $this;
 
-    }//end __construct()
+    }
 
 
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         $props = array_merge(self::$defaults, $props);
 
         foreach ($props['layers'] as &$layer) {
@@ -146,7 +145,7 @@ class Measure extends PMTObject
             $props['width']
         );
 
-    }//end constructFromArray()
+    }
 
 
     /**
@@ -154,8 +153,7 @@ class Measure extends PMTObject
      *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML($number)
-    {
+    function toMusicXML($number) {
         $out = '';
 
         $out .= '<measure ';
@@ -204,16 +202,12 @@ class Measure extends PMTObject
         $out .= '</measure>';
         return $out;
 
-    }//end toMusicXML()
-
-
     /**
      * renders the object's properties as XML
      *
      * @return string  the XML
      */
-    private function _renderproperties()
-    {
+    private function _renderproperties() {
         $out = '';
 
         $out   .= '<divisions>'.$this->divisions.'</divisions>';
@@ -260,13 +254,10 @@ class Measure extends PMTObject
 
     }//end _renderproperties()
 
-
-    function addLayer($layer)
-    {
+    function addLayer($layer) {
         $this->layers[] = $layer;
 
     }//end addLayer()
-
 
     /**
      * adds a note to a measure. Assumes that it should be added to the first layer, and if there are no layers in
@@ -274,8 +265,7 @@ class Measure extends PMTObject
      *
      * @param Note $note the note to add
      */
-    function addNote($note)
-    {
+    function addNote($note) {
         if (!count($this->layers)) {
             $layer = new Layer();
             $this->addLayer($layer);
@@ -287,32 +277,25 @@ class Measure extends PMTObject
 
     }//end addNote()
 
-
     /**
      * adds a  bunch of notes all at once.
      *
      * @param array $array an array of Notes
      */
-    function addNotes($array)
-    {
+    function addNotes($array) {
         foreach ($array as $note) {
             $this->addNote($note);
         }
 
     }//end addNotes()
 
-
-    function backup($duration)
-    {
+    function backup($duration) {
 
     }//end backup()
 
-
-    function forward($duration)
-    {
+    function forward($duration) {
 
     }//end forward()
-
 
     /**
      * transposes all the notes in this measure by $interval
@@ -321,14 +304,12 @@ class Measure extends PMTObject
      * @param  integer $preferredAlteration either 1, or -1 to indicate whether the transposition should prefer sharps or flats.
      * @return null
      */
-    public function transpose($interval, $preferredAlteration=1)
-    {
+    public function transpose($interval, $preferredAlteration=1) {
         foreach ($this->layers as &$layer) {
             $layer->transpose($interval);
         }
 
     }//end transpose()
-
 
     /**
      * using the measure's own Key, will quantize all the notes to be part of a given scale.
@@ -337,8 +318,7 @@ class Measure extends PMTObject
      * @param  $scale  a Scale object
      * @return null
      */
-    public function autoTune($scale=null)
-    {
+    public function autoTune($scale=null) {
         // todo: figure out the key and scale, based on the measure's Key property
         foreach ($this->layers as &$layer) {
             $layer->autoTune($scale);
@@ -346,19 +326,16 @@ class Measure extends PMTObject
 
     }//end autoTune()
 
-
     /**
      * analyze the current measure, and return an array of all the Scales that its notes fit into.
      *
      * @param  Pitch $root if the root is known and we only want to learn about matching modes, provide a Pitch for the root.
      * @return [type] [description]
      */
-    public function getScales($root=null)
-    {
+    public function getScales($root=null) {
         $scales = Scale::getScales($this);
 
     }//end getScales()
-
 
     /**
      * returns an array of Pitch objects, for every pitch of every note in the measure.
@@ -367,8 +344,7 @@ class Measure extends PMTObject
      *                              analysis, determining mode etc.
      * @return array  an array of Pitch objects
      */
-    public function getAllPitches($heightless=false)
-    {
+    public function getAllPitches($heightless=false) {
         $pitches = array();
         foreach ($this->layers as $layer) {
             $layerPitches = $layer->getAllPitches($heightless);
@@ -379,5 +355,4 @@ class Measure extends PMTObject
 
     }//end getAllPitches()
 
-
-}//end class
+}
