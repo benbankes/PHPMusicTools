@@ -35,8 +35,6 @@ $allscales = range(0, 4095);
 		foreach ($allscales as $index => $set) {
 			$allscales[$index] = array();
 			$newset = array();
-			// echo '<br/>'.$index.' - ';
-			// echo decbin($index) . ' - ';
 
 			for ($i = 0; $i < 12; $i++) {
 				if ($index & (1 << ($i))) {
@@ -44,8 +42,6 @@ $allscales = range(0, 4095);
 				}
 			}
 
-			// echo '<br/>';
-			// print_r($newset);
 			$allscales[$index]['tones'] = $newset;
 		}
 
@@ -104,17 +100,17 @@ foreach ($allscales as $index => $set) {
 		  // var img    = canvas.toDataURL("image/png");
 		  // document.write(\'<img src="\'+img+\'"/>\');
 
-			var canvasData = canvas.toDataURL("image/png");
+			// var canvasData = canvas.toDataURL("image/png");
 
-			$.ajax({
-				contentType: \'application/x-www-form-urlencoded\',
-				url: \'canvas_save.php\',
-				data: {
-					\'canvas\': canvasData	,
-					\'filename\':\''.$index.'.png\'
-				},
-				\'type\':\'post\'
-			});
+			// $.ajax({
+			// 	contentType: \'application/x-www-form-urlencoded\',
+			// 	url: \'canvas_save.php\',
+			// 	data: {
+			// 		\'canvas\': canvasData	,
+			// 		\'filename\':\''.$index.'.png\'
+			// 	},
+			// 	\'type\':\'post\'
+			// });
 		</script>
 		';
 }
