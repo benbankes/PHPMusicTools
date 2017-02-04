@@ -317,6 +317,18 @@ class Pitch extends PMTObject
     }
 
     /**
+     * Inverts this pitch around an axis.
+     * For example, if I invert C4 around E4, the result is G#4.
+     * When I invert G4 around E4, the result is C#4. 
+     * @param  Pitch $axis the axis around which to invert
+     * @return [type]        [description]
+     * @todo 
+     */
+    public function invert($axis) {
+        // to do
+    }
+
+    /**
      * renders a canonical string description of the pitch. Uses "#" and "-" for accidentals.
   *
      * @return [type] [description]

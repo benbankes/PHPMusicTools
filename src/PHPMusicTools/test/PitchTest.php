@@ -631,5 +631,66 @@ class PitchTest extends PHPMusicToolsTest
 		);
 	}
 
+	/**
+	 * @dataProvider providerInvert
+	 */
+	public function testInvert($pitch, $axis, $expected) {
+		$result = $pitch->invert($axis)
+		$this->assertEquals($expected, $result);
+	}
+	function providerInvert() {
+		return array(
+			'C inverted on E becomes G sharp' => array(
+				'pitch' => new ianring\Pitch('C', 0, 4),
+				'axis' => new ianring\Pitch('E', 0, 4),
+				'expected' => new ianring\Pitch('G', 1, 4),
+			),
+			'C sharp inverted on E becomes G' => array(
+				'pitch' => new ianring\Pitch('C', 1, 4),
+				'axis' => new ianring\Pitch('E', 0, 4),
+				'expected' => new ianring\Pitch('G', 0, 4),
+			),
+			'G sharp inverted on E becomes C' => array(
+				'pitch' => new ianring\Pitch('G', 1, 4),
+				'axis' => new ianring\Pitch('E', 0, 4),
+				'expected' => new ianring\Pitch('C', 0, 4),
+			),
+			'G inverted on E becomes C sharp' => array(
+				'pitch' => new ianring\Pitch('G', 0, 4),
+				'axis' => new ianring\Pitch('E', 0, 4),
+				'expected' => new ianring\Pitch('C', 1, 4),
+			),
+			'G inverted on E flat becomes C flat' => array(
+				'pitch' => new ianring\Pitch('G', 0, 4),
+				'axis' => new ianring\Pitch('E', -1, 4),
+				'expected' => new ianring\Pitch('C', -1, 3),
+			),
+			'B inverted on E flat becomes A double-flat' => array(
+				'pitch' => new ianring\Pitch('B', 0, 3),
+				'axis' => new ianring\Pitch('E', -1, 4),
+				'expected' => new ianring\Pitch('A', -2, 4),
+			),
+			'pitch inverted upward on an octave is two octaves away' => array(
+				'pitch' => new ianring\Pitch('G', 1, 4),
+				'axis' => new ianring\Pitch('G', 1, 5),
+				'expected' => new ianring\Pitch('G', 1, 6),
+			),
+			'pitch inverted downward on an octave is two octaves away' => array(
+				'pitch' => new ianring\Pitch('G', -1, 6),
+				'axis' => new ianring\Pitch('G', -1, 5),
+				'expected' => new ianring\Pitch('G', -1, 4),
+			),
+			'pitch inverted on itself is unchanged' => array(
+				'pitch' => new ianring\Pitch('D', 0, 4),
+				'axis' => new ianring\Pitch('D', 0, 4),
+				'expected' => new ianring\Pitch('D', 0, 4),
+			),
+			'heightless pitch is unchanged => 'array(
+				'pitch' => new ianring\Pitch('C', 0, null),
+				'axis' => new ianring\Pitch('E', 0, 4),
+				'expected' => new ianring\Pitch('C', 0, null),
+			),
+		);
+	}
 
 }
