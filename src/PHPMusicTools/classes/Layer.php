@@ -43,19 +43,19 @@ class Layer extends PMTObject
         $chord->addNote($note);
         $this->addChord($chord);
 
-    }//end addNote()
+    }
 
 
     function addChord($chord) {
         $this->chords[] = clone $chord;
 
-    }//end addChord()
+    }
 
 
     function clear() {
         $this->chords[] = array();
 
-    }//end clear()
+    }
 
 
     /**
@@ -86,7 +86,7 @@ class Layer extends PMTObject
             $chord->transpose($interval, $preferredAlteration);
         }
 
-    }//end transpose()
+    }
 
 
     /**
@@ -102,7 +102,7 @@ class Layer extends PMTObject
             $chord->autoTune($key, $scale);
         }
 
-    }//end autoTune()
+    }
 
 
     /**
@@ -114,7 +114,7 @@ class Layer extends PMTObject
     public function getScales($root=null) {
         $scales = Scale::getScales($this);
 
-    }//end getScales()
+    }
 
 
     /**
@@ -133,7 +133,7 @@ class Layer extends PMTObject
 
         return $pitches;
 
-    }//end getAllPitches()
+    }
 
 
 }

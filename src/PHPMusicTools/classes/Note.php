@@ -130,7 +130,7 @@ class Note extends PMTObject
     function convertToRest() {
         // todo
 
-    }//end convertToRest()
+    }
 
 
     /**
@@ -145,7 +145,7 @@ class Note extends PMTObject
         $pitch->transpose($interval, $preferredAlteration = 1);
         $this->pitch = $pitch;
 
-    }//end transpose()
+    }
 
 
     /**

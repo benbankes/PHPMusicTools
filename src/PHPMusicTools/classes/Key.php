@@ -3,7 +3,16 @@ namespace ianring;
 require_once 'PMTObject.php';
 
 /**
- * Key is a concept which describes the root and pitches used in diatonic harmony
+ * Key is a concept which describes the root and pitches used in diatonic harmony.
+ * To be congruent with the definition of a key in MusicXML, this class has the properties 
+ * "fifths", which is basically how mant fifths above or below C the key is, aka how many
+ * sharps or flats exist in the signature. "mode" is either "major" or "minor". 
+ *
+ * For example, {"fifths":-2,"mode":"minor"} means G minor, which has two flats in the signature.
+ *
+ * Please beware the difference between a major/minor Key, and a major or minor Scale. Key is for
+ * making a signature on a staff that affects the accidentals of altered notes. Scale is a more
+ * complex object describing a set of heightless Pitches.
  */
 class Key extends PMTObject
 {
@@ -125,12 +134,12 @@ class Key extends PMTObject
 
         $this->properties = $properties;
 
-    }//end _resolveKeyString()
+    }
 
 
     function getName() {
 
-    }//end getName()
+    }
 
 
     /**

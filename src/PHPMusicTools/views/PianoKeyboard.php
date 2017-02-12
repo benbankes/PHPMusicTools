@@ -7,135 +7,120 @@
  */
 function render($notes) {
 
+	// define an array with all the notes from 0 to 88 and their x y
+	$keys = array(
+		"ffffff" => array(
+			0 => array("x" => 3),
+			2 => array("x" => 13),
+			3 => array("x" => 23),
+			5 => array("x" => 33),
+			7 => array("x" => 43),
+			8 => array("x" => 53),
+			10 => array("x" => 63),
+			12 => array("x" => 73),
+			14 => array("x" => 83),
+			15 => array("x" => 93),
+			17 => array("x" => 103),
+			19 => array("x" => 113),
+			20 => array("x" => 123),
+			22 => array("x" => 133),
+			24 => array("x" => 143),
+			26 => array("x" => 153),
+			27 => array("x" => 163),
+			29 => array("x" => 173),
+			31 => array("x" => 183),
+			32 => array("x" => 193),
+			34 => array("x" => 203),
+			36 => array("x" => 213),
+			38 => array("x" => 223),
+			39 => array("x" => 233),
+			41 => array("x" => 243),
+			43 => array("x" => 253),
+			44 => array("x" => 263),
+			46 => array("x" => 273),
+			48 => array("x" => 283),
+			50 => array("x" => 293),
+			51 => array("x" => 303),
+			53 => array("x" => 313),
+			55 => array("x" => 323),
+			56 => array("x" => 333),
+			58 => array("x" => 343),
+			60 => array("x" => 353),
+			62 => array("x" => 363),
+			63 => array("x" => 373),
+			65 => array("x" => 383),
+			67 => array("x" => 393),
+			68 => array("x" => 403),
+			70 => array("x" => 413),
+			72 => array("x" => 423),
+			74 => array("x" => 433),
+			75 => array("x" => 443),
+			77 => array("x" => 453),
+			79 => array("x" => 463),
+			80 => array("x" => 473),
+			82 => array("x" => 483),
+			84 => array("x" => 493),
+			86 => array("x" => 503),
+			87 => array("x" => 513),
+		),
+		"000000" => array(
+			1 => array("x" => 10.5),
+			4 => array("x" => 30.5),
+			6 => array("x" => 40.5),
+			9 => array("x" => 60.5),
+			11 => array("x" => 70.5),
+			13 => array("x" => 80.5),
+			16 => array("x" => 100.5),
+			18 => array("x" => 110.5),		
+			21 => array("x" => 130.5),
+			23 => array("x" => 140.5),
+			25 => array("x" => 150.5),
+			28 => array("x" => 170.5),
+			30 => array("x" => 180.5),
+			33 => array("x" => 200.5),
+			35 => array("x" => 210.5),
+			37 => array("x" => 220.5),
+			40 => array("x" => 240.5),
+			42 => array("x" => 250.5),
+			45 => array("x" => 270.5),
+			47 => array("x" => 280.5),
+			49 => array("x" => 290.5),
+			52 => array("x" => 310.5),
+			54 => array("x" => 320.5),
+			57 => array("x" => 340.5),
+			59 => array("x" => 350.5),
+			61 => array("x" => 360.5),
+			64 => array("x" => 380.5),
+			66 => array("x" => 390.5),
+			69 => array("x" => 410.5),
+			71 => array("x" => 420.5),
+			73 => array("x" => 430.5),
+			76 => array("x" => 450.5),
+			78 => array("x" => 460.5),
+			81 => array("x" => 480.5),
+			83 => array("x" => 490.5),
+			85 => array("x" => 500.5),
+		)
+	);
 
-<svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-        width="520px" height="100" 
-        viewBox="0 0 530 100" >
-<rect x="3" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="13" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect id="key_2" x="10.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect x="23" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="33" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="43" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="53" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="63" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="73" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="83" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect id="key_5" x="30.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_7" x="40.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_10" x="60.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_12" x="70.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_14" x="80.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<line x1="23" y1="75" x2="93" y2="75" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<line x1="23" y1="78" x2="23" y2="72" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<line x1="93" y1="78" x2="93" y2="72" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<text font-size="10" x="54" y="90" fill="black">1</text>
-<rect x="93" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="103" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="113" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="123" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="133" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="143" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="153" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect id="key_17" x="100.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_19" x="110.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_22" x="130.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_24" x="140.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_26" x="150.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<line x1="93" y1="15" x2="163" y2="15" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<line x1="93" y1="18" x2="93" y2="12" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<line x1="163" y1="18" x2="163" y2="12" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<text font-size="10" x="124" y="10" fill="black">2</text>
-<rect x="163" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="173" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="183" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="193" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="203" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="213" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="223" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect id="key_29" x="170.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_31" x="180.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_34" x="200.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_36" x="210.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_38" x="220.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<line x1="163" y1="75" x2="233" y2="75" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<line x1="163" y1="78" x2="163" y2="72" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<line x1="233" y1="78" x2="233" y2="72" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<text font-size="10" x="194" y="90" fill="black">3</text>
-<rect x="233" y="20" height="50" width="10" style="stroke:#888888; fill: #00ffff"></rect>
-<rect x="243" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="253" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="263" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="273" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="283" y="20" height="50" width="10" style="stroke:#888888; fill: #ffff00"></rect>
-<rect x="293" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect id="key_41" x="240.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_43" x="250.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_46" x="270.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_48" x="280.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_50" x="290.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<line x1="233" y1="15" x2="303" y2="15" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<line x1="233" y1="18" x2="233" y2="12" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<line x1="303" y1="18" x2="303" y2="12" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<text font-size="10" x="264" y="10" fill="black">4</text>
-<rect x="303" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="313" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="323" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="333" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="343" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="353" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="363" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect id="key_53" x="310.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_55" x="320.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_58" x="340.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_60" x="350.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_62" x="360.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<line x1="303" y1="75" x2="373" y2="75" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<line x1="303" y1="78" x2="303" y2="72" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<line x1="373" y1="78" x2="373" y2="72" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<text font-size="10" x="334" y="90" fill="black">5</text>
-<rect x="373" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="383" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="393" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="403" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="413" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="423" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="433" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect id="key_65" x="380.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_67" x="390.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_70" x="410.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_72" x="420.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_74" x="430.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<line x1="373" y1="15" x2="443" y2="15" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<line x1="373" y1="18" x2="373" y2="12" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<line x1="443" y1="18" x2="443" y2="12" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<text font-size="10" x="404" y="10" fill="black">6</text>
-<rect x="443" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="453" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="463" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="473" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="483" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="493" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect x="503" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<rect id="key_77" x="450.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_79" x="460.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_82" x="480.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_84" x="490.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<rect id="key_86" x="500.5" y="20" height="25" width="5" style="stroke:#000000; fill: #000000"></rect>
-<line x1="443" y1="75" x2="513" y2="75" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<line x1="443" y1="78" x2="443" y2="72" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<line x1="513" y1="78" x2="513" y2="72" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<text font-size="10" x="474" y="90" fill="black">7</text>
-<rect x="513" y="20" height="50" width="10" style="stroke:#888888; fill: #ffffff"></rect>
-<line x1="3" y1="15" x2="23" y2="15" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<line x1="3" y1="18" x2="3" y2="12" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<line x1="23" y1="18" x2="23" y2="12" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<text font-size="10" x="9" y="10" fill="black">0</text>
-<line x1="513" y1="15" x2="523" y2="15" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<line x1="513" y1="18" x2="513" y2="12" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<line x1="523" y1="18" x2="523" y2="12" style="stroke:rgb(0,0,0);stroke-width:1"/>
-<text font-size="10" x="514" y="10" fill="black">8</text>
-</svg>
+	echo '<svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="520px" height="100" viewBox="0 0 530 100" >';
+	foreach(array('ffffff', '000000') as $colour) {
+		foreach($keys[$colour] as $index => $key) {
+			$height = ($colour == 'ffffff') ? 50 : 25;
+			$width = ($colour == 'ffffff') ? 10 : 5;
+			$stroke = ($colour == 'ffffff') ? '888888' : '000000';
+			$fill = in_array($index, $notes) ? 'ff0000' : $colour;
+			echo '<rect x="'.$key['x'].'" y="20" height="'.$height.'" width="'.$width.'" style="stroke:#'.$stroke.'; fill: #'.$fill.'"></rect>';
+		}
 
-
+	}
+	echo '</svg>';
 }
+
+for($i=0;$i<88;$i++) {
+	echo $i;
+	render(array($i));
+	echo '<br/>';
+}
+
+

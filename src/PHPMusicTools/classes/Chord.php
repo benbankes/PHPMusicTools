@@ -82,13 +82,13 @@ class Chord extends PMTObject
 
         $this->notes[] = clone $note;
 
-    }//end addNote()
+    }
 
 
     function clear() {
         $this->notes[] = array();
 
-    }//end clear()
+    }
 
 
     /**
@@ -122,7 +122,7 @@ class Chord extends PMTObject
     public function getScales($root=null) {
         $scales = Scale::getScales($this);
 
-    }//end getScales()
+    }
 
 
     /**
@@ -153,7 +153,7 @@ class Chord extends PMTObject
         // dedupe + count
         return $pitches;
 
-    }//end getAllPitches()
+    }
 
 
 }

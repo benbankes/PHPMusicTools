@@ -33,7 +33,7 @@ class Pitch extends PMTObject
 
     /**
      * accepts the object in the form of an array structure
-  *
+     *
      * @param  [winged] $scale [description]
      * @return [winged]        [description]
      */
@@ -46,7 +46,7 @@ class Pitch extends PMTObject
 
     /**
      * accepts the object in the form of a string
-  *
+     *
      * @param  [winged] $scale [description]
      * @return [winged]        [description]
      */
@@ -60,7 +60,7 @@ class Pitch extends PMTObject
      * 0 means the pitches are enharmonic.
      * &lt; 0 means the interval is downward,
      * &gt; 0 means the interval is upward
-  *
+     *
      * @param  Pitch $pitch the pitch being checked
      * @return integer the interval in semitones
      */
@@ -70,7 +70,7 @@ class Pitch extends PMTObject
 
     /**
      * returns true if $this is lower than the provided pitch
-  *
+     *
      * @param  Pitch $pitch the pitch being checked
      * @return boolean       true if $this is lower than $pitch
      */
@@ -80,7 +80,7 @@ class Pitch extends PMTObject
 
     /**
      * returns true if $this is higher than the provided pitch
-  *
+     *
      * @param  Pitch $pitch the pitch being checked
      * @return boolean       true if $this is higher than $pitch
      */
@@ -89,7 +89,7 @@ class Pitch extends PMTObject
     }
     /**
      * returns true if $this is enharmonic with the provided pitch
-  *
+     *
      * @param  Pitch $pitch [description]
      * @return boolean        [description]
      */
@@ -109,7 +109,7 @@ class Pitch extends PMTObject
 
     /**
      * returns a pitch's chroma as an integer. e.g. C = 0, C# = 1, D = 2, up to B = 11
-  *
+     *
      * @return int The chrome of the pitch as an integer from 0 to 11
      */
     public function chroma() {
@@ -130,7 +130,7 @@ class Pitch extends PMTObject
 
     /**
      * gives the step above the current one. e.g. given D, returns E. Given G, returns A.
-  *
+     *
      * @param  [type] $step [description]
      * @return [type]       [description]
      */
@@ -141,7 +141,7 @@ class Pitch extends PMTObject
     }
     /**
      * gives the step below the current one. e.g. given E, returns D. Given A, returns G.
-  *
+     *
      * @param  [type] $step [description]
      * @return [type]       [description]
      */
@@ -161,7 +161,7 @@ class Pitch extends PMTObject
      *
      * For example. For a pitch of F#, enharmonicizing to step "G" will produce G flat.
      * For a pitch D natural, enharmonisizing to step "C" produces a C double-sharp.
-  *
+     *
      * @param  [type] $pitch [description]
      * @param  [type] $step  [description]
      * @return [type]        [description]
@@ -218,7 +218,7 @@ class Pitch extends PMTObject
 
     /**
      * renders this object as MusicXML
-  *
+     *
      * @return string MusicXML representation of the object
      */
     public function toMusicXML() {
@@ -239,7 +239,7 @@ class Pitch extends PMTObject
 
     /**
      * interprets a string like "C#4" or "Gbb"
-  *
+     *
      * @param  [type] $string [description]
      * @return [type]        [description]
      */
@@ -291,7 +291,7 @@ class Pitch extends PMTObject
 
     /**
      * transposes a Pitch up or down by $interval semitones.
-  *
+     *
      * @param  integer $interval            a signed integer telling how many semitones to transpose up or down
      * @param  integer $preferredAlteration either 1, or -1 to indicate whether the transposition should prefer sharps or flats.
      * @return null
@@ -330,7 +330,7 @@ class Pitch extends PMTObject
 
     /**
      * renders a canonical string description of the pitch. Uses "#" and "-" for accidentals.
-  *
+     *
      * @return [type] [description]
      */
     public function toString() {
@@ -352,7 +352,7 @@ class Pitch extends PMTObject
 
     /**
      * translates a pitch properties into a signed integer, arbitrarily centered with zero on middle C
-  *
+     *
      * @param  Pitch $pitch
      * @return int pitch number, useful for doing calculcations
      */
@@ -366,7 +366,7 @@ class Pitch extends PMTObject
 
     /**
      * accepts a note number and sets the pitch properties
-  *
+     *
      * @param  integer $noteNumber          signed integer with origin zero as middle C4
      * @param  integer $preferredAlteration 1 for sharp or -1 for flats
      * @return array                       returns a pitch array, containing step and alter elements.
@@ -392,7 +392,7 @@ class Pitch extends PMTObject
 
     /**
      * returns an absolute pitch string suitable for using in Lilypond
-  *
+     *
      * @return [type] [description]
      */
     public function toLilypond() {
@@ -426,7 +426,7 @@ class Pitch extends PMTObject
     /**
      * returns the MIDI note number of a pitch.
      * MIDI notes are numbered from 0 (C-1) to 127 (G9)
-  *
+     *
      * @return int
      * @todo
      */
@@ -437,7 +437,7 @@ class Pitch extends PMTObject
 
     /**
      * returns the frequency of a pitch in Hz
-  *
+     *
      * @param  string  $tuning presumably we would want to be able to do this for more than just Equal Temperament
      * @param  integer $a      the frequency of "A", in case someone wants to use something other than the standard 440Hz
      * @return number           the frequency in Hz

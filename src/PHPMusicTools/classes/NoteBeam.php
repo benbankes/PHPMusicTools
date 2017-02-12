@@ -15,7 +15,7 @@ class NoteBeam extends PMTObject
 
     /**
      * accepts the object in the form of an array structure
-  *
+     *
      * @param  [type] $scale [description]
      * @return [type]        [description]
      */
@@ -27,7 +27,7 @@ class NoteBeam extends PMTObject
 
     /**
      * renders this object as MusicXML
-  *
+     *
      * @return string MusicXML representation of the object
      */
     function toMusicXML() {

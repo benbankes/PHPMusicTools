@@ -61,7 +61,7 @@ class Part extends PMTObject
         $newmeasure       = clone $measure;
         $this->measures[] = $newmeasure;
 
-    }//end addMeasure()
+    }
 
 
 }

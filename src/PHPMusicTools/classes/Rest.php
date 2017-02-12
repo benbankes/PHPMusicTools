@@ -8,7 +8,7 @@ class Rest extends Note
 
     function transpose() {
         // overridden
-    }//end transpose()
+    }
 
 
 }

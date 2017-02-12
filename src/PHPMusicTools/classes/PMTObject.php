@@ -17,13 +17,13 @@ class PMTObject
             }
         }
 
-    }//end __clone()
+    }
 
 
     function setProperty($name, $value) {
         $this->$name = $value;
 
-    }//end setProperty()
+    }
 
 
     /**
@@ -32,7 +32,7 @@ class PMTObject
     public function _truemod($num, $mod) {
         return (($mod + ($num % $mod)) % $mod);
 
-    }//end _truemod()
+    }
 
 
 }

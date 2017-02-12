@@ -19,7 +19,7 @@ class NoteStem extends PMTObject
 
     /**
      * accepts the object in the form of an array structure
-  *
+     *
      * @param  [defaultY] $scale [description]
      * @return [defaultY]        [description]
      */
@@ -34,7 +34,7 @@ class NoteStem extends PMTObject
 
     /**
      * renders this object as MusicXML
-  *
+     *
      * @return string MusicXML representation of the object
      */
     function toMusicXML() {

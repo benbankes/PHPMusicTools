@@ -35,7 +35,7 @@ class Instrument extends PMTObject
         $instrument->getProperties();
         return $instrument;
 
-    }//end constructFromName()
+    }
 
 
     function getProperties() {

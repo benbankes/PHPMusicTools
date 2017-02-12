@@ -269,7 +269,7 @@ class Scale extends PMTObject
 
     /**
      * Constructor.
-  *
+     *
      * @param int|string        $scale     [description]
      * @param Pitch|string|null $root      [description]
      * @param string            $direction [description]
@@ -295,7 +295,7 @@ class Scale extends PMTObject
 
     /**
      * accepts the scale object in the form of an array structure
-  *
+     *
      * @param  [type] $scale [description]
      * @return [type]        [description]
      */
@@ -387,18 +387,36 @@ class Scale extends PMTObject
 
     /**
      * return the levenshtein distance between two scales (a measure of similarity)
-  *
+     *
      * @param  Scale $scale1 the first scale
      * @param  Scale $scale2 the second scale
      * @return int    Levenshtein distance between the two scales
      */
     static function levenshtein_scale($scale1, $scale2) {
-        // todo
+        $distance = 0;
+        $d = $scale1 ^ $scale2;
+        for ($i=0; $i<12; $i++) {              
+            if ( 
+              ($d & (1 << ($i))) && ($d & (1 << ($i+1))) 
+              && 
+              ($scale1 & (1 << ($i))) != ($scale1 & (1 << ($i+1)))
+            ) {
+                $distance++;
+                $d = $d & ( ~ (1 << ($i)));
+                $d = $d & ( ~ (1 << ($i+1)));
+            }
+        }
+        for ($i=0; $i<12; $i++) {
+            if (($d & (1 << ($i)))) {
+                $distance++;
+            }
+        }
+        return $distance;
     }
 
     /**
      * Static function: pass in a note, measure, layer etc and get back an array of scales that all the pitches conform to.
-  *
+     *
      * @param  Note, Chord, Layer, Measure $obj the thing that has pitches in it, however deep they may be
      * @return array of Scales
      */
@@ -424,7 +442,7 @@ class Scale extends PMTObject
 
     /**
      * returns the spectrum of a scale, ie how many of every type of interval exists between all the tones.
-  *
+     *
      * @param  [type] $scale [description]
      * @return [type]        [description]
      */
@@ -432,7 +450,7 @@ class Scale extends PMTObject
         $spectrum = array();
         $rotateme = $scale;
         for ($i=0; $i<6; $i++) {
-            $rotateme = rotateBitmask($rotateme, $direction = 1, $amount = 1);
+            $rotateme = $this->rotateBitmask($rotateme, $direction = 1, $amount = 1);
             $spectrum[$i] = countOnBits($scale & $rotateme);
         }
         // special rule: if there is a tritone in the sonority, it will show up twice, so we divide by 2
@@ -442,7 +460,7 @@ class Scale extends PMTObject
 
     /**
      * takes a scale spectrum, and renders the "pmn" summmary string, ala Howard Hansen
-  *
+     *
      * @param  [type] $spectrum [description]
      * @return [type]           [description]
      */
@@ -465,7 +483,7 @@ class Scale extends PMTObject
      * a special rule that some people think defines what a scale is.
      * returns true if the first bit is not a zero.
      * Useful for filtering a set of numbers to weed out non-scales
-  *
+     *
      * @param  [type] $scale [description]
      * @return [type]        [description]
      */
@@ -477,7 +495,7 @@ class Scale extends PMTObject
     /**
      * a special rule that some people think defines what a scale is, ie not having leaps of more than a major third.
      * Useful for filtering a set of numbers to weed out non-scales
-  *
+     *
      * @param  [type] $scale [description]
      * @return [type]        [description]
      */
@@ -498,7 +516,7 @@ class Scale extends PMTObject
 
     /**
      * returns an array of all the modes of a scale.
-  *
+     *
      * @param  [type] $scale [description]
      * @return [type]        [description]
      */
@@ -506,7 +524,7 @@ class Scale extends PMTObject
         $rotateme = $scale;
         $modes = array();
         for ($i = 0; $i < 12; $i++) {
-            $rotateme = rotateBitmask($rotateme);
+            $rotateme = $this->rotateBitmask($rotateme);
             if (($rotateme & 1) == 0) {
                 continue;
             }
@@ -525,7 +543,7 @@ class Scale extends PMTObject
         $rotateme = $scale;
         $symmetries = array();
         for ($i = 0; $i < 12; $i++) {
-            $rotateme = rotateBitmask($rotateme);
+            $rotateme = $this->rotateBitmask($rotateme);
             if ($rotateme == $scale) {
                 if ($i != 11) {
                     $symmetries[] = $i+1;
@@ -586,6 +604,15 @@ class Scale extends PMTObject
         return null;
     }
 
+    /**
+     * Accepts a number to use as a bitmask, and "rotates" it. e.g. 
+     * 100000000000 -> 000000000001 -> 00000000010 -> 000000000100
+     * 
+     * @param  integer  $bits     the bitmask being rotated
+     * @param  integer $direction 1 = rotate up, 0 = rotate down
+     * @param  integer $amount    the number of places to rotate by
+     * @return integer            the result after rotation
+     */
     function rotateBitmask($bits, $direction = 1, $amount = 1) {
         for ($i = 0; $i < $amount; $i++) {
             if ($direction == 1) {
@@ -602,10 +629,19 @@ class Scale extends PMTObject
         return $bits;
     }
 
+    /**
+     * generates an SVG representation of a scale bracelet. tries to make it look decent at various sizes.
+     * 
+     * @param  integer $scale             the scale being represented, ie a bitmask integer
+     * @param  integer $size              size in pixels
+     * @param  string  $text              if present, puts text in the middle of the bracelet
+     * @param  boolean $showImperfections if true, puts an "i" on imperfect notes in the scale
+     * @return string                     SVG as a string that you can insert into an HTML page
+     */
     function drawSVGBracelet($scale, $size = 200, $text = null, $showImperfections = false) {
         if ($showImperfections) {
-            $imperfections = findImperfections($scale);
-            $symmetries = symmetries($scale);
+            $imperfections = $this->findImperfections($scale);
+            $symmetries = $this->symmetries($scale);
         }
 
         $s = '';

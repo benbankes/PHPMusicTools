@@ -81,7 +81,7 @@ class Direction extends PMTObject
 
         */
         return 'it works!';
-}
+  }
 
 
 

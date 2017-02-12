@@ -33,8 +33,8 @@ class Measure extends PMTObject
                                );
 
     /**
- * @var array an array of Layer objects
-*/
+    * @var array an array of Layer objects
+    */
     var $layers = array();
 
 
@@ -201,6 +201,7 @@ class Measure extends PMTObject
 
         $out .= '</measure>';
         return $out;
+    }
 
     /**
      * renders the object's properties as XML
@@ -252,12 +253,12 @@ class Measure extends PMTObject
 
         return $out;
 
-    }//end _renderproperties()
+    }
 
     function addLayer($layer) {
         $this->layers[] = $layer;
 
-    }//end addLayer()
+    }
 
     /**
      * adds a note to a measure. Assumes that it should be added to the first layer, and if there are no layers in
@@ -275,7 +276,7 @@ class Measure extends PMTObject
 
         $layer->addNote($note);
 
-    }//end addNote()
+    }
 
     /**
      * adds a  bunch of notes all at once.
@@ -287,15 +288,15 @@ class Measure extends PMTObject
             $this->addNote($note);
         }
 
-    }//end addNotes()
+    }
 
     function backup($duration) {
 
-    }//end backup()
+    }
 
     function forward($duration) {
 
-    }//end forward()
+    }
 
     /**
      * transposes all the notes in this measure by $interval
@@ -309,7 +310,7 @@ class Measure extends PMTObject
             $layer->transpose($interval);
         }
 
-    }//end transpose()
+    }
 
     /**
      * using the measure's own Key, will quantize all the notes to be part of a given scale.
@@ -324,7 +325,7 @@ class Measure extends PMTObject
             $layer->autoTune($scale);
         }
 
-    }//end autoTune()
+    }
 
     /**
      * analyze the current measure, and return an array of all the Scales that its notes fit into.
@@ -335,7 +336,7 @@ class Measure extends PMTObject
     public function getScales($root=null) {
         $scales = Scale::getScales($this);
 
-    }//end getScales()
+    }
 
     /**
      * returns an array of Pitch objects, for every pitch of every note in the measure.
@@ -353,6 +354,6 @@ class Measure extends PMTObject
 
         return $pitches;
 
-    }//end getAllPitches()
+    }
 
 }

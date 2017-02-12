@@ -38,7 +38,7 @@ class Score extends PMTObject
 
     function setAttribute($property) {
 
-    }//end setAttribute()
+    }
 
 
     /**
@@ -74,24 +74,24 @@ class Score extends PMTObject
 
     function toPNG() {
 
-    }//end toPNG()
+    }
 
 
     function toPDF() {
 
-    }//end toPDF()
+    }
 
 
     function addPart($part) {
         $this->parts[] = clone $part;
 
-    }//end addPart()
+    }
 
 
     function addMeasure($measure) {
         $this->measures[] = clone $measure;
 
-    }//end addMeasure()
+    }
 
 
 }

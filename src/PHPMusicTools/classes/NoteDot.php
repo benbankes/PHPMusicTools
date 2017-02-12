@@ -11,8 +11,7 @@ class NoteDot extends PMTObject
     var $types = array(
                   'single',
                   'double',
-                  'star',
-    // this one is special. See http://ianring.com/stardots/
+                  'star', // this one is special. See http://ianring.com/stardots/
                  );
 
 }
