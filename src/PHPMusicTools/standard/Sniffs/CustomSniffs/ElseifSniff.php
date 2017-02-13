@@ -1,6 +1,6 @@
 <?php
 /**
- * PMT_Sniffs_ElseifSniff.
+ * standard_Sniffs_CustomSniffs_ElseifSniff.
  *
  * Looks for "else if", where we should use "elseif".
  *

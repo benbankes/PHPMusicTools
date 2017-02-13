@@ -59,7 +59,7 @@ class Clef extends PMTObject
             break;
         }
 
-    }//end _resolveClefString()
+    }
 
 
     /**
