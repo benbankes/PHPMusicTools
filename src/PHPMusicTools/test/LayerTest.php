@@ -9,7 +9,7 @@ class LayerTest extends PHPMusicToolsTest
 protected function setUp(){
 	}
 
-	public function testConstructFromArray(){
+	public function test_constructFromArray(){
 
 		$input = array(
 			'name' => 'Voice 1',

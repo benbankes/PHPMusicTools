@@ -305,9 +305,9 @@ class Measure extends PMTObject
      * @param  integer $preferredAlteration either 1, or -1 to indicate whether the transposition should prefer sharps or flats.
      * @return null
      */
-    public function transpose($interval, $preferredAlteration=1) {
+    public function transpose($interval, $preferredAlteration = 1) {
         foreach ($this->layers as &$layer) {
-            $layer->transpose($interval);
+            $layer->transpose($interval, $preferredAlteration);
         }
 
     }

@@ -9,7 +9,7 @@ class PitchTest extends PHPMusicToolsTest
 	protected function setUp(){
 	}
 	
-	public function testConstructFromArray(){		
+	public function test_constructFromArray(){		
 		$pitch = ianring\Pitch::constructFromArray(array(
 			'step' => 'C',
 			'alter' => 1,
@@ -26,14 +26,14 @@ class PitchTest extends PHPMusicToolsTest
 	}
 
 	/**
-	 * @dataProvider providerConstructFromString
+	 * @dataProvider provider_constructFromString
 	 */
-	public function testConstructFromString($string, $expected) {
+	public function test_constructFromString($string, $expected) {
 		$this->markTestSkipped();
 		$pitch = \ianring\Pitch::constructFromString($string);
 		$this->assertEquals($expected, $pitch);
 	}
-	function providerConstructFromString() {
+	function provider_constructFromString() {
 		return array(
 			array(
 				'args' => 'C4',
@@ -75,9 +75,9 @@ class PitchTest extends PHPMusicToolsTest
 	}
 
 	/**
-	 * @dataProvider providerIsHigherThan
+	 * @dataProvider provider_isHigherThan
 	 */
-	public function testIsHigherThan($pitch1, $pitch2, $expected) {
+	public function test_isHigherThan($pitch1, $pitch2, $expected) {
 		$actual = $pitch1->isHigherThan($pitch2);
 		$this->assertEquals($actual, $expected);
 
@@ -85,7 +85,7 @@ class PitchTest extends PHPMusicToolsTest
 		$actual = $pitch2->isLowerthan($pitch1);
 		$this->assertEquals($actual, $expected);
 	}
-	function providerIsHigherThan() {
+	function provider_isHigherThan() {
 		return array(
 			array(
 				'pitch1' => new ianring\Pitch('C', 0, 4),
@@ -106,13 +106,13 @@ class PitchTest extends PHPMusicToolsTest
 	}
 
 	/**
-	 * @dataProvider providerEquals
+	 * @dataProvider provider_equals
 	 */
-	public function testEquals($pitch1, $pitch2, $expected) {
+	public function test_equals($pitch1, $pitch2, $expected) {
 		$actual = $pitch1->equals($pitch2);
 		$this->assertEquals($actual, $expected);
 	}
-	function providerEquals() {
+	function provider_equals() {
 		return array(
 			array(
 				'pitch1' => new ianring\Pitch('C', 0, 4),
@@ -138,13 +138,13 @@ class PitchTest extends PHPMusicToolsTest
 	}
 
 	/**
-	 * @dataProvider providerTranspose
+	 * @dataProvider provider_transpose
 	 */
-	public function testTranspose($pitch, $interval, $preferredAlteration, $expected) {
+	public function test_transpose($pitch, $interval, $preferredAlteration, $expected) {
 		$pitch->transpose($interval, $preferredAlteration);
 		$this->assertTrue($pitch->equals($expected));
 	}
-	function providerTranspose() {
+	function provider_transpose() {
 		return array(
 			array(
 				'pitch' => new ianring\Pitch('C', 0, 4),
@@ -181,13 +181,13 @@ class PitchTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider providerIsEnharmonic
+	 * @dataProvider provider_isEnharmonic
 	 */
-	public function testIsEnharmonic($pitch1, $pitch2, $expected) {
+	public function test_isEnharmonic($pitch1, $pitch2, $expected) {
 		$actual = $pitch1->isEnharmonic($pitch2);
 		$this->assertEquals($actual, $expected);
 	}
-	function providerIsEnharmonic() {
+	function provider_isEnharmonic() {
 		return array(
 			array(
 				'pitch1' => new ianring\Pitch('C', 0, 4),
@@ -223,13 +223,13 @@ class PitchTest extends PHPMusicToolsTest
 	}
 
 	/**
-	 * @dataProvider providerClosestUp
+	 * @dataProvider provider_closestUp
 	 */
-	public function testClosestUp($pitch1, $step, $alter, $allowEqual, $expected) {
+	public function test_closestUp($pitch1, $step, $alter, $allowEqual, $expected) {
 		$actual = $pitch1->closestUp($step, $alter, $allowEqual);
 		$this->assertTrue($actual->equals($expected));
 	}
-	function providerClosestUp() {
+	function provider_closestUp() {
 		return array(
 			array(
 				'pitch1' => new ianring\Pitch('C', 0, 4),
@@ -312,13 +312,13 @@ class PitchTest extends PHPMusicToolsTest
 	}
 
 	/**
-	 * @dataProvider providerClosestDown
+	 * @dataProvider provider_closestDown
 	 */
-	public function testClosestDown($pitch1, $step, $alter, $expected) {
+	public function test_closestDown($pitch1, $step, $alter, $expected) {
 		$actual = $pitch1->closestDown($step, $alter);
 		$this->assertTrue($actual->equals($expected));
 	}
-	function providerClosestDown() {
+	function provider_closestDown() {
 		return array(
 			array(
 				'pitch1' => new ianring\Pitch('C', 0, 4),
@@ -356,14 +356,14 @@ class PitchTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider providerToNoteNumber
+	 * @dataProvider provider_toNoteNumber
 	 */
-	public function testToNoteNumber($pitch, $expected) {
+	public function test_toNoteNumber($pitch, $expected) {
 		$actual = $pitch->toNoteNumber();
 		$this->assertEquals($expected, $actual);
 
 	}
-	function providerToNoteNumber() {
+	function provider_toNoteNumber() {
 		return array(
 			array(
 				'pitch' => new ianring\Pitch('C', 0, 4),
@@ -389,13 +389,13 @@ class PitchTest extends PHPMusicToolsTest
 	}
 
 	/**
-	 * @dataProvider providerInterval
+	 * @dataProvider provider_interval
 	 */
-	public function testInterval($pitch1, $pitch2, $expected) {
+	public function test_interval($pitch1, $pitch2, $expected) {
 		$actual = $pitch1->interval($pitch2);
 		$this->assertEquals($expected, $actual);
 	}
-	function providerInterval() {
+	function provider_interval() {
 		return array(
 			array(
 				'pitch1' => new ianring\Pitch('C', 0, 4),
@@ -417,13 +417,13 @@ class PitchTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider providerEnharmonicizeToStep
+	 * @dataProvider provider_enharmonicizeToStep
 	 */
-	public function testEnharmonicizeToStep($pitch, $step, $expected) {
+	public function test_enharmonicizeToStep($pitch, $step, $expected) {
 		$pitch->enharmonicizeToStep($step);
 		$this->assertEquals($expected, $pitch);
 	}
-	function providerEnharmonicizeToStep() {
+	function provider_enharmonicizeToStep() {
 		return array(
 			array(
 				'pitch' => new ianring\Pitch('C', 1, 4),
@@ -455,13 +455,13 @@ class PitchTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider providerStepUp
+	 * @dataProvider provider_stepUp
 	 */
-	public function testStepUp($step, $distance, $expected) {
+	public function test_stepUp($step, $distance, $expected) {
 		$result = ianring\Pitch::stepUp($step, $distance);
 		$this->assertEquals($expected, $result);
 	}
-	function providerStepUp() {
+	function provider_stepUp() {
 		return array(
 			array(
 				'step' => 'D',
@@ -508,13 +508,13 @@ class PitchTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider providerStepDown
+	 * @dataProvider provider_stepDown
 	 */
-	public function testStepDown($step, $distance, $expected) {
+	public function test_stepDown($step, $distance, $expected) {
 		$result = ianring\Pitch::stepDown($step, $distance);
 		$this->assertEquals($result, $expected);
 	}
-	function providerStepDown() {
+	function provider_stepDown() {
 		return array(
 			array(
 				'step' => 'E',
@@ -556,13 +556,13 @@ class PitchTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider providerChroma
+	 * @dataProvider provider_chroma
 	 */
-	public function testChroma($pitch, $expected) {
+	public function test_chroma($pitch, $expected) {
 		$result = $pitch->chroma();
 		$this->assertEquals($result, $expected);
 	}
-	function providerChroma() {
+	function provider_chroma() {
 		return array(
 			array(
 				'pitch' => new ianring\Pitch('C', 0, 4),
@@ -589,13 +589,13 @@ class PitchTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider providerToFrequency
+	 * @dataProvider provider_toFrequency
 	 */
-	public function testToFrequency($pitch, $expected) {
+	public function test_toFrequency($pitch, $expected) {
 		$result = $pitch->toFrequency();
 		$this->assertEquals($result, $expected);
 	}
-	function providerToFrequency() {
+	function provider_toFrequency() {
 		return array(
 			array(
 				'pitch' => new ianring\Pitch('C', 0, 4),
@@ -647,13 +647,13 @@ class PitchTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider providerToMidiKeyNumber
+	 * @dataProvider provider_toMidiKeyNumber
 	 */
-	public function testToMidiKeyNumber($pitch, $expected) {
+	public function test_toMidiKeyNumber($pitch, $expected) {
 		$result = $pitch->toMidiKeyNumber();
 		$this->assertEquals($result, $expected);
 	}
-	function providerToMidiKeyNumber() {
+	function provider_toMidiKeyNumber() {
 		return array(
 			array(
 				'pitch' => new ianring\Pitch('C', 0, -1),
@@ -683,13 +683,13 @@ class PitchTest extends PHPMusicToolsTest
 	}
 
 	/**
-	 * @dataProvider providerInvert
+	 * @dataProvider provider_invert
 	 */
-	public function testInvert($pitch, $axis, $expected) {
+	public function test_invert($pitch, $axis, $expected) {
 		$result = $pitch->invert($axis);
 		$this->assertEquals($expected, $result);
 	}
-	function providerInvert() {
+	function provider_invert() {
 		return array(
 			'C inverted on E becomes G sharp' => array(
 				'pitch' => new ianring\Pitch('C', 0, 4),
@@ -745,13 +745,13 @@ class PitchTest extends PHPMusicToolsTest
 	}
 
 	/**
-	 * @dataProvider providerstepUpDistance
+	 * @dataProvider provider_stepUpDistance
 	 */
-	public function testStepUpDistance($pitch, $step, $expected) {
+	public function test_stepUpDistance($pitch, $step, $expected) {
 		$result = $pitch->stepUpDistance($step);
 		$this->assertEquals($expected, $result);
 	}
-	function providerstepUpDistance() {
+	function provider_stepUpDistance() {
 		return array(
 			'C to G' => array(
 				'pitch' => new ianring\Pitch('C', 0, 4),
@@ -799,13 +799,13 @@ class PitchTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider providerstepDownDistance
+	 * @dataProvider provider_stepDownDistance
 	 */
-	public function testStepDownDistance($pitch, $step, $expected) {
+	public function test_stepDownDistance($pitch, $step, $expected) {
 		$result = $pitch->stepDownDistance($step);
 		$this->assertEquals($expected, $result);
 	}
-	function providerstepDownDistance() {
+	function provider_stepDownDistance() {
 		return array(
 			'G to C' => array(
 				'pitch' => new ianring\Pitch('G', 0, 4),

@@ -20,7 +20,7 @@ class Chord extends PMTObject
      *
      * @param array notes And array of Note objects
      */
-    public function __construct($notes=array()) {
+    public function __construct($notes = array()) {
         if (!is_array($notes)) {
             $notes = array($notes);
         }
@@ -62,12 +62,12 @@ class Chord extends PMTObject
      * @param  integer $preferredAlteration either 1, or -1 to indicate whether the transposition should prefer sharps or flats.
      * @return null
      */
-    public function transpose($interval, $preferredAlteration=1) {
+    public function transpose($interval, $preferredAlteration = 1) {
         foreach ($this->notes as &$note) {
             $note->transpose($interval, $preferredAlteration);
         }
 
-    }//end transpose()
+    }
 
 
     /**

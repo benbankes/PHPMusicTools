@@ -9,16 +9,15 @@ class Clef extends PMTObject
 {
 
     public static $properties = array(
-                                 'sign',
-                                 'line',
-                                );
+        'sign',
+        'line',
+    );
 
 
     public function __construct($sign, $line) {
         foreach (self::$properties as $var) {
             $this->$var = $$var;
         }
-
     }
 
 
@@ -71,12 +70,12 @@ class Clef extends PMTObject
         $out = '';
 
         $out  .= '<clef number="'.$num.'">';
-         $out .= '<sign>'.$this->sign.'</sign>';
-         $out .= '<line>'.$this->line.'</line>';
+        $out .= '<sign>'.$this->sign.'</sign>';
+        $out .= '<line>'.$this->line.'</line>';
         $out  .= '</clef>';
 
         return $out;
-}
+    }
 
 
 

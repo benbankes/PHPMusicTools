@@ -9,7 +9,7 @@ class PartTest extends PHPMusicToolsTest
 	protected function setUp(){
 	}
 	
-	public function testConstructFromArray(){
+	public function test_constructFromArray(){
 
 
 

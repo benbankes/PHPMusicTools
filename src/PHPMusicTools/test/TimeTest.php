@@ -9,7 +9,7 @@ class TimeTest extends PHPMusicToolsTest
 	protected function setUp(){
 	}
 	
-	public function testConstructFromArray(){
+	public function test_constructFromArray(){
 		$input = array(
 			'symbol' => 'C',
 			'beats' => 4,
@@ -27,7 +27,5 @@ class TimeTest extends PHPMusicToolsTest
 		$this->assertEquals(4, $time->beats);
 		$this->assertEquals(4, $time->beatType);
 	}
-
-
 
 }

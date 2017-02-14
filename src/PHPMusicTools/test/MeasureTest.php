@@ -9,7 +9,7 @@ class MeasureTest extends PHPMusicToolsTest
 	protected function setUp(){
 	}
 	
-	public function testConstructFromArray(){
+	public function test_constructFromArray(){
 
 		$input = array(
 			'width' => 143.18,

@@ -113,15 +113,7 @@ class Pitch extends PMTObject
      * @return int The chrome of the pitch as an integer from 0 to 11
      */
     public function chroma() {
-        $steps = array(
-         'C' => 0,
-         'D' => 2,
-         'E' => 4,
-         'F' => 5,
-         'G' => 7,
-         'A' => 9,
-         'B' => 11,
-        );
+        $steps = array('C' => 0, 'D' => 2, 'E' => 4, 'F' => 5, 'G' => 7, 'A' => 9, 'B' => 11);
         $chroma = $steps[$this->step];
         $chroma += $this->alter;
         $chroma = $this->_truemod($chroma, 12);
@@ -344,17 +336,6 @@ class Pitch extends PMTObject
         }
         // return the pitch so we can do chaining
         return $this;
-    }
-
-    /**
-     * returns the number of steps between A and B
-     * for example, between C and E is 2 steps. Between E and C is 5 steps.
-     * @param  [type] $pitch1 [description]
-     * @param  [type] $pitch2 [description]
-     * @return [type]         [description]
-     */
-    function stepDistance($pitch1, $pitch2) {
-
     }
 
     /**
