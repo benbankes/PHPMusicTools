@@ -457,23 +457,51 @@ class PitchTest extends PHPMusicToolsTest
 	/**
 	 * @dataProvider providerStepUp
 	 */
-	public function testStepUp($step, $expected) {
-		$result = ianring\Pitch::stepUp($step);
-		$this->assertEquals($result, $expected);
+	public function testStepUp($step, $distance, $expected) {
+		$result = ianring\Pitch::stepUp($step, $distance);
+		$this->assertEquals($expected, $result);
 	}
 	function providerStepUp() {
 		return array(
 			array(
 				'step' => 'D',
+				'distance' => 1, 
 				'expected' => 'E'
 			),
 			array(
 				'step' => 'G',
+				'distance' => 1,
 				'expected' => 'A'
 			),
 			array(
 				'step' => 'C',
+				'distance' => 1,
 				'expected' => 'D'
+			),
+			array(
+				'step' => 'C',
+				'distance' => 2,
+				'expected' => 'E'
+			),
+			array(
+				'step' => 'C',
+				'distance' => 3,
+				'expected' => 'F'
+			),
+			array(
+				'step' => 'B',
+				'distance' => 3,
+				'expected' => 'E'
+			),
+			array(
+				'step' => 'B',
+				'distance' => 10,
+				'expected' => 'E'
+			),
+			array(
+				'step' => 'B',
+				'distance' => 17,
+				'expected' => 'E'
 			),
 		);
 	}
@@ -482,23 +510,46 @@ class PitchTest extends PHPMusicToolsTest
 	/**
 	 * @dataProvider providerStepDown
 	 */
-	public function testStepDown($step, $expected) {
-		$result = ianring\Pitch::stepDown($step);
+	public function testStepDown($step, $distance, $expected) {
+		$result = ianring\Pitch::stepDown($step, $distance);
 		$this->assertEquals($result, $expected);
 	}
 	function providerStepDown() {
 		return array(
 			array(
 				'step' => 'E',
+				'distance' => 1,
 				'expected' => 'D'
 			),
 			array(
 				'step' => 'A',
+				'distance' => 1,
 				'expected' => 'G'
 			),
 			array(
 				'step' => 'D',
+				'distance' => 1,
 				'expected' => 'C'
+			),
+			array(
+				'step' => 'D',
+				'distance' => 2,
+				'expected' => 'B'
+			),
+			array(
+				'step' => 'D',
+				'distance' => 5,
+				'expected' => 'F'
+			),
+			array(
+				'step' => 'D',
+				'distance' => 12,
+				'expected' => 'F'
+			),
+			array(
+				'step' => 'D',
+				'distance' => 19,
+				'expected' => 'F'
 			),
 		);
 	}
@@ -635,7 +686,7 @@ class PitchTest extends PHPMusicToolsTest
 	 * @dataProvider providerInvert
 	 */
 	public function testInvert($pitch, $axis, $expected) {
-		$result = $pitch->invert($axis)
+		$result = $pitch->invert($axis);
 		$this->assertEquals($expected, $result);
 	}
 	function providerInvert() {
@@ -685,12 +736,115 @@ class PitchTest extends PHPMusicToolsTest
 				'axis' => new ianring\Pitch('D', 0, 4),
 				'expected' => new ianring\Pitch('D', 0, 4),
 			),
-			'heightless pitch is unchanged => 'array(
+			'heightless pitch is unchanged' => array(
 				'pitch' => new ianring\Pitch('C', 0, null),
 				'axis' => new ianring\Pitch('E', 0, 4),
 				'expected' => new ianring\Pitch('C', 0, null),
 			),
 		);
 	}
+
+	/**
+	 * @dataProvider providerstepUpDistance
+	 */
+	public function testStepUpDistance($pitch, $step, $expected) {
+		$result = $pitch->stepUpDistance($step);
+		$this->assertEquals($expected, $result);
+	}
+	function providerstepUpDistance() {
+		return array(
+			'C to G' => array(
+				'pitch' => new ianring\Pitch('C', 0, 4),
+				'step' => 'G',
+				'expected' => 4
+			),
+			'C sharp to G' => array(
+				'pitch' => new ianring\Pitch('C', 1, 4),
+				'step' => 'G',
+				'expected' => 4
+			),
+			'C flat to G' => array(
+				'pitch' => new ianring\Pitch('C', -1, 4),
+				'step' => 'G',
+				'expected' => 4
+			),
+			'D up to C' => array(
+				'pitch' => new ianring\Pitch('D', 0, 4),
+				'step' => 'C',
+				'expected' => 6
+			),
+			'B up to A' => array(
+				'pitch' => new ianring\Pitch('B', 0, 4),
+				'step' => 'A',
+				'expected' => 6
+			),
+			'B up to D' => array(
+				'pitch' => new ianring\Pitch('B', 0, 4),
+				'step' => 'D',
+				'expected' => 2
+			),
+			'unison' => array(
+				'pitch' => new ianring\Pitch('D', 0, 4),
+				'step' => 'D',
+				'expected' => 0
+			),
+			'wtf' => array(
+				'pitch' => new ianring\Pitch('G', -1, 4),
+				'step' => 'E',
+				'expected' => 5
+			)
+
+		);
+	}
+
+
+	/**
+	 * @dataProvider providerstepDownDistance
+	 */
+	public function testStepDownDistance($pitch, $step, $expected) {
+		$result = $pitch->stepDownDistance($step);
+		$this->assertEquals($expected, $result);
+	}
+	function providerstepDownDistance() {
+		return array(
+			'G to C' => array(
+				'pitch' => new ianring\Pitch('G', 0, 4),
+				'step' => 'C',
+				'expected' => 4
+			),
+			'G sharp to C' => array(
+				'pitch' => new ianring\Pitch('G', 1, 4),
+				'step' => 'C',
+				'expected' => 4
+			),
+			'G flat to C' => array(
+				'pitch' => new ianring\Pitch('G', -1, 4),
+				'step' => 'C',
+				'expected' => 4
+			),
+			'C down to D' => array(
+				'pitch' => new ianring\Pitch('C', 0, 4),
+				'step' => 'D',
+				'expected' => 6
+			),
+			'A down to B' => array(
+				'pitch' => new ianring\Pitch('A', 0, 4),
+				'step' => 'B',
+				'expected' => 6
+			),
+			'D down to B' => array(
+				'pitch' => new ianring\Pitch('D', 0, 4),
+				'step' => 'B',
+				'expected' => 2
+			),
+			'unison' => array(
+				'pitch' => new ianring\Pitch('D', 0, 4),
+				'step' => 'D',
+				'expected' => 0
+			),
+
+		);
+	}
+
 
 }

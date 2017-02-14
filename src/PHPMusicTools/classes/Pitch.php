@@ -134,10 +134,11 @@ class Pitch extends PMTObject
      * @param  [type] $step [description]
      * @return [type]       [description]
      */
-    public static function stepUp($step) {
-        $steps = 'CDEFGABC';
+    public static function stepUp($step, $distance = 1) {
+        $steps = 'CDEFGABCDEFGABC';
+        $distance = $distance % 7;
         $pos = strpos($steps, $step);
-        return substr($steps, $pos+1, 1);
+        return substr($steps, $pos+$distance, 1);
     }
     /**
      * gives the step below the current one. e.g. given E, returns D. Given A, returns G.
@@ -145,14 +146,43 @@ class Pitch extends PMTObject
      * @param  [type] $step [description]
      * @return [type]       [description]
      */
-    public static function stepDown($step) {
-        $steps = 'CBAGFEDC';
+    public static function stepDown($step, $distance = 1) {
+        $steps = 'CBAGFEDCBAGFEDC';
+        $distance = $distance % 7;
         $pos = strpos($steps, $step);
-        return substr($steps, $pos+1, 1);
+        return substr($steps, $pos+$distance, 1);
     }
 
     /**
-     * will change a pitch so it is spelled enharmonically using the provided step; in other words it will
+     * measures how many steps distant upwards, e.g. if pitch is C, the step distance to G is 4.
+     * Ignores alterations. So, a C double-flat to G sharp is also 4.
+     * BEWARE that this is a distance, not an interval!
+     * The distance of 4 means it's 4 steps up (which is like a fifth), not an inteval of a 4th.
+     * Return value will always be an integer from 0 to 6. 
+     * @param  string $step the step name, like A or D
+     * @return int       the number of steps up
+     */
+    function stepUpDistance($step) {
+        $step = strtoupper($step);
+        $steps = 'CDEFGABCDEFGAB';
+        // first instance of the step
+        $pos = strpos($steps, $this->step);
+        $pos2 = strpos($steps, $step, $pos);
+        return $pos2-$pos;
+    }
+
+    /**
+     * literally just the inversion of stepUpDistance.
+     * @param  [type] $step [description]
+     * @return [type]       [description]
+     */
+    function stepDownDistance($step) {
+        $up = $this->stepUpDistance($step);
+        return (7 - $up) % 7;
+    }
+
+    /**
+     * Changes a pitch so it is spelled enharmonically using the provided step; in other words it will
      * change the step but adjust the alter. This is basically designed to turn an F natural into an E sharp when
      * in the context of a C# major scale.
      *
@@ -182,33 +212,33 @@ class Pitch extends PMTObject
     }
 
     public static $chromas = array(
-    0 => 'C',
-    1 => array(
-    1 => array('step' => 'C', 'alter' => 1),
-    -1 => array('step' => 'D', 'alter' => -1)
-    ),
-    2 => 'D',
-    3 => array(
-    1 => array('step' => 'D', 'alter' => 1),
-    -1 => array('step' => 'E', 'alter' => -1),
-    ),
-    4 => 'E',
-    5 => 'F',
-    6 => array(
-    1 => array('step' => 'F', 'alter' => 1),
-    -1 => array('step' => 'G', 'alter' => -1),
-    ),
-    7 => 'G',
-    8 => array(
-    1 => array('step' => 'G', 'alter' => 1),
-    -1 => array('step' => 'A', 'alter' => -1),
-    ),
-    9 => 'A',
-    10 => array(
-    1 => array('step' => 'A', 'alter' => 1),
-    -1 => array('step' => 'B', 'alter' => -1),
-    ),
-    11 => 'B'
+        0 => 'C',
+        1 => array(
+            1 => array('step' => 'C', 'alter' => 1),
+            -1 => array('step' => 'D', 'alter' => -1)
+        ),
+        2 => 'D',
+        3 => array(
+            1 => array('step' => 'D', 'alter' => 1),
+            -1 => array('step' => 'E', 'alter' => -1),
+        ),
+        4 => 'E',
+        5 => 'F',
+        6 => array(
+            1 => array('step' => 'F', 'alter' => 1),
+            -1 => array('step' => 'G', 'alter' => -1),
+        ),
+        7 => 'G',
+        8 => array(
+            1 => array('step' => 'G', 'alter' => 1),
+            -1 => array('step' => 'A', 'alter' => -1),
+        ),
+        9 => 'A',
+        10 => array(
+            1 => array('step' => 'A', 'alter' => 1),
+            -1 => array('step' => 'B', 'alter' => -1),
+        ),
+        11 => 'B'
     );
 
 
@@ -317,21 +347,43 @@ class Pitch extends PMTObject
     }
 
     /**
+     * returns the number of steps between A and B
+     * for example, between C and E is 2 steps. Between E and C is 5 steps.
+     * @param  [type] $pitch1 [description]
+     * @param  [type] $pitch2 [description]
+     * @return [type]         [description]
+     */
+    function stepDistance($pitch1, $pitch2) {
+
+    }
+
+    /**
      * Inverts this pitch around an axis.
      * For example, if I invert C4 around E4, the result is G#4.
-     * When I invert G4 around E4, the result is C#4. 
-     * @param  Pitch $axis the axis around which to invert
-     * @return [type]        [description]
-     * @todo 
+     * When I invert G4 around E4, the result is C#4.
+     * The tricky part in this is to get the step and alterations right. Not only must the 
+     * inversion be the right pitch, but the spelling of it must be proper. The unit tests
+     * illustrate examples.
+     * @param  Pitch  $axis the axis around which to invert
+     * @return Pitch  $this, for chaining.
      */
     public function invert($axis) {
-        // to do
+        if ($this->isHeightless()) {
+            return $this;
+        }
+        $interval = $this->interval($axis);
+        $stepDistance = $this->stepUpDistance($axis->step);
+        $newstep = self::stepUp($axis->step, $stepDistance);
+        $this->transpose($interval);
+        $this->transpose($interval);
+        $this->enharmonicizeToStep($newstep);
+        return $this;
     }
 
     /**
      * renders a canonical string description of the pitch. Uses "#" and "-" for accidentals.
      *
-     * @return [type] [description]
+     * @return String 
      */
     public function toString() {
         $str = '';
@@ -394,6 +446,7 @@ class Pitch extends PMTObject
      * returns an absolute pitch string suitable for using in Lilypond
      *
      * @return [type] [description]
+     * @todo  needs to handle double-flats and double-sharps too
      */
     public function toLilypond() {
         $out = strtolower($this->step);

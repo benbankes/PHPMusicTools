@@ -164,15 +164,12 @@ class Scale extends PMTObject
 				} else {
 						$this->root = new Pitch($root);
 				}
-
 				if (is_numeric($scale)) {
 						$this->scale = $scale;
 				} else {
 						$this->scale = $this->_resolveScaleFromString($scale);
 				}
-
 				$this->direction = $direction;
-
 		}
 
 		/**
@@ -504,7 +501,8 @@ class Scale extends PMTObject
 
 		/**
 		 * returns true if the scale is chiral
-		 * see: https://en.wikipedia.org/wiki/Chirality_(mathematics) 
+		 * see: https://en.wikipedia.org/wiki/Chirality_(mathematics)
+		 * and http://ianring.com/scales
 		 */
 		public function isChiral() {
 
