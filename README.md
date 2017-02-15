@@ -519,6 +519,7 @@ GPL. See https://www.gnu.org/licenses/gpl-3.0.en.html .
 
 I can't imagine what sort of trouble you could possibly get into using this code, but the authors and maintainers don't accept any responsibility for losses resulting from its use. It's a work in progress, so this comes with no warranteee whatsoever, and functionality may be incomplete or not exactly as described.
 
+This code is not guaranteed to be safe, either. Use at your own risk.
 
 # Resources
  - http://www.musicxml.com/tutorial/

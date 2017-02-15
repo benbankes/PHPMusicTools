@@ -7,6 +7,8 @@ ini_set('display_errors', 1);
 //require_once SITE_ROOT . '/current/vendor/autoload.php';
 
 require_once '../PHPMusicTools.php';
+require_once '../Score.php';
+require_once '../Part.php';
 
 $score = new Score();
 $part = new Part('Viola');
