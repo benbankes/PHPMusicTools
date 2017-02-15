@@ -47,7 +47,7 @@ echo $score->toXML();
 Every class in PHPMusicTools has two ways to create an instance. The first is to use the "new" keyword, providing its properties as arguments, like this:
 
 ```php
-$pitch = new Pitch('C', 4, -1);
+$pitch = new Pitch('C', -1, 4);
 ```
 Each class also has a static constructFromArray() method, which accepts a PHP array for its properties.
 
@@ -504,9 +504,9 @@ Learn more at https://www.phpdoc.org/
 
 ## Code Standards
 
-PHPMusicTools follows "Squiz" standards. To check the project for standards compliance, run this command, from the root:
+PHPMusicTools has a custom standard sniffer. To check the project for standards compliance, run this command, from the root:
 ```
-vendor/bin/phpcs src/PHPMusicTools/classes/ --standard=Squiz
+vendor/bin/phpcs src/PHPMusicTools/classes/
 ```
 Run the beautifier and fixer:
 ```
