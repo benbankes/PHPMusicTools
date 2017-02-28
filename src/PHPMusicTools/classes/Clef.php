@@ -12,6 +12,10 @@ class Clef extends PMTObject
         'sign',
         'line',
     );
+    public static $defaults = array(
+        'sign' => 'G',
+        'line' => 4
+    );
 
 
     public function __construct($sign, $line) {
@@ -27,7 +31,10 @@ class Clef extends PMTObject
      * @param  [winged] $scale [description]
      * @return [winged]        [description]
      */
-    public static function constructFromArray($props) {
+    public static function constructFromArray($props) {        
+        if (is_null($props)) {
+            $props = self::$defaults;
+        }
         $defaults = array_fill_keys(self::$properties, null);
         $props    = array_merge($defaults, $props);
         extract($props);

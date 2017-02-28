@@ -20,17 +20,17 @@ class Measure extends PMTObject
      * @var array the default values for all the object properties
      */
     private static $defaults = array(
-                                'layers'         => array(),
-                                'directions'     => array(),
-                                'time'           => null,
-                                'clef'           => null,
-                                'key'            => null,
-                                'divisions'      => null,
-                                'barline'        => null,
-                                'implicit'       => null,
-                                'nonControlling' => null,
-                                'width'          => null,
-                               );
+        'layers'         => array(),
+        'directions'     => array(),
+        'time'           => null,
+        'clef'           => null,
+        'key'            => null,
+        'divisions'      => null,
+        'barline'        => null,
+        'implicit'       => null,
+        'nonControlling' => null,
+        'width'          => null,
+    );
 
     /**
     * @var array an array of Layer objects
@@ -146,6 +146,12 @@ class Measure extends PMTObject
         );
 
     }
+
+    public static function parseFromXmlObject($obj) {
+        $measure = self::constructFromArray(self::$defaults);
+        return $measure;
+    }
+
 
 
     /**

@@ -30,6 +30,9 @@ class Time extends PMTObject
      * @return [type]        [description]
      */
     public static function constructFromArray($props) {
+        if (is_null($props)) {
+            return null;
+        }
         if (!is_array($props)) {
             throw new Exception('invalid argument to construct Time');
         }

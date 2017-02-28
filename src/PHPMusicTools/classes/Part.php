@@ -1,6 +1,7 @@
 <?php
 namespace ianring;
 require_once 'PMTObject.php';
+require_once 'Measure.php';
 
 /**
  * Part is a collection of measures, such as would be performed by an instrument
@@ -35,6 +36,14 @@ class Part extends PMTObject
 
     }
 
+
+    public static function parseFromXmlObject($obj) {
+        $part = new Part();
+        foreach($obj->measure as $measure) {
+            $part->addMeasure(Measure::parseFromXmlObject($measure));
+        }
+        return $part;
+    }
 
     /**
      * renders this object as MusicXML

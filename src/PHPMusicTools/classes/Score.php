@@ -1,6 +1,7 @@
 <?php
 namespace ianring;
 require_once 'PMTObject.php';
+require_once 'Part.php';
 
 /**
  * Score is a collection of parts; it is the highest level root object of a music document
@@ -33,6 +34,10 @@ class Score extends PMTObject
 
         return new Score($name, $parts);
 
+    }
+
+    public static function constructFromXML($xml) {
+        // todo
     }
 
 
@@ -70,7 +75,14 @@ class Score extends PMTObject
         return $out;
     }
 
+    public static function parseFromXMLObject($obj) {
+        $score = new Score('', array());
+        foreach ($obj->part as $part) {
+            $score->addPart(Part::parseFromXmlObject($part));
+        }
+        return $score;
 
+    }
 
     function toPNG() {
 
@@ -84,7 +96,6 @@ class Score extends PMTObject
 
     function addPart($part) {
         $this->parts[] = clone $part;
-
     }
 
 

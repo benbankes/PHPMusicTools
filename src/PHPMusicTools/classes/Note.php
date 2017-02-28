@@ -17,33 +17,33 @@ class Note extends PMTObject
 {
 
     public static $properties = array(
-                                 'pitch',
-                                 'rest',
-                                 'duration',
-                                 'voice',
-                                 'type',
-                                 'accidental',
-                                 'dot',
-                                 'tie',
-                                 'timeModification',
-                                 'beams',
-                                 'stem',
-                                 'defaultX',
-                                 'defaultY',
-                                 'chord',
-                                 'notations',
-                                 'articulations',
-                                 'staff',
-                                );
+        'pitch',
+        'rest',
+        'duration',
+        'voice',
+        'type',
+        'accidental',
+        'dot',
+        'tie',
+        'timeModification',
+        'beams',
+        'stem',
+        'defaultX',
+        'defaultY',
+        'chord',
+        'notations',
+        'articulations',
+        'staff',
+    );
 
     public static $subObjects = array(
-                                 'pitch'            => 'Pitch',
-                                 'beams'            => array('NoteBeam'),
-                                 'stem'             => 'NoteStem',
-                                 'timeModification' => 'TimeModification',
-                                 'accidental'       => 'Accidental',
-                                 'articulations'    => array('Articulation'),
-                                );
+        'pitch'            => 'Pitch',
+        'beams'            => array('NoteBeam'),
+        'stem'             => 'NoteStem',
+        'timeModification' => 'TimeModification',
+        'accidental'       => 'Accidental',
+        'articulations'    => array('Articulation'),
+    );
 
 
     function __construct(
@@ -71,6 +71,68 @@ class Note extends PMTObject
 
     }
 
+
+    public static function parseFromXmlObject($obj) {
+
+/**
+ *                                             [pitch] => SimpleXMLElement Object
+                                                (
+                                                    [step] => C
+                                                    [octave] => 5
+                                                )
+
+                                            [duration] => 2
+                                            [voice] => 1
+                                            [type] => 16th
+                                            [stem] => down
+                                            [staff] => 1
+                                            [beam] => Array
+                                                (
+                                                    [0] => begin
+                                                    [1] => begin
+                                                )
+
+                                        )
+ */
+        $pitch = \ianring\Pitch::parseFromXmlObject($obj->pitch);
+        $rest = $obj->rest;
+        $duration = $obj->duration;
+        $voice = $obj->voice;
+        $type = $obj->type;
+        $accidental = $obj->accidental;
+        $dot = $obj->dot;
+        $tie = $obj->tie;
+        $timeModification = $obj->timeModification;
+        $beams = $obj->beams;
+        $stem = $obj->stem;
+        $defaultX = $obj->defaultX;
+        $defaultY = $obj->defaultY;
+        $chord = $obj->chord;
+        $notations = $obj->notations;
+        $articulations = $obj->articulations;
+        $staff = $obj->staff;
+
+        return new Note(
+            $pitch,
+            $rest,
+            $duration,
+            $voice,
+            $type,
+            $accidental,
+            $dot,
+            $tie,
+            $timeModification,
+            $beams,
+            $stem,
+            $defaultX,
+            $defaultY,
+            $chord,
+            $notations,
+            $articulations,
+            $staff
+        );
+
+    }
 
     public static function constructFromArray($props) {
         $defaults = array_fill_keys(self::$properties, null);

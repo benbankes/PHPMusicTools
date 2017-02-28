@@ -55,6 +55,23 @@ class Pitch extends PMTObject
         return self::constructFromArray($props);
     }
 
+    public static function parseFromXmlObject($obj) {
+
+        /**
+         [pitch] => SimpleXMLElement Object
+            (
+             [step] => C
+             [octave] => 5
+            )
+         */
+        $step = $obj->step;
+        $alter = $obj->alter;
+        $octave = $obj->octave;
+
+        return new Pitch($step, $alter, $octave);
+
+    }
+
     /**
      * gives the interval between this pitch and the given one.
      * 0 means the pitches are enharmonic.
