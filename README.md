@@ -493,6 +493,25 @@ The big picture vision for this library is to be able to answer questions about 
 If you're looking for something to work on, check the most wanted list at https://github.com/ianring/PHPMusicTools/issues
 Make sure all your code is good quality and that you've tested it, and run the Unit tests before submitting.
 
+## Unit Tests
+
+All functionality should be unit tested. If you discover functionality that isn't tested yet, the highest priority should be to write tests for it. Though it is not mandated that all development should be test-driven, it is recommended that TDD is a good approach for adding new features or enhancing existing ones.
+
+
+wget https://phar.phpunit.de/phpunit-6.0.phar
+or on mac:
+curl "https://phar.phpunit.de/phpunit-6.0.phar" -o "phpunit-6.0.phar"
+
+curl "https://phar.phpunit.de/phpunit-6.0.11.phar" -o "phpunit-6.0.phar"
+
+chmod +x phpunit-6.0.11.phar
+
+sudo mv phpunit-6.0.11.phar /usr/local/bin/phpunit
+
+This version of phpunit requires PHP 7.0 or above. If you're running an older version of PHP, upgrade!
+
+
+
 ## Documentation
 PHPMusicTools uses phpdocumentor for api documentation, so all code must be properly self-documented. 
 To generate the documentation in /docs/api, first you need to make sure you've already loaded the vendor extras using composer, then run this command:

@@ -1,6 +1,7 @@
 <?php
 namespace ianring;
 require_once 'PMTObject.php';
+require_once 'Measure.php';
 
 /**
  * Part is a collection of measures, such as would be performed by an instrument
@@ -11,16 +12,14 @@ class Part extends PMTObject
     var $measures = array();
 
 
-    function __construct($name=null, $measures=array())
-    {
+    function __construct($name=null, $measures=array()) {
         $this->name     = $name;
         $this->measures = $measures;
 
     }
 
 
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         $name     = $props['name'];
         $measures = array();
         if (isset($props['measures'])) {
@@ -38,13 +37,20 @@ class Part extends PMTObject
     }
 
 
+    public static function parseFromXmlObject($obj) {
+        $part = new Part();
+        foreach($obj->measure as $measure) {
+            $part->addMeasure(Measure::parseFromXmlObject($measure));
+        }
+        return $part;
+    }
+
     /**
      * renders this object as MusicXML
      *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML($num=1)
-    {
+    function toMusicXML($num=1) {
         $out = '<part id="P'.$num.'">';
 
         if (!empty($this->measures)) {
@@ -57,15 +63,14 @@ class Part extends PMTObject
 
         return $out;
     }
-    
 
 
-    function addMeasure($measure)
-    {
+
+    function addMeasure($measure) {
         $newmeasure       = clone $measure;
         $this->measures[] = $newmeasure;
 
-    }//end addMeasure()
+    }
 
 
 }

@@ -9,7 +9,7 @@ require_once 'PMTObject.php';
  * Therefore C4 is the note immediately above B3.
  * The octave does not belong to the step. It is a measurement of what height range the tone is
  * in, not dependent on its spelling.
- * Therefore the enharmonic of C4 is not B#3, it is B#4.    
+ * Therefore the enharmonic of C4 is not B#3, it is B#4.
  * C-3 is not in the same octave as the C natural beside it.
  *
  * LILYPOND disagrees with this - it attaches the octave to its step. So in lilypond,
@@ -25,8 +25,7 @@ require_once 'PMTObject.php';
 class Pitch extends PMTObject
 {
 
-    public function __construct($step = 'C', $alter = 0, $octave = 4) 
-    {
+    public function __construct($step = 'C', $alter = 0, $octave = 4) {
         $this->step = $step;
         $this->alter = $alter;
         $this->octave = $octave;
@@ -34,12 +33,11 @@ class Pitch extends PMTObject
 
     /**
      * accepts the object in the form of an array structure
-  *
+     *
      * @param  [winged] $scale [description]
      * @return [winged]        [description]
      */
-    public static function constructFromArray($props) 
-    {
+    public static function constructFromArray($props) {
         $step = $props['step'];
         $alter = $props['alter'];
         $octave = $props['octave'];
@@ -48,14 +46,30 @@ class Pitch extends PMTObject
 
     /**
      * accepts the object in the form of a string
-  *
+     *
      * @param  [winged] $scale [description]
      * @return [winged]        [description]
      */
-    public static function constructFromString($string) 
-    {
+    public static function constructFromString($string) {
         $props = self::_resolvePitchString($string);
         return self::constructFromArray($props);
+    }
+
+    public static function parseFromXmlObject($obj) {
+
+        /**
+         [pitch] => SimpleXMLElement Object
+            (
+             [step] => C
+             [octave] => 5
+            )
+         */
+        $step = $obj->step;
+        $alter = $obj->alter;
+        $octave = $obj->octave;
+
+        return new Pitch($step, $alter, $octave);
+
     }
 
     /**
@@ -63,44 +77,40 @@ class Pitch extends PMTObject
      * 0 means the pitches are enharmonic.
      * &lt; 0 means the interval is downward,
      * &gt; 0 means the interval is upward
-  *
+     *
      * @param  Pitch $pitch the pitch being checked
      * @return integer the interval in semitones
      */
-    public function interval($pitch) 
-    {
+    public function interval($pitch) {
         return $pitch->toNoteNumber() - $this->toNoteNumber();
     }
 
     /**
      * returns true if $this is lower than the provided pitch
-  *
+     *
      * @param  Pitch $pitch the pitch being checked
      * @return boolean       true if $this is lower than $pitch
      */
-    public function isLowerThan($pitch) 
-    {
+    public function isLowerThan($pitch) {
         return $this->interval($pitch) > 0;
     }
 
     /**
      * returns true if $this is higher than the provided pitch
-  *
+     *
      * @param  Pitch $pitch the pitch being checked
      * @return boolean       true if $this is higher than $pitch
      */
-    public function isHigherThan($pitch) 
-    {
+    public function isHigherThan($pitch) {
         return $this->interval($pitch) < 0;
     }
     /**
      * returns true if $this is enharmonic with the provided pitch
-  *
+     *
      * @param  Pitch $pitch [description]
      * @return boolean        [description]
      */
-    public function isEnharmonic($pitch) 
-    {
+    public function isEnharmonic($pitch) {
         return $this->interval($pitch) == 0;
     }
 
@@ -110,27 +120,17 @@ class Pitch extends PMTObject
      * @param  Pitch $pitch The pitch being compared to $this
      * @return boolean true if the step, alter, and octave are all the same.
      */
-    public function equals($pitch) 
-    {
+    public function equals($pitch) {
         return $pitch->step == $this->step && $pitch->alter == $this->alter && $pitch->octave == $this->octave;
     }
 
     /**
      * returns a pitch's chroma as an integer. e.g. C = 0, C# = 1, D = 2, up to B = 11
-  *
+     *
      * @return int The chrome of the pitch as an integer from 0 to 11
      */
-    public function chroma() 
-    {
-        $steps = array(
-         'C' => 0,
-         'D' => 2,
-         'E' => 4,
-         'F' => 5,
-         'G' => 7,
-         'A' => 9,
-         'B' => 11,
-        );
+    public function chroma() {
+        $steps = array('C' => 0, 'D' => 2, 'E' => 4, 'F' => 5, 'G' => 7, 'A' => 9, 'B' => 11);
         $chroma = $steps[$this->step];
         $chroma += $this->alter;
         $chroma = $this->_truemod($chroma, 12);
@@ -139,31 +139,59 @@ class Pitch extends PMTObject
 
     /**
      * gives the step above the current one. e.g. given D, returns E. Given G, returns A.
-  *
+     *
      * @param  [type] $step [description]
      * @return [type]       [description]
      */
-    public static function stepUp($step) 
-    {
-        $steps = 'CDEFGABC';
+    public static function stepUp($step, $distance = 1) {
+        $steps = 'CDEFGABCDEFGABC';
+        $distance = $distance % 7;
         $pos = strpos($steps, $step);
-        return substr($steps, $pos+1, 1);
+        return substr($steps, $pos+$distance, 1);
     }
     /**
      * gives the step below the current one. e.g. given E, returns D. Given A, returns G.
-  *
+     *
      * @param  [type] $step [description]
      * @return [type]       [description]
      */
-    public static function stepDown($step) 
-    {
-        $steps = 'CBAGFEDC';
+    public static function stepDown($step, $distance = 1) {
+        $steps = 'CBAGFEDCBAGFEDC';
+        $distance = $distance % 7;
         $pos = strpos($steps, $step);
-        return substr($steps, $pos+1, 1);
+        return substr($steps, $pos+$distance, 1);
     }
 
     /**
-     * will change a pitch so it is spelled enharmonically using the provided step; in other words it will
+     * measures how many steps distant upwards, e.g. if pitch is C, the step distance to G is 4.
+     * Ignores alterations. So, a C double-flat to G sharp is also 4.
+     * BEWARE that this is a distance, not an interval!
+     * The distance of 4 means it's 4 steps up (which is like a fifth), not an inteval of a 4th.
+     * Return value will always be an integer from 0 to 6. 
+     * @param  string $step the step name, like A or D
+     * @return int       the number of steps up
+     */
+    function stepUpDistance($step) {
+        $step = strtoupper($step);
+        $steps = 'CDEFGABCDEFGAB';
+        // first instance of the step
+        $pos = strpos($steps, $this->step);
+        $pos2 = strpos($steps, $step, $pos);
+        return $pos2-$pos;
+    }
+
+    /**
+     * literally just the inversion of stepUpDistance.
+     * @param  [type] $step [description]
+     * @return [type]       [description]
+     */
+    function stepDownDistance($step) {
+        $up = $this->stepUpDistance($step);
+        return (7 - $up) % 7;
+    }
+
+    /**
+     * Changes a pitch so it is spelled enharmonically using the provided step; in other words it will
      * change the step but adjust the alter. This is basically designed to turn an F natural into an E sharp when
      * in the context of a C# major scale.
      *
@@ -172,13 +200,12 @@ class Pitch extends PMTObject
      *
      * For example. For a pitch of F#, enharmonicizing to step "G" will produce G flat.
      * For a pitch D natural, enharmonisizing to step "C" produces a C double-sharp.
-  *
+     *
      * @param  [type] $pitch [description]
      * @param  [type] $step  [description]
      * @return [type]        [description]
      */
-    function enharmonicizeToStep($step) 
-    {
+    function enharmonicizeToStep($step) {
         if ($this->step == $step) {
             return $this;
         }
@@ -194,48 +221,46 @@ class Pitch extends PMTObject
     }
 
     public static $chromas = array(
-    0 => 'C',
-    1 => array(
-    1 => array('step' => 'C', 'alter' => 1),
-    -1 => array('step' => 'D', 'alter' => -1)
-    ),
-    2 => 'D',
-    3 => array(
-    1 => array('step' => 'D', 'alter' => 1),
-    -1 => array('step' => 'E', 'alter' => -1),
-    ),
-    4 => 'E',
-    5 => 'F',
-    6 => array(
-    1 => array('step' => 'F', 'alter' => 1),
-    -1 => array('step' => 'G', 'alter' => -1),
-    ),
-    7 => 'G',
-    8 => array(
-    1 => array('step' => 'G', 'alter' => 1),
-    -1 => array('step' => 'A', 'alter' => -1),
-    ),
-    9 => 'A',
-    10 => array(
-    1 => array('step' => 'A', 'alter' => 1),
-    -1 => array('step' => 'B', 'alter' => -1),
-    ),
-    11 => 'B'
+        0 => 'C',
+        1 => array(
+            1 => array('step' => 'C', 'alter' => 1),
+            -1 => array('step' => 'D', 'alter' => -1)
+        ),
+        2 => 'D',
+        3 => array(
+            1 => array('step' => 'D', 'alter' => 1),
+            -1 => array('step' => 'E', 'alter' => -1),
+        ),
+        4 => 'E',
+        5 => 'F',
+        6 => array(
+            1 => array('step' => 'F', 'alter' => 1),
+            -1 => array('step' => 'G', 'alter' => -1),
+        ),
+        7 => 'G',
+        8 => array(
+            1 => array('step' => 'G', 'alter' => 1),
+            -1 => array('step' => 'A', 'alter' => -1),
+        ),
+        9 => 'A',
+        10 => array(
+            1 => array('step' => 'A', 'alter' => 1),
+            -1 => array('step' => 'B', 'alter' => -1),
+        ),
+        11 => 'B'
     );
 
 
-    public function isHeightless() 
-    {
+    public function isHeightless() {
         return is_null($this->octave);
     }
 
     /**
      * renders this object as MusicXML
-  *
+     *
      * @return string MusicXML representation of the object
      */
-    public function toMusicXML() 
-    {
+    public function toMusicXML() {
         if ($this->octave == null) {
             throw new Exception('heightless pitches can not be rendered as XML. Provide an "octave" property. ' . print_r($this->properties, true));
         }
@@ -253,12 +278,11 @@ class Pitch extends PMTObject
 
     /**
      * interprets a string like "C#4" or "Gbb"
-  *
+     *
      * @param  [type] $string [description]
      * @return [type]        [description]
      */
-    private static function _resolvePitchString($string) 
-    {
+    private static function _resolvePitchString($string) {
         if (is_array($string)) {
             return $string;
         }
@@ -306,13 +330,12 @@ class Pitch extends PMTObject
 
     /**
      * transposes a Pitch up or down by $interval semitones.
-  *
+     *
      * @param  integer $interval            a signed integer telling how many semitones to transpose up or down
      * @param  integer $preferredAlteration either 1, or -1 to indicate whether the transposition should prefer sharps or flats.
      * @return null
      */
-    public function transpose($interval, $preferredAlteration = 1) 
-    {
+    public function transpose($interval, $preferredAlteration = 1) {
         $isHeightless = $this->isHeightless();
         if (!in_array($preferredAlteration, array(1, -1))) {
             $preferredAlteration = 1; // default to prefer sharps.
@@ -333,12 +356,34 @@ class Pitch extends PMTObject
     }
 
     /**
-     * renders a canonical string description of the pitch. Uses "#" and "-" for accidentals.
-  *
-     * @return [type] [description]
+     * Inverts this pitch around an axis.
+     * For example, if I invert C4 around E4, the result is G#4.
+     * When I invert G4 around E4, the result is C#4.
+     * The tricky part in this is to get the step and alterations right. Not only must the 
+     * inversion be the right pitch, but the spelling of it must be proper. The unit tests
+     * illustrate examples.
+     * @param  Pitch  $axis the axis around which to invert
+     * @return Pitch  $this, for chaining.
      */
-    public function toString() 
-    {
+    public function invert($axis) {
+        if ($this->isHeightless()) {
+            return $this;
+        }
+        $interval = $this->interval($axis);
+        $stepDistance = $this->stepUpDistance($axis->step);
+        $newstep = self::stepUp($axis->step, $stepDistance);
+        $this->transpose($interval);
+        $this->transpose($interval);
+        $this->enharmonicizeToStep($newstep);
+        return $this;
+    }
+
+    /**
+     * renders a canonical string description of the pitch. Uses "#" and "-" for accidentals.
+     *
+     * @return String 
+     */
+    public function toString() {
         $str = '';
         $str .= $this->step;
         switch ($this->alter) {
@@ -357,12 +402,11 @@ class Pitch extends PMTObject
 
     /**
      * translates a pitch properties into a signed integer, arbitrarily centered with zero on middle C
-  *
+     *
      * @param  Pitch $pitch
      * @return int pitch number, useful for doing calculcations
      */
-    public function toNoteNumber() 
-    {
+    public function toNoteNumber() {
         $chromas = array('C' => 0, 'D' => 2, 'E' => 4, 'F' => 5, 'G' => 7, 'A' => 9, 'B' => 11);
         $num = ($this->octave - 4) * 12;
         $num += $chromas[$this->step];
@@ -372,13 +416,12 @@ class Pitch extends PMTObject
 
     /**
      * accepts a note number and sets the pitch properties
-  *
+     *
      * @param  integer $noteNumber          signed integer with origin zero as middle C4
      * @param  integer $preferredAlteration 1 for sharp or -1 for flats
      * @return array                       returns a pitch array, containing step and alter elements.
      */
-    public function noteNumberToPitch($noteNumber, $preferredAlteration = 1) 
-    {
+    public function noteNumberToPitch($noteNumber, $preferredAlteration = 1) {
         $chroma = $this->_truemod($noteNumber, 12); // chroma is the note pitch independent of octave, eg C = 0, Eb/D# = 3, E = 4
         $octave = (($noteNumber - $chroma) / 12) + 4;
         $this->octave = $octave;
@@ -399,11 +442,11 @@ class Pitch extends PMTObject
 
     /**
      * returns an absolute pitch string suitable for using in Lilypond
-  *
+     *
      * @return [type] [description]
+     * @todo  needs to handle double-flats and double-sharps too
      */
-    public function toLilypond() 
-    {
+    public function toLilypond() {
         $out = strtolower($this->step);
         if ($this->alter == 1) {
             $out .= 'is';
@@ -434,25 +477,23 @@ class Pitch extends PMTObject
     /**
      * returns the MIDI note number of a pitch.
      * MIDI notes are numbered from 0 (C-1) to 127 (G9)
-  *
+     *
      * @return int
      * @todo
      */
-    public function toMidiKeyNumber() 
-    {
+    public function toMidiKeyNumber() {
         $o = new Pitch('C', 0, -1);
         return $o->interval($this);
     }
 
     /**
      * returns the frequency of a pitch in Hz
-  *
+     *
      * @param  string  $tuning presumably we would want to be able to do this for more than just Equal Temperament
      * @param  integer $a      the frequency of "A", in case someone wants to use something other than the standard 440Hz
      * @return number           the frequency in Hz
      */
-    public function toFrequency($tuning = 'equal', $a = 440, $precision = 2) 
-    {
+    public function toFrequency($tuning = 'equal', $a = 440, $precision = 2) {
         $ap = new Pitch('A', 0, 4);
         $n = $ap->interval($this); // get the interval between our note and A
         $s = pow(2, (1/12)); // the twelfth root of 2
@@ -471,8 +512,7 @@ class Pitch extends PMTObject
      * @param  bool   $allowEqual when the pitch matches the step and alter, (if true) return the same pitch or (if false) go up one octave
      * @return [type] [description]
      */
-    public function closestUp($step = 'C', $alter = 0, $allowEqual = true) 
-    {
+    public function closestUp($step = 'C', $alter = 0, $allowEqual = true) {
         // special case: if the first and only argument is a heightless Pitch.
         if (count(func_get_args()) == 1 && $step instanceof Pitch && $step->isHeightless()) {
             $alter = $step->alter;
@@ -502,8 +542,7 @@ class Pitch extends PMTObject
      * @param  bool   $allowEqual when the pitch matches the step and alter, (if true) return the same pitch or (if false) go down one octave
      * @return [type] [description]
      */
-    public function closestDown($step = 'C', $alter = 0, $allowEqual = true) 
-    {
+    public function closestDown($step = 'C', $alter = 0, $allowEqual = true) {
         if (count(func_get_args()) == 1 && $step instanceof Pitch && $step->isHeightless()) {
             $alter = $step->alter;
             $step = $step->step;

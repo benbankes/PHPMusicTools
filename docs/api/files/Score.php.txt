@@ -1,6 +1,7 @@
 <?php
 namespace ianring;
 require_once 'PMTObject.php';
+require_once 'Part.php';
 
 /**
  * Score is a collection of parts; it is the highest level root object of a music document
@@ -11,16 +12,14 @@ class Score extends PMTObject
     public $parts = array();
 
 
-    function __construct($name='', $parts=array())
-    {
+    function __construct($name='', $parts=array()) {
         $this->name  = $name;
         $this->parts = $parts;
 
     }
 
 
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         $name  = $props['name'];
         $parts = array();
         if (isset($props['parts'])) {
@@ -37,11 +36,14 @@ class Score extends PMTObject
 
     }
 
+    public static function constructFromXML($xml) {
+        // todo
+    }
 
-    function setAttribute($property)
-    {
 
-    }//end setAttribute()
+    function setAttribute($property) {
+ 
+    }
 
 
     /**
@@ -49,8 +51,7 @@ class Score extends PMTObject
      *
      * @return string MusicXML representation of the object
      */
-    function toMusicXML($wise='partwise')
-    {
+    function toMusicXML($wise='partwise') {
         $out  = '';
         $out .= '<?xml version="1.0" encoding="UTF-8" standalone="no"?>';
         $out .= '<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">';
@@ -73,33 +74,35 @@ class Score extends PMTObject
         $out .= '</score-partwise>';
         return $out;
     }
-    
+
+    public static function parseFromXMLObject($obj) {
+        $score = new Score('', array());
+        foreach ($obj->part as $part) {
+            $score->addPart(Part::parseFromXmlObject($part));
+        }
+        return $score;
+
+    }
+
+    function toPNG() {
+
+    }
 
 
-    function toPNG()
-    {
+    function toPDF() {
 
-    }//end toPNG()
-
-
-    function toPDF()
-    {
-
-    }//end toPDF()
+    }
 
 
-    function addPart($part)
-    {
+    function addPart($part) {
         $this->parts[] = clone $part;
+    }
 
-    }//end addPart()
 
-
-    function addMeasure($measure)
-    {
+    function addMeasure($measure) {
         $this->measures[] = clone $measure;
 
-    }//end addMeasure()
+    }
 
 
 }

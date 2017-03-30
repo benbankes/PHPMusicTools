@@ -3,7 +3,16 @@ namespace ianring;
 require_once 'PMTObject.php';
 
 /**
- * Key is a concept which describes the root and pitches used in diatonic harmony
+ * Key is a concept which describes the root and pitches used in diatonic harmony.
+ * To be congruent with the definition of a key in MusicXML, this class has the properties 
+ * "fifths", which is basically how mant fifths above or below C the key is, aka how many
+ * sharps or flats exist in the signature. "mode" is either "major" or "minor". 
+ *
+ * For example, {"fifths":-2,"mode":"minor"} means G minor, which has two flats in the signature.
+ *
+ * Please beware the difference between a major/minor Key, and a major or minor Scale. Key is for
+ * making a signature on a staff that affects the accidentals of altered notes. Scale is a more
+ * complex object describing a set of heightless Pitches.
  */
 class Key extends PMTObject
 {
@@ -11,8 +20,7 @@ class Key extends PMTObject
     public $properties = array();
 
 
-    public function __construct($fifths, $mode)
-    {
+    public function __construct($fifths, $mode) {
         $this->fifths = $fifths;
         $this->mode   = $mode;
 
@@ -25,8 +33,7 @@ class Key extends PMTObject
      * @param  [winged] $scale [description]
      * @return [winged]        [description]
      */
-    public static function constructFromArray($props)
-    {
+    public static function constructFromArray($props) {
         $fifths = $props['fifths'];
         $mode   = $props['mode'];
         return new Key($fifths, $mode);
@@ -42,8 +49,7 @@ class Key extends PMTObject
      * @param  [type] $string [description]
      * @return [type]         [description]
      */
-    private function _resolveKeyString($string)
-    {
+    private function _resolveKeyString($string) {
         $string     = strtolower($string);
         $properties = array(
                        'fifths' => 0,
@@ -128,13 +134,12 @@ class Key extends PMTObject
 
         $this->properties = $properties;
 
-    }//end _resolveKeyString()
+    }
 
 
-    function getName()
-    {
+    function getName() {
 
-    }//end getName()
+    }
 
 
     /**
@@ -142,8 +147,7 @@ class Key extends PMTObject
      *
      * @return string MusicXML representation of the object
      */
-    public function toMusicXML()
-    {
+    public function toMusicXML() {
         $out  = '';
         $out .= '<key>';
         if (isset($this->fifths)) {
@@ -157,7 +161,7 @@ class Key extends PMTObject
         $out .= '</key>';
         return $out;
     }
-    
+
 
 
 }
