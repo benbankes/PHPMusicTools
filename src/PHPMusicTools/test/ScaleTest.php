@@ -9,6 +9,8 @@ class ScaleTest extends PHPMusicToolsTest
 	
 	protected function setUp(){
 	}
+
+
 	
 	public function test_constructFromArray() {
 
@@ -36,6 +38,14 @@ class ScaleTest extends PHPMusicToolsTest
 		$this->assertEquals('ascending', $scale->direction);
 
 	}
+
+
+
+	public function testGetPitches() {
+
+	}
+
+
 
 	/**
 	 * @dataProvider providerResolveScaleFromStructure
@@ -254,6 +264,8 @@ class ScaleTest extends PHPMusicToolsTest
 		);
 	}
 
+
+
 	/**
 	 * @dataProvider providerNormalizeScalePitches
 	 */
@@ -309,6 +321,8 @@ class ScaleTest extends PHPMusicToolsTest
 		);
 	}
 
+
+
 	/**
 	 * @dataProvider providerCountTones
 	 */
@@ -338,6 +352,75 @@ class ScaleTest extends PHPMusicToolsTest
 		);
 	}
 
+
+
+	/**
+	 * @dataProvider providerIsPalindromic
+	 */
+	public function testIsPalindromic($scale, $expected) {
+		$scale = new \ianring\Scale($scale, null);
+		$actual = $scale->isPalindromic();
+		$this->assertEquals($expected, $actual);
+	}
+	public function providerIsPalindromic() {
+		return array(
+			array('scale' => 273, 'expected' => true),
+			array('scale' => 337, 'expected' => true),
+			array('scale' => 433, 'expected' => true),
+			array('scale' => 497, 'expected' => true),
+			array('scale' => 585, 'expected' => true),
+			array('scale' => 681, 'expected' => true),
+			array('scale' => 745, 'expected' => true),
+			array('scale' => 793, 'expected' => true),
+			array('scale' => 857, 'expected' => true),
+			array('scale' => 953, 'expected' => true),
+			array('scale' => 1017, 'expected' => true),
+			array('scale' => 1093, 'expected' => true),
+			array('scale' => 1189, 'expected' => true),
+			array('scale' => 1253, 'expected' => true),
+			array('scale' => 1301, 'expected' => true),
+			array('scale' => 1365, 'expected' => true),
+			array('scale' => 1461, 'expected' => true),
+			array('scale' => 1525, 'expected' => true),
+			array('scale' => 1613, 'expected' => true),
+			array('scale' => 1709, 'expected' => true),
+			array('scale' => 1773, 'expected' => true),
+			array('scale' => 1821, 'expected' => true),
+			array('scale' => 1885, 'expected' => true),
+			array('scale' => 1981, 'expected' => true),
+			array('scale' => 2045, 'expected' => true),
+			array('scale' => 2211, 'expected' => true),
+			array('scale' => 2275, 'expected' => true),
+			array('scale' => 2323, 'expected' => true),
+			array('scale' => 2387, 'expected' => true),
+			array('scale' => 2483, 'expected' => true),
+			array('scale' => 2547, 'expected' => true),
+			array('scale' => 2635, 'expected' => true),
+			array('scale' => 2731, 'expected' => true),
+			array('scale' => 2795, 'expected' => true),
+			array('scale' => 2843, 'expected' => true),
+			array('scale' => 2907, 'expected' => true),
+			array('scale' => 3003, 'expected' => true),
+			array('scale' => 3067, 'expected' => true),
+			array('scale' => 3143, 'expected' => true),
+			array('scale' => 3239, 'expected' => true),
+			array('scale' => 3303, 'expected' => true),
+			array('scale' => 3351, 'expected' => true),
+			array('scale' => 3415, 'expected' => true),
+			array('scale' => 3511, 'expected' => true),
+			array('scale' => 3575, 'expected' => true),
+			array('scale' => 3663, 'expected' => true),
+			array('scale' => 3759, 'expected' => true),
+			array('scale' => 3823, 'expected' => true),
+			array('scale' => 3871, 'expected' => true),
+			array('scale' => 3935, 'expected' => true),
+			array('scale' => 4031, 'expected' => true),
+			array('scale' => 4095, 'expected' => true),
+			array('scale' => 1625, 'expected' => false),
+			array('scale' => 325, 'expected' => false),
+			array('scale' => 1186, 'expected' => false),
+		);
+	}
 
 
 
@@ -392,6 +475,134 @@ class ScaleTest extends PHPMusicToolsTest
 			'whole tone' => array(
 				'scale' => 1365,
 				'expected' => 1365
+			),
+		);
+
+	}
+
+
+
+	/**
+	 * @dataProvider providerImperfections
+	 */
+	public function testImperfections($scale, $expected) {
+		$scale = new \ianring\Scale($scale);
+		$actual = $scale->imperfections();
+		$this->assertEquals($expected, $actual);
+	}
+	public function providerImperfections() {
+		return array(
+			array(
+				'scale' => 1841,
+				'expected' => array(0, 4, 8)
+			),
+			array(
+				'scale' => 2741,
+				'expected' => array(11)
+			),			
+			'chromatic' => array(
+				'scale' => 4095,
+				'expected' => array()
+			),
+			'whole tone' => array(
+				'scale' => 1365,
+				'expected' => array(0, 2, 4, 6, 8, 10)
+			),
+		);
+
+	}
+
+
+
+	/**
+	 * @dataProvider providerSpectrum
+	 */
+	public function testSpectrum($scale, $expected) {
+		$scale = new \ianring\Scale($scale);
+		$actual = $scale->spectrum();
+		$this->assertEquals($expected, $actual);
+	}
+	public function providerSpectrum() {
+		return array(
+			array(
+				'scale' => 273,
+				'expected' => array(0, 0, 0, 3, 0, 0)
+			),
+			array(
+				'scale' => 2741,
+				'expected' => array(2, 5, 4, 3, 6, 1)
+			),			
+			'chromatic' => array(
+				'scale' => 4095,
+				'expected' => array(12, 12, 12, 12, 12, 6)
+			),
+			'whole tone' => array(
+				'scale' => 1365,
+				'expected' => array(0, 6, 0, 6, 0, 3)
+			),
+		);
+
+	}
+
+
+
+	/**
+	 * @dataProvider providerSymmetries
+	 */
+	public function testSymmetries($scale, $expected) {
+		$scale = new \ianring\Scale($scale);
+		$actual = $scale->symmetries();
+		$this->assertEquals($expected, $actual);
+	}
+	public function providerSymmetries() {
+		return array(
+			array(
+				'scale' => 1841,
+				'expected' => array()
+			),
+			array(
+				'scale' => 2741,
+				'expected' => array()
+			),			
+			'chromatic' => array(
+				'scale' => 4095,
+				'expected' => array(1,2,3,4,5,6,7,8,9,10,11)
+			),
+			'whole tone' => array(
+				'scale' => 1365,
+				'expected' => array(2,4,6,8,10)
+			),
+		);
+
+	}
+
+
+
+	/**
+	 * @dataProvider providerModes
+	 */
+	public function testModes($scale, $expected) {
+		$scale = new \ianring\Scale($scale);
+		$actual = $scale->modes();
+		$this->assertEquals($expected, $actual);
+	}
+	public function providerModes() {
+		return array(
+			array(
+				'scale' => 1841,
+				'expected' => array(371, 2233, 791, 2443, 3269, 1841)
+			),
+			array(
+				'scale' => 2741,
+				'expected' => array(1709, 1451, 2773, 1717, 1453, 1387, 2741)
+			),			
+			'chromatic' => array(
+				'scale' => 4095,
+				'expected' => array(4095, 4095, 4095, 4095, 4095, 4095, 4095, 4095, 4095, 4095, 4095, 4095)
+			),
+			'whole tone' => array(
+				'scale' => 1365,
+				'expected' => array(1365, 1365, 1365, 1365, 1365, 1365)
 			),
 		);
 

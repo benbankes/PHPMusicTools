@@ -229,6 +229,7 @@ class Scale extends PMTObject
 	 * accepts a string like "C sharp mixolydian" or "Ab"
 	 * @param  [type] $string [description]
 	 * @return [type]         [description]
+	 * @todo
 	 */
 	public static function resolveScaleFromString($string) {
 
@@ -358,14 +359,10 @@ class Scale extends PMTObject
 	}
 
 	public function imperfections() {
-
-	}
-
-	public static function findImperfections($scale) {
 		$imperfections = array();
 		for ($i = 0; $i<12; $i++) {
 			$fifthAbove = ($i + 7) % 12;
-			if ($scale & (1 << $i) && !($scale & (1 << $fifthAbove))) {
+			if ($this->scale & (1 << $i) && !($this->scale & (1 << $fifthAbove))) {
 				$imperfections[] = $i;
 			}
 		}
@@ -378,12 +375,12 @@ class Scale extends PMTObject
 	 * @param  [type] $scale [description]
 	 * @return [type]        [description]
 	 */
-	public static function findSpectrum($scale) {
+	public function spectrum() {
 		$spectrum = array();
-		$rotateme = $scale;
+		$rotateme = $this->scale;
 		for ($i=0; $i<6; $i++) {
 			$rotateme = $this->rotateBitmask($rotateme, $direction = 1, $amount = 1);
-			$spectrum[$i] = countOnBits($scale & $rotateme);
+			$spectrum[$i] = $this->countOnBits($this->scale & $rotateme);
 		}
 		// special rule: if there is a tritone in the sonority, it will show up twice, so we divide by 2
 		$spectrum[5] = $spectrum[5] / 2;
@@ -452,8 +449,8 @@ class Scale extends PMTObject
 	 * @param  [type] $scale [description]
 	 * @return [type]        [description]
 	 */
-	function modes($scale) {
-		$rotateme = $scale;
+	function modes() {
+		$rotateme = $this->scale;
 		$modes = array();
 		for ($i = 0; $i < 12; $i++) {
 			$rotateme = $this->rotateBitmask($rotateme);
@@ -471,12 +468,12 @@ class Scale extends PMTObject
 	 * @param  [type] $scale [description]
 	 * @return [type]        [description]
 	 */
-	function symmetries($scale) {
-		$rotateme = $scale;
+	function symmetries() {
+		$rotateme = $this->scale;
 		$symmetries = array();
 		for ($i = 0; $i < 12; $i++) {
 			$rotateme = $this->rotateBitmask($rotateme);
-			if ($rotateme == $scale) {
+			if ($rotateme == $this->scale) {
 				if ($i != 11) {
 					$symmetries[] = $i+1;
 				}
@@ -533,14 +530,7 @@ class Scale extends PMTObject
 	 * @return [type] [description]
 	 */
 	public function countTones() {
-		$scale = $this->scale;
-		$tones = 0;
-		for ($i = 0; $i < 12; $i++) {
-			if (($scale & (1 << $i)) > 0) {
-				$tones++;
-			}
-		}
-		return $tones;
+		return $this->countOnBits($this->scale);
 	}
 
 	static function scaletype($num) {
@@ -557,10 +547,27 @@ class Scale extends PMTObject
 		return null;
 	}
 
+
+	/**
+	 * counts how many bits are on. Distinct from the Scale::countTones() method, in that this one
+	 * accepts a scale argument so you can check the on bits of any scale, not just this one.
+	 * ... so should this be a static method?
+	 */
+	public function countOnBits($bits) {
+		$tones = 0;
+		for ($i = 0; $i < 12; $i++) {
+			if (($bits & (1 << $i)) > 0) {
+				$tones++;
+			}
+		}
+		return $tones;
+	}
+
 	/**
 	 * Produces the reflection of a bitmask, e.g.
 	 * 011100110001 -> 100011001110
 	 * see enantiomorph()
+	 * ... should this be a static method?
 	 */
 	function reflectBitmask($scale) {
 		$output = 0;
@@ -580,6 +587,8 @@ class Scale extends PMTObject
 	 * @param  integer $direction 1 = rotate up, 0 = rotate down
 	 * @param  integer $amount    the number of places to rotate by
 	 * @return integer            the result after rotation
+	 *
+	 * ... should this be a static method?
 	 */
 	function rotateBitmask($bits, $direction = 1, $amount = 1) {
 		for ($i = 0; $i < $amount; $i++) {
