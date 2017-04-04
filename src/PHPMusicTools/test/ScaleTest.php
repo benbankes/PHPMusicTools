@@ -342,6 +342,32 @@ class ScaleTest extends PHPMusicToolsTest
 
 
 	/**
+	 * @dataProvider providerIsChiral
+	 */
+	public function testIsChiral($scale, $expected) {
+		$scale = new \ianring\Scale($scale, null);
+		$actual = $scale->isChiral();
+		$this->assertEquals($expected, $actual);
+	}
+	public function providerIsChiral() {
+		return array(
+			array('scale' => 273, 'expected' => false),
+			array('scale' => 585, 'expected' => false),
+			array('scale' => 1123, 'expected' => true),
+			array('scale' => 1186, 'expected' => true),
+			array('scale' => 1365, 'expected' => false),
+			array('scale' => 1387, 'expected' => false),
+			array('scale' => 1459, 'expected' => true),
+			array('scale' => 2485, 'expected' => true),
+			array('scale' => 2741, 'expected' => false),
+			array('scale' => 3669, 'expected' => true),
+			array('scale' => 4095, 'expected' => false),
+		);
+	}
+
+
+
+	/**
 	 * @dataProvider providerEnantiomorph
 	 */
 	public function testEnantiomorph($scale, $expected) {

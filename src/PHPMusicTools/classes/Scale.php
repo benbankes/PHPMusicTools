@@ -506,10 +506,10 @@ class Scale extends PMTObject
 	 * and http://ianring.com/scales
 	 */
 	public function isChiral() {
-		$reflected = $this->reflectBitmask($scale);
+		$reflected = $this->reflectBitmask($this->scale);
 		for ($i = 0; $i < 12; $i++) {
 			$reflected = $this->rotateBitmask($reflected, 1, 1);
-			if ($reflected == $scale) {
+			if ($reflected == $this->scale) {
 				return false;
 			}
 		}
