@@ -156,7 +156,7 @@ class Scale extends PMTObject
 	 * @param Pitch|string|null $root      [description]
 	 * @param string            $direction [description]
 	 */
-	public function __construct($scale, $root, $direction = self::ASCENDING) {
+	public function __construct($scale, $root = null, $direction = self::ASCENDING) {
 		if ($root instanceof Pitch) {
 			$this->root = $root;
 		} elseif (is_null($root)) {
@@ -486,7 +486,7 @@ class Scale extends PMTObject
 	}
 
 	/**
-	 * returns true if a scale is palindromic
+	 * returns true if a scale is palindromic.
 	 *
 	 * @return boolean [description]
 	 */
@@ -500,12 +500,31 @@ class Scale extends PMTObject
 	}
 
 	/**
-	 * returns true if the scale is chiral
+	 * returns true if the scale is chiral.
+	 * Chirality means that something is distinguishable from its reflection, and can't be transformed into its reflection by rotation.
 	 * see: https://en.wikipedia.org/wiki/Chirality_(mathematics)
 	 * and http://ianring.com/scales
 	 */
 	public function isChiral() {
+		$reflected = $this->reflectBitmask($scale);
+		for ($i = 0; $i < 12; $i++) {
+			$reflected = $this->rotateBitmask($reflected, 1, 1);
+			if ($reflected == $scale) {
+				return false;
+			}
+		}
+		return true;
+	}
 
+	/**
+	 * Returns a new Scale, which is the enantiomorph of this one.
+	 * The enantiomorph of a scale is its mirror image. In the case of a palindromic scale, the enantiomorph is itself.
+	 * @todo
+	 */
+	public function enantiomorph() {
+		$scale = $this->reflectBitmask($this->scale);
+		$scale = $this->rotateBitmask($scale, -1, 1);
+		return new \ianring\Scale($scale, $this->root, $this->direction);
 	}
 
 	/**
@@ -513,10 +532,11 @@ class Scale extends PMTObject
 	 *
 	 * @return [type] [description]
 	 */
-	public static function countTones($scale) {
+	public function countTones() {
+		$scale = $this->scale;
 		$tones = 0;
 		for ($i = 0; $i < 12; $i++) {
-			if (($scale & (1 << $i)) == 0) {
+			if (($scale & (1 << $i)) > 0) {
 				$tones++;
 			}
 		}
@@ -538,10 +558,25 @@ class Scale extends PMTObject
 	}
 
 	/**
+	 * Produces the reflection of a bitmask, e.g.
+	 * 011100110001 -> 100011001110
+	 * see enantiomorph()
+	 */
+	function reflectBitmask($scale) {
+		$output = 0;
+		for ($i = 0; $i < 12; $i++) {
+			if ($scale & (1 << $i)) {
+				$output = $output | (1 << (11 - $i));
+			}
+		}
+		return $output;	
+	}
+
+	/**
 	 * Accepts a number to use as a bitmask, and "rotates" it. e.g. 
 	 * 100000000000 -> 000000000001 -> 00000000010 -> 000000000100
 	 * 
-	 * @param  integer  $bits     the bitmask being rotated
+	 * @param  integer $bits     the bitmask being rotated
 	 * @param  integer $direction 1 = rotate up, 0 = rotate down
 	 * @param  integer $amount    the number of places to rotate by
 	 * @return integer            the result after rotation

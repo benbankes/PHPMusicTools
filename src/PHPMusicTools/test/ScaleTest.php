@@ -309,5 +309,66 @@ class ScaleTest extends PHPMusicToolsTest
 		);
 	}
 
+	/**
+	 * @dataProvider providerCountTones
+	 */
+	public function testCountTones($scale, $expected) {
+		$scale = new \ianring\Scale($scale, null);
+		$actual = $scale->countTones();
+		$this->assertEquals($expected, $actual);
+	}
+	public function providerCountTones() {
+		return array(
+			array(
+				'scale' => 2741,
+				'expected' => 7
+			),
+			array(
+				'scale' => 4095,
+				'expected' => 12
+			),
+			array(
+				'scale' => 1235,
+				'expected' => 6
+			),
+			array(
+				'scale' => 273,
+				'expected' => 3
+			)
+		);
+	}
+
+
+
+
+	/**
+	 * @dataProvider providerEnantiomorph
+	 */
+	public function testEnantiomorph($scale, $expected) {
+		$scale = new \ianring\Scale($scale);
+		$actual = $scale->enantiomorph();
+		$this->assertEquals($expected, $actual->scale);
+	}
+	public function providerEnantiomorph() {
+		return array(
+			array(
+				'scale' => 1841,
+				'expected' => 413
+			),
+			array(
+				'scale' => 2741,
+				'expected' => 1451
+			),			
+			'chromatic' => array(
+				'scale' => 4095,
+				'expected' => 4095
+			),
+			'whole tone' => array(
+				'scale' => 1365,
+				'expected' => 1365
+			),
+		);
+
+	}
 
 }
