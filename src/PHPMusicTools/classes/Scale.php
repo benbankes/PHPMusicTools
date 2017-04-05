@@ -11,6 +11,10 @@ require_once 'Pitch.php';
  * to a binary number, it becomes a bitmask defining what pitches are present in the scale, where bit 1 is the root,
  * bit 2 is up one semitone, bit 4 is a major second, bit 8 is the minor third, etc.
  *
+ * In order for this class to be useful and flexible, we should not impose limitations on our definition of a 
+ * scale; e.g. it is not necessary for a Scale to have the root bit (1) on, nor will we mind if the scale has
+ * leaps greater than 4 semitones. We could have a Scale object (which identifies the set of tones), and then
+ * use its methods to determine if it is a "scale" according to the definition we desire.
  */
 
 /**
@@ -18,12 +22,12 @@ require_once 'Pitch.php';
  */
 class Scale extends PMTObject
 {
-	// ref: http://www.pdmusic.org/text/027.txt
 
 	const ASCENDING = 'ascending';
 	const DESCENDING = 'descending';
 
-		// ref: Benjamin Robert Tubb brtubb@pdmusic.org http://www.pdmusic.org/theory.html
+	// ref: http://www.pdmusic.org/text/027.txt
+	// ref: Benjamin Robert Tubb brtubb@pdmusic.org http://www.pdmusic.org/theory.html
 	public static $scaleNames = array(
 		273 => 'augmented triad',
 		395 => 'balinese',
@@ -204,7 +208,7 @@ class Scale extends PMTObject
 	}
 
 	/**
-	 * Scales are sometimes expressed as a stack of intervals ascending. We would prefer to know
+	 * Scales are sometimes expressed as a stack of intervals ascending.
 	 * accept a structure like "2122122" and figure out what scale that is.
 	 * @param  string $structureString 
 	 * @return [type]                  [description]
