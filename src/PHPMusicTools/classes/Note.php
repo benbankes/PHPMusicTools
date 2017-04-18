@@ -34,6 +34,7 @@ class Note extends PMTObject
         'notations',
         'articulations',
         'staff',
+        'cue'
     );
 
     public static $subObjects = array(
@@ -63,7 +64,8 @@ class Note extends PMTObject
         $chord=false,
         $notations=array(),
         $articulations=array(),
-        $staff=1
+        $staff=1,
+        $cue = false
     ) {
         foreach (self::$properties as $var) {
             $this->$var = $$var;
@@ -111,6 +113,7 @@ class Note extends PMTObject
         $notations = $obj->notations;
         $articulations = $obj->articulations;
         $staff = $obj->staff;
+        $cue = $obj->cue;
 
         return new Note(
             $pitch,
@@ -129,7 +132,8 @@ class Note extends PMTObject
             $chord,
             $notations,
             $articulations,
-            $staff
+            $staff,
+            $cue
         );
 
     }
@@ -153,7 +157,7 @@ class Note extends PMTObject
                     }
                 }
             } else {
-                // this is a simple sub-object
+                // this is a single sub-object
                 $className  = '\ianring\\'.$subObject;
                 $reflection = new \ReflectionMethod($className, 'constructFromArray');
                 $o          = $reflection->invoke(null, $props[$objName]);
@@ -178,7 +182,8 @@ class Note extends PMTObject
             $chord,
             $notations,
             $articulations,
-            $staff
+            $staff,
+            $cue
         );
 
     }
@@ -229,6 +234,10 @@ class Note extends PMTObject
 
         $out .= '>';
 
+        if (!empty($this->cue)) {
+            $out .= '<cue/>';
+        }
+
         if (!empty($this->rest)) {
             $out .= '<rest/>';
         }
@@ -265,7 +274,7 @@ class Note extends PMTObject
         }
 
         if (!empty($this->tie)) {
-            $out                   .= '<tie style="'.$this->tie.'">';
+            $out .= '<tie style="'.$this->tie.'">';
             $this->notations['tie'] = $this->tie;
         }
 
@@ -291,26 +300,28 @@ class Note extends PMTObject
             }
         }
 
-        if (!empty($this->notations) || !empty($this->articulations)) {
-            $out .= '<notations>';
+        // todo
 
-            // Slur, Tie, Tuplet, Arpeggiate
-            foreach ($this->notations as $notation) {
-                $out .= $notation->toMusicXML();
-            }
+        // if (!empty($this->notations) || !empty($this->articulations)) {
+        //     $out .= '<notations>';
 
-            // staccato
-            if (!empty($this->articulations)) {
-                $out .= '<articulations>';
-                foreach ($this->articulations as $articulation) {
-                    $out .= $articulation->toMusicXML();
-                }
+        //     // Slur, Tie, Tuplet, Arpeggiate
+        //     foreach ($this->notations as $notation) {
+        //         $out .= $notation->toMusicXML();
+        //     }
 
-                $out .= '</articulations>';
-            }
+        //     // staccato
+        //     if (!empty($this->articulations)) {
+        //         $out .= '<articulations>';
+        //         foreach ($this->articulations as $articulation) {
+        //             $out .= $articulation->toMusicXML();
+        //         }
 
-            $out .= '</notations>';
-        }
+        //         $out .= '</articulations>';
+        //     }
+
+        //     $out .= '</notations>';
+        // }
 
         $out .= '</note>';
         return $out;

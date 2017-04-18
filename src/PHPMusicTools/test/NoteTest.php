@@ -8,10 +8,9 @@ class NoteTest extends PHPMusicToolsTest
 	
 	protected function setUp(){
 	}
-	
-	public function test_constructFromArray(){
 
-		$input = array(
+	public function getSample() {
+		return array(
 			'pitch' => array(
 				'step' => 'C',
 				'alter' => 1,
@@ -19,6 +18,7 @@ class NoteTest extends PHPMusicToolsTest
 			),
 			'rest' => false,
 			'duration' => 4,
+			'cue' => true,
 			'voice' => 1,
 			'type' => 'eighth',
 			'accidental' => 'sharp',
@@ -31,17 +31,55 @@ class NoteTest extends PHPMusicToolsTest
 			'defaultX' => 3,
 			'defaultY' => 1,
 			'chord' => true,
+			'annotations' => array(
+				// ironically in musicXML these are called notations
+			),
 			'notations' => array(
-				0 => array(
+				array(
 					'notationType' => 'tuplet',
 					'number' => 1,
 					'type' => 'stop',
+					'bracket' => true,
+					'show' => 'actual' // can be actual, both, or none
 				),
-				1 => array(
+				array(
 					'notationType' => 'slur',
 					'type' => 'start',
 					'number' => 1,
-				)
+				),
+				array(
+					'notationType' => 'tied',
+				),
+				array(
+					'notationType' => 'slide',
+				),
+				array(
+					'notationType' => 'ornament',
+				),
+				array(
+					'notationType' => 'glissando',
+				),
+				array(
+					'notationType' => 'fermata',
+				),
+				array(
+					'notationType' => 'glissando',
+				),
+				array(
+					'notationType' => 'accidentalmark',
+				),
+				array(
+					'notationType' => 'nonarpeggiate',
+				),
+				array(
+					'notationType' => 'technical',
+				),
+				array(
+					'notationType' => 'arpeggiate',
+				),
+				array(
+					'notationType' => 'dynamics',
+				),
 			),
 			'articulations' => array(
 				0 => array('articulationType' => 'staccato'),
@@ -69,7 +107,11 @@ class NoteTest extends PHPMusicToolsTest
 				'direction' => 'up',
 			)
 		);
+	}
+	
+	public function test_constructFromArray(){
 
+		$input = $this->getSample();
 		$note = \ianring\Note::constructFromArray($input);
 
 		$this->assertInstanceOf(\ianring\Note::class, $note);
@@ -92,9 +134,20 @@ class NoteTest extends PHPMusicToolsTest
 			$this->assertEquals(false, $note->rest);
 
 
-
 	}
 
+	public function test_toMusicXML(){
+
+		$input = $this->getSample();
+		$note = \ianring\Note::constructFromArray($input);
+		$this->assertInstanceOf(\ianring\Note::class, $note);
+
+		$xml = $note->toMusicXML();
+
+		$this->assertEquals($xml, '<note default-x="3" default-y="1"><cue/><chord/><pitch><step>C</step><alter>1</alter><octave>4</octave></pitch><duration>4</duration><voice>1</voice><type>eighth</type><tie style="1"><stem default-x="2" default-y="3">up</stem><staff>1</staff></note>');
+
+
+	}
 
 
 }

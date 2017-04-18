@@ -510,6 +510,13 @@ sudo mv phpunit-6.0.11.phar /usr/local/bin/phpunit
 
 This version of phpunit requires PHP 7.0 or above. If you're running an older version of PHP, upgrade!
 
+## Conventions
+
+Object properties are camel-case
+```
+$this->octaveChange = 1;
+```
+
 
 
 ## Documentation

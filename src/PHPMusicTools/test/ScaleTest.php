@@ -41,20 +41,20 @@ class ScaleTest extends PHPMusicToolsTest
 
 
 
-	public function testGetPitches() {
+	public function test_getPitches() {
 
 	}
 
 
 
 	/**
-	 * @dataProvider providerResolveScaleFromStructure
+	 * @dataProvider provider_resolveScaleFromStructure
 	 */
-	public function testResolveScaleFromStructure($structure, $expected) {
+	public function test_resolveScaleFromStructure($structure, $expected) {
 		$actual = ianring\Scale::resolveScaleFromStructure($structure);
 		$this->assertEquals($expected, $actual);
 	}
-	public function providerResolveScaleFromStructure() {
+	public function provider_resolveScaleFromStructure() {
 		return array(
 			'major' 					=> array('structure' => '2212221', 'expected' => 2741),
 			'whole tone' 					=> array('structure' => '222222', 'expected' => 1365),
@@ -223,13 +223,13 @@ class ScaleTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider providerLevenshtein
+	 * @dataProvider provider_levenshteinScale
 	 */
-	public function testLevenshteinScale($scale1, $scale2, $expected) {
-		$actual = ianring\Scale::levenshtein_scale($scale1, $scale2);
+	public function test_levenshteinScale($scale1, $scale2, $expected) {
+		$actual = ianring\Scale::levenshteinScale($scale1, $scale2);
 		$this->assertEquals($actual, $expected);
 	}
-	public function providerLevenshtein() {
+	public function provider_levenshteinScale() {
 		return array(
 			array('scale1' => 2741, 'scale2' => 2743, 'expected' => 1),
 			array('scale1' => 2741, 'scale2' => 2739, 'expected' => 1),
@@ -267,14 +267,14 @@ class ScaleTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider providerNormalizeScalePitches
+	 * @dataProvider provider_normalizeScalePitches
 	 */
-	public function testNormalizeScalePitches($scale, $pitches, $expected) {
+	public function test_normalizeScalePitches($scale, $pitches, $expected) {
 		$scale = new \ianring\Scale($scale, $pitches[0]);
-		$actual = $scale->_normalizeScalePitches($pitches);
+		$actual = $scale->normalizeScalePitches($pitches);
 		$this->assertEquals($expected, $actual);
 	}
-	public function providerNormalizeScalePitches() {
+	public function provider_normalizeScalePitches() {
 		return array(
 			array(
 				'scale' => 2741,
@@ -324,14 +324,14 @@ class ScaleTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider providerCountTones
+	 * @dataProvider provider_countTones
 	 */
-	public function testCountTones($scale, $expected) {
+	public function test_countTones($scale, $expected) {
 		$scale = new \ianring\Scale($scale, null);
 		$actual = $scale->countTones();
 		$this->assertEquals($expected, $actual);
 	}
-	public function providerCountTones() {
+	public function provider_countTones() {
 		return array(
 			array(
 				'scale' => 2741,
@@ -355,14 +355,14 @@ class ScaleTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider providerIsPalindromic
+	 * @dataProvider provider_isPalindromic
 	 */
-	public function testIsPalindromic($scale, $expected) {
+	public function test_isPalindromic($scale, $expected) {
 		$scale = new \ianring\Scale($scale, null);
 		$actual = $scale->isPalindromic();
 		$this->assertEquals($expected, $actual);
 	}
-	public function providerIsPalindromic() {
+	public function provider_isPalindromic() {
 		return array(
 			array('scale' => 273, 'expected' => true),
 			array('scale' => 337, 'expected' => true),
@@ -425,14 +425,14 @@ class ScaleTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider providerIsChiral
+	 * @dataProvider provider_isChiral
 	 */
-	public function testIsChiral($scale, $expected) {
+	public function test_isChiral($scale, $expected) {
 		$scale = new \ianring\Scale($scale, null);
 		$actual = $scale->isChiral();
 		$this->assertEquals($expected, $actual);
 	}
-	public function providerIsChiral() {
+	public function provider_isChiral() {
 		return array(
 			array('scale' => 273, 'expected' => false),
 			array('scale' => 585, 'expected' => false),
@@ -451,14 +451,14 @@ class ScaleTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider providerEnantiomorph
+	 * @dataProvider provider_enantiomorph
 	 */
-	public function testEnantiomorph($scale, $expected) {
+	public function test_enantiomorph($scale, $expected) {
 		$scale = new \ianring\Scale($scale);
 		$actual = $scale->enantiomorph();
 		$this->assertEquals($expected, $actual->scale);
 	}
-	public function providerEnantiomorph() {
+	public function provider_enantiomorph() {
 		return array(
 			array(
 				'scale' => 1841,
@@ -483,14 +483,14 @@ class ScaleTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider providerImperfections
+	 * @dataProvider provider_imperfections
 	 */
-	public function testImperfections($scale, $expected) {
+	public function test_imperfections($scale, $expected) {
 		$scale = new \ianring\Scale($scale);
 		$actual = $scale->imperfections();
 		$this->assertEquals($expected, $actual);
 	}
-	public function providerImperfections() {
+	public function provider_imperfections() {
 		return array(
 			array(
 				'scale' => 1841,
@@ -515,14 +515,14 @@ class ScaleTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider providerSpectrum
+	 * @dataProvider provider_spectrum
 	 */
-	public function testSpectrum($scale, $expected) {
+	public function test_spectrum($scale, $expected) {
 		$scale = new \ianring\Scale($scale);
 		$actual = $scale->spectrum();
 		$this->assertEquals($expected, $actual);
 	}
-	public function providerSpectrum() {
+	public function provider_spectrum() {
 		return array(
 			array(
 				'scale' => 273,
@@ -547,14 +547,14 @@ class ScaleTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider providerSymmetries
+	 * @dataProvider provider_symmetries
 	 */
-	public function testSymmetries($scale, $expected) {
+	public function test_symmetries($scale, $expected) {
 		$scale = new \ianring\Scale($scale);
 		$actual = $scale->symmetries();
 		$this->assertEquals($expected, $actual);
 	}
-	public function providerSymmetries() {
+	public function provider_symmetries() {
 		return array(
 			array(
 				'scale' => 1841,
@@ -579,14 +579,14 @@ class ScaleTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider providerModes
+	 * @dataProvider provider_modes
 	 */
-	public function testModes($scale, $expected) {
+	public function test_modes($scale, $expected) {
 		$scale = new \ianring\Scale($scale);
 		$actual = $scale->modes();
 		$this->assertEquals($expected, $actual);
 	}
-	public function providerModes() {
+	public function provider_modes() {
 		return array(
 			array(
 				'scale' => 1841,

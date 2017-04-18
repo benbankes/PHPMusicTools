@@ -11,14 +11,16 @@ class Clef extends PMTObject
     public static $properties = array(
         'sign',
         'line',
+        'octaveChange'
     );
     public static $defaults = array(
         'sign' => 'G',
-        'line' => 4
+        'line' => 4,
+        'octaveChange' => 0 // see https://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-clef-octave-change.htm
     );
 
 
-    public function __construct($sign, $line) {
+    public function __construct($sign, $line, $octaveChange) {
         foreach (self::$properties as $var) {
             $this->$var = $$var;
         }
@@ -39,7 +41,7 @@ class Clef extends PMTObject
         $props    = array_merge($defaults, $props);
         extract($props);
 
-        return new Clef($sign, $line);
+        return new Clef($sign, $line, $octaveChange);
 
     }
 
@@ -67,6 +69,12 @@ class Clef extends PMTObject
 
     }
 
+    /**
+     * adds an integer to the changeOctave property.
+     */
+    public function changeOctave($by) {
+
+    }
 
     /**
      * renders this object as MusicXML
@@ -79,6 +87,9 @@ class Clef extends PMTObject
         $out  .= '<clef number="'.$num.'">';
         $out .= '<sign>'.$this->sign.'</sign>';
         $out .= '<line>'.$this->line.'</line>';
+        if ($this->octaveChange != 0) {
+            $out .= '<clef-octaveChange>'.$this->octave-change.'</clef-octaveChange>';
+        }
         $out  .= '</clef>';
 
         return $out;

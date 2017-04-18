@@ -8,13 +8,14 @@ require_once 'PMTObject.php';
 class Tuplet extends PMTObject
 {
 
-
-    public function __construct($bracket, $number, $placement, $type) {
+    public function __construct($bracket, $number, $placement, $type, $lineShape, $showNumber, $showType) {
         $this->bracket   = $bracket;
         $this->number    = $number;
         $this->placement = $placement;
         $this->type      = $type;
-
+        $this->lineShape = $lineShape;
+        $this->showNumber = $showNumber;
+        $this->showType = $showType;
     }
 
 
@@ -29,8 +30,10 @@ class Tuplet extends PMTObject
         $number    = $props['number'];
         $placement = $props['placement'];
         $type      = $props['type'];
-        return new Tuplet($bracket, $number, $placement, $type);
-
+        $lineShape = $props['lineShape'];
+        $showNumber = $props['showNumber'];
+        $showType   = $props['showType'];
+        return new Tuplet($bracket, $number, $placement, $type, $lineShape, $showNumber, $showType);
     }
 
 

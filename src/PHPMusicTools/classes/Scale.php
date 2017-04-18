@@ -287,7 +287,7 @@ class Scale extends PMTObject
 				$pitches[] = $newroot;
 			}
 		}
-		$pitches = $this->_normalizeScalePitches($pitches);
+		$pitches = $this->normalizeScalePitches($pitches);
 
 		return $pitches;
 	}
@@ -304,7 +304,7 @@ class Scale extends PMTObject
 	 * @param  Pitch[] $pitches [description]
 	 * @return Pitch[]
 	 */
-	public function _normalizeScalePitches($pitches) {
+	public function normalizeScalePitches($pitches) {
 		if (in_array($this->scale, array(1387,1451,1709,1717,2773,2477,2741,1453))) {
 			// this is a scale known to have a note on every step
 			$currentStep = $pitches[0]->step;
@@ -328,7 +328,7 @@ class Scale extends PMTObject
 	 * @param  Scale $scale2 the second scale
 	 * @return int    Levenshtein distance between the two scales
 	 */
-	static function levenshtein_scale($scale1, $scale2) {
+	static function levenshteinScale($scale1, $scale2) {
 		$distance = 0;
 		$d = $scale1 ^ $scale2;
 		for ($i=0; $i<12; $i++) {              

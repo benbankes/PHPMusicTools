@@ -3,7 +3,8 @@ namespace ianring;
 require_once 'PMTObject.php';
 
 /**
- * Instrument is a physical device that produces sound, like a piano or trumpet.
+ * Instrument is a physical device that produces sound, like a piano or trumpet. We can grab one of the predefined
+ * instrument classes, but we should also be allowed to construct an abstract instrument with bespoke properties
  */
 class Instrument extends PMTObject
 {
@@ -30,58 +31,19 @@ class Instrument extends PMTObject
 	}
 
 
+	/**
+	 * For example, new Instrument('Piano') would create an InstrumentPiano
+	 */
 	public static function constructFromName($name) {
-		$instrument = new Instrument($name);
-		$instrument->getProperties();
-		return $instrument;
-
-	}
-
-
-	function getProperties() {
-		if (isset(self::$instruments[$this->name])) {
-			$i               = self::$instruments[$this->name];
-			$this->rangeMin  = Pitch::constructFromArray($i['rangeMin']);
-			$this->rangeMax  = Pitch::constructFromArray($i['rangeMax']);
-			$this->transpose = $i['transpose'];
-			$this->family    = $i['family'];
-		} else {
-			// todo
-			// search for it in otherNames
+		if (in_array($this->instruments, $name)) {
+			return new 
 		}
-
 	}
 
 
 	public static $instruments = array(
-		'Piano'          => array(
-			'ranges' => array(
-				'88-key' => array(
-					'min'     => array('step'   => 'A','alter'  => 0,'octave' => 1),
-					'max'     => array('step'   => 'C','alter'  => 0,'octave' => 8),
-				)
-			),
-			'transpose'    => 0,
-			'family'       => 'percussion',
-			'otherNames'   => array('Pianoforte'),
-			'abbreviation' => 'Piano',
-		),
-		'Alto Saxophone' => array(
-			'ranges' => array(
-				'normal' => array(
-					'min'     => array('step'   => 'D','alter'  => -1,'octave' => 3),
-					'max'     => array('step'   => 'A','alter'  => 0,'octave' => 5)
-				)
-			),
-			'transpose'    => 8,
-			'family'       => 'woodwind',
-			'otherNames'   => array(
-				'E flat Alto Saxophone',
-				'E flat Alto Sax',
-				'Alto Sax',
-			),
-			'abbreviation' => 'Alto Sax',
-		),
-   );
+		'Piano',
+		'AltoSaxophone',
+	);
 
 }

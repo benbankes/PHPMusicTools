@@ -6,9 +6,8 @@ require_once 'Clef.php';
 require_once 'Key.php';
 require_once 'Time.php';
 require_once 'Barline.php';
-require_once 'Direction.php';
-require_once 'DirectionMetronome.php';
-require_once 'DirectionDynamics.php';
+require_once 'Directions/DirectionMetronome.php';
+require_once 'Directions/DirectionDynamics.php';
 
 /**
  * Measure is a collection of layers, having a rhythmic duration
