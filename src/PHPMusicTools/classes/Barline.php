@@ -16,11 +16,13 @@ class Barline extends PMTObject
 		'footnote',
 		'ending',
 		'repeat',
-		'coda'
+		'segno',
+		'coda',
+		'fermata'
 	);
 
 
-	public function __construct($location, $barStyle, $footnote, $ending, $repeat, $coda) {
+	public function __construct($location, $barStyle, $footnote, $ending, $repeat, $segno, $coda, $fermata) {
 		foreach (self::$properties as $var) {
 			$this->$var = $$var;
 		}
@@ -54,16 +56,9 @@ class Barline extends PMTObject
 			}
 		}
 
-        if (isset($props['coda'])) {
-            if ($props['coda'] instanceof Coda) {
-                $coda = $coda;
-            } else {
-                $coda = Coda::constructFromArray($props['coda']);
-            }
-        }
+		// a barline coda is not a complex coda type, it's just a simple attribute
 
-
-		return new Barline($location, $barStyle, $footnote, $ending, $repeat, $coda);
+		return new Barline($location, $barStyle, $footnote, $ending, $repeat, $segno, $coda, $fermata);
 
 	}
 
@@ -84,6 +79,17 @@ class Barline extends PMTObject
 		if (isset($this->barStyle)) {
 			$out .= '<bar-style>'.$this->barStyle.'</bar-style>';
 		}
+
+		if (!empty($this->segno)) {
+			$out .= '<segno/>';
+		}
+		if (!empty($this->coda)) {
+			$out .= '<coda/>';
+		}
+		if (!empty($this->fermata)) {
+			$out .= '<fermata/>';
+		}
+
 
 		if (isset($this->footnote)) {
 			$out .= '<footnote>'.$this->footnote.'</footnote>';

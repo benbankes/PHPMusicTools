@@ -6,48 +6,53 @@ class BarlineRepeat extends PMTObject
 {
 
 
-    public function __construct($direction, $winged) {
-        $this->direction = $direction;
-        $this->winged    = $winged;
-
-    }
-
-
-    /**
-     * accepts the object in the form of an array structure
-     *
-     * @param  [winged] $scale [description]
-     * @return [winged]        [description]
-     */
-    public static function constructFromArray($props) {
-        $direction = $props['direction'];
-        // forward, backward
-        $winged = $props['winged'];
-        return new BarlineRepeat($direction, $winged);
-
-    }
+	public function __construct($direction, $winged, $times) {
+		$this->direction = $direction;
+		$this->winged    = $winged;
+		$this->times = $times;
+	}
 
 
-    /**
-     * renders this object as MusicXML
-     *
-     * @return string MusicXML representation of the object
-     */
-    function toMusicXML() {
-        $out   = '';
-         $out .= '<repeat';
-        if (isset($this->direction)) {
-            $out .= ' direction="'.$this->direction.'"';
-        }
+	/**
+	 * accepts the object in the form of an array structure
+	 *
+	 * @param  [winged] $scale [description]
+	 * @return [winged]        [description]
+	 */
+	public static function constructFromArray($props) {
+		$direction = $props['direction']; // forward, backward
+		$winged = $props['winged'];
+		if (!empty($props['times'])) {
+			$times = $props['times'];
+		} else {
+			$times = null;
+		}
+		return new BarlineRepeat($direction, $winged, $times);
+	}
 
-        if (isset($this->winged)) {
-            $out .= ' winged="'.$this->winged.'"';
-        }
 
-         $out .= '></repeat>';
-         return $out;
+	/**
+	 * renders this object as MusicXML
+	 *
+	 * @return string MusicXML representation of the object
+	 */
+	function toMusicXML() {
+		$out = '';
+		 $out .= '<repeat';
+		if (!empty($this->direction)) {
+			$out .= ' direction="' . $this->direction . '"';
+		}
+		if (!empty($this->winged)) {
+			$out .= ' winged="' . $this->winged . '"';
+		}
+		if (!empty($this->times)) {
+			$out .= ' times="' . $this->times . '"';
+		}
 
-    }
+		$out .= '></repeat>';
+		return $out;
+
+	}
 
 
 }

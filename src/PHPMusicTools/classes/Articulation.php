@@ -15,8 +15,23 @@ class Articulation extends PMTObject {
      * @return [winged]        [description]
      */
     public static function constructFromArray($props) {
+        if (empty($props['articulationType'])) {
+            return null;
+        }
         $articulationType = $props['articulationType'];
-        return new Articulation($articulationType);
+        switch($articulationType) {
+            case 'accent':
+                require_once('Articulations/ArticulationAccent.php');
+                return ArticulationAccent::constructFromArray($props);
+                break;
+            case 'staccato':
+                require_once('Articulations/ArticulationStaccato.php');
+                return ArticulationStaccato::constructFromArray($props);
+                break;
+            default:
+                return null;
+        }
+
     }
 
 

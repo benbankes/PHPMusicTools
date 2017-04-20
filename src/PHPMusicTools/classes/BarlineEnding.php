@@ -37,20 +37,20 @@ class BarlineEnding extends PMTObject
      * @return string MusicXML representation of the object
      */
     function toMusicXML() {
+        $out = '';
         $out .= '<ending';
+        if (isset($this->type)) {
+            $out .= ' type="'.$this->type.'"';
+        }
         if (isset($this->number)) {
             $out .= ' number="'.$this->number.'"';
         } else {
             $out .= ' number="1"';
         }
-
-        if (isset($this->type)) {
-            $out .= ' type="'.$this->type.'"';
-        }
-
         $out .= '>';
+        $out .= $this->number;
         $out .= '</ending>';
-
+        return $out;
     }
 
 

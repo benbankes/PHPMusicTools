@@ -4,6 +4,7 @@ namespace ianring;
 require_once 'PMTObject.php';
 require_once 'Pitch.php';
 require_once 'Articulation.php';
+require_once 'Notation.php';
 require_once 'TimeModification.php';
 require_once 'NoteBeam.php';
 require_once 'NoteStem.php';
@@ -251,7 +252,7 @@ class Note extends PMTObject
                 $pitch = $this->pitch;
             } else {
                 // we'll presume it's a string then
-                $pitch = new Pitch($this->pitch);
+                $pitch = Pitch::constructFromArray($this->pitch);
             }
 
             $out .= $pitch->toMusicXML();
@@ -274,12 +275,12 @@ class Note extends PMTObject
         }
 
         if (!empty($this->tie)) {
-            $out .= '<tie style="'.$this->tie.'">';
-            $this->notations['tie'] = $this->tie;
+            $out .= '<tie type="'.$this->tie.'"/>';
+//            $this->notations['tie'] = $this->tie;
         }
 
         if (!empty($this->staccato)) {
-            $this->notations['staccato'] = $this->properties['staccato'];
+ //           $this->notations['staccato'] = $this->properties['staccato'];
         }
 
         if (!empty($this->stem)) {
@@ -290,38 +291,70 @@ class Note extends PMTObject
             $out .= '<staff>'.$this->staff.'</staff>';
         }
 
-        if (!empty($this->beam)) {
-            if (!is_array($this->beam)) {
-                $this->beam = array($this->beam);
-            }
+//<notations><tuplet number="1" type="stop" show="actual" bracket="yes" placement="above"/><slur type="start" number="1"/></notations><articulations><staccato placement="below"/><accent default-x="-1" default-y="-71" placement="below"/></articulations><beam number="1">begin</beam><beam number="2">continue</beam><stem default-x="2" default-y="3">up</stem>
 
-            foreach ($this->beam as $beam) {
-                $out .= $beam->toMusicXML();
+        if (!empty($this->timeModification)) {
+            if ($this->timeModification instanceof TimeModification) {
+                $timeModification = $this->timeModification;
+            } else {
+                // we'll presume it's a string then
+                $timeModification = TimeModification::constructFromArray($this->timeModification);
+            }
+            $out .= $timeModification->toMusicXML();
+        }
+
+        if (!empty($this->beams)) {
+            if (!is_array($this->beams)) {
+                $this->beams = array($this->beams);
+            }
+            foreach ($this->beams as $beam) {
+                if (!($beam instanceof NoteBeam)) {
+                    // we'll presume it's a string then
+                    $beam = NoteBeam::constructFromArray($beam);
+                }
+            $out .= $beam->toMusicXML();
             }
         }
 
+        if (!empty($this->stem)) {
+            if ($this->stem instanceof NoteStem) {
+                $stem = $this->stem;
+            } else {
+                $stem = NoteStem::constructFromArray($stem);
+            }
+            $out .= $stem->toMusicXML();
+        }
+
+
         // todo
 
-        // if (!empty($this->notations) || !empty($this->articulations)) {
-        //     $out .= '<notations>';
+        if (!empty($this->notations) || !empty($this->articulations)) {
+             $out .= '<notations>';
 
-        //     // Slur, Tie, Tuplet, Arpeggiate
-        //     foreach ($this->notations as $notation) {
-        //         $out .= $notation->toMusicXML();
-        //     }
+            // Slur, Tie, Tuplet, Arpeggiate
+            foreach ($this->notations as $notation) {
+                if (!($notation instanceof Notation)) {
+                    $notation = Notation::constructFromArray($notation);
+                }
 
-        //     // staccato
-        //     if (!empty($this->articulations)) {
-        //         $out .= '<articulations>';
-        //         foreach ($this->articulations as $articulation) {
-        //             $out .= $articulation->toMusicXML();
-        //         }
+                 $out .= $notation->toMusicXML();
+             }
 
-        //         $out .= '</articulations>';
-        //     }
+             // staccato
+             if (!empty($this->articulations)) {
+                 $out .= '<articulations>';
+                 foreach ($this->articulations as $articulation) {
+                    if (!($articulation instanceof Articulation)) {
+                        $articulation = Articulation::constructFromArray($articulation);
+                    }
+                     $out .= $articulation->toMusicXML();
+                 }
 
-        //     $out .= '</notations>';
-        // }
+                 $out .= '</articulations>';
+             }
+
+            $out .= '</notations>';
+        }
 
         $out .= '</note>';
         return $out;
