@@ -218,7 +218,7 @@ class NoteTest extends PHPMusicToolsTest
 						'direction' => 'up',
 					)
 				),
-				'expected' => '<note default-x="3" default-y="1"><cue/><chord/><pitch><step>C</step><alter>1</alter><octave>4</octave></pitch><duration>4</duration><voice>1</voice><type>eighth</type><tie type="start"/><stem default-x="2" default-y="3">up</stem><staff>1</staff><time-modification><actual-notes>3</actual-notes><normal-notes>2</normal-notes></time-modification><beam number="1">begin</beam><beam number="2">continue</beam><stem default-x="2" default-y="3">up</stem><notations><tuplet bracket="yes" line-shape="curved" number="1" placement="above" show-number="actual" show-type="actual" type="stop"/><slur number="1" type="start"/><articulations><staccato placement="below"/><accent placement="below" default-x="-1" default-y="-71"/></articulations></notations></note>'
+				'expected' => '<note default-x="3" default-y="1"><chord/><cue/><pitch><step>C</step><alter>1</alter><octave>4</octave></pitch><duration>4</duration><voice>1</voice><type>eighth</type><tie type="start"/><stem default-x="2" default-y="3">up</stem><staff>1</staff><time-modification><actual-notes>3</actual-notes><normal-notes>2</normal-notes></time-modification><beam number="1">begin</beam><beam number="2">continue</beam><stem default-x="2" default-y="3">up</stem><notations><tuplet bracket="yes" line-shape="curved" number="1" placement="above" show-number="actual" show-type="actual" type="stop"/><slur number="1" type="start"/><articulations><staccato placement="below"/><accent placement="below" default-x="-1" default-y="-71"/></articulations></notations></note>'
 			)
 		);
 	}

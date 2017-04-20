@@ -150,19 +150,21 @@ class Note extends PMTObject
                 // this is an array where each member of the array must be
                 // an instance of the class
                 $$objName = array();
-                if (isset($props[$objName])) {
+                if (!empty($props[$objName])) {
                     foreach ($props[$objName] as $p) {
                         $reflection = new \ReflectionMethod($className, 'constructFromArray');
-                        $o          = $reflection->invoke(null, $p);
+                        $o = $reflection->invoke(null, $p);
                         array_push($$objName, $o);
                     }
                 }
             } else {
-                // this is a single sub-object
-                $className  = '\ianring\\'.$subObject;
-                $reflection = new \ReflectionMethod($className, 'constructFromArray');
-                $o          = $reflection->invoke(null, $props[$objName]);
-                $$objName   = $o;
+                if (!empty($props[$objName])) {                    
+                    // this is a single sub-object
+                    $className  = '\ianring\\'.$subObject;
+                    $reflection = new \ReflectionMethod($className, 'constructFromArray');
+                    $o          = $reflection->invoke(null, $props[$objName]);
+                    $$objName   = $o;
+                }
             }
         }//end foreach
 
@@ -235,6 +237,10 @@ class Note extends PMTObject
 
         $out .= '>';
 
+        if (!empty($this->chord)) {
+            $out .= '<chord/>';
+        }
+
         if (!empty($this->cue)) {
             $out .= '<cue/>';
         }
@@ -243,15 +249,10 @@ class Note extends PMTObject
             $out .= '<rest/>';
         }
 
-        if (!empty($this->chord)) {
-            $out .= '<chord/>';
-        }
-
         if (!empty($this->pitch)) {
             if ($this->pitch instanceof Pitch) {
                 $pitch = $this->pitch;
             } else {
-                // we'll presume it's a string then
                 $pitch = Pitch::constructFromArray($this->pitch);
             }
 
@@ -279,10 +280,6 @@ class Note extends PMTObject
 //            $this->notations['tie'] = $this->tie;
         }
 
-        if (!empty($this->staccato)) {
- //           $this->notations['staccato'] = $this->properties['staccato'];
-        }
-
         if (!empty($this->stem)) {
             $out .= $this->stem->toMusicXML();
         }
@@ -290,8 +287,6 @@ class Note extends PMTObject
         if (!empty($this->staff)) {
             $out .= '<staff>'.$this->staff.'</staff>';
         }
-
-//<notations><tuplet number="1" type="stop" show="actual" bracket="yes" placement="above"/><slur type="start" number="1"/></notations><articulations><staccato placement="below"/><accent default-x="-1" default-y="-71" placement="below"/></articulations><beam number="1">begin</beam><beam number="2">continue</beam><stem default-x="2" default-y="3">up</stem>
 
         if (!empty($this->timeModification)) {
             if ($this->timeModification instanceof TimeModification) {
@@ -320,39 +315,32 @@ class Note extends PMTObject
             if ($this->stem instanceof NoteStem) {
                 $stem = $this->stem;
             } else {
-                $stem = NoteStem::constructFromArray($stem);
+                $stem = NoteStem::constructFromArray($this->stem);
             }
             $out .= $stem->toMusicXML();
         }
 
-
-        // todo
-
         if (!empty($this->notations) || !empty($this->articulations)) {
              $out .= '<notations>';
 
-            // Slur, Tie, Tuplet, Arpeggiate
             foreach ($this->notations as $notation) {
                 if (!($notation instanceof Notation)) {
                     $notation = Notation::constructFromArray($notation);
                 }
 
-                 $out .= $notation->toMusicXML();
-             }
+                $out .= $notation->toMusicXML();
+            }
 
-             // staccato
-             if (!empty($this->articulations)) {
-                 $out .= '<articulations>';
-                 foreach ($this->articulations as $articulation) {
+            if (!empty($this->articulations)) {
+                $out .= '<articulations>';
+                foreach ($this->articulations as $articulation) {
                     if (!($articulation instanceof Articulation)) {
                         $articulation = Articulation::constructFromArray($articulation);
                     }
-                     $out .= $articulation->toMusicXML();
-                 }
-
-                 $out .= '</articulations>';
-             }
-
+                    $out .= $articulation->toMusicXML();
+                }
+                $out .= '</articulations>';
+            }
             $out .= '</notations>';
         }
 

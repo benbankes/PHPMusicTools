@@ -92,7 +92,7 @@ class Chord extends PMTObject
 
 
     /**
-     * renders this object as MusicXML
+     * renders this object as MusicXML.
      *
      * @return string MusicXML representation of the object
      */
