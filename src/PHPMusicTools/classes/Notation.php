@@ -12,8 +12,6 @@ class Notation extends PMTObject {
     /**
      * Factory pattern object creator
      * accepts the object in the form of an array structure
-     * @param  [winged] $scale [description]
-     * @return [winged]        [description]
      */
     public static function constructFromArray($props) {
     	if (empty($props['notationType'])) {
@@ -56,21 +54,6 @@ class Notation extends PMTObject {
         	default:
         		return null;
         }
-    }
-
-
-    /**
-     * renders this object as MusicXML
-     * @return string MusicXML representation of the object
-     */
-    function toMusicXML() {
-        $out = '';
-        switch ($this->notationType) {
-         // todo move this into the class
-        case 'staccato':
-            $out .= '<staccato/>';
-        }
-        return $out;
     }
 
 }

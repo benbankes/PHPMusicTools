@@ -84,7 +84,7 @@ class Clef extends PMTObject
     function toMusicXML($num) {
         $out = '';
 
-        $out  .= '<clef number="'.$num.'">';
+        $out .= '<clef number="'.$num.'">';
         $out .= '<sign>'.$this->sign.'</sign>';
         $out .= '<line>'.$this->line.'</line>';
         if ($this->octaveChange != 0) {
