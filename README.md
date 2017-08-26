@@ -510,6 +510,29 @@ sudo mv phpunit-6.0.11.phar /usr/local/bin/phpunit
 
 This version of phpunit requires PHP 7.0 or above. If you're running an older version of PHP, upgrade!
 
+To run the tests, 
+
+```
+cd ./ianring/PHPMusicTools/src/PHPMusicTools/test
+
+phpunit
+
+PHPUnit 6.0.11 by Sebastian Bergmann and contributors.
+
+...........R..........SSSSSSSSS................................  63 / 426 ( 14%)
+............................................................... 126 / 426 ( 29%)
+...............R............................................... 189 / 426 ( 44%)
+............................................................... 252 / 426 ( 59%)
+............................................................... 315 / 426 ( 73%)
+............................................................... 378 / 426 ( 88%)
+..............................................R.                426 / 426 (100%)
+
+Time: 128 ms, Memory: 10.00MB
+
+OK, but incomplete, skipped, or risky tests!
+Tests: 426, Assertions: 559, Skipped: 9, Risky: 3.
+```
+
 ## Conventions
 
 Object properties are camel-case
@@ -521,12 +544,19 @@ $this->octaveChange = 1;
 
 ## Documentation
 PHPMusicTools uses phpdocumentor for api documentation, so all code must be properly self-documented. 
-To generate the documentation in /docs/api, first you need to make sure you've already loaded the vendor extras using composer, then run this command:
+To generate the documentation in /public/docs/api, first you need to make sure you've already loaded the vendor extras using composer, then run this command:
 ```
-vendor/bin/phpdoc -d ./src/PHPMusicTools/classes -t ./docs/api
+vendor/bin/phpdoc -d ./src/PHPMusicTools/classes -t ./public/docs/api
 ```
 If you are submitting a pull request into PHPMusicTools, do not alter any of the auto-generated files because they'll just be overwritten.
 Learn more at https://www.phpdoc.org/
+
+You can host a mirror of the documentation by creating a symlink in a public folder
+
+```
+cd {your web root}/public_html/pmt/
+ln -s ../../vendor/ianring/php-music-tools/public/docs/api/ docs
+```
 
 ## Code Standards
 
