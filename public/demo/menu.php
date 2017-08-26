@@ -4,6 +4,8 @@
 <h2>Demo</h2>
 <p>Click below for examples of things that PHPMusicTools can do.</p>
 <ul>
+	<li><a target="demo-examples" href="example00.php">render a bar of music with lilypond</a></li>
+
 	<li><a target="demo-examples" href="example01.php">transpose a part up one semitone</a></li>
 	<li><a target="demo-examples" href="example02.php">invert a melody</a></li>
 	<li><a target="demo-examples" href="example03.php">list all the pitch chromas used and their frequency</a></li>

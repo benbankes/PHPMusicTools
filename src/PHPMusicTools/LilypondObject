@@ -1,0 +1,15 @@
+<?php
+
+namespace ianring;
+require_once 'PMTObject.php';
+
+class LilypondObject extends PMTObject {
+	
+	function set($text) {
+		this->text = $text;
+	}
+
+	function render($format='png') {
+		
+	}
+}
