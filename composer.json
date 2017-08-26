@@ -17,7 +17,8 @@
         "php": ">=5.3.0",
         "phpdocumentor/phpdocumentor": "2.*",
         "squizlabs/php_codesniffer":"*",
-        "phpunit/phpunit":"^6.0"
+        "phpunit/phpunit":"^6.0",
+        "visualphpunit/visualphpunit"
     },
     "autoload": {
         "psr-4": {"ianring\\": "src/PHPMusicTools"}
