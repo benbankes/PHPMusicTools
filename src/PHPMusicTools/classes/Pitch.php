@@ -4,6 +4,10 @@ require_once 'PMTObject.php';
 
 /**
  * Pitch is the conceptual represtation of sound frequency. It's the property of a note that describes its pitch.
+ * It's not the same as frequency -- because a "G flat" might be tuned differently in various temperaments or 
+ * instruments. Pitch is what we would call "G flat". Not only do we care about the tone's height, but we also
+ * care about its "spelling", i.e. whether something is a G flat or an F sharp. For this reason the class uses 
+ * the properties defined by MusicXML, which are "step", "alter", and "octave".
  *
  * An octave begins and ends with C.
  * Therefore C4 is the note immediately above B3.
@@ -15,12 +19,13 @@ require_once 'PMTObject.php';
  * LILYPOND disagrees with this - it attaches the octave to its step. So in lilypond,
  * bis'' is the note above b''
  *
- * Chromas are numbered 0 to 11
+ * Chromas are numbered 0 to 11, these are the chromatic tones from 0 = C to 11 = B
  *
  * For some calculations, this class defines a "note number", which is an integer line with its arbitrary
  * origin on middle C. Middle C is zero.
  * going up, C#4 is 1, D4 is 2...
  * going down, B3 is -1, A#3 is -2...
+ * MIDI also defines a standard note number, based on an origin point one octave below middle C
  */
 class Pitch extends PMTObject
 {
@@ -501,6 +506,15 @@ class Pitch extends PMTObject
         $f = $p * $a; // multiplied by the frequency of "A"
         $f = round($f, $precision, PHP_ROUND_HALF_UP);
         return $f;
+    }
+
+    /**
+     * returns the pitch in Helmoltz notation, e.g. C,, d' F# g#''
+     * see https://en.wikipedia.org/wiki/Helmholtz_pitch_notation
+     *
+     */
+    public function toHemholtz() {
+        // todo
     }
 
     /**

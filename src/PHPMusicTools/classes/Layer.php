@@ -21,7 +21,10 @@ class Layer extends PMTObject
 
 
     public static function constructFromArray($props) {
-        $name   = $props['name'];
+        $name   = null;
+        if (isset($props['name'])) {
+            $name = $props['name'];
+        }
         $chords = array();
         if (isset($props['chords'])) {
             foreach ($props['chords'] as $chord) {

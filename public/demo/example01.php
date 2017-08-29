@@ -1,15 +1,14 @@
 <?php
+ini_set('display_errors', true);
+error_reporting(E_ALL);
 
 echo 'example 1';
 
-$part = Part::constructFromArray(
-	'name' => 'Viola',
-	'measures' => array(
-		
-	)
-);
+include('happy_birthday.php');
 
-$lily = 'a4 b8 c8 d4 e4';
-$score = Score::constructFromLily($lily);
-$score->transpose(1);
-echo $score->toSVG();
+
+
+$happy_birthday->transpose(3, -1);
+
+echo '<pre>';
+print_r($happy_birthday);

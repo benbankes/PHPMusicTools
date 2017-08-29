@@ -36,8 +36,11 @@ class Barline extends PMTObject
 	 * @return [type]        [description]
 	 */
 	public static function constructFromArray($props) {
+		if (!is_array($props)) {
+			$props = array($props);
+		}
 		$defaults = array_fill_keys(self::$properties, null);
-		$props    = array_merge($defaults, $props);
+		$props = array_merge($defaults, $props);
 		extract($props);
 
 		if (isset($props['ending'])) {

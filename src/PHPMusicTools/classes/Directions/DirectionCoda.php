@@ -1,6 +1,6 @@
 <?php
 namespace ianring;
-require_once '../Direction.php';
+require_once(__DIR__.'/../Direction.php');
 
 class DirectionCoda extends Direction
 {

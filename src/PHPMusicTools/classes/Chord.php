@@ -34,9 +34,6 @@ class Chord extends PMTObject
 
     /**
      * accepts the props object in the form of an array structure
-     *
-     * @param  [winged] $props [description]
-     * @return [winged]        [description]
      */
     public static function constructFromArray($props) {
         $notes = array();

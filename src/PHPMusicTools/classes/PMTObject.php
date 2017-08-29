@@ -4,6 +4,17 @@ namespace ianring;
 class PMTObject
 {
 
+    const UNICODE_FLAT = 'E260';
+    const UNICODE_NATURAL = 'E261';
+    const UNICODE_SHARP = 'E262';
+    const UNICODE_DOUBLE_SHARP = 'E263';
+    const UNICODE_DOUBLE_FLAT = 'E264';
+    const UNICODE_DIMINISHED = 'E870';
+    const UNICODE_HALF_DIMINISHED = 'E871';
+    const UNICODE_PLUS = 'E872';
+    const UNICODE_MINUS = 'E874';
+    const UNICODE_MAJ7 = 'E873';
+
 
     /**
      * force deep cloning, so a clone of the measure will contain a clone of all its sub-objects as well

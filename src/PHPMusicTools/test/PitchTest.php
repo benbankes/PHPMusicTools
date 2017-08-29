@@ -847,4 +847,22 @@ class PitchTest extends PHPMusicToolsTest
 	}
 
 
+
+	/**
+	 * @dataProvider provider_toHemholtz
+	 */
+	public function test_toHemholtz($pitch, $expected) {
+		$result = $pitch->toHemholtz();
+		$this->assertEquals($expected, $result);
+	}
+	function provider_toHemholtz() {
+		return array(
+			'G' => array(
+				'pitch' => new ianring\Pitch('C', 0, 4),
+				'expected' => 'C'
+			),
+		);
+	}
+
+
 }
