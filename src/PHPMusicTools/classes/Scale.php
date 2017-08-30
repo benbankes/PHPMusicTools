@@ -323,9 +323,10 @@ class Scale extends PMTObject
 
 	/**
 	 * return the levenshtein distance between two scales (a measure of similarity)
+	 * accepts scale numbers, not Scale objects!
 	 *
-	 * @param  Scale $scale1 the first scale
-	 * @param  Scale $scale2 the second scale
+	 * @param  Scale $scale1 the first scale number
+	 * @param  Scale $scale2 the second scale number
 	 * @return int    Levenshtein distance between the two scales
 	 */
 	static function levenshteinScale($scale1, $scale2) {
@@ -350,6 +351,7 @@ class Scale extends PMTObject
 		return $distance;
 	}
 
+
 	/**
 	 * Static function: pass in a note, measure, layer etc and get back an array of scales that all the pitches conform to.
 	 *
@@ -362,6 +364,7 @@ class Scale extends PMTObject
 		// todo figure out how to do this efficiently
 	}
 
+
 	public function imperfections() {
 		$imperfections = array();
 		for ($i = 0; $i<12; $i++) {
@@ -372,6 +375,22 @@ class Scale extends PMTObject
 		}
 		return $imperfections;
 	}
+
+
+	function name($all = false){
+		if (isset(self::$scaleNames[$this->scale])) {
+			$names = self::$scaleNames[$this->scale];
+			if (!is_array($names)) {
+				$names = array($names);
+			}
+			if ($all==true) {
+				return $names;
+			}
+			return $names[0];
+		}
+		return null;
+	}
+
 
 	/**
 	 * returns the spectrum of a scale, ie how many of every type of interval exists between all the tones.
@@ -391,13 +410,15 @@ class Scale extends PMTObject
 		return $spectrum;
 	}
 
+
 	/**
-	 * takes a scale spectrum, and renders the "pmn" summmary string, ala Howard Hansen
+	 * takes a scale spectrum or a scale number, and renders the "pmn" summmary string, ala Howard Hansen
 	 *
 	 * @param  [type] $spectrum [description]
 	 * @return [type]           [description]
 	 */
-	function renderPmn($spectrum) {
+	function renderPmn() {
+		$spectrum = $this->spectrum();
 		$string = '';
 		// remember these are 0-based, so they're like the number of semitones minus 1
 		$classes = array('p' => 4, 'm' => 3, 'n' => 2, 's' => 1, 'd' => 0, 't' => 5);
@@ -529,6 +550,43 @@ class Scale extends PMTObject
 	}
 
 	/**
+	 * Returns all the scales that this one can be transformed into by one addition, deletion, or 
+	 * having one tone shifted up or down by one semitone. In other words, it returns all the scales 
+	 * with a levenshtein distance of 1.
+	 */
+	function neighbours() {
+		$near = array();
+		// start at one, because we leave the root alone
+		for ($i=1; $i<12; $i++) {							
+			if ($this->scale & (1 << ($i))) {
+				// if this tone is on,
+				$copy = $this->scale;
+
+				// turn this tone off,
+				$off = $copy ^ (1 << ($i));
+				$near[] = $off;
+
+				// move this tone down one semitone
+				$copy = $off | (1 << ($i - 1));
+				$near[] = $copy;
+
+				// move this tone up one semitone, but be careful not to create an octave
+				if ($i != 11) {
+					$copy = $off | (1 << ($i + 1));
+					$near[] = $copy;
+				}
+			} else {
+				// if this tone is off, then try turning it on
+				$copy = $this->scale;
+				$copy = $copy | (1 << ($i));
+				$near[] = $copy;
+			}
+		}
+		return array_unique($near);
+	}
+
+
+	/**
 	 * counts the number of tones in a scale
 	 *
 	 * @return [type] [description]
@@ -619,10 +677,10 @@ class Scale extends PMTObject
 	 * @param  boolean $showImperfections if true, puts an "i" on imperfect notes in the scale
 	 * @return string                     SVG as a string that you can insert into an HTML page
 	 */
-	function drawSVGBracelet($scale, $size = 200, $text = null, $showImperfections = false) {
+	function drawSVGBracelet($size = 200, $text = null, $showImperfections = false) {
 		if ($showImperfections) {
-			$imperfections = $this->findImperfections($scale);
-			$symmetries = $this->symmetries($scale);
+			$imperfections = $this->imperfections($this->scale);
+			$symmetries = $this->symmetries($this->scale);
 		}
 
 		$s = '';
@@ -653,7 +711,7 @@ class Scale extends PMTObject
 			}
 
 			$s .= '<circle r="'.$smallrad.'" cx="'.$x1.'" cy="'.$y1.'" stroke="black" stroke-width="'.$stroke.'"';
-			if ($scale & (1 << $i)) {
+			if ($this->scale & (1 << $i)) {
 				$s .= ' fill="black"';
 			} else {
 				$s .= ' fill="white"';

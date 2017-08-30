@@ -221,6 +221,22 @@ class ScaleTest extends PHPMusicToolsTest
 	}
 
 
+	/**
+	 * asserts that every scale returned by neighbours() has a levenshtein 
+	 * distance of 1, for all scales!
+	 */
+	public function test_neighbours_and_levenshtein() {
+		$allScales = range(0, 4095);
+		foreach($allScales as $scaleNum) {
+			$scale = new ianring\Scale($scaleNum);
+			$neighbours = $scale->neighbours();
+			foreach($neighbours as $n) {
+				$l = ianring\Scale::levenshteinScale($n, $scaleNum);
+				$this->assertEquals($l, 1);
+			}
+		}
+	}
+
 
 	/**
 	 * @dataProvider provider_levenshteinScale
@@ -231,27 +247,6 @@ class ScaleTest extends PHPMusicToolsTest
 	}
 	public function provider_levenshteinScale() {
 		return array(
-			array('scale1' => 2741, 'scale2' => 2743, 'expected' => 1),
-			array('scale1' => 2741, 'scale2' => 2739, 'expected' => 1),
-			array('scale1' => 2741, 'scale2' => 2745, 'expected' => 1),
-			array('scale1' => 2741, 'scale2' => 2737, 'expected' => 1),
-			array('scale1' => 2741, 'scale2' => 2749, 'expected' => 1),
-			array('scale1' => 2741, 'scale2' => 2733, 'expected' => 1),
-			array('scale1' => 2741, 'scale2' => 2725, 'expected' => 1),
-			array('scale1' => 2741, 'scale2' => 2773, 'expected' => 1),
-			array('scale1' => 2741, 'scale2' => 2709, 'expected' => 1),
-			array('scale1' => 2741, 'scale2' => 2805, 'expected' => 1),
-			array('scale1' => 2741, 'scale2' => 2677, 'expected' => 1),
-			array('scale1' => 2741, 'scale2' => 2869, 'expected' => 1),
-			array('scale1' => 2741, 'scale2' => 2613, 'expected' => 1),
-			array('scale1' => 2741, 'scale2' => 2997, 'expected' => 1),
-			array('scale1' => 2741, 'scale2' => 2485, 'expected' => 1),
-			array('scale1' => 2741, 'scale2' => 3253, 'expected' => 1),
-			array('scale1' => 2741, 'scale2' => 2229, 'expected' => 1),
-			array('scale1' => 2741, 'scale2' => 3765, 'expected' => 1),
-			array('scale1' => 2741, 'scale2' => 1717, 'expected' => 1),
-			array('scale1' => 2741, 'scale2' => 693, 'expected' => 1),
-			array('scale1' => 2743, 'scale2' => 2741, 'expected' => 1),
 			array('scale1' => 325, 'scale2' => 4095, 'expected' => 8),
 			array('scale1' => 273, 'scale2' => 4095, 'expected' => 9),
 			array('scale1' => 3549, 'scale2' => 4095, 'expected' => 3),
