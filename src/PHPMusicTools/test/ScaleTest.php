@@ -573,6 +573,53 @@ class ScaleTest extends PHPMusicToolsTest
 
 
 
+
+	/**
+	 * @dataProvider provider_getTones
+	 */
+	public function test_getTones($scale, $expected) {
+		$scale = new \ianring\Scale($scale);
+		$actual = $scale->getTones();
+		$this->assertEquals($expected, $actual);
+	}
+	public function provider_getTones() {
+		return array(
+			array(
+				'scale' => 3705,
+				'expected' => array(0,3,4,5,6,9,10,11)
+			),
+			'chromatic' => array(
+				'scale' => 4095,
+				'expected' => array(0,1,2,3,4,5,6,7,8,9,10,11)
+			),
+			'whole tone' => array(
+				'scale' => 1365,
+				'expected' => array(0,2,4,6,8,10)
+			),
+		);
+
+	}
+
+
+	/**
+	 * @dataProvider provider_getChords
+	 */
+	public function test_getChords($scale, $expected) {
+		$scale = new \ianring\Scale($scale);
+		$actual = $scale->getChords();
+		$this->assertEquals($expected, $actual);
+	}
+	public function provider_getChords() {
+		return array(
+			array(
+				'scale' => 2741,
+				'expected' => array(145, 548, 2192, 4640, 18560, 70144, 149504)
+			),
+		);
+
+	}
+
+
 	/**
 	 * @dataProvider provider_modes
 	 */

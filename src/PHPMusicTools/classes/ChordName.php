@@ -39,7 +39,7 @@ class ChordName extends PMTObject {
         ),
         17553 => array(
             'name' => 'dominant ninth',
-            'symbol' => '{r}9';
+            'symbol' => '{r}9'
         )
     );
 
@@ -64,6 +64,38 @@ class ChordName extends PMTObject {
 
     public function getName() {
         return 'augmented triad';
+    }
+
+    /**
+     * return a string like "I", "ii", "iii" or "vii°"
+     * majors are in capital roman letters, minors are in lower case. 
+     *
+     * examples:
+     *                         10010001,     (root tonic triad)
+     *                       1000100100,     (minor triad on the second degree)
+     *                     100010010000,     (minor triad on the third degree)
+     *                   1 001000100000,     (major triad on the fourth degree)
+     *                 100 100010000000,     (major triad on the fifth degree)
+     *               10001 001000000000,     (minor triad on the sixth degree)
+     *              100100 100000000000,     (dim triad on the seventh degree)
+     *
+     */
+    public function harmonyTriadNames() {
+        // todo
+    }
+
+    /**
+     * moves all the tones down into one octave
+     */
+    public function compress() {
+        $output = 0;
+        $n = $this->chord;
+        while ($n > 0) {
+            $temp = $n & 4095;
+            $output = $output | $temp;
+            $n = $n >> 12;
+        }
+        return $output;
     }
 
 }

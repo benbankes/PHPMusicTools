@@ -587,6 +587,72 @@ class Scale extends PMTObject
 
 
 	/**
+	 * Returns named chords that contain only notes that are included in this scale
+	 * 
+	 */
+	function chordNames() {
+
+	}
+
+    /**
+     * This method constructs tertiary triads built on each member of the scale.
+     * For example when given a major scale, this should return 
+
+     * scale: 101010110101
+     * [
+     *                         10010001,     (root tonic triad)
+     *                       1000100100,     (minor triad on the second degree)
+     *                     100010010000,     (minor triad on the third degree)
+     *                   1 001000100000,     (major triad on the fourth degree)
+     *                 100 100010000000,     (major triad on the fifth degree)
+     *               10001 001000000000,     (minor triad on the sixth degree)
+     *              100100 100000000000,     (dim triad on the seventh degree)
+     * ]
+     * 
+     */
+    public function getChords(){
+    	$chords = array();
+    	$tones = $this->getTones();
+    	$doubledTones = array_merge(
+    		$tones,
+	    	array_map(
+	    		function($n){return $n + 12;},
+	    		$this->getTones()
+	    	)
+	    );
+    	for ($i=0; $i<count($tones); $i++) {
+    		// build a triad on the ith degree
+    		$triad = 0;
+    		$triad = $triad | (1 << $doubledTones[$i]);
+    		$triad = $triad | (1 << $doubledTones[$i + 2]);
+    		$triad = $triad | (1 << $doubledTones[$i + 4]);
+    		$chords[] = $triad;
+    	}
+    	return $chords;
+    }
+
+    /**
+     * This returns the *places* where bits are on, as a 0-based set. For example, the 
+     * binary 101010010001 should return [0, 4, 7, 9, 11]
+     * This set of tones is used to construct chords and other useful things
+     * unlike some of the other methods, this one should recognize places higher than 12
+     */
+    public function getTones() {
+    	$tones = array();
+    	$n = $this->scale;
+    	$i = 0;
+    	while ($n > 0) {
+    		if ($this->scale & (1 << $i)) {
+    			$tones[] = $i;
+	    		$n = $n & ~(1 << $i); // turn the bit off
+    		}
+    		$i++;
+    	}
+    	return $tones;
+    }
+
+
+	/**
 	 * counts the number of tones in a scale
 	 *
 	 * @return [type] [description]
