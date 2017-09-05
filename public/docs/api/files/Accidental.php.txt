@@ -124,6 +124,16 @@ class Accidental extends PMTObject {
 		return $out;
 	}
 
+	public static function alterToVexFlow($alter) {
+        $map = array(
+            -2 => 'bb',
+            -1 => 'b',
+            0 => 'n',
+            1 => '#',
+            2 => '##'
+        );
+        return $map[$alter];
+    }
 
 
 }

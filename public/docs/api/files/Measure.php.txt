@@ -59,7 +59,7 @@ class Measure extends PMTObject
         }
 
         if (is_null($time)) {
-            $time = new Time('common');
+            $time = new Time(null, 4, 4);
         }
 
         if (is_null($barline)) {

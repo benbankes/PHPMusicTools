@@ -11,6 +11,10 @@ class Part extends PMTObject
 
     var $measures = array();
 
+    public static $properties = array(
+        'name',
+        'measures'
+    );
 
     function __construct($name=null, $measures=array()) {
         $this->name     = $name;
@@ -20,7 +24,10 @@ class Part extends PMTObject
 
 
     public static function constructFromArray($props) {
-        $name     = $props['name'];
+        $name = null;
+        if (!empty($props['name'])) {             
+            $name = $props['name'];
+        }
         $measures = array();
         if (isset($props['measures'])) {
             foreach ($props['measures'] as $measure) {
@@ -72,6 +79,13 @@ class Part extends PMTObject
 
     }
 
+
+    public function transpose($interval, $preferredAlteration = 1) {
+        foreach ($this->measures as &$measure) {
+            $measure->transpose($interval, $preferredAlteration);
+        }
+
+    }
 
 }
 

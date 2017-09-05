@@ -34,9 +34,6 @@ class Chord extends PMTObject
 
     /**
      * accepts the props object in the form of an array structure
-     *
-     * @param  [winged] $props [description]
-     * @return [winged]        [description]
      */
     public static function constructFromArray($props) {
         $notes = array();
@@ -153,6 +150,81 @@ class Chord extends PMTObject
         // dedupe + count
         return $pitches;
 
+    }
+
+    public function lowestMember() {
+        $lowest = null;
+        foreach ($this->notes as $note) {
+            if ($lowest == null || $note->pitch->isLowerThan($lowest->pitch)) {
+                $lowest = $note;
+            }
+        }
+        return $lowest;
+    }
+
+    public function analyzeTriad($degree = 0) {
+        // first turn our note pitches into numbers
+        $numbers = array();
+        foreach ($this->notes as $note) {
+            $numbers[] = $note->pitch->toNoteNumber();
+        }
+        // put them in order ascending
+        asort($numbers);
+        // shift them all so the lowest note is a zero
+        $lowest = $numbers[0];
+        for ($i=0; $i<count($numbers); $i++) {
+            $numbers[$i] += ($lowest * -1);
+        }
+        // turn it into a bitmask
+        $bits = 0;
+        foreach($numbers as $number) {
+            $bits = $bits | (1<<$number);
+        }
+        switch($bits) {
+            case 73:
+                return 'diminished';
+            case 137:
+                return 'minor';
+            case 145:
+                return 'major';
+            case 273:
+                return 'augmented';
+            default:
+                return null;
+        }
+
+    }
+
+    /**
+     * renders a script fragment for a chord. What we want to end up with is a string that looks like this:
+     *
+     *      new Vex.Flow.StaveNote({ keys: ["c#/4","e/4","g#/4"], duration: "w" })
+     *          .addAccidental(0, new Vex.Flow.Accidental("#"))
+     *          .addAccidental(2, new Vex.Flow.Accidental("#"));
+     *
+     * (^ that's a c sharp minor triad)
+     * the "key" part puts the note head in place. 
+     * "addAccidental" is needed if you want the accidental to be shown; vexflow doesn't render them 
+     * automatically because they could be present earlier in the measure or in the key signature.
+     *
+     * @todo allow this to accept an optional key signature object, or an array of something similar, so 
+     * that it omits unnecessary accidentals
+     */
+    function toVexFlow($duration = 'w') {
+        $output = '';
+        $append = array();
+        $keys = array();
+        foreach ($this->notes as $index => $note) {
+            $pitch = $note->pitch;
+            $keys[] = $pitch->toVexFlowKey();
+            if ($pitch->alter !== 0) {
+                $append[] = "\n    " . '.addAccidental('.$index.', new Vex.Flow.Accidental("'.Accidental::alterToVexFlow($pitch->alter).'"))';
+            }
+        }
+        $output .= 'new Vex.Flow.StaveNote({keys:' . json_encode($keys) . ', duration: "'.$duration.'"})';
+        $output .= implode('',$append);
+        $output .= "\n";
+        return $output;
     }
 
 

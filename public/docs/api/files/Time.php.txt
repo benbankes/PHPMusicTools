@@ -9,10 +9,10 @@ class Time extends PMTObject
 {
 
     public static $properties = array(
-                                 'symbol',
-                                 'beats',
-                                 'beatType',
-                                );
+        'symbol',
+        'beats',
+        'beatType',
+    );
 
 
     public function __construct($symbol, $beats, $beatType) {

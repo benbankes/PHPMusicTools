@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Test Documentation</title>
+        <style>
+            body {
+                text-rendering: optimizeLegibility;
+                font-variant-ligatures: common-ligatures;
+                font-kerning: normal;
+                margin-left: 2em;
+            }
+
+            body > ul > li {
+                font-family: Source Serif Pro, PT Sans, Trebuchet MS, Helvetica, Arial;
+                font-size: 2em;
+            }
+
+            h2 {
+                font-family: Tahoma, Helvetica, Arial;
+                font-size: 3em;
+            }
+
+            ul {
+                list-style: none;
+                margin-bottom: 1em;
+            }
+        </style>
+    </head>
+    <body>
+        <h2 id="AccidentalTest">Accidental</h2>
+        <ul>
+            <li style="color: #555753;">✓ alterToVexFlow </li>
+        </ul>
+        <h2 id="BarlineTest">Barline</h2>
+        <ul>
+            <li style="color: #555753;">✓ constructFromArray</li>
+            <li style="color: #555753;">✓ toMusicXML </li>
+        </ul>
+        <h2 id="ChordNameTest">ChordName</h2>
+        <ul>
+            <li style="color: #555753;">✓ getName </li>
+            <li style="color: #555753;">✓ getTones </li>
+            <li style="color: #555753;">✓ compress </li>
+            <li style="color: #555753;">✓ harmonyTriadName </li>
+        </ul>
+        <h2 id="ChordTest">Chord</h2>
+        <ul>
+            <li style="color: #555753;">✓ constructFromArray</li>
+            <li style="color: #555753;">✓ toMusicXML </li>
+            <li style="color: #555753;">✓ toVexFlow </li>
+            <li style="color: #ef2929;">❌ analyzeTriad maj</li>
+            <li style="color: #ef2929;">❌ analyzeTriad min</li>
+            <li style="color: #ef2929;">❌ analyzeTriad aug</li>
+            <li style="color: #ef2929;">❌ analyzeTriad dim</li>
+        </ul>
+        <h2 id="PHPUnit\Framework\SkippedTestCase">PHPUnit\Framework\SkippedTestCase</h2>
+        <ul>
+            <li style="color: #ef2929;">❌ ChordTest::test lowestMember</li>
+        </ul>
+        <h2 id="ClefTest">Clef</h2>
+        <ul>
+            <li style="color: #555753;">✓ constructFromArray</li>
+        </ul>
+        <h2 id="DirectionTest">Direction</h2>
+        <ul>
+            <li style="color: #555753;">✓ constructFromArray</li>
+        </ul>
+        <h2 id="LayerTest">Layer</h2>
+        <ul>
+            <li style="color: #555753;">✓ constructFromArray</li>
+        </ul>
+        <h2 id="MeasureTest">Measure</h2>
+        <ul>
+            <li style="color: #555753;">✓ constructFromArray</li>
+        </ul>
+        <h2 id="NoteTest">Note</h2>
+        <ul>
+            <li style="color: #555753;">✓ constructFromArray</li>
+            <li style="color: #555753;">✓ toMusicXML </li>
+        </ul>
+        <h2 id="PartTest">Part</h2>
+        <ul>
+            <li style="color: #ef2929;">❌ constructFromArray</li>
+        </ul>
+        <h2 id="PitchTest">Pitch</h2>
+        <ul>
+            <li style="color: #555753;">✓ constructFromArray</li>
+            <li style="color: #ef2929;">❌ constructFromString </li>
+            <li style="color: #555753;">✓ isHigherThan </li>
+            <li style="color: #555753;">✓ equals </li>
+            <li style="color: #555753;">✓ equals enharmonic is not the same as equal</li>
+            <li style="color: #555753;">✓ transpose </li>
+            <li style="color: #555753;">✓ isEnharmonic </li>
+            <li style="color: #555753;">✓ closestUp </li>
+            <li style="color: #555753;">✓ closestUp allow equal, return same pitch</li>
+            <li style="color: #555753;">✓ closestUp no allow equal, go to octave above</li>
+            <li style="color: #555753;">✓ closestUp call it with a heightless pitch</li>
+            <li style="color: #555753;">✓ closestDown </li>
+            <li style="color: #555753;">✓ toNoteNumber </li>
+            <li style="color: #555753;">✓ interval </li>
+            <li style="color: #555753;">✓ enharmonicizeToStep </li>
+            <li style="color: #555753;">✓ stepUp </li>
+            <li style="color: #555753;">✓ stepDown </li>
+            <li style="color: #555753;">✓ chroma </li>
+            <li style="color: #555753;">✓ toFrequency </li>
+            <li style="color: #555753;">✓ toMidiKeyNumber </li>
+            <li style="color: #555753;">✓ invert C inverted on E becomes G sharp</li>
+            <li style="color: #555753;">✓ invert C sharp inverted on E becomes G</li>
+            <li style="color: #555753;">✓ invert G sharp inverted on E becomes C</li>
+            <li style="color: #555753;">✓ invert G inverted on E becomes C sharp</li>
+            <li style="color: #555753;">✓ invert G inverted on E flat becomes C flat</li>
+            <li style="color: #555753;">✓ invert B inverted on E flat becomes A double-flat</li>
+            <li style="color: #555753;">✓ invert pitch inverted upward on an octave is two octaves away</li>
+            <li style="color: #555753;">✓ invert pitch inverted downward on an octave is two octaves away</li>
+            <li style="color: #555753;">✓ invert pitch inverted on itself is unchanged</li>
+            <li style="color: #555753;">✓ invert heightless pitch is unchanged</li>
+            <li style="color: #555753;">✓ stepUpDistance C to G</li>
+            <li style="color: #555753;">✓ stepUpDistance C sharp to G</li>
+            <li style="color: #555753;">✓ stepUpDistance C flat to G</li>
+            <li style="color: #555753;">✓ stepUpDistance D up to C</li>
+            <li style="color: #555753;">✓ stepUpDistance B up to A</li>
+            <li style="color: #555753;">✓ stepUpDistance B up to D</li>
+            <li style="color: #555753;">✓ stepUpDistance unison</li>
+            <li style="color: #555753;">✓ stepUpDistance wtf</li>
+            <li style="color: #555753;">✓ stepDownDistance G to C</li>
+            <li style="color: #555753;">✓ stepDownDistance G sharp to C</li>
+            <li style="color: #555753;">✓ stepDownDistance G flat to C</li>
+            <li style="color: #555753;">✓ stepDownDistance C down to D</li>
+            <li style="color: #555753;">✓ stepDownDistance A down to B</li>
+            <li style="color: #555753;">✓ stepDownDistance D down to B</li>
+            <li style="color: #555753;">✓ stepDownDistance unison</li>
+            <li style="color: #ef2929;">❌ toHemholtz G</li>
+            <li style="color: #555753;">✓ toVexFlowKey </li>
+        </ul>
+        <h2 id="PMTObjectTest">PMTObject</h2>
+        <ul>
+            <li style="color: #555753;">✓ truemod </li>
+        </ul>
+        <h2 id="ScaleTest">Scale</h2>
+        <ul>
+            <li style="color: #555753;">✓ constructFromArray</li>
+            <li style="color: #ef2929;">❌ getPitches</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern major</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern whole tone</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Aeolian</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Algerian</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Arabian (a)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Arabian (b)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Asavari Theta</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Balinese</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Bilaval Theta</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Bhairav Theta</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Bhairavi Theta</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Byzantine</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Chinese</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Chinese Mongolian</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Diminished</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Dorian</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Egyptian</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Ethiopian (A raray)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Ethiopian (Geez & ezel)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Harmonic Minor</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Hawaiian</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Hindustan</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Hungarian Major</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Hungarian Gypsy</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Hungarian Gypsy Persian</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Hungarian Minor</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Ionian</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Japanese (A)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Japenese (B)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Japanese (Ichikosucho)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Japanese (Taishikicho)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Javanese (Pelog)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Jewish (Adonai Malakh)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Jewish (Ahaba Rabba)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Jewish (Magan Abot)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Kafi Theta</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Kalyan Theta</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Khamaj Theta</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Locrian</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Lydian</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Major</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Marva Theta</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Bhavapriya (44)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Chakravakam (16)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Chalanata (36)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Charukesi (26)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Chitrambari (66)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Dharmavati (59)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Dhatuvardhani (69)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Dhavalambari (49)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Dhenuka (9)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Dhirasankarabharana</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Divyamani (48)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Gamanasrama (53)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Ganamurti (3)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Gangeyabhusani (33)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Gaurimanohari (23)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Gavambodhi (43)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Gayakapriya (13)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Hanumattodi (8)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Harikambhoji (28)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Hatakambari (18)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Hemavati (58)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Jalarnavam (38)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Jhalavarali (39)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Jhankaradhvani (19)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Jyotisvarupini (68)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Kamavarardhani (51)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Kanakangi (1)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Kantamani (61)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Kharaharapriya (22)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Kiravani (21)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Kokilapriya (11)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Kosalam (71)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Latangi (63)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Manavati (5)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Mararanjani (25)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Mayamalavagaula (15)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Mechakalyani (65)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Naganandini (30)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Namanarayani (50)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Nasikabhusani (70)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Natabhairavi (20)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Natakapriya (10)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Navanitam (40)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Nitimati (60)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Pavani (41)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Ragavardhani (32)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Raghupriya (42)    </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Ramapriya (52)     </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Rasikapriya (72)   </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Ratnangi (2)       </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Risabhapriya (62)  </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Rupavati (12)      </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Sadvidhamargini (46)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Salagam (37)       </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Sanmukhapriya (56) </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Sarasangi (27)     </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Senavati (7)       </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Simhendramadhyama (57)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Subhapantuvarali (45)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Sucharitra (67)    </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Sulini (35)        </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Suryakantam (17)   </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Suvarnangi (47)    </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Syamalangi (55)    </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Tanarupi (6)       </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Vaschaspati (64)   </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Vagadhisvari (34)  </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Vakulabharanam (14)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Vanaspati (4)      </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Varunapriya (24)   </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Visvambari (54)    </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mela Yagapriya (31)     </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Melodic Minor           </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mixolydian              </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Mohammedan              </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Neopolitan              </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Oriental (a)            </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Overtone Dominant       </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Pentatonic Major        </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Pentatonic Minor        </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Persian                 </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Phrygian                </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Purvi Theta             </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Roumanian Minor         </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Spanish Gypsy           </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Todi Theta              </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Whole Tone              </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Augmented               </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Blues                   </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Diatonic                </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Double Harmonic         </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Eight Tone Spanish      </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Enigmatic               </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Hirajoshi               </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Kumoi                   </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Leading Whole Tone      </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Lydian Augmented        </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Neoploitan Major        </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Neopolitan Minor        </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Oriental (b)            </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Pelog (Javanese)        </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Prometheus              </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Prometheus Neopolitan   </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Six Tone Symmetrical    </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Super Locrian           </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Lydian Minor            </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Lydian Diminished       </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Nine Tone Scale         </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Auxiliary Diminished    </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Auxiliary Augmented     </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Auxiliary Diminished Blues</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Major Locrian           </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Overtone                </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Hindu                   </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Diminished Whole Tone   </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Pure Minor              </li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Half Diminished (Locrian)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Half Diminished #2 (Locrian #2)</li>
+            <li style="color: #555753;">✓ resolveScaleFromIntervalPattern Dominant 7th            </li>
+            <li style="color: #555753;">✓ neighbours and levenshtein</li>
+            <li style="color: #555753;">✓ levenshteinScale </li>
+            <li style="color: #555753;">✓ normalizeScalePitches </li>
+            <li style="color: #555753;">✓ countTones </li>
+            <li style="color: #555753;">✓ isPalindromic </li>
+            <li style="color: #555753;">✓ isChiral </li>
+            <li style="color: #555753;">✓ enantiomorph </li>
+            <li style="color: #555753;">✓ enantiomorph chromatic</li>
+            <li style="color: #555753;">✓ enantiomorph whole tone</li>
+            <li style="color: #555753;">✓ imperfections </li>
+            <li style="color: #555753;">✓ imperfections chromatic</li>
+            <li style="color: #555753;">✓ imperfections whole tone</li>
+            <li style="color: #555753;">✓ spectrum </li>
+            <li style="color: #555753;">✓ spectrum chromatic</li>
+            <li style="color: #555753;">✓ spectrum whole tone</li>
+            <li style="color: #555753;">✓ symmetries </li>
+            <li style="color: #555753;">✓ symmetries chromatic</li>
+            <li style="color: #555753;">✓ symmetries whole tone</li>
+            <li style="color: #555753;">✓ getTones </li>
+            <li style="color: #555753;">✓ getTones chromatic</li>
+            <li style="color: #555753;">✓ getTones whole tone</li>
+            <li style="color: #555753;">✓ getChordBitMasks </li>
+            <li style="color: #555753;">✓ getChords chromatic scale is not diatonic</li>
+            <li style="color: #555753;">✓ getChords C major scale</li>
+            <li style="color: #555753;">✓ getChords C Locrian scale</li>
+            <li style="color: #555753;">✓ getChords G sharp harmonic minor</li>
+            <li style="color: #555753;">✓ modes </li>
+            <li style="color: #555753;">✓ modes chromatic</li>
+            <li style="color: #555753;">✓ modes whole tone</li>
+            <li style="color: #555753;">✓ hemitonics </li>
+            <li style="color: #555753;">✓ cohemitonics </li>
+            <li style="color: #555753;">✓ intervalPattern </li>
+        </ul>
+        <h2 id="ScoreTest">Score</h2>
+        <ul>
+            <li style="color: #ef2929;">❌ constructFromArray</li>
+        </ul>
+        <h2 id="TimeTest">Time</h2>
+        <ul>
+            <li style="color: #555753;">✓ constructFromArray</li>
+        </ul>
+    </body>
+</html>
