@@ -1,4 +1,9 @@
 <?php
+namespace StandardName\Sniffs\Category;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+
 /**
  * standard_Sniffs_CustomSniffs_ElseifSniff.
  *
@@ -8,7 +13,7 @@
  * @package	  PHP_CodeSniffer
  * @author	  Ian Ring <httpwebwitch@gmail.com>
  */
-class standard_Sniffs_CustomSniffs_ElseifSniff implements PHP_CodeSniffer_Sniff
+class standard_Sniffs_CustomSniffs_ElseifSniff implements Sniff
 {
 
 	/**
@@ -27,7 +32,7 @@ class standard_Sniffs_CustomSniffs_ElseifSniff implements PHP_CodeSniffer_Sniff
 	 * @param int $stackPtr The position of the current token in the stack passed in $tokens.
 	 * @return void
 	 */
-	public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr) {
+	public function process(File $phpcsFile, $stackPtr) {
 		$tokens = $phpcsFile->getTokens();
 
 		if ($tokens[($stackPtr + 1)]['code'] == T_WHITESPACE && $tokens[($stackPtr + 2)]['code'] == T_IF) {

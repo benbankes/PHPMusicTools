@@ -1,4 +1,9 @@
 <?php
+namespace StandardName\Sniffs\Category;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+
 /**
  * standard_Sniffs_SpaceAfterSwitchSniff.
  *
@@ -8,7 +13,7 @@
  * @package	  PHP_CodeSniffer
  * @author	  Ian Ring <iring@netsuite.com>
  */
-class standard_Sniffs_CustomSniffs_SpaceAfterSwitchSniff implements PHP_CodeSniffer_Sniff
+class standard_Sniffs_CustomSniffs_SpaceAfterSwitchSniff implements Sniff
 {
 
 	/**
@@ -28,7 +33,7 @@ class standard_Sniffs_CustomSniffs_SpaceAfterSwitchSniff implements PHP_CodeSnif
 	 *										  stack passed in $tokens.
 	 * @return void
 	 */
-	public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr) {
+	public function process(File $phpcsFile, $stackPtr) {
 		$tokens = $phpcsFile->getTokens();
 		if ($tokens[($stackPtr + 1)]['code'] !== T_WHITESPACE) {
 			$message = 'Switch Statement must be followed by a space';
