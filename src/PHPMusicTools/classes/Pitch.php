@@ -1,6 +1,7 @@
 <?php
 namespace ianring;
 require_once 'PMTObject.php';
+require_once 'Accidental.php';
 
 /**
  * Pitch is the conceptual represtation of sound frequency. It's the property of a note that describes its pitch.
@@ -97,6 +98,7 @@ class Pitch extends PMTObject
      * @return boolean       true if $this is lower than $pitch
      */
     public function isLowerThan($pitch) {
+        if ($pitch === null) { return true; }
         return $this->interval($pitch) > 0;
     }
 
@@ -107,6 +109,7 @@ class Pitch extends PMTObject
      * @return boolean       true if $this is higher than $pitch
      */
     public function isHigherThan($pitch) {
+        if ($pitch === null) { return true; }
         return $this->interval($pitch) < 0;
     }
     /**
@@ -116,6 +119,7 @@ class Pitch extends PMTObject
      * @return boolean        [description]
      */
     public function isEnharmonic($pitch) {
+        if ($pitch === null) { return false; }
         return $this->interval($pitch) == 0;
     }
 
@@ -126,6 +130,7 @@ class Pitch extends PMTObject
      * @return boolean true if the step, alter, and octave are all the same.
      */
     public function equals($pitch) {
+        if ($pitch === null) { return false; }
         return $pitch->step == $this->step && $pitch->alter == $this->alter && $pitch->octave == $this->octave;
     }
 
@@ -575,5 +580,9 @@ class Pitch extends PMTObject
         return null;
     }
 
+
+    public function toVexFlowKey() {
+        return strtolower($this->step) . Accidental::alterToVexFlow($this->alter) . '/' . $this->octave;
+    }
 
 }

@@ -21,6 +21,8 @@
 
 namespace ianring;
 require_once 'PMTObject.php';
+require_once 'Chord.php';
+require_once 'Pitch.php';
 
 class ChordName extends PMTObject {
 
@@ -71,18 +73,15 @@ class ChordName extends PMTObject {
      * majors are in capital roman letters, minors are in lower case. 
      *
      * examples:
-     *                         10010001,     (root tonic triad)
-     *                       1000100100,     (minor triad on the second degree)
-     *                     100010010000,     (minor triad on the third degree)
-     *                   1 001000100000,     (major triad on the fourth degree)
-     *                 100 100010000000,     (major triad on the fifth degree)
-     *               10001 001000000000,     (minor triad on the sixth degree)
-     *              100100 100000000000,     (dim triad on the seventh degree)
+     *                         10010001,     (root tonic triad)                 ==> I
+     *                       1000100100,     (minor triad on the second degree) ==> ii
+     *                     100010010000,     (minor triad on the third degree)  ==> iii
+     *                   1 001000100000,     (major triad on the fourth degree) ==> IV
+     *                 100 100010000000,     (major triad on the fifth degree)  ==> V
+     *               10001 001000000000,     (minor triad on the sixth degree)  ==> vi
+     *              100100 100000000000,     (dim triad on the seventh degree)  ==> vii°
      *
      */
-    public function harmonyTriadNames() {
-        // todo
-    }
 
     /**
      * moves all the tones down into one octave
@@ -97,5 +96,46 @@ class ChordName extends PMTObject {
         }
         return $output;
     }
+
+    /**
+     * the Chord is a set of notes with pitches.
+     * the tonic is a Pitch, which could be heightless.
+     * This method should first figure out the scale degree (I, II, III, IV)
+     * then analyze the chord to see if it is maj, min, dim or aug,
+     * then output the appropriate string representation, like "vii°" or "V"
+     * 
+     * presently this method assumes the chord is in root inversion formation
+     * @todo make this understand inverted chords!
+     */
+    public static function harmonyTriadName($chord, $tonic) {
+        // what is the distance in steps netween the chord and the tonic?
+        $lowest = $chord->lowestMember();
+        $degree = $lowest->pitch->stepDownDistance($tonic->step);
+
+        $romans = array('i','ii','iii','iv','v','vi','vii');
+        $degree = $romans[$degree];
+        $symbol = '';
+
+        // what kind of triad is it?
+        $type = $chord->analyzeTriad();
+        switch($type) {
+            case 'diminished':
+                $degree = strtolower($degree);
+                $symbol = '°';
+                break;
+            case 'minor':
+                $degree = strtolower($degree);
+                break;
+            case 'major':
+                $degree = strtoupper($degree);
+                break;
+            case 'augmented':
+                $degree = strtoupper($degree);
+                $symbol = '+';
+                break;
+        }
+        return $degree . $symbol;
+    }
+
 
 }

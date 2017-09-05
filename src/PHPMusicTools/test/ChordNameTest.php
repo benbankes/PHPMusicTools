@@ -94,4 +94,76 @@ class ChordNameTest extends PHPMusicToolsTest
 	}
 
 
+	/**
+	 * @dataProvider provider_harmonyTriadName
+	 */
+	public function test_harmonyTriadName($chord, $tonic, $expected) {
+		$actual = \ianring\ChordName::harmonyTriadName($chord, $tonic);
+		$this->assertEquals($actual, $expected);
+	}
+	public function provider_harmonyTriadName() {
+		return array(
+			array( 
+				'chord' => \ianring\Chord::constructFromArray(array(
+					'notes' => array(
+						array('pitch' => array('step' => 'A', 'alter' => -1, 'octave' => 3)),
+						array('pitch' => array('step' => 'C', 'alter' => 0, 'octave' => 4)),
+						array('pitch' => array('step' => 'E', 'alter' => -1, 'octave' => 4))
+					)
+				)),
+				'pitch' => new \ianring\Pitch('A',-1,null),
+				'expected' => 'I'
+			),
+			array( 
+				'chord' => \ianring\Chord::constructFromArray(array(
+					'notes' => array(
+						array('pitch' => array('step' => 'D', 'alter' => 0, 'octave' => 4)),
+						array('pitch' => array('step' => 'F', 'alter' => 0, 'octave' => 4)),
+						array('pitch' => array('step' => 'A', 'alter' => 0, 'octave' => 4))
+					)
+				)),
+				'pitch' => new \ianring\Pitch('C',0,null),
+				'expected' => 'ii'
+			),
+			array( 
+				'chord' => \ianring\Chord::constructFromArray(array(
+					'notes' => array(
+						array('pitch' => array('step' => 'D', 'alter' => 0, 'octave' => 4)),
+						array('pitch' => array('step' => 'F', 'alter' => 1, 'octave' => 4)),
+						array('pitch' => array('step' => 'A', 'alter' => 0, 'octave' => 4))
+					)
+				)),
+				'pitch' => new \ianring\Pitch('C',0,null),
+				'expected' => 'II'
+			),
+			array( 
+				'chord' => \ianring\Chord::constructFromArray(array(
+					'notes' => array(
+						array('pitch' => array('step' => 'E', 'alter' => 0, 'octave' => 4)),
+						array('pitch' => array('step' => 'G', 'alter' => 0, 'octave' => 4)),
+						array('pitch' => array('step' => 'B', 'alter' => -1, 'octave' => 4))
+					)
+				)),
+				'pitch' => new \ianring\Pitch('C',0,null),
+				'expected' => 'iii°'
+			),
+			array( 
+				'chord' => \ianring\Chord::constructFromArray(array(
+					'notes' => array(
+						array('pitch' => array('step' => 'G', 'alter' => 0, 'octave' => 4)),
+						array('pitch' => array('step' => 'B', 'alter' => 0, 'octave' => 4)),
+						array('pitch' => array('step' => 'D', 'alter' => 1, 'octave' => 5))
+					)
+				)),
+				'pitch' => new \ianring\Pitch('D',0,null),
+				'expected' => 'IV+'
+			),
+
+
+		);
+	}
+
+
+
+
 }

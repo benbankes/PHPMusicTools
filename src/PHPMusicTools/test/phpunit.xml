@@ -13,7 +13,9 @@
 	
 		<testsuite name='PHPMusicTools'>
 			
+			<file>AccidentalTest.php</file>			
 			<file>BarlineTest.php</file>			
+			<file>ChordNameTest.php</file>
 			<file>ChordTest.php</file>
 			<file>ClefTest.php</file>
 			<file>DirectionTest.php</file>
@@ -21,8 +23,8 @@
 			<file>MeasureTest.php</file>
 			<file>NoteTest.php</file>
 			<file>PartTest.php</file>
-			<file>PMTObjectTest.php</file>
 			<file>PitchTest.php</file>
+			<file>PMTObjectTest.php</file>
 			<file>ScaleTest.php</file>
 			<file>ScoreTest.php</file>
 			<file>TimeTest.php</file>

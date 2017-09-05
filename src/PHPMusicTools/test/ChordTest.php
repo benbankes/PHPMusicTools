@@ -225,5 +225,108 @@ class ChordTest extends PHPMusicToolsTest
 	}
 
 
+	/**
+	 * @dataProvider provider_toVexFlow
+	 */
+	public function test_toVexFlow($chord, $expected) {
+		$result = $chord->toVexFlow();
+		$this->assertEquals($expected, $result);
+	}
+	function provider_toVexFlow() {
+		return array(
+			array(
+				'chord' => \ianring\Chord::constructFromArray(array(
+					'notes' => array(
+						array('pitch' => array('step' => 'A', 'alter' => -1, 'octave' => 3)),
+						array('pitch' => array('step' => 'C', 'alter' => 0, 'octave' => 4)),
+						array('pitch' => array('step' => 'E', 'alter' => -1, 'octave' => 4))
+					)
+				)),			
+				'expected' => 'new Vex.Flow.StaveNote({keys:["ab\/3","cn\/4","eb\/4"], duration: "w"})' . "\n"
+					. '    .addAccidental(0, new Vex.Flow.Accidental("b"))' . "\n"
+					. '    .addAccidental(2, new Vex.Flow.Accidental("b"))' . "\n"
+			),
+
+			array(
+				'chord' => \ianring\Chord::constructFromArray(array(
+					'notes' => array(
+						array('pitch' => array('step' => 'C', 'alter' => 0, 'octave' => 4)),
+					)
+				)),			
+				'expected' => 'new Vex.Flow.StaveNote({keys:["cn\/4"], duration: "w"})' . "\n"
+			),
+
+		);
+	}
+
+
+	/**
+	 * @dataProvider provider_analyzeTriad
+	 */
+	public function test_analyzeTriad($chord, $expected) {
+		$result = $chord->analyzeTriad();
+		$this->assertEquals($expected, $result);
+	}
+	function provider_analyzeTriad() {
+		return array(
+			'maj' => array(
+				'chord' => \ianring\Chord::constructFromArray(array(
+					'notes' => array(
+						array('pitch' => array('step' => 'A', 'alter' => -1, 'octave' => 3)),
+						array('pitch' => array('step' => 'C', 'alter' => 0, 'octave' => 4)),
+						array('pitch' => array('step' => 'E', 'alter' => -1, 'octave' => 4))
+					)
+				)),			
+				'expected' => 'maj'
+			),
+			'min' => array(
+				'chord' => \ianring\Chord::constructFromArray(array(
+					'notes' => array(
+						array('pitch' => array('step' => 'A', 'alter' => -1, 'octave' => 3)),
+						array('pitch' => array('step' => 'C', 'alter' => -1, 'octave' => 4)),
+						array('pitch' => array('step' => 'E', 'alter' => -1, 'octave' => 4))
+					)
+				)),			
+				'expected' => 'min'
+			),
+
+			'aug' => array(
+				'chord' => \ianring\Chord::constructFromArray(array(
+					'notes' => array(
+						array('pitch' => array('step' => 'C', 'alter' => 0, 'octave' => 4)),
+						array('pitch' => array('step' => 'E', 'alter' => 0, 'octave' => 4)),
+						array('pitch' => array('step' => 'G', 'alter' => 1, 'octave' => 4))
+					)
+				)),			
+				'expected' => 'aug'
+			),
+
+			'dim' => array(
+				'chord' => \ianring\Chord::constructFromArray(array(
+					'notes' => array(
+						array('pitch' => array('step' => 'B', 'alter' => 0, 'octave' => 3)),
+						array('pitch' => array('step' => 'D', 'alter' => 0, 'octave' => 4)),
+						array('pitch' => array('step' => 'F', 'alter' => 0, 'octave' => 4))
+					)
+				)),			
+				'expected' => 'dim'
+			),
+
+		);
+	}
+
+
+
+	/**
+	 * @dataProvider provider_lowestMember
+	 */
+	public function test_lowestMember($chord, $expected) {
+		$result = $chord->lowestMember();
+		$this->assertEquals($expected, $result);
+	}
+	function provider_lowestMember() {
+		return array(
+		);
+	}
 
 }

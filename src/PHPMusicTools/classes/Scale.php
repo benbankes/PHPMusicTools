@@ -2,6 +2,7 @@
 namespace ianring;
 require_once 'PMTObject.php';
 require_once 'Pitch.php';
+require_once 'Chord.php';
 
 /**
  * This class operates on the understanding that all scales are made from the set of 12 chromatic tempered
@@ -15,6 +16,10 @@ require_once 'Pitch.php';
  * scale; e.g. it is not necessary for a Scale to have the root bit (1) on, nor will we mind if the scale has
  * leaps greater than 4 semitones. We could have a Scale object (which identifies the set of tones), and then
  * use its methods to determine if it is a "scale" according to the definition we desire.
+ *
+ * Take notice that a Scale is not a collection of Notes, nor a collection of Pitches. The scale is an abstract 
+ * pattern that can be applied to a root to generate pitches in a particular octave.
+ * 
  */
 
 /**
@@ -177,7 +182,7 @@ class Scale extends PMTObject
 	}
 
 	/**
-	 * accepts the scale object in the form of an array structure
+	 * accepts the scale object in the form of an array
 	 *
 	 * @param  [type] $scale [description]
 	 * @return [type]        [description]
@@ -209,12 +214,12 @@ class Scale extends PMTObject
 
 	/**
 	 * Scales are sometimes expressed as a stack of intervals ascending.
-	 * accept a structure like "2122122" and figure out what scale that is.
+	 * accept an interval pattern like "2122122" and figure out what scale that is.
 	 * @param  string $structureString 
 	 * @return [type]                  [description]
 	 */
-	public static function constructFromStructure($structureString) {
-		$scale = self::resolveScaleFromStructure($structureString);
+	public static function constructFromIntervalPattern($patternString) {
+		$scale = self::resolveScaleFromIntervalPattern($patternString);
 		return new Scale($scale, $root, $direction);
 	}
 
@@ -240,12 +245,12 @@ class Scale extends PMTObject
 	}
 
 	/*
-	 * accept a structure like "2122122" and figure out what scale that is.
+	 * accept an interval pattern like "2122122" as a string, figures out what scale that is.
 	 */
-	public static function resolveScaleFromStructure($string) {
+	public static function resolveScaleFromIntervalPattern($string) {
 		$intervals = str_split($string);
 		if (array_sum($intervals) != 12) {
-			throw new Exception('invalid structure - intervals do not sum to an octave');
+			throw new \Exception('invalid interval pattern - intervals do not sum to an octave');
 		}
 		// remove the last interval
 		array_pop($intervals);
@@ -274,6 +279,9 @@ class Scale extends PMTObject
 	 * todo: make this better
 	 */
 	function getPitches() {
+		if (empty($this->root)) {
+			throw new \Exception('Can not get pitches for a rootless scale');
+		}
 		$pitches = array();
 		for ($i = 0; $i < 12; $i++) {
 			if ($this->direction == self::ASCENDING) {
@@ -292,6 +300,25 @@ class Scale extends PMTObject
 		return $pitches;
 	}
 
+	function type() {
+		$types = array(
+			3 => 'tritonic',
+			4 => 'tetratonic',
+			5 => 'pentatonic',
+			6 => 'hexatonic',
+			7 => 'heptatonic',
+			8 => 'octatonic',
+			9 => 'nonatonic',
+			10 => 'decatonic',
+			11 => 'ginantonic',
+			12 => 'dodecatonic',
+		);
+		$num = $this->countTones();
+		if (isset($types[$num])) {
+			return $types[$num];
+		}
+		return null;
+	}
 
 	/**
 	 * What this function has got to do is make sure that the C sharp major scale uses an E sharp, not
@@ -305,7 +332,7 @@ class Scale extends PMTObject
 	 * @return Pitch[]
 	 */
 	public function normalizeScalePitches($pitches) {
-		if (in_array($this->scale, array(1387,1451,1709,1717,2773,2477,2741,1453))) {
+		if ($this->isHeliotonic()) {
 			// this is a scale known to have a note on every step
 			$currentStep = $pitches[0]->step;
 			for ($i = 1; $i < count($pitches); $i++) {
@@ -321,6 +348,39 @@ class Scale extends PMTObject
 	}
 
 
+	public function isTrueScale() {
+		return $this->hasRootTone() && $this->doesNotHaveFourConsecutiveOffBits();
+	}
+
+	/**
+	 * We will conveniently use the definition that a heliotonic scale is a heptatonic scale that
+	 * can be written with one tone on each step; so each tone gets its own letter name. This is useful when 
+	 * we are figuring out the enharmonic spelling of an altered note
+	 */
+	public function isHeliotonic() {
+		// let's at least make an attempt to do this programatically
+		if (!$this->isHeptatonic()) {
+			return false;
+		}
+
+		// are any of the scale degrees more than 2 alterations away from the major scale?
+		$major = array(0,2,4,5,7,9,11);
+		$tones = $this->getTones();
+		foreach ($tones as $index => $tone) {
+			if (abs($tone - $major[$index]) > 2) {
+				return false;
+			}
+		}
+		return true;
+
+		// here's our backup list in case the above doesn't work
+		return in_array($this->scale, array(1387,1451,1709,1717,2773,2477,2741,1453,2777,1741,1395,2745));
+	}
+
+	public function isHeptatonic() {
+		return $this->countTones() == 7;
+	}
+
 	/**
 	 * return the levenshtein distance between two scales (a measure of similarity)
 	 * accepts scale numbers, not Scale objects!
@@ -329,7 +389,7 @@ class Scale extends PMTObject
 	 * @param  Scale $scale2 the second scale number
 	 * @return int    Levenshtein distance between the two scales
 	 */
-	static function levenshteinScale($scale1, $scale2) {
+	public static function levenshteinScale($scale1, $scale2) {
 		$distance = 0;
 		$d = $scale1 ^ $scale2;
 		for ($i=0; $i<12; $i++) {              
@@ -365,6 +425,10 @@ class Scale extends PMTObject
 	}
 
 
+	/**
+	 * 
+	 * @todo  I think this could be done using a rotation and XOR bitwise logic... investigate that
+	 */
 	public function imperfections() {
 		$imperfections = array();
 		for ($i = 0; $i<12; $i++) {
@@ -377,7 +441,7 @@ class Scale extends PMTObject
 	}
 
 
-	function name($all = false){
+	public function name($all = false){
 		if (isset(self::$scaleNames[$this->scale])) {
 			$names = self::$scaleNames[$this->scale];
 			if (!is_array($names)) {
@@ -411,27 +475,6 @@ class Scale extends PMTObject
 	}
 
 
-	/**
-	 * takes a scale spectrum or a scale number, and renders the "pmn" summmary string, ala Howard Hansen
-	 *
-	 * @param  [type] $spectrum [description]
-	 * @return [type]           [description]
-	 */
-	function renderPmn() {
-		$spectrum = $this->spectrum();
-		$string = '';
-		// remember these are 0-based, so they're like the number of semitones minus 1
-		$classes = array('p' => 4, 'm' => 3, 'n' => 2, 's' => 1, 'd' => 0, 't' => 5);
-		foreach ($classes as $class => $interval) {
-			if ($spectrum[$interval] > 0) {
-				$string .= $class;
-			}
-			if ($spectrum[$interval] > 1) {
-				$string .= '<sup>'.$spectrum[$interval].'</sup>';
-			}
-		}
-		return '<em>' . $string . '</em>';
-	}
 
 	/**
 	 * a special rule that some people think defines what a scale is.
@@ -441,7 +484,10 @@ class Scale extends PMTObject
 	 * @param  [type] $scale [description]
 	 * @return [type]        [description]
 	 */
-	function hasRootTone($scale) {
+	public function hasRootTone($scale = null) {
+		if (is_null($scale)) {
+			$scale = $this->scale;
+		}
 		// returns true if the first bit is not a zero
 		return (1 & $scale) != 0;
 	}
@@ -453,7 +499,10 @@ class Scale extends PMTObject
 	 * @param  [type] $scale [description]
 	 * @return [type]        [description]
 	 */
-	public static function doesNotHaveFourConsecutiveOffBits($scale) {
+	public function doesNotHaveFourConsecutiveOffBits($scale) {
+		if (is_null($scale)) {
+			$scale = $this->scale;
+		}
 		$c = 0;
 		for ($i=0; $i<12; $i++) {
 			if (!($scale & (1 << ($i)))) {
@@ -610,7 +659,7 @@ class Scale extends PMTObject
      * ]
      * 
      */
-    public function getChords(){
+    public function getChordBitMasks(){
     	$chords = array();
     	$tones = $this->getTones();
     	$doubledTones = array_merge(
@@ -626,6 +675,61 @@ class Scale extends PMTObject
     		$triad = $triad | (1 << $doubledTones[$i]);
     		$triad = $triad | (1 << $doubledTones[$i + 2]);
     		$triad = $triad | (1 << $doubledTones[$i + 4]);
+    		$chords[] = $triad;
+    	}
+    	return $chords;
+    }
+
+    /**
+     * Returns triads built on each step of a scale. Only works for diatonic scales, and should always
+     * render the chords using the right enharmonic spellings.
+     */
+    public function getChords() {
+    	if (!$this->isHeliotonic()) {return null;}
+    	$pitches = $this->getPitches(); // this step already does the proper enharmonization for spelling
+    	$count = count($pitches);
+
+    	// now get the same pitches up an octave
+    	$raised = array();
+    	foreach($pitches as $pitch) {
+    		$raised[] = new Pitch($pitch->step, $pitch->alter, $pitch->octave + 1);
+    	}
+
+    	$pitches = array_merge($pitches, $raised);
+    	// var_dump($pitches);
+
+    	$chords = array();
+    	for ($i=0; $i<$count; $i++) {
+    		// build a triad on the ith degree
+    		$triad = Chord::constructFromArray(
+    			array(
+    				'notes' => array(
+    					array(
+    						'pitch' => array(
+    							'step' => $pitches[$i]->step,
+    							'alter' => $pitches[$i]->alter,
+    							'octave' => $pitches[$i]->octave
+    						)
+    					),
+    					array(
+    						'pitch' => array(
+    							'step' => $pitches[$i+2]->step,
+    							'alter' => $pitches[$i+2]->alter,
+    							'octave' => $pitches[$i+2]->octave
+    						)
+    					),
+    					array(
+    						'pitch' => array(
+    							'step' => $pitches[$i+4]->step,
+    							'alter' => $pitches[$i+4]->alter,
+    							'octave' => $pitches[$i+4]->octave
+    						)
+    					)
+    				)
+    			)
+    		);
+    		// echo '---------';
+    		// var_dump($triad);
     		$chords[] = $triad;
     	}
     	return $chords;
@@ -735,75 +839,105 @@ class Scale extends PMTObject
 	}
 
 	/**
-	 * generates an SVG representation of a scale bracelet. tries to make it look decent at various sizes.
-	 * 
-	 * @param  integer $scale             the scale being represented, ie a bitmask integer
-	 * @param  integer $size              size in pixels
-	 * @param  string  $text              if present, puts text in the middle of the bracelet
-	 * @param  boolean $showImperfections if true, puts an "i" on imperfect notes in the scale
-	 * @return string                     SVG as a string that you can insert into an HTML page
+	 * returns the interval pattern of a scale. eg a major scale has the pattern [2,2,1,2,2,2]
 	 */
-	function drawSVGBracelet($size = 200, $text = null, $showImperfections = false) {
-		if ($showImperfections) {
-			$imperfections = $this->imperfections($this->scale);
-			$symmetries = $this->symmetries($this->scale);
+	public function intervalPattern() {
+		if (!$this->hasRootTone()) {
+			throw new \Exception('we do not make patterns for scales with no root tone');
 		}
-
-		$s = '';
-		if ($size > 100) {
-			$stroke = 3;
-		} elseif ($size > 50) {
-			$stroke = 2;
-		} else {
-			$stroke = 1;
+		$tones = $this->getTones();
+		$tones[] = 12;
+		$pattern = array();
+		for ($i=0; $i<(count($tones) - 1); $i++) {
+			$pattern[] = $tones[$i+1] - $tones[$i];
 		}
-		$smallrad = floor(($size / 12));
-		$centerx = $size / 2;
-		$centery = $size / 2;
-		$radius = floor(($size - ($smallrad*2) - ($stroke*4)) / 2);
-		$s .= '<svg xmlns="http://www.w3.org/2000/svg" height="'. ($size + 3).'" width="'.($size + 3) .'">';
-		$s .= '<circle r="'.$radius.'" cx="'.$centerx.'" cy="'.$centery.'" stroke-width="'.$stroke.'" fill="white" stroke="black"/>';
-		$symmetryshape = array();
-		for ($i=0; $i<12; $i++) {
-			$deg = $i * 30 - 90;
-			$x1 = floor($centerx + ($radius * cos(deg2rad($deg))));
-			$y1 = floor($centery + ($radius * sin(deg2rad($deg))));
-
-			$innerx1 = floor($centerx + (($radius - $smallrad) * cos(deg2rad($deg))));
-			$innery1 = floor($centery + (($radius - $smallrad) * sin(deg2rad($deg))));
-
-			if ($i == 0) {
-				$symmetryshape[] = array($innerx1, $innery1);
-			}
-
-			$s .= '<circle r="'.$smallrad.'" cx="'.$x1.'" cy="'.$y1.'" stroke="black" stroke-width="'.$stroke.'"';
-			if ($this->scale & (1 << $i)) {
-				$s .= ' fill="black"';
-			} else {
-				$s .= ' fill="white"';
-			}
-			$s .= '/>';
-
-			if ($showImperfections) {
-				if (in_array($i, $imperfections)) {
-					$s .= '<text style="font-family: Times New Roman;font-weight:bold;font-style:italic;font-size:30px;" text-anchor="middle" x="'.$x1.'" y="'. ($y1 + 9) .'" fill="white">i</text>';
-				}
-				if (in_array($i, $symmetries)) {
-					$symmetryshape[] = array($innerx1, $innery1);
-				}
-			}
-		}
-		if (count($symmetryshape) > 1) {
-			for ($i = 0; $i < count($symmetryshape) - 1; $i++) {
-				$s .= '<line x1="'.$symmetryshape[$i][0].'" y1="'.$symmetryshape[$i][1].'" x2="'.$symmetryshape[$i+1][0].'" y2="'.$symmetryshape[$i+1][1].'" style="stroke:#000;stroke-width:'.$stroke.'" />';
-			}
-			$s .= '<line x1="'.$symmetryshape[count($symmetryshape)-1][0].'" y1="'.$symmetryshape[count($symmetryshape)-1][1].'" x2="'.$symmetryshape[0][0].'" y2="'.$symmetryshape[0][1].'" style="stroke:#000;stroke-width:'.$stroke.'" />';
-		}
-		if (!empty($text)) {
-			$s .= '<text style="font-weight: bold;" text-anchor="middle" x="'.$centerx.'" y="'. ($centery + 5) .'" fill="black">'.$text.'</text>';
-		}
-		$s .= '</svg>';
-		return $s;
+		return $pattern;
 	}
+
+	/**
+	 * returns the bits that have a semitone above them
+	 */
+	function hemitonics($scale = null) {
+		if (is_null($scale)) {
+			$scale = $this->scale;			
+		}
+		return $this->findIntervalics($scale, 1);
+	}
+
+	/**
+	 * returns the bits that have a tritone above them
+	 */
+	function tritonics($scale = null) {
+		if (is_null($scale)) {
+			$scale = $this->scale;			
+		}
+		return $this->findIntervalics($scale, 7);
+	}
+
+	/**
+	 * returns the bits that have a semitone above them, and a semitone above those two.
+	 * how elegant is it that we just call hemitonics() twice recursively? booyah.
+	 */
+	function cohemitonics($scale = null) {
+		if (is_null($scale)) {
+			$scale = $this->scale;			
+		}
+		return $this->hemitonics($this->hemitonics($this->scale));
+	}
+
+	public function isHemitonic() {
+		return count($this->hemitonics() > 0);
+	}
+
+	public function isCohemitonic() {
+		return count($this->cohemitonics() > 0);
+	}
+
+	/**
+	 * finds tones that have some interval above them, e.g. hemitonics and tritonics
+	 */
+	private function findIntervalics($scale = null, $interval) {
+		if (is_null($scale)) {
+			$scale = $this->scale;			
+		}
+		$rotateme = $scale; // make a copy
+		return $scale & ($this->rotateBitmask($rotateme, $direction = 1, $amount = $interval));
+	}
+
+	function hemitonia() {
+		$hemi = $this->hemitonics();
+		if (count($hemi) == 0) {
+			return 'anhemitonic';
+		}
+		if (count($hemi) == 1) {
+			return 'unhemitonic';
+		}
+		if (count($hemi) == 2) {
+			return 'dihemitonic';
+		}
+		if (count($hemi) == 3) {
+			return 'trihemitonic';
+		}
+		return 'multihemitonic';
+	}
+
+	function cohemitonia() {
+		$cohemi = $this->cohemitonics();
+		if (count($cohemi) == 0) {
+			return 'ancohemitonic';
+		}
+		if (count($cohemi) == 1) {
+			return 'uncohemitonic';
+		}
+		if (count($cohemi) == 2) {
+			return 'dicohemitonic';
+		}
+		if (count($cohemi) == 3) {
+			return 'tricohemitonic';
+		}
+		return 'multicohemitonic';
+	}
+
+
 
 }

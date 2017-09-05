@@ -48,13 +48,13 @@ class ScaleTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider provider_resolveScaleFromStructure
+	 * @dataProvider provider_resolveScaleFromIntervalPattern
 	 */
-	public function test_resolveScaleFromStructure($structure, $expected) {
-		$actual = ianring\Scale::resolveScaleFromStructure($structure);
+	public function test_resolveScaleFromIntervalPattern($structure, $expected) {
+		$actual = ianring\Scale::resolveScaleFromIntervalPattern($structure);
 		$this->assertEquals($expected, $actual);
 	}
-	public function provider_resolveScaleFromStructure() {
+	public function provider_resolveScaleFromIntervalPattern() {
 		return array(
 			'major' 					=> array('structure' => '2212221', 'expected' => 2741),
 			'whole tone' 					=> array('structure' => '222222', 'expected' => 1365),
@@ -602,19 +602,211 @@ class ScaleTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider provider_getChords
+	 * @dataProvider provider_getChordBitMasks
 	 */
-	public function test_getChords($scale, $expected) {
+	public function test_getChordBitMasks($scale, $expected) {
 		$scale = new \ianring\Scale($scale);
-		$actual = $scale->getChords();
+		$actual = $scale->getChordBitMasks();
 		$this->assertEquals($expected, $actual);
 	}
-	public function provider_getChords() {
+	public function provider_getChordBitMasks() {
 		return array(
 			array(
 				'scale' => 2741,
 				'expected' => array(145, 548, 2192, 4640, 18560, 70144, 149504)
 			),
+			array(
+				'scale' => 1453,
+				'expected' => array(137, 292, 1160, 4384, 17536, 37120, 148480)
+			)
+		);
+
+	}
+
+
+	/**
+	 * @dataProvider provider_getChords
+	 */
+	public function test_getChords($scale, $root, $expected) {
+		$scale = new \ianring\Scale($scale, $root);
+		$actual = $scale->getChords();
+		$this->assertEquals($expected, $actual);
+	}
+	public function provider_getChords() {
+		return array(
+			'chromatic scale is not diatonic' => array(
+				'scale' => 4095,
+				'root' => new \ianring\Pitch('C', 0, 3),
+				'expected' => null
+			),
+			'C major scale' => array(
+				'scale' => 2741, // C MAJOR
+				'root' => new \ianring\Pitch('C', 0, 3),
+				'expected' => array(
+					\ianring\Chord::constructFromArray(array(
+						'notes' => array(
+							array('pitch' => array('step' => 'C', 'alter' => 0, 'octave' => 3)),
+							array('pitch' => array('step' => 'E', 'alter' => 0, 'octave' => 3)),
+							array('pitch' => array('step' => 'G', 'alter' => 0, 'octave' => 3))
+						)
+					)),
+					\ianring\Chord::constructFromArray(array(
+						'notes' => array(
+							array('pitch' => array('step' => 'D', 'alter' => 0, 'octave' => 3)),
+							array('pitch' => array('step' => 'F', 'alter' => 0, 'octave' => 3)),
+							array('pitch' => array('step' => 'A', 'alter' => 0, 'octave' => 3))
+						)
+					)),
+					\ianring\Chord::constructFromArray(array(
+						'notes' => array(
+							array('pitch' => array('step' => 'E', 'alter' => 0, 'octave' => 3)),
+							array('pitch' => array('step' => 'G', 'alter' => 0, 'octave' => 3)),
+							array('pitch' => array('step' => 'B', 'alter' => 0, 'octave' => 3))
+						)
+					)),
+					\ianring\Chord::constructFromArray(array(
+						'notes' => array(
+							array('pitch' => array('step' => 'F', 'alter' => 0, 'octave' => 3)),
+							array('pitch' => array('step' => 'A', 'alter' => 0, 'octave' => 3)),
+							array('pitch' => array('step' => 'C', 'alter' => 0, 'octave' => 4))
+						)
+					)),
+					\ianring\Chord::constructFromArray(array(
+						'notes' => array(
+							array('pitch' => array('step' => 'G', 'alter' => 0, 'octave' => 3)),
+							array('pitch' => array('step' => 'B', 'alter' => 0, 'octave' => 3)),
+							array('pitch' => array('step' => 'D', 'alter' => 0, 'octave' => 4))
+						)
+					)),
+					\ianring\Chord::constructFromArray(array(
+						'notes' => array(
+							array('pitch' => array('step' => 'A', 'alter' => 0, 'octave' => 3)),
+							array('pitch' => array('step' => 'C', 'alter' => 0, 'octave' => 4)),
+							array('pitch' => array('step' => 'E', 'alter' => 0, 'octave' => 4))
+						)
+					)),
+					\ianring\Chord::constructFromArray(array(
+						'notes' => array(
+							array('pitch' => array('step' => 'B', 'alter' => 0, 'octave' => 3)),
+							array('pitch' => array('step' => 'D', 'alter' => 0, 'octave' => 4)),
+							array('pitch' => array('step' => 'F', 'alter' => 0, 'octave' => 4))
+						)
+					))
+				)
+			),
+
+			'C Locrian scale' => array(
+				'scale' => 1387,
+				'root' => new \ianring\Pitch('C', 0, 3),
+				'expected' => array(
+					\ianring\Chord::constructFromArray(array(
+						'notes' => array(
+							array('pitch' => array('step' => 'C', 'alter' => 0, 'octave' => 3)),
+							array('pitch' => array('step' => 'E', 'alter' => -1, 'octave' => 3)),
+							array('pitch' => array('step' => 'G', 'alter' => -1, 'octave' => 3))
+						)
+					)),
+					\ianring\Chord::constructFromArray(array(
+						'notes' => array(
+							array('pitch' => array('step' => 'D', 'alter' => -1, 'octave' => 3)),
+							array('pitch' => array('step' => 'F', 'alter' => 0, 'octave' => 3)),
+							array('pitch' => array('step' => 'A', 'alter' => -1, 'octave' => 3))
+						)
+					)),
+					\ianring\Chord::constructFromArray(array(
+						'notes' => array(
+							array('pitch' => array('step' => 'E', 'alter' => -1, 'octave' => 3)),
+							array('pitch' => array('step' => 'G', 'alter' => -1, 'octave' => 3)),
+							array('pitch' => array('step' => 'B', 'alter' => -1, 'octave' => 3))
+						)
+					)),
+					\ianring\Chord::constructFromArray(array(
+						'notes' => array(
+							array('pitch' => array('step' => 'F', 'alter' => 0, 'octave' => 3)),
+							array('pitch' => array('step' => 'A', 'alter' => -1, 'octave' => 3)),
+							array('pitch' => array('step' => 'C', 'alter' => 0, 'octave' => 4))
+						)
+					)),
+					\ianring\Chord::constructFromArray(array(
+						'notes' => array(
+							array('pitch' => array('step' => 'G', 'alter' => -1, 'octave' => 3)),
+							array('pitch' => array('step' => 'B', 'alter' => -1, 'octave' => 3)),
+							array('pitch' => array('step' => 'D', 'alter' => -1, 'octave' => 4))
+						)
+					)),
+					\ianring\Chord::constructFromArray(array(
+						'notes' => array(
+							array('pitch' => array('step' => 'A', 'alter' => -1, 'octave' => 3)),
+							array('pitch' => array('step' => 'C', 'alter' => 0, 'octave' => 4)),
+							array('pitch' => array('step' => 'E', 'alter' => -1, 'octave' => 4))
+						)
+					)),
+					\ianring\Chord::constructFromArray(array(
+						'notes' => array(
+							array('pitch' => array('step' => 'B', 'alter' => -1, 'octave' => 3)),
+							array('pitch' => array('step' => 'D', 'alter' => -1, 'octave' => 4)),
+							array('pitch' => array('step' => 'F', 'alter' => 0, 'octave' => 4))
+						)
+					))
+				)
+			),
+
+			'G sharp harmonic minor' => array(
+				'scale' => 2477,
+				'root' => new \ianring\Pitch('G', 1, 3),
+				'expected' => array(
+					\ianring\Chord::constructFromArray(array(
+						'notes' => array(
+							array('pitch' => array('step' => 'G', 'alter' => 1, 'octave' => 3)),
+							array('pitch' => array('step' => 'B', 'alter' => 0, 'octave' => 3)),
+							array('pitch' => array('step' => 'D', 'alter' => 1, 'octave' => 4))
+						)
+					)),
+					\ianring\Chord::constructFromArray(array(
+						'notes' => array(
+							array('pitch' => array('step' => 'A', 'alter' => 1, 'octave' => 3)),
+							array('pitch' => array('step' => 'C', 'alter' => 1, 'octave' => 4)),
+							array('pitch' => array('step' => 'E', 'alter' => 0, 'octave' => 4))
+						)
+					)),
+					\ianring\Chord::constructFromArray(array(
+						'notes' => array(
+							array('pitch' => array('step' => 'B', 'alter' => 0, 'octave' => 3)),
+							array('pitch' => array('step' => 'D', 'alter' => 1, 'octave' => 4)),
+							array('pitch' => array('step' => 'F', 'alter' => 2, 'octave' => 4))
+						)
+					)),
+					\ianring\Chord::constructFromArray(array(
+						'notes' => array(
+							array('pitch' => array('step' => 'C', 'alter' => 1, 'octave' => 4)),
+							array('pitch' => array('step' => 'E', 'alter' => 0, 'octave' => 4)),
+							array('pitch' => array('step' => 'G', 'alter' => 1, 'octave' => 4))
+						)
+					)),
+					\ianring\Chord::constructFromArray(array(
+						'notes' => array(
+							array('pitch' => array('step' => 'D', 'alter' => 1, 'octave' => 4)),
+							array('pitch' => array('step' => 'F', 'alter' => 2, 'octave' => 4)),
+							array('pitch' => array('step' => 'A', 'alter' => 1, 'octave' => 4))
+						)
+					)),
+					\ianring\Chord::constructFromArray(array(
+						'notes' => array(
+							array('pitch' => array('step' => 'E', 'alter' => 0, 'octave' => 4)),
+							array('pitch' => array('step' => 'G', 'alter' => 1, 'octave' => 4)),
+							array('pitch' => array('step' => 'B', 'alter' => 0, 'octave' => 4))
+						)
+					)),
+					\ianring\Chord::constructFromArray(array(
+						'notes' => array(
+							array('pitch' => array('step' => 'F', 'alter' => 2, 'octave' => 4)),
+							array('pitch' => array('step' => 'A', 'alter' => 1, 'octave' => 4)),
+							array('pitch' => array('step' => 'C', 'alter' => 1, 'octave' => 5))
+						)
+					))
+				)
+			),
+
 		);
 
 	}
@@ -649,5 +841,97 @@ class ScaleTest extends PHPMusicToolsTest
 		);
 
 	}
+
+	/**
+	 * @dataProvider provider_hemitonics
+	 */
+	public function test_hemitonics($scale, $expected) {
+		$scale = new \ianring\Scale($scale);
+		$actual = $scale->hemitonics();
+		$this->assertEquals($expected, $actual);
+	}
+	public function provider_hemitonics() {
+		return array(
+			array(
+				'scale' => 		bindec('101010110101'),
+				'expected' => 	bindec('100000010000')
+			),
+			array(
+				'scale' => 		bindec('010101010101'),
+				'expected' => 	bindec('000000000000')
+			),
+			array(
+				'scale' => 		bindec('111111111111'),
+				'expected' => 	bindec('111111111111')
+			),
+			array(
+				'scale' => 		bindec('111111111110'),
+				'expected' => 	bindec('011111111110')
+			),
+		);
+
+	}
+
+
+	/**
+	 * @dataProvider provider_cohemitonics
+	 */
+	public function test_cohemitonics($scale, $expected) {
+		$scale = new \ianring\Scale($scale);
+		$actual = $scale->cohemitonics();
+		$this->assertEquals($expected, $actual);
+	}
+	public function provider_cohemitonics() {
+		return array(
+			array(
+				'scale' => 		bindec('111011011101'),
+				'expected' => 	bindec('011000000100')
+			),
+			array(
+				'scale' => 		bindec('000011100000'),
+				'expected' => 	bindec('000000100000')
+			),
+			array(
+				'scale' => 		bindec('010101010101'),
+				'expected' => 	bindec('000000000000')
+			),
+			array(
+				'scale' => 		bindec('111111111111'),
+				'expected' => 	bindec('111111111111')
+			),
+			array(
+				'scale' => 		bindec('111111111110'),
+				'expected' => 	bindec('001111111110')
+			),
+		);
+
+	}
+
+	/**
+	 * @dataProvider provider_intervalPattern
+	 */
+	public function test_intervalPattern($scale, $expected) {
+		$scale = new \ianring\Scale($scale);
+		$actual = $scale->intervalPattern();
+		$this->assertEquals($expected, $actual);
+	}
+	public function provider_intervalPattern() {
+		return array(
+			array(
+				'scale' => 		bindec('101010110101'),
+				'expected' => 	array(2,2,1,2,2,2,1)
+			),
+			array(
+				'scale' => 		bindec('010101010101'),
+				'expected' => 	array(2,2,2,2,2,2)
+			),
+			array(
+				'scale' => 		bindec('111111111111'),
+				'expected' => 	array(1,1,1,1,1,1,1,1,1,1,1,1)
+			),
+		);
+
+	}
+
 
 }

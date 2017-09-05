@@ -865,4 +865,41 @@ class PitchTest extends PHPMusicToolsTest
 	}
 
 
+	/**
+	 * @dataProvider provider_toVexFlowKey
+	 */
+	public function test_toVexFlowKey($pitch, $expected) {
+		$result = $pitch->toVexFlowKey();
+		$this->assertEquals($expected, $result);
+	}
+	function provider_toVexFlowKey() {
+		return array(
+			array(
+				'pitch' => new ianring\Pitch('C', -2, 4),
+				'expected' => 'cbb/4'
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', -1, 4),
+				'expected' => 'cb/4'
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 0, 4),
+				'expected' => 'cn/4'
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 1, 4),
+				'expected' => 'c#/4'
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 2, 4),
+				'expected' => 'c##/4'
+			),
+			array(
+				'pitch' => new ianring\Pitch('A', 1, 2),
+				'expected' => 'a#/2'
+			),
+		);
+	}
+
+
 }
