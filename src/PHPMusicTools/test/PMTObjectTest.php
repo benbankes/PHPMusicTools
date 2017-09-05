@@ -1,7 +1,7 @@
 <?php
 
 require_once 'PHPMusicToolsTest.php';
-require_once '../classes/PMTObject.php';
+require_once __DIR__.'/../classes/PMTObject.php';
 
 class PMTObjectTest extends PHPMusicToolsTest
 {

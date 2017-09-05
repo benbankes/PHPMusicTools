@@ -1,7 +1,7 @@
 <?php
 
 require_once 'PHPMusicToolsTest.php';
-require_once '../classes/Clef.php';
+require_once __DIR__.'/../classes/Clef.php';
 
 class ClefTest extends PHPMusicToolsTest
 {

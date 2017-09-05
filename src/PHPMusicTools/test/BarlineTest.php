@@ -1,7 +1,7 @@
 <?php
 
 require_once 'PHPMusicToolsTest.php';
-require_once '../classes/Barline.php';
+require_once __DIR__.'/../classes/Barline.php';
 
 class BarlineTest extends PHPMusicToolsTest
 {

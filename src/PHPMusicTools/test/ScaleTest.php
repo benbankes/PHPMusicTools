@@ -1,8 +1,8 @@
 <?php
 
 require_once 'PHPMusicToolsTest.php';
-require_once '../classes/Scale.php';
-require_once '../classes/Pitch.php';
+require_once __DIR__.'/../classes/Scale.php';
+require_once __DIR__.'/../classes/Pitch.php';
 
 class ScaleTest extends PHPMusicToolsTest
 {

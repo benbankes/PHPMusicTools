@@ -1,10 +1,10 @@
 <?php
 
 require_once 'PHPMusicToolsTest.php';
-require_once '../classes/MusicXMLParser.php';
+require_once __DIR__.'/../classes/MusicXMLParser.php';
 
 
-class MeasureTest extends PHPMusicToolsTest
+class MusicXMLParserTest extends PHPMusicToolsTest
 {
 	
 	protected function setUp(){

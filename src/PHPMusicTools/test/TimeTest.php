@@ -1,7 +1,7 @@
 <?php
 
 require_once 'PHPMusicToolsTest.php';
-require_once '../classes/Time.php';
+require_once __DIR__.'/../classes/Time.php';
 
 class TimeTest extends PHPMusicToolsTest
 {

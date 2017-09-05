@@ -1,7 +1,7 @@
 <?php
 
 require_once 'PHPMusicToolsTest.php';
-require_once '../classes/Direction.php';
+require_once __DIR__.'/../classes/Direction.php';
 
 class DirectionTest extends PHPMusicToolsTest {
 

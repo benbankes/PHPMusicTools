@@ -1,7 +1,7 @@
 <?php
 
 require_once 'PHPMusicToolsTest.php';
-require_once '../classes/Note.php';
+require_once __DIR__.'/../classes/Note.php';
 
 class NoteTest extends PHPMusicToolsTest
 {

@@ -1,7 +1,7 @@
 <?php
 
 require_once 'PHPMusicToolsTest.php';
-require_once '../classes/Accidental.php';
+require_once __DIR__.'/../classes/Accidental.php';
 
 class AccidentalTest extends PHPMusicToolsTest
 {

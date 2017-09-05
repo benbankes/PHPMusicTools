@@ -1,7 +1,7 @@
 <?php
 
 require_once 'PHPMusicToolsTest.php';
-require_once '../classes/ChordName.php';
+require_once __DIR__.'/../classes/ChordName.php';
 
 class ChordNameTest extends PHPMusicToolsTest
 {
