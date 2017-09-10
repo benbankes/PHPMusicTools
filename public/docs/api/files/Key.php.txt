@@ -4,9 +4,9 @@ require_once 'PMTObject.php';
 
 /**
  * Key is a concept which describes the root and pitches used in diatonic harmony.
- * To be congruent with the definition of a key in MusicXML, this class has the properties 
+ * To be congruent with the definition of a key in MusicXML, this class has the properties
  * "fifths", which is basically how mant fifths above or below C the key is, aka how many
- * sharps or flats exist in the signature. "mode" is either "major" or "minor". 
+ * sharps or flats exist in the signature. "mode" is either "major" or "minor".
  *
  * For example, {"fifths":-2,"mode":"minor"} means G minor, which has two flats in the signature.
  *

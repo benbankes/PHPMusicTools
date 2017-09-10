@@ -497,47 +497,43 @@ Make sure all your code is good quality and that you've tested it, and run the U
 
 All functionality should be unit tested. If you discover functionality that isn't tested yet, the highest priority should be to write tests for it. Though it is not mandated that all development should be test-driven, it is recommended that TDD is a good approach for adding new features or enhancing existing ones.
 
-
-wget https://phar.phpunit.de/phpunit-6.0.phar
-or on mac:
-curl "https://phar.phpunit.de/phpunit-6.0.phar" -o "phpunit-6.0.phar"
-
-curl "https://phar.phpunit.de/phpunit-6.0.11.phar" -o "phpunit-6.0.phar"
-
+```
+curl "https://phar.phpunit.de/phpunit-6.0.11.phar" -o "phpunit-6.0.phar"```
 chmod +x phpunit-6.0.11.phar
-
 sudo mv phpunit-6.0.11.phar /usr/local/bin/phpunit
+```
 
-This version of phpunit requires PHP 7.0 or above. If you're running an older version of PHP, upgrade!
+This version of phpunit requires PHP 7.0 or above. If you're running an older version of PHP, you need to upgrade!
 
 To run the tests, 
 
 ```
 cd ./ianring/PHPMusicTools/src/PHPMusicTools/test
-
 phpunit
+```
 
-PHPUnit 6.0.11 by Sebastian Bergmann and contributors.
+### Test and Code Completion Report
 
-...........R..........SSSSSSSSS................................  63 / 426 ( 14%)
-............................................................... 126 / 426 ( 29%)
-...............R............................................... 189 / 426 ( 44%)
-............................................................... 252 / 426 ( 59%)
-............................................................... 315 / 426 ( 73%)
-............................................................... 378 / 426 ( 88%)
-..............................................R.                426 / 426 (100%)
+To generate reports for test results and code completion (requires xdebug to be installed), run this command:
+```
+vendor/bin/phpunit --testdox-html public/reports/phpunit.html --whitelist src/PHPMusicTools/classes --coverage-html public/reports/coverage.html src/PHPMusicTools/test/
+```
+The reports will appear in the public/reports directory.
 
-Time: 128 ms, Memory: 10.00MB
+## All in one build
 
-OK, but incomplete, skipped, or risky tests!
-Tests: 426, Assertions: 559, Skipped: 9, Risky: 3.
+For convenience, all the processing steps for documentation and code analysis are encapsulated in a build script:
+
+```
+./build.sh
 ```
 
 ## Conventions
 
-Object properties are camel-case
+Object properties and methods are camel-case
 ```
 $this->octaveChange = 1;
+
 ```
 
 

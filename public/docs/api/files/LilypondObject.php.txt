@@ -6,7 +6,7 @@ class LilypondObject extends PMTObject {
 
 	public $text = '';
 	const LILYPOND_TEMP_FOLDER = '/var/www/html/ianring.com/lilytemp';
-	
+
 	public function set($text) {
 		$this->text = $text;
 	}

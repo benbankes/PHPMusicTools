@@ -277,7 +277,7 @@ class ChordTest extends PHPMusicToolsTest
 						array('pitch' => array('step' => 'E', 'alter' => -1, 'octave' => 4))
 					)
 				)),			
-				'expected' => 'maj'
+				'expected' => 'major'
 			),
 			'min' => array(
 				'chord' => \ianring\Chord::constructFromArray(array(
@@ -287,7 +287,7 @@ class ChordTest extends PHPMusicToolsTest
 						array('pitch' => array('step' => 'E', 'alter' => -1, 'octave' => 4))
 					)
 				)),			
-				'expected' => 'min'
+				'expected' => 'minor'
 			),
 
 			'aug' => array(
@@ -298,7 +298,7 @@ class ChordTest extends PHPMusicToolsTest
 						array('pitch' => array('step' => 'G', 'alter' => 1, 'octave' => 4))
 					)
 				)),			
-				'expected' => 'aug'
+				'expected' => 'augmented'
 			),
 
 			'dim' => array(
@@ -309,7 +309,7 @@ class ChordTest extends PHPMusicToolsTest
 						array('pitch' => array('step' => 'F', 'alter' => 0, 'octave' => 4))
 					)
 				)),			
-				'expected' => 'dim'
+				'expected' => 'diminished'
 			),
 
 		);

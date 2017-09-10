@@ -42,7 +42,7 @@ class Score extends PMTObject
 
 
     function setAttribute($property) {
- 
+
     }
 
 

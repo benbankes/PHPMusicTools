@@ -625,14 +625,14 @@ class ScaleTest extends PHPMusicToolsTest
 
 
 	/**
-	 * @dataProvider provider_getChords
+	 * @dataProvider provider_getTriads
 	 */
-	public function test_getChords($scale, $root, $expected) {
+	public function test_getTriads($scale, $root, $expected) {
 		$scale = new \ianring\Scale($scale, $root);
-		$actual = $scale->getChords();
+		$actual = $scale->getTriads();
 		$this->assertEquals($expected, $actual);
 	}
-	public function provider_getChords() {
+	public function provider_getTriads() {
 		return array(
 			'chromatic scale is not diatonic' => array(
 				'scale' => 4095,

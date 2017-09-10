@@ -20,6 +20,9 @@ class ScaleVisualizer extends Scale
 	 * @return [type]           [description]
 	 */
 	public static function renderPmn($scale) {
+		if (is_integer($scale)) {
+			$scale = new Scale($scale);
+		}
 		$spectrum = $scale->spectrum();
 		$string = '';
 		// remember these are 0-based, so they're like the number of semitones minus 1
@@ -37,22 +40,25 @@ class ScaleVisualizer extends Scale
 
 
 	public static function renderChicklet($scale, $showName = false) {
+		if (is_integer($scale)) {
+			$scale = new Scale($scale);
+		}
 		if (is_array($scale)) {
 			$str = '';
 			foreach ($scale as $sc) {
-				$str .= renderChicklet($sc);
+				$str .= self::renderChicklet($sc);
 			}
 			return $str;
 		}
 		$s = '<span class="scale-chicklet">';
-		$s .= '<a href="/scales/'.$scale.'">'.$scale.'</a>';
+		$s .= '<a href="/scales/'.$scale->scale.'">'.$scale->scale.'</a>';
 		if ($showName) {
-			$name = name($scale);
+			$name = $scale->name();
 			if (!empty($name)) {
 				$s .= ' ('.$name.')';
 			}
 		}
-		$s .= '<i class="icon-play2 scale-player" data-scale="'.$scale.'"></i>';
+		$s .= '<i class="icon-play2 scale-player" data-scale="'.$scale->scale.'"></i>';
 		$s .= '</span>';
 		return $s;
 
@@ -60,34 +66,34 @@ class ScaleVisualizer extends Scale
 
 
 	public static function braceletHTML($scale, $grouped = false) {
+		if (is_integer($scale)) {
+			$scale = new Scale($scale);
+		}
 		if (is_array($scale)) {
 			$str = '';
 			if ($grouped) {
 				$str .= '<div class="bracelet-group">';
 			}
 			foreach ($scale as $s) {
-				$str .= $scale->braceletHTML();
+				$str .= self::braceletHTML($s);
 			}
 			if ($grouped) {
 				$str .= '</div>';
 			}
 			return $str;
 		}
-		if (is_integer($scale)) {
-			$scale = new Scale($scale);
-		}
 		$s = '<div class="bracelet">';
-		$s .= $scale->drawSVGBracelet(50);
+		$s .= self::drawSVGBracelet($scale, 50);
 		$s .= '<br/>';
-		$s .= '<a href="/scales/'.$scale.'">'.$scale.'</a>';
-		$s .= '<i class="icon-play2 scale-player" data-scale="'.$scale.'"></i>';
+		$s .= '<a href="/scales/'.$scale->scale.'">'.$scale->scale.'</a>';
+		$s .= '<i class="icon-play2 scale-player" data-scale="'.$scale->scale.'"></i>';
 		$s .= '</div>';
 		return $s;
 	}
 
 	/**
 	 * generates an SVG representation of a scale bracelet. tries to make it look decent at various sizes.
-	 * 
+	 *
 	 * @param  integer $scale             the scale being represented, ie a bitmask integer
 	 * @param  integer $size              size in pixels
 	 * @param  string  $text              if present, puts text in the middle of the bracelet
@@ -95,15 +101,19 @@ class ScaleVisualizer extends Scale
 	 * @return string                     SVG as a string that you can insert into an HTML page
 	 */
 	public static function drawSVGBracelet($scale, $size = 200, $text = null, $showImperfections = false) {
+		if (is_integer($scale)) {
+			$scale = new Scale($scale);
+		}
+
 		if ($showImperfections) {
-			$imperfections = $this->imperfections($this->scale);
-			$symmetries = $this->symmetries($this->scale);
+			$imperfections = $scale->imperfections();
+			$symmetries = $scale->symmetries();
 		}
 
 		$s = '';
 		if ($size > 100) {
 			$stroke = 3;
-		} elseif ($size > 50) {
+		} elseif ($size > 70) {
 			$stroke = 2;
 		} else {
 			$stroke = 1;
@@ -128,7 +138,7 @@ class ScaleVisualizer extends Scale
 			}
 
 			$s .= '<circle r="'.$smallrad.'" cx="'.$x1.'" cy="'.$y1.'" stroke="black" stroke-width="'.$stroke.'"';
-			if ($this->scale & (1 << $i)) {
+			if ($scale->scale & (1 << $i)) {
 				$s .= ' fill="black"';
 			} else {
 				$s .= ' fill="white"';

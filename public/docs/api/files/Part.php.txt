@@ -25,7 +25,7 @@ class Part extends PMTObject
 
     public static function constructFromArray($props) {
         $name = null;
-        if (!empty($props['name'])) {             
+        if (!empty($props['name'])) {
             $name = $props['name'];
         }
         $measures = array();
@@ -46,7 +46,7 @@ class Part extends PMTObject
 
     public static function parseFromXmlObject($obj) {
         $part = new Part();
-        foreach($obj->measure as $measure) {
+        foreach ($obj->measure as $measure) {
             $part->addMeasure(Measure::parseFromXmlObject($measure));
         }
         return $part;

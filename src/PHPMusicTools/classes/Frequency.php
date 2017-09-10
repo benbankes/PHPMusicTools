@@ -1,15 +1,15 @@
 <?php
 /**
- * Whilst a Pitch represents the conceptual notion of a sound's height, the frequency is a 
+ * Whilst a Pitch represents the conceptual notion of a sound's height, the frequency is a
  * specific scientific property of something's vibration, as measured in Hertz (cycles per second).
- * 
- * The same pitch, for example the A above middle C, might have different frequency in different 
+ *
+ * The same pitch, for example the A above middle C, might have different frequency in different
  * tuning systems. This class encapulates methods that let us play with frequencies.
  */
 
 class Frequency extends PMTObject
 {
-	
+
 
 	/**
 	 *

@@ -1,12 +1,12 @@
 <?php
 /**
- * This class is fascinating because it extends the idea of representing scales as a binary number into 
- * tertiary chords! 
+ * This class is fascinating because it extends the idea of representing scales as a binary number into
+ * tertiary chords!
  * for example, a root tone is 1,
  * a root plus a minor third is 1001,
  * a root plus a major third is 10001,
  * a major triad is 10010001
- * 
+ *
  * In this way, we can name all kinds of named chords in the same way we name our scales, right up to
  * giant numbers for interesting colourized thirteenths
  *
@@ -50,13 +50,13 @@ class ChordName extends PMTObject {
         $this->chord = $num;
     }
 
-    public static function constructFromName($name){
+    public static function constructFromName($name) {
         // look up the number...
         $num = 273;
         return new ChordName($num);
     }
 
-    public static function constructFromNumber($num){
+    public static function constructFromNumber($num) {
         return new ChordName($num);
     }
 
@@ -70,7 +70,7 @@ class ChordName extends PMTObject {
 
     /**
      * return a string like "I", "ii", "iii" or "vii°"
-     * majors are in capital roman letters, minors are in lower case. 
+     * majors are in capital roman letters, minors are in lower case.
      *
      * examples:
      *                         10010001,     (root tonic triad)                 ==> I
@@ -103,7 +103,7 @@ class ChordName extends PMTObject {
      * This method should first figure out the scale degree (I, II, III, IV)
      * then analyze the chord to see if it is maj, min, dim or aug,
      * then output the appropriate string representation, like "vii°" or "V"
-     * 
+     *
      * presently this method assumes the chord is in root inversion formation
      * @todo make this understand inverted chords!
      */
@@ -118,7 +118,11 @@ class ChordName extends PMTObject {
 
         // what kind of triad is it?
         $type = $chord->analyzeTriad();
-        switch($type) {
+        switch ($type) {
+            case 'diminished flat 3':
+                $degree = strtolower($degree);
+                $symbol = '°♭3';
+                break;
             case 'diminished':
                 $degree = strtolower($degree);
                 $symbol = '°';
@@ -133,6 +137,12 @@ class ChordName extends PMTObject {
                 $degree = strtoupper($degree);
                 $symbol = '+';
                 break;
+            case 'major flat 5':
+                $degree = strtoupper($degree);
+                $symbol = '♭5';
+                break;
+            default:
+                return '';
         }
         return $degree . $symbol;
     }

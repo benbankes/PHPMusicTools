@@ -19,7 +19,7 @@ class Articulation extends PMTObject {
             return null;
         }
         $articulationType = $props['articulationType'];
-        switch($articulationType) {
+        switch ($articulationType) {
             case 'accent':
                 require_once('Articulations/ArticulationAccent.php');
                 return ArticulationAccent::constructFromArray($props);

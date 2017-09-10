@@ -857,10 +857,7 @@ class PitchTest extends PHPMusicToolsTest
 	}
 	function provider_toHemholtz() {
 		return array(
-			'G' => array(
-				'pitch' => new ianring\Pitch('C', 0, 4),
-				'expected' => 'C'
-			),
+			// todo
 		);
 	}
 

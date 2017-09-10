@@ -33,7 +33,7 @@ class Clef extends PMTObject
      * @param  [winged] $scale [description]
      * @return [winged]        [description]
      */
-    public static function constructFromArray($props) {        
+    public static function constructFromArray($props) {
         if (is_null($props)) {
             $props = self::$defaults;
         }

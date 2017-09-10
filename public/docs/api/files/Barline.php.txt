@@ -93,7 +93,6 @@ class Barline extends PMTObject
 			$out .= '<fermata/>';
 		}
 
-
 		if (isset($this->footnote)) {
 			$out .= '<footnote>'.$this->footnote.'</footnote>';
 		}

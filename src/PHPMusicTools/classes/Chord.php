@@ -177,12 +177,16 @@ class Chord extends PMTObject
         }
         // turn it into a bitmask
         $bits = 0;
-        foreach($numbers as $number) {
+        foreach ($numbers as $number) {
             $bits = $bits | (1<<$number);
         }
-        switch($bits) {
+        switch ($bits) {
+            case 69:
+                return 'diminished flat 3';
             case 73:
                 return 'diminished';
+            case 81:
+                return 'major flat 5';
             case 137:
                 return 'minor';
             case 145:
@@ -203,11 +207,11 @@ class Chord extends PMTObject
      *          .addAccidental(2, new Vex.Flow.Accidental("#"));
      *
      * (^ that's a c sharp minor triad)
-     * the "key" part puts the note head in place. 
-     * "addAccidental" is needed if you want the accidental to be shown; vexflow doesn't render them 
+     * the "key" part puts the note head in place.
+     * "addAccidental" is needed if you want the accidental to be shown; vexflow doesn't render them
      * automatically because they could be present earlier in the measure or in the key signature.
      *
-     * @todo allow this to accept an optional key signature object, or an array of something similar, so 
+     * @todo allow this to accept an optional key signature object, or an array of something similar, so
      * that it omits unnecessary accidentals
      */
     function toVexFlow($duration = 'w') {
@@ -222,10 +226,9 @@ class Chord extends PMTObject
             }
         }
         $output .= 'new Vex.Flow.StaveNote({keys:' . json_encode($keys) . ', duration: "'.$duration.'"})';
-        $output .= implode('',$append);
+        $output .= implode('', $append);
         $output .= "\n";
         return $output;
     }
-
 
 }

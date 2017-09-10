@@ -19,7 +19,7 @@ class NotationSlur extends Notation
 
 
     public function __construct($number, $placement, $type, $bezierX, $bezierY, $defaultX, $defaultY) {
-    	foreach(self::$props as $prop) {
+    	foreach (self::$props as $prop) {
     		$this->$prop = $$prop;
     	}
     }
@@ -32,7 +32,7 @@ class NotationSlur extends Notation
      * @return [type]        [description]
      */
     public static function constructFromArray($props) {
-    	foreach(self::$props as $prop) {
+    	foreach (self::$props as $prop) {
     		if (!empty($props[$prop])) {
     			$$prop = $props[$prop];
     		} else {

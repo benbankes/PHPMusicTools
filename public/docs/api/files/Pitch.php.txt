@@ -5,9 +5,9 @@ require_once 'Accidental.php';
 
 /**
  * Pitch is the conceptual represtation of sound frequency. It's the property of a note that describes its pitch.
- * It's not the same as frequency -- because a "G flat" might be tuned differently in various temperaments or 
+ * It's not the same as frequency -- because a "G flat" might be tuned differently in various temperaments or
  * instruments. Pitch is what we would call "G flat". Not only do we care about the tone's height, but we also
- * care about its "spelling", i.e. whether something is a G flat or an F sharp. For this reason the class uses 
+ * care about its "spelling", i.e. whether something is a G flat or an F sharp. For this reason the class uses
  * the properties defined by MusicXML, which are "step", "alter", and "octave".
  *
  * An octave begins and ends with C.
@@ -62,7 +62,6 @@ class Pitch extends PMTObject
     }
 
     public static function parseFromXmlObject($obj) {
-
         /**
          [pitch] => SimpleXMLElement Object
             (
@@ -98,7 +97,8 @@ class Pitch extends PMTObject
      * @return boolean       true if $this is lower than $pitch
      */
     public function isLowerThan($pitch) {
-        if ($pitch === null) { return true; }
+        if ($pitch === null) {
+return true; }
         return $this->interval($pitch) > 0;
     }
 
@@ -109,7 +109,8 @@ class Pitch extends PMTObject
      * @return boolean       true if $this is higher than $pitch
      */
     public function isHigherThan($pitch) {
-        if ($pitch === null) { return true; }
+        if ($pitch === null) {
+return true; }
         return $this->interval($pitch) < 0;
     }
     /**
@@ -119,7 +120,8 @@ class Pitch extends PMTObject
      * @return boolean        [description]
      */
     public function isEnharmonic($pitch) {
-        if ($pitch === null) { return false; }
+        if ($pitch === null) {
+return false; }
         return $this->interval($pitch) == 0;
     }
 
@@ -130,7 +132,8 @@ class Pitch extends PMTObject
      * @return boolean true if the step, alter, and octave are all the same.
      */
     public function equals($pitch) {
-        if ($pitch === null) { return false; }
+        if ($pitch === null) {
+return false; }
         return $pitch->step == $this->step && $pitch->alter == $this->alter && $pitch->octave == $this->octave;
     }
 
@@ -177,7 +180,7 @@ class Pitch extends PMTObject
      * Ignores alterations. So, a C double-flat to G sharp is also 4.
      * BEWARE that this is a distance, not an interval!
      * The distance of 4 means it's 4 steps up (which is like a fifth), not an inteval of a 4th.
-     * Return value will always be an integer from 0 to 6. 
+     * Return value will always be an integer from 0 to 6.
      * @param  string $step the step name, like A or D
      * @return int       the number of steps up
      */
@@ -369,7 +372,7 @@ class Pitch extends PMTObject
      * Inverts this pitch around an axis.
      * For example, if I invert C4 around E4, the result is G#4.
      * When I invert G4 around E4, the result is C#4.
-     * The tricky part in this is to get the step and alterations right. Not only must the 
+     * The tricky part in this is to get the step and alterations right. Not only must the
      * inversion be the right pitch, but the spelling of it must be proper. The unit tests
      * illustrate examples.
      * @param  Pitch  $axis the axis around which to invert
@@ -391,7 +394,7 @@ class Pitch extends PMTObject
     /**
      * renders a canonical string description of the pitch. Uses "#" and "-" for accidentals.
      *
-     * @return String 
+     * @return String
      */
     public function toString() {
         $str = '';

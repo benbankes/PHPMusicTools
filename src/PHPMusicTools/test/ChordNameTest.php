@@ -158,6 +158,17 @@ class ChordNameTest extends PHPMusicToolsTest
 				'pitch' => new \ianring\Pitch('D',0,null),
 				'expected' => 'IV+'
 			),
+			array( 
+				'chord' => \ianring\Chord::constructFromArray(array(
+					'notes' => array(
+						array('pitch' => array('step' => 'D', 'alter' => 0, 'octave' => 4)),
+						array('pitch' => array('step' => 'F', 'alter' => 1, 'octave' => 4)),
+						array('pitch' => array('step' => 'A', 'alter' => -1, 'octave' => 4))
+					)
+				)),
+				'pitch' => new \ianring\Pitch('C',0,null),
+				'expected' => 'II♭5'
+			),
 
 
 		);

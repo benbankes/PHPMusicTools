@@ -16,7 +16,7 @@ class ArticulationAccent extends Articulation
 
 
     public function __construct($placement, $type, $defaultX, $defaultY) {
-    	foreach(self::$props as $prop) {
+    	foreach (self::$props as $prop) {
     		$this->$prop = $$prop;
     	}
     }
@@ -29,7 +29,7 @@ class ArticulationAccent extends Articulation
      * @return [type]        [description]
      */
     public static function constructFromArray($props) {
-    	foreach(self::$props as $prop) {
+    	foreach (self::$props as $prop) {
     		if (!empty($props[$prop])) {
     			$$prop = $props[$prop];
     		} else {

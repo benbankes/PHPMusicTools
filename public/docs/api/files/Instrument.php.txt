@@ -36,7 +36,7 @@ class Instrument extends PMTObject
 	 */
 	public static function constructFromName($name) {
 		if (in_array($this->instruments, $name)) {
-			return new 
+			return new
 		}
 	}
 

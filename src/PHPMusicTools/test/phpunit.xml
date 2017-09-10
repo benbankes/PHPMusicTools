@@ -31,12 +31,24 @@
 			
 		</testsuite>
 	
+		<filter>
+			<whitelist processUncoveredFilesFromWhitelist="true">
+				<directory suffix=".php">../classes/</directory>
+				<exclude></exclude>
+			</whitelist>
+		</filter>
+
 	</testsuites>
 	
+    <filter>
+        <whitelist>
+            <directory suffix=".php">../classes</directory>
+        </whitelist>
+    </filter>
+
 	<logging>
-		<!--<log type="coverage-clover" target="logs/clover_public.xml"/>-->
-		<!--<log type="coverage-html" target="../public_html/coverage_public"/>-->
-		<!--<log type="log-xml" target="logs/phpunit_public.xml"/>-->
+		<log type="coverage-html" target="./code-coverage/report" charset="UTF-8" yui="true" highlight="true" lowUpperBound="50" highLowerBound="80" />
+		<log type="testdox-html" target="./testdox.html"/>
 	</logging>
 	
 </phpunit>

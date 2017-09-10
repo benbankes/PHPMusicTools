@@ -12,14 +12,14 @@ require_once 'Chord.php';
  * to a binary number, it becomes a bitmask defining what pitches are present in the scale, where bit 1 is the root,
  * bit 2 is up one semitone, bit 4 is a major second, bit 8 is the minor third, etc.
  *
- * In order for this class to be useful and flexible, we should not impose limitations on our definition of a 
+ * In order for this class to be useful and flexible, we should not impose limitations on our definition of a
  * scale; e.g. it is not necessary for a Scale to have the root bit (1) on, nor will we mind if the scale has
  * leaps greater than 4 semitones. We could have a Scale object (which identifies the set of tones), and then
  * use its methods to determine if it is a "scale" according to the definition we desire.
  *
- * Take notice that a Scale is not a collection of Notes, nor a collection of Pitches. The scale is an abstract 
+ * Take notice that a Scale is not a collection of Notes, nor a collection of Pitches. The scale is an abstract
  * pattern that can be applied to a root to generate pitches in a particular octave.
- * 
+ *
  */
 
 /**
@@ -43,7 +43,8 @@ class Scale extends PMTObject
 		653 => 'kumoi',
 		661 => array('chinese mongolian','diatonic'),
 		677 => 'pentatonic major',
-		819 => 'six tone symmetrical',
+		819 => array('augmented inverse', 'six tone symmetrical'),
+		859 => array('ultralocrian', 'superlocrian bb7', 'diminished'),
 		935 => 'mela kanakangi (1)',
 		939 => 'mela senavati (7)',
 		941 => 'mela jhankaradhvani (19)',
@@ -57,22 +58,22 @@ class Scale extends PMTObject
 		981 => 'mela kantamani (61)',
 		985 => 'mela sucharitra (67)',
 		1123 => 'iwato',
-		1186 => 'insen',
+		1187 => 'insen',
 		1189 => 'egyptian',
 		1193 => 'pentatonic minor',
 		1235 => 'tritone scale',
 		1257 => 'blues',
-		1365 => array('auxiliary augmented','whole tone'),
+		1365 => array('whole tone', 'auxiliary augmented'),
 		1371 => array('altered', 'diminished whole tone', 'super locrian'),
-		1387 => array('half diminished (locrian)', 'locrian'),
+		1387 => array('locrian', 'half diminished (locrian)'),
 		1389 => array('half diminished', 'locrian #2'),
 		1395 => 'oriental (a)',
 		1397 => array('arabian b', 'major locrian'),
 		1403 => 'eight tone spanish',
 		1447 => 'mela ratnangi (2)',
-		1451 => array('bhairavi theta', 'mela hanumattodi (8)', 'neopolitan minor', 'phrygian'),
+		1451 => array('phrygian', 'bhairavi theta', 'mela hanumattodi (8)', 'neopolitan minor'),
 		1453 => array('aeolian', 'natural minor', 'asavari theta', 'ethiopian (geez & ezel)', 'mela natabhairavi (20)', 'pure minor'),
-		1459 => array('mela vakulabharanam (14)', 'spanish gypsy','phrygian dominant', 'spanish romani', 'jewish (ahaba rabba)'),
+		1459 => array('phrygian dominant', 'mela vakulabharanam (14)', 'spanish gypsy', 'spanish romani', 'jewish (ahaba rabba)'),
 		1461 => array('hindu','hindustan','mela charukesi (26)'),
 		1465 => 'mela ragavardhani (32)',
 		1479 => 'mela jalarnavam (38)',
@@ -81,8 +82,10 @@ class Scale extends PMTObject
 		1491 => 'mela namanarayani (50)',
 		1493 => array('lydian minor','mela risabhapriya (62)'),
 		1497 => 'mela jyotisvarupini (68)',
+		1499 => 'bebop locrian',
 		1619 => 'prometheus neopolitan',
 		1621 => 'prometheus',
+		1643 => array('locrian natural 6', 'locrian sharp 6'),
 		1651 => 'oriental (b)',
 		1701 => 'dominant 7th',
 		1703 => 'mela vanaspati (4)',
@@ -92,6 +95,7 @@ class Scale extends PMTObject
 		1715 => 'mela chakravakam (16)',
 		1717 => array('mixolydian', 'khamaj theta', 'mela harikambhoji (28)'),
 		1721 => 'mela vagadhisvari (34)',
+		1725 => 'bebop dorian',
 		1735 => 'mela navanitam (40)',
 		1739 => 'mela sadvidhamargini (46)' 	,
 		1741 => array('ukranian dorian','romanian scale','altered dorian','roumanian minor','mela hemavati (58)'),
@@ -128,11 +132,14 @@ class Scale extends PMTObject
 		2765 => 'mela dharmavati (59)' 			,
 		2771 => array('marva theta', 'mela gamanasrama (53)'),
 		2773 => array('lydian', 'kalyan theta','mela mechakalyani (65)'),
-		2777 => 'mela kosalam (71)',
+		2777 => array('lydian #2', 'mela kosalam (71)'),
 		2805 => 'japanese (ichikosucho)',
+		2869 => array('ionian augmented', 'ionian #5'),
 		2901 => 'lydian augmented',
 		2925 => 'auxiliary diminished',
 		2925 => array('diminished','arabian a'),
+		2989 => 'bebop minor',
+		2997 => array('bebop major'),
 		3037 => 'nine tone scale',
 		3055 => 'seventh mode of limited transposition',
 		3239 => 'mela tanarupi (6)',
@@ -215,7 +222,7 @@ class Scale extends PMTObject
 	/**
 	 * Scales are sometimes expressed as a stack of intervals ascending.
 	 * accept an interval pattern like "2122122" and figure out what scale that is.
-	 * @param  string $structureString 
+	 * @param  string $structureString
 	 * @return [type]                  [description]
 	 */
 	public static function constructFromIntervalPattern($patternString) {
@@ -256,7 +263,7 @@ class Scale extends PMTObject
 		array_pop($intervals);
 		$i = 0;
 		$scalebits = 1; // turn on the root bit
-		foreach($intervals as $interval) {
+		foreach ($intervals as $interval) {
 			$i += $interval;
 			$scalebits = ($scalebits | (1 << ($i)));
 		}
@@ -354,7 +361,7 @@ class Scale extends PMTObject
 
 	/**
 	 * We will conveniently use the definition that a heliotonic scale is a heptatonic scale that
-	 * can be written with one tone on each step; so each tone gets its own letter name. This is useful when 
+	 * can be written with one tone on each step; so each tone gets its own letter name. This is useful when
 	 * we are figuring out the enharmonic spelling of an altered note
 	 */
 	public function isHeliotonic() {
@@ -392,10 +399,10 @@ class Scale extends PMTObject
 	public static function levenshteinScale($scale1, $scale2) {
 		$distance = 0;
 		$d = $scale1 ^ $scale2;
-		for ($i=0; $i<12; $i++) {              
-			if ( 
-				($d & (1 << ($i))) && ($d & (1 << ($i+1))) 
-				&& 
+		for ($i=0; $i<12; $i++) {
+			if (
+				($d & (1 << ($i))) && ($d & (1 << ($i+1)))
+				&&
 				($scale1 & (1 << ($i))) != ($scale1 & (1 << ($i+1)))
 			) {
 				$distance++;
@@ -426,7 +433,7 @@ class Scale extends PMTObject
 
 
 	/**
-	 * 
+	 *
 	 * @todo  I think this could be done using a rotation and XOR bitwise logic... investigate that
 	 */
 	public function imperfections() {
@@ -441,7 +448,7 @@ class Scale extends PMTObject
 	}
 
 
-	public function name($all = false){
+	public function name($all = false) {
 		if (isset(self::$scaleNames[$this->scale])) {
 			$names = self::$scaleNames[$this->scale];
 			if (!is_array($names)) {
@@ -467,7 +474,7 @@ class Scale extends PMTObject
 		$rotateme = $this->scale;
 		for ($i=0; $i<6; $i++) {
 			$rotateme = $this->rotateBitmask($rotateme, $direction = 1, $amount = 1);
-			$spectrum[$i] = $this->countOnBits($this->scale & $rotateme);
+			$spectrum[$i] = self::countOnBits($this->scale & $rotateme);
 		}
 		// special rule: if there is a tritone in the sonority, it will show up twice, so we divide by 2
 		$spectrum[5] = $spectrum[5] / 2;
@@ -499,7 +506,7 @@ class Scale extends PMTObject
 	 * @param  [type] $scale [description]
 	 * @return [type]        [description]
 	 */
-	public function doesNotHaveFourConsecutiveOffBits($scale) {
+	public function doesNotHaveFourConsecutiveOffBits($scale = null) {
 		if (is_null($scale)) {
 			$scale = $this->scale;
 		}
@@ -599,14 +606,14 @@ class Scale extends PMTObject
 	}
 
 	/**
-	 * Returns all the scales that this one can be transformed into by one addition, deletion, or 
-	 * having one tone shifted up or down by one semitone. In other words, it returns all the scales 
+	 * Returns all the scales that this one can be transformed into by one addition, deletion, or
+	 * having one tone shifted up or down by one semitone. In other words, it returns all the scales
 	 * with a levenshtein distance of 1.
 	 */
 	function neighbours() {
 		$near = array();
 		// start at one, because we leave the root alone
-		for ($i=1; $i<12; $i++) {							
+		for ($i=1; $i<12; $i++) {
 			if ($this->scale & (1 << ($i))) {
 				// if this tone is on,
 				$copy = $this->scale;
@@ -637,7 +644,7 @@ class Scale extends PMTObject
 
 	/**
 	 * Returns named chords that contain only notes that are included in this scale
-	 * 
+	 *
 	 */
 	function chordNames() {
 
@@ -645,7 +652,7 @@ class Scale extends PMTObject
 
     /**
      * This method constructs tertiary triads built on each member of the scale.
-     * For example when given a major scale, this should return 
+     * For example when given a major scale, this should return
 
      * scale: 101010110101
      * [
@@ -657,9 +664,9 @@ class Scale extends PMTObject
      *               10001 001000000000,     (minor triad on the sixth degree)
      *              100100 100000000000,     (dim triad on the seventh degree)
      * ]
-     * 
+     *
      */
-    public function getChordBitMasks(){
+    public function getChordBitMasks() {
     	$chords = array();
     	$tones = $this->getTones();
     	$doubledTones = array_merge(
@@ -684,14 +691,16 @@ class Scale extends PMTObject
      * Returns triads built on each step of a scale. Only works for diatonic scales, and should always
      * render the chords using the right enharmonic spellings.
      */
-    public function getChords() {
-    	if (!$this->isHeliotonic()) {return null;}
+    public function getTriads() {
+    	if (!$this->isHeliotonic()) {
+			return null;
+		}
     	$pitches = $this->getPitches(); // this step already does the proper enharmonization for spelling
     	$count = count($pitches);
 
     	// now get the same pitches up an octave
     	$raised = array();
-    	foreach($pitches as $pitch) {
+    	foreach ($pitches as $pitch) {
     		$raised[] = new Pitch($pitch->step, $pitch->alter, $pitch->octave + 1);
     	}
 
@@ -728,31 +737,33 @@ class Scale extends PMTObject
     				)
     			)
     		);
-    		// echo '---------';
-    		// var_dump($triad);
     		$chords[] = $triad;
     	}
     	return $chords;
     }
 
-    /**
-     * This returns the *places* where bits are on, as a 0-based set. For example, the 
-     * binary 101010010001 should return [0, 4, 7, 9, 11]
-     * This set of tones is used to construct chords and other useful things
-     * unlike some of the other methods, this one should recognize places higher than 12
-     */
-    public function getTones() {
+    public static function bits2Tones($bits) {
     	$tones = array();
-    	$n = $this->scale;
+    	$n = $bits;
     	$i = 0;
     	while ($n > 0) {
-    		if ($this->scale & (1 << $i)) {
+    		if ($bits & (1 << $i)) {
     			$tones[] = $i;
 	    		$n = $n & ~(1 << $i); // turn the bit off
     		}
     		$i++;
     	}
     	return $tones;
+    }
+
+    /**
+     * This returns the *places* where bits are on, as a 0-based set. For example, the
+     * binary 101010010001 should return [0, 4, 7, 9, 11]
+     * This set of tones is used to construct chords and other useful things
+     * unlike some of the other methods, this one should recognize places higher than 12
+     */
+    public function getTones() {
+    	return self::bits2Tones($this->scale);
     }
 
 
@@ -762,10 +773,10 @@ class Scale extends PMTObject
 	 * @return [type] [description]
 	 */
 	public function countTones() {
-		return $this->countOnBits($this->scale);
+		return self::countOnBits($this->scale);
 	}
 
-	static function scaletype($num) {
+	public static function scaletype($num) {
 		$types = array(
 			4 => 'tetratonic',
 			5 => 'pentatonic',
@@ -785,7 +796,7 @@ class Scale extends PMTObject
 	 * accepts a scale argument so you can check the on bits of any scale, not just this one.
 	 * ... so should this be a static method?
 	 */
-	public function countOnBits($bits) {
+	public static function countOnBits($bits) {
 		$tones = 0;
 		for ($i = 0; $i < 12; $i++) {
 			if (($bits & (1 << $i)) > 0) {
@@ -808,13 +819,13 @@ class Scale extends PMTObject
 				$output = $output | (1 << (11 - $i));
 			}
 		}
-		return $output;	
+		return $output;
 	}
 
 	/**
-	 * Accepts a number to use as a bitmask, and "rotates" it. e.g. 
+	 * Accepts a number to use as a bitmask, and "rotates" it. e.g.
 	 * 100000000000 -> 000000000001 -> 00000000010 -> 000000000100
-	 * 
+	 *
 	 * @param  integer $bits     the bitmask being rotated
 	 * @param  integer $direction 1 = rotate up, 0 = rotate down
 	 * @param  integer $amount    the number of places to rotate by
@@ -854,12 +865,22 @@ class Scale extends PMTObject
 		return $pattern;
 	}
 
+	public function hemitonicTones() {
+		return self::bits2Tones($this->hemitonics());
+	}
+	public function tritonicTones() {
+		return self::bits2Tones($this->tritonics());
+	}
+	public function cohemitonicTones() {
+		return self::bits2Tones($this->cohemitonics());
+	}
+
 	/**
 	 * returns the bits that have a semitone above them
 	 */
 	function hemitonics($scale = null) {
 		if (is_null($scale)) {
-			$scale = $this->scale;			
+			$scale = $this->scale;
 		}
 		return $this->findIntervalics($scale, 1);
 	}
@@ -869,7 +890,7 @@ class Scale extends PMTObject
 	 */
 	function tritonics($scale = null) {
 		if (is_null($scale)) {
-			$scale = $this->scale;			
+			$scale = $this->scale;
 		}
 		return $this->findIntervalics($scale, 7);
 	}
@@ -880,17 +901,21 @@ class Scale extends PMTObject
 	 */
 	function cohemitonics($scale = null) {
 		if (is_null($scale)) {
-			$scale = $this->scale;			
+			$scale = $this->scale;
 		}
 		return $this->hemitonics($this->hemitonics($this->scale));
 	}
 
 	public function isHemitonic() {
-		return count($this->hemitonics() > 0);
+		return count($this->hemitonicTones()) > 0;
 	}
 
 	public function isCohemitonic() {
-		return count($this->cohemitonics() > 0);
+		return count($this->cohemitonicTones()) > 0;
+	}
+
+	public function isTritonic() {
+		return count($this->tritonicTones()) > 0;
 	}
 
 	/**
@@ -898,14 +923,14 @@ class Scale extends PMTObject
 	 */
 	private function findIntervalics($scale = null, $interval) {
 		if (is_null($scale)) {
-			$scale = $this->scale;			
+			$scale = $this->scale;
 		}
 		$rotateme = $scale; // make a copy
 		return $scale & ($this->rotateBitmask($rotateme, $direction = 1, $amount = $interval));
 	}
 
 	function hemitonia() {
-		$hemi = $this->hemitonics();
+		$hemi = $this->hemitonicTones();
 		if (count($hemi) == 0) {
 			return 'anhemitonic';
 		}
@@ -922,7 +947,7 @@ class Scale extends PMTObject
 	}
 
 	function cohemitonia() {
-		$cohemi = $this->cohemitonics();
+		$cohemi = $this->cohemitonicTones();
 		if (count($cohemi) == 0) {
 			return 'ancohemitonic';
 		}
@@ -938,6 +963,26 @@ class Scale extends PMTObject
 		return 'multicohemitonic';
 	}
 
+	/**
+	 * returns an array of all modal families. ie for each set of scales that are modes of each other, only a single
+	 * representative is present.
+	 */
+	public static function getFamilies($justTrueScales = true) {
+		$allscales = range(0, 4095);
+		$modelist= array();
+		while (count($allscales) > 0) {
+			$s = array_pop($allscales);
+			$scale = new Scale($s);
+			$modes = $scale->modes();
+			if ($scale->isTrueScale()) {
+				$modelist[] = $s;
+			}
+			foreach ($modes as $mode) {
+				unset($allscales[$mode]);
+			}
+		}
+		return $modelist;
+	}
 
 
 }

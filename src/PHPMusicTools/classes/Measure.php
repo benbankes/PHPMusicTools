@@ -10,7 +10,7 @@ require_once 'Directions/DirectionMetronome.php';
 require_once 'Directions/DirectionDynamics.php';
 
 /**
- * Measure is a collection of layers. A measure has a rhythmic duration. The measure's rhythm is divided into equal 
+ * Measure is a collection of layers. A measure has a rhythmic duration. The measure's rhythm is divided into equal
  * "divisions", and each of those is the smallest atomic subdivision needed to represent the rhythm in all its layers.
  */
 class Measure extends PMTObject

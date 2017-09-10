@@ -10,7 +10,7 @@ class MusicXMLParser {
 
 		$score = \ianring\Score::parseFromXmlObject($x);
 
-		echo '<pre>';	
+		echo '<pre>';
 		print_r($score);
 		return $score;
 	}

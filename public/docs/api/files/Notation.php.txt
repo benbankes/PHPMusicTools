@@ -18,7 +18,7 @@ class Notation extends PMTObject {
     		return null;
     	}
         $notationType = $props['notationType'];
-        switch($notationType) {
+        switch ($notationType) {
         	case 'accidentalMark':
         		require_once('Notations/NotationAccidentalMark.php');
         		return NotationAccidentalMark::constructFromArray($props);

@@ -76,7 +76,6 @@ class Note extends PMTObject
 
 
 	public static function parseFromXmlObject($obj) {
-
 /**
  *                                             [pitch] => SimpleXMLElement Object
 												(
@@ -155,7 +154,7 @@ class Note extends PMTObject
 						// if this is already of its type, we just keep it
 						if ($p instanceof $className) {
 							array_push($$objName, $p);
-						} else {                        
+						} else {
 							$reflection = new \ReflectionMethod($className, 'constructFromArray');
 							$o = $reflection->invoke(null, $p);
 							array_push($$objName, $o);
@@ -163,7 +162,7 @@ class Note extends PMTObject
 					}
 				}
 			} else {
-				if (!empty($props[$objName])) {                    
+				if (!empty($props[$objName])) {
 					// this is a single sub-object
 					if ($props[$objName] instanceof $className) {
 						$$objName = $props[$objName];
@@ -171,7 +170,7 @@ class Note extends PMTObject
 						$className  = '\ianring\\'.$subObject;
 						$reflection = new \ReflectionMethod($className, 'constructFromArray');
 						$o          = $reflection->invoke(null, $props[$objName]);
-						$$objName   = $o;                        
+						$$objName   = $o;
 					}
 				}
 			}

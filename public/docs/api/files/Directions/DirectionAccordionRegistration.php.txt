@@ -6,7 +6,7 @@ require_once(__DIR__.'/../Direction.php');
 
 /**
  * defines accordion registration. Can have the usual inherited attributes like default-x and font-family, but also
- * has its own "registration" which may be "high", "middle", or "low" 
+ * has its own "registration" which may be "high", "middle", or "low"
  */
 
 class DirectionAccordionRegistration extends Direction

@@ -18,7 +18,7 @@ class NotationTuplet extends Notation
 	);
 
     public function __construct($bracket, $number, $placement, $type, $lineShape, $showNumber, $showType) {
-    	foreach(self::$props as $prop) {
+    	foreach (self::$props as $prop) {
     		$this->$prop = $$prop;
     	}
     }
@@ -31,7 +31,7 @@ class NotationTuplet extends Notation
      * @return [type]        [description]
      */
     public static function constructFromArray($props) {
-    	foreach(self::$props as $prop) {
+    	foreach (self::$props as $prop) {
     		if (!empty($props[$prop])) {
     			$$prop = $props[$prop];
     		} else {
