@@ -1,147 +1,264 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<checkstyle version="3.0.2">
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Accidental.php">
- <error line="61" column="9" severity="warning" message="The method parameter $type is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="61" column="9" severity="warning" message="The method parameter $size is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="61" column="9" severity="warning" message="The method parameter $parentheses is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="61" column="9" severity="warning" message="The method parameter $bracket is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="61" column="9" severity="warning" message="The method parameter $editorial is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="61" column="9" severity="warning" message="The method parameter $courtesy is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Articulations/ArticulationAccent.php">
- <error line="18" column="12" severity="warning" message="The method parameter $placement is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="18" column="12" severity="warning" message="The method parameter $type is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="18" column="12" severity="warning" message="The method parameter $defaultX is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="18" column="12" severity="warning" message="The method parameter $defaultY is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Articulations/ArticulationStaccato.php">
- <error line="18" column="12" severity="warning" message="The method parameter $placement is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="18" column="12" severity="warning" message="The method parameter $type is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="18" column="12" severity="warning" message="The method parameter $defaultX is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="18" column="12" severity="warning" message="The method parameter $defaultY is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Barline.php">
- <error line="25" column="9" severity="warning" message="The method parameter $location is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="25" column="9" severity="warning" message="The method parameter $barStyle is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="25" column="9" severity="warning" message="The method parameter $footnote is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="25" column="9" severity="warning" message="The method parameter $ending is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="25" column="9" severity="warning" message="The method parameter $repeat is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="25" column="9" severity="warning" message="The method parameter $segno is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="25" column="9" severity="warning" message="The method parameter $coda is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="25" column="9" severity="warning" message="The method parameter $fermata is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/BarlineEnding.php">
- <error line="12" column="12" severity="warning" message="The method parameter $number is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="12" column="12" severity="warning" message="The method parameter $type is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Chord.php">
- <error line="119" column="12" severity="warning" message="The method parameter $root is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="165" column="12" severity="warning" message="The method parameter $degree is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="165" column="12" severity="warning" message="Function's cyclomatic complexity (11) exceeds 10; consider refactoring the function" source="Generic.Metrics.CyclomaticComplexity.TooHigh"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/ChordName.php">
- <error line="53" column="19" severity="warning" message="The method parameter $name is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Clef.php">
- <error line="23" column="12" severity="warning" message="The method parameter $sign is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="23" column="12" severity="warning" message="The method parameter $line is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="23" column="12" severity="warning" message="The method parameter $octaveChange is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Directions/DirectionAccordionRegistration.php">
- <error line="15" column="2" severity="warning" message="The method parameter $registration is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Directions/DirectionDynamics.php">
- <error line="9" column="2" severity="warning" message="The method parameter $placement is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="9" column="2" severity="warning" message="The method parameter $staff is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="9" column="2" severity="warning" message="The method parameter $text is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Directions/DirectionMetronome.php">
- <error line="8" column="5" severity="warning" message="The method parameter $placement is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="8" column="5" severity="warning" message="The method parameter $staff is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="8" column="5" severity="warning" message="The method parameter $parentheses is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="8" column="5" severity="warning" message="The method parameter $beatUnit is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="8" column="5" severity="warning" message="The method parameter $perMinute is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Instrument.php">
- <error line="38" column="16" severity="error" message="Usage of &quot;$this&quot; in static methods will cause runtime errors" source="Squiz.Scope.StaticThisUsage.Found"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Layer.php">
- <error line="15" column="12" severity="warning" message="The method parameter $name is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="15" column="12" severity="warning" message="The method parameter $chords is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="117" column="12" severity="warning" message="The method parameter $root is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/LilypondObject.php">
- <error line="14" column="9" severity="warning" message="The method parameter $format is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Measure.php">
- <error line="86" column="19" severity="warning" message="Function's cyclomatic complexity (11) exceeds 10; consider refactoring the function" source="Generic.Metrics.CyclomaticComplexity.TooHigh"/>
- <error line="111" column="9" severity="error" message="Empty IF statement detected" source="Generic.CodeAnalysis.EmptyStatement.DetectedIF"/>
- <error line="117" column="9" severity="error" message="Empty IF statement detected" source="Generic.CodeAnalysis.EmptyStatement.DetectedIF"/>
- <error line="123" column="9" severity="error" message="Empty IF statement detected" source="Generic.CodeAnalysis.EmptyStatement.DetectedIF"/>
- <error line="129" column="9" severity="error" message="Empty IF statement detected" source="Generic.CodeAnalysis.EmptyStatement.DetectedIF"/>
- <error line="150" column="19" severity="warning" message="The method parameter $obj is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="342" column="12" severity="warning" message="The method parameter $root is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Notation.php">
- <error line="16" column="19" severity="warning" message="Function's cyclomatic complexity (11) exceeds 10; consider refactoring the function" source="Generic.Metrics.CyclomaticComplexity.TooHigh"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Notations/NotationSlur.php">
- <error line="21" column="12" severity="warning" message="The method parameter $number is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="21" column="12" severity="warning" message="The method parameter $placement is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="21" column="12" severity="warning" message="The method parameter $type is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="21" column="12" severity="warning" message="The method parameter $bezierX is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="21" column="12" severity="warning" message="The method parameter $bezierY is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="21" column="12" severity="warning" message="The method parameter $defaultX is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="21" column="12" severity="warning" message="The method parameter $defaultY is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Notations/NotationTuplet.php">
- <error line="20" column="12" severity="warning" message="The method parameter $bracket is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="20" column="12" severity="warning" message="The method parameter $number is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="20" column="12" severity="warning" message="The method parameter $placement is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="20" column="12" severity="warning" message="The method parameter $type is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="20" column="12" severity="warning" message="The method parameter $lineShape is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="20" column="12" severity="warning" message="The method parameter $showNumber is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="20" column="12" severity="warning" message="The method parameter $showType is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Note.php">
- <error line="51" column="2" severity="warning" message="The method parameter $pitch is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="51" column="2" severity="warning" message="The method parameter $rest is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="51" column="2" severity="warning" message="The method parameter $duration is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="51" column="2" severity="warning" message="The method parameter $voice is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="51" column="2" severity="warning" message="The method parameter $type is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="51" column="2" severity="warning" message="The method parameter $accidental is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="51" column="2" severity="warning" message="The method parameter $dot is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="51" column="2" severity="warning" message="The method parameter $tie is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="51" column="2" severity="warning" message="The method parameter $timeModification is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="51" column="2" severity="warning" message="The method parameter $beams is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="51" column="2" severity="warning" message="The method parameter $stem is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="51" column="2" severity="warning" message="The method parameter $defaultX is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="51" column="2" severity="warning" message="The method parameter $defaultY is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="51" column="2" severity="warning" message="The method parameter $chord is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="51" column="2" severity="warning" message="The method parameter $notations is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="51" column="2" severity="warning" message="The method parameter $articulations is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="51" column="2" severity="warning" message="The method parameter $staff is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="51" column="2" severity="warning" message="The method parameter $cue is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="234" column="2" severity="error" message="Function's cyclomatic complexity (29) exceeds allowed maximum of 20" source="Generic.Metrics.CyclomaticComplexity.MaxExceeded"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Pitch.php">
- <error line="298" column="20" severity="warning" message="Function's cyclomatic complexity (12) exceeds 10; consider refactoring the function" source="Generic.Metrics.CyclomaticComplexity.TooHigh"/>
- <error line="509" column="12" severity="warning" message="The method parameter $tuning is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Scale.php">
- <error line="429" column="16" severity="warning" message="The method parameter $namedOnly is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="970" column="16" severity="warning" message="The method parameter $justTrueScales is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/ScaleVisualizer.php">
- <error line="103" column="16" severity="warning" message="Function's cyclomatic complexity (14) exceeds 10; consider refactoring the function" source="Generic.Metrics.CyclomaticComplexity.TooHigh"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Score.php">
- <error line="54" column="5" severity="warning" message="The method parameter $wise is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
-</file>
-<file name="/Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Time.php">
- <error line="18" column="12" severity="warning" message="The method parameter $symbol is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="18" column="12" severity="warning" message="The method parameter $beats is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="18" column="12" severity="warning" message="The method parameter $beatType is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
-</file>
-</checkstyle>
+
+FILE: /Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Accidental.php
+----------------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 6 WARNINGS AFFECTING 1 LINE
+----------------------------------------------------------------------------------------------
+ 61 | WARNING | The method parameter $type is never used
+ 61 | WARNING | The method parameter $size is never used
+ 61 | WARNING | The method parameter $parentheses is never used
+ 61 | WARNING | The method parameter $bracket is never used
+ 61 | WARNING | The method parameter $editorial is never used
+ 61 | WARNING | The method parameter $courtesy is never used
+----------------------------------------------------------------------------------------------
+
+
+FILE: ...Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Articulations/ArticulationAccent.php
+-------------------------------------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 4 WARNINGS AFFECTING 1 LINE
+-------------------------------------------------------------------------------------------------------------------
+ 18 | WARNING | The method parameter $placement is never used
+ 18 | WARNING | The method parameter $type is never used
+ 18 | WARNING | The method parameter $defaultX is never used
+ 18 | WARNING | The method parameter $defaultY is never used
+-------------------------------------------------------------------------------------------------------------------
+
+
+FILE: ...ers/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Articulations/ArticulationStaccato.php
+-------------------------------------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 4 WARNINGS AFFECTING 1 LINE
+-------------------------------------------------------------------------------------------------------------------
+ 18 | WARNING | The method parameter $placement is never used
+ 18 | WARNING | The method parameter $type is never used
+ 18 | WARNING | The method parameter $defaultX is never used
+ 18 | WARNING | The method parameter $defaultY is never used
+-------------------------------------------------------------------------------------------------------------------
+
+
+FILE: /Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Barline.php
+-------------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 8 WARNINGS AFFECTING 1 LINE
+-------------------------------------------------------------------------------------------
+ 25 | WARNING | The method parameter $location is never used
+ 25 | WARNING | The method parameter $barStyle is never used
+ 25 | WARNING | The method parameter $footnote is never used
+ 25 | WARNING | The method parameter $ending is never used
+ 25 | WARNING | The method parameter $repeat is never used
+ 25 | WARNING | The method parameter $segno is never used
+ 25 | WARNING | The method parameter $coda is never used
+ 25 | WARNING | The method parameter $fermata is never used
+-------------------------------------------------------------------------------------------
+
+
+FILE: /Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/BarlineEnding.php
+-------------------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 2 WARNINGS AFFECTING 1 LINE
+-------------------------------------------------------------------------------------------------
+ 12 | WARNING | The method parameter $number is never used
+ 12 | WARNING | The method parameter $type is never used
+-------------------------------------------------------------------------------------------------
+
+
+FILE: /Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Chord.php
+-----------------------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 3 WARNINGS AFFECTING 2 LINES
+-----------------------------------------------------------------------------------------------------
+ 119 | WARNING | The method parameter $root is never used
+ 165 | WARNING | The method parameter $degree is never used
+ 165 | WARNING | Function's cyclomatic complexity (11) exceeds 10; consider refactoring the function
+-----------------------------------------------------------------------------------------------------
+
+
+FILE: /Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/ChordName.php
+---------------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 1 WARNING AFFECTING 1 LINE
+---------------------------------------------------------------------------------------------
+ 53 | WARNING | The method parameter $name is never used
+---------------------------------------------------------------------------------------------
+
+
+FILE: /Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Clef.php
+----------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 3 WARNINGS AFFECTING 1 LINE
+----------------------------------------------------------------------------------------
+ 23 | WARNING | The method parameter $sign is never used
+ 23 | WARNING | The method parameter $line is never used
+ 23 | WARNING | The method parameter $octaveChange is never used
+----------------------------------------------------------------------------------------
+
+
+FILE: ...ng/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Directions/DirectionAccordionRegistration.php
+-------------------------------------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 1 WARNING AFFECTING 1 LINE
+-------------------------------------------------------------------------------------------------------------------
+ 15 | WARNING | The method parameter $registration is never used
+-------------------------------------------------------------------------------------------------------------------
+
+
+FILE: /Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Directions/DirectionDynamics.php
+----------------------------------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 3 WARNINGS AFFECTING 1 LINE
+----------------------------------------------------------------------------------------------------------------
+ 9 | WARNING | The method parameter $placement is never used
+ 9 | WARNING | The method parameter $staff is never used
+ 9 | WARNING | The method parameter $text is never used
+----------------------------------------------------------------------------------------------------------------
+
+
+FILE: /Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Directions/DirectionMetronome.php
+-----------------------------------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 5 WARNINGS AFFECTING 1 LINE
+-----------------------------------------------------------------------------------------------------------------
+ 8 | WARNING | The method parameter $placement is never used
+ 8 | WARNING | The method parameter $staff is never used
+ 8 | WARNING | The method parameter $parentheses is never used
+ 8 | WARNING | The method parameter $beatUnit is never used
+ 8 | WARNING | The method parameter $perMinute is never used
+-----------------------------------------------------------------------------------------------------------------
+
+
+FILE: /Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Instrument.php
+----------------------------------------------------------------------------------------------
+FOUND 1 ERROR AFFECTING 1 LINE
+----------------------------------------------------------------------------------------------
+ 38 | ERROR | Usage of "$this" in static methods will cause runtime errors
+----------------------------------------------------------------------------------------------
+
+
+FILE: /Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Layer.php
+-----------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 3 WARNINGS AFFECTING 2 LINES
+-----------------------------------------------------------------------------------------
+  15 | WARNING | The method parameter $name is never used
+  15 | WARNING | The method parameter $chords is never used
+ 117 | WARNING | The method parameter $root is never used
+-----------------------------------------------------------------------------------------
+
+
+FILE: /Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/LilypondObject.php
+--------------------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 1 WARNING AFFECTING 1 LINE
+--------------------------------------------------------------------------------------------------
+ 14 | WARNING | The method parameter $format is never used
+--------------------------------------------------------------------------------------------------
+
+
+FILE: /Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Measure.php
+-----------------------------------------------------------------------------------------------------
+FOUND 4 ERRORS AND 3 WARNINGS AFFECTING 7 LINES
+-----------------------------------------------------------------------------------------------------
+  86 | WARNING | Function's cyclomatic complexity (11) exceeds 10; consider refactoring the function
+ 111 | ERROR   | Empty IF statement detected
+ 117 | ERROR   | Empty IF statement detected
+ 123 | ERROR   | Empty IF statement detected
+ 129 | ERROR   | Empty IF statement detected
+ 150 | WARNING | The method parameter $obj is never used
+ 342 | WARNING | The method parameter $root is never used
+-----------------------------------------------------------------------------------------------------
+
+
+FILE: /Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Notation.php
+----------------------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 1 WARNING AFFECTING 1 LINE
+----------------------------------------------------------------------------------------------------
+ 16 | WARNING | Function's cyclomatic complexity (11) exceeds 10; consider refactoring the function
+----------------------------------------------------------------------------------------------------
+
+
+FILE: /Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Notations/NotationSlur.php
+----------------------------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 7 WARNINGS AFFECTING 1 LINE
+----------------------------------------------------------------------------------------------------------
+ 21 | WARNING | The method parameter $number is never used
+ 21 | WARNING | The method parameter $placement is never used
+ 21 | WARNING | The method parameter $type is never used
+ 21 | WARNING | The method parameter $bezierX is never used
+ 21 | WARNING | The method parameter $bezierY is never used
+ 21 | WARNING | The method parameter $defaultX is never used
+ 21 | WARNING | The method parameter $defaultY is never used
+----------------------------------------------------------------------------------------------------------
+
+
+FILE: /Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Notations/NotationTuplet.php
+------------------------------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 7 WARNINGS AFFECTING 1 LINE
+------------------------------------------------------------------------------------------------------------
+ 20 | WARNING | The method parameter $bracket is never used
+ 20 | WARNING | The method parameter $number is never used
+ 20 | WARNING | The method parameter $placement is never used
+ 20 | WARNING | The method parameter $type is never used
+ 20 | WARNING | The method parameter $lineShape is never used
+ 20 | WARNING | The method parameter $showNumber is never used
+ 20 | WARNING | The method parameter $showType is never used
+------------------------------------------------------------------------------------------------------------
+
+
+FILE: /Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Note.php
+----------------------------------------------------------------------------------------
+FOUND 1 ERROR AND 18 WARNINGS AFFECTING 2 LINES
+----------------------------------------------------------------------------------------
+  51 | WARNING | The method parameter $pitch is never used
+  51 | WARNING | The method parameter $rest is never used
+  51 | WARNING | The method parameter $duration is never used
+  51 | WARNING | The method parameter $voice is never used
+  51 | WARNING | The method parameter $type is never used
+  51 | WARNING | The method parameter $accidental is never used
+  51 | WARNING | The method parameter $dot is never used
+  51 | WARNING | The method parameter $tie is never used
+  51 | WARNING | The method parameter $timeModification is never used
+  51 | WARNING | The method parameter $beams is never used
+  51 | WARNING | The method parameter $stem is never used
+  51 | WARNING | The method parameter $defaultX is never used
+  51 | WARNING | The method parameter $defaultY is never used
+  51 | WARNING | The method parameter $chord is never used
+  51 | WARNING | The method parameter $notations is never used
+  51 | WARNING | The method parameter $articulations is never used
+  51 | WARNING | The method parameter $staff is never used
+  51 | WARNING | The method parameter $cue is never used
+ 234 | ERROR   | Function's cyclomatic complexity (29) exceeds allowed maximum of 20
+----------------------------------------------------------------------------------------
+
+
+FILE: /Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Pitch.php
+-----------------------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 2 WARNINGS AFFECTING 2 LINES
+-----------------------------------------------------------------------------------------------------
+ 298 | WARNING | Function's cyclomatic complexity (12) exceeds 10; consider refactoring the function
+ 509 | WARNING | The method parameter $tuning is never used
+-----------------------------------------------------------------------------------------------------
+
+
+FILE: /Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Scale.php
+-----------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 2 WARNINGS AFFECTING 2 LINES
+-----------------------------------------------------------------------------------------
+ 428 | WARNING | The method parameter $namedOnly is never used
+ 976 | WARNING | The method parameter $justTrueScales is never used
+-----------------------------------------------------------------------------------------
+
+
+FILE: /Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/ScaleVisualizer.php
+-----------------------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 1 WARNING AFFECTING 1 LINE
+-----------------------------------------------------------------------------------------------------
+ 103 | WARNING | Function's cyclomatic complexity (14) exceeds 10; consider refactoring the function
+-----------------------------------------------------------------------------------------------------
+
+
+FILE: /Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Score.php
+-----------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 1 WARNING AFFECTING 1 LINE
+-----------------------------------------------------------------------------------------
+ 54 | WARNING | The method parameter $wise is never used
+-----------------------------------------------------------------------------------------
+
+
+FILE: /Users/iring/Repos/github/ianring/PHPMusicTools/src/PHPMusicTools/classes/Time.php
+----------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 3 WARNINGS AFFECTING 1 LINE
+----------------------------------------------------------------------------------------
+ 18 | WARNING | The method parameter $symbol is never used
+ 18 | WARNING | The method parameter $beats is never used
+ 18 | WARNING | The method parameter $beatType is never used
+----------------------------------------------------------------------------------------
+
 

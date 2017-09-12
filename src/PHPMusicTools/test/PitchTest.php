@@ -80,13 +80,14 @@ class PitchTest extends PHPMusicToolsTest
 	public function test_isHigherThan($pitch1, $pitch2, $expected) {
 		$actual = $pitch1->isHigherThan($pitch2);
 		$this->assertEquals($actual, $expected);
-
-		// let's test isLowerThan at the same time
-		$actual = $pitch2->isLowerthan($pitch1);
-		$this->assertEquals($actual, $expected);
 	}
 	function provider_isHigherThan() {
 		return array(
+			array(
+				'pitch1' => new ianring\Pitch('C', 0, 4),
+				'pitch2' => null,
+				'expected' => true
+			),
 			array(
 				'pitch1' => new ianring\Pitch('C', 0, 4),
 				'pitch2' => new ianring\Pitch('C', 0, 3),
@@ -106,6 +107,38 @@ class PitchTest extends PHPMusicToolsTest
 	}
 
 	/**
+	 * @dataProvider provider_isLowerThan
+	 */
+	public function test_isLowerThan($pitch1, $pitch2, $expected) {
+		$actual = $pitch1->isLowerthan($pitch2);
+		$this->assertEquals($actual, $expected);
+	}
+	function provider_isLowerThan() {
+		return array(
+			array(
+				'pitch1' => new ianring\Pitch('C', 0, 4),
+				'pitch2' => null,
+				'expected' => true
+			),
+			array(
+				'pitch1' => new ianring\Pitch('C', 0, 4),
+				'pitch2' => new ianring\Pitch('C', 0, 3),
+				'expected' => false
+			),
+			array(
+				'pitch1' => new ianring\Pitch('C', 1, 4), // C sharp
+				'pitch2' => new ianring\Pitch('D', -2, 4), // D double flat
+				'expected' => false
+			),
+			array(
+				'pitch1' => new ianring\Pitch('C', 1, 4), // C sharp
+				'pitch2' => new ianring\Pitch('D', -1, 4), // D flat
+				'expected' => false
+			),
+		);
+	}
+
+	/**
 	 * @dataProvider provider_equals
 	 */
 	public function test_equals($pitch1, $pitch2, $expected) {
@@ -114,6 +147,11 @@ class PitchTest extends PHPMusicToolsTest
 	}
 	function provider_equals() {
 		return array(
+			array(
+				'pitch1' => new ianring\Pitch('C', 0, 4),
+				'pitch2' => null,
+				'expected' => false
+			),
 			array(
 				'pitch1' => new ianring\Pitch('C', 0, 4),
 				'pitch2' => new ianring\Pitch('C', 0, 4),
@@ -176,6 +214,12 @@ class PitchTest extends PHPMusicToolsTest
 				'preferredAlteration' => 1,
 				'expected' => new ianring\Pitch('C', 0, 1)
 			),
+			'heightless' => array(
+				'pitch' => new ianring\Pitch('C', 0, null),
+				'interval' => 1,
+				'preferredAlteration' => -1,
+				'expected' => new ianring\Pitch('D', -1, null)
+			),
 		);
 	}
 
@@ -189,6 +233,11 @@ class PitchTest extends PHPMusicToolsTest
 	}
 	function provider_isEnharmonic() {
 		return array(
+			array(
+				'pitch1' => new ianring\Pitch('C', 0, 4),
+				'pitch2' => null,
+				'expected' => false
+			),
 			array(
 				'pitch1' => new ianring\Pitch('C', 0, 4),
 				'pitch2' => new ianring\Pitch('C', 0, 4),
@@ -857,7 +906,58 @@ class PitchTest extends PHPMusicToolsTest
 	}
 	function provider_toHemholtz() {
 		return array(
-			// todo
+			array(
+				'pitch' => new ianring\Pitch('C', 0, 1),
+				'expected' => 'C,'
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 0, 2),
+				'expected' => 'C'
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 0, 3),
+				'expected' => 'c'
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 0, 4),
+				'expected' => 'c\''
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 0, 5),
+				'expected' => 'c\'\''
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 0, 6),
+				'expected' => 'c\'\'\''
+			),
+			array(
+				'pitch' => new ianring\Pitch('G', 0, 4),
+				'expected' => 'g\''
+			),
+			array(
+				'pitch' => new ianring\Pitch('G', 1, 4),
+				'expected' => 'g#\''
+			),
+			array(
+				'pitch' => new ianring\Pitch('G', -1, 4),
+				'expected' => 'gb\''
+			),
+			array(
+				'pitch' => new ianring\Pitch('B', -2, 2),
+				'expected' => 'Bbb'
+			),
+			array(
+				'pitch' => new ianring\Pitch('B', -2, 1),
+				'expected' => 'Bbb,'
+			),
+			array(
+				'pitch' => new ianring\Pitch('D', 1, 1),
+				'expected' => 'D#,'
+			),
+			array(
+				'pitch' => new ianring\Pitch('B', 1, 6),
+				'expected' => 'b#\'\'\''
+			),
 		);
 	}
 
@@ -894,6 +994,76 @@ class PitchTest extends PHPMusicToolsTest
 			array(
 				'pitch' => new ianring\Pitch('A', 1, 2),
 				'expected' => 'a#/2'
+			),
+		);
+	}
+
+
+	/**
+	 * @dataProvider provider_polarReflection
+	 */
+	public function test_polarReflection($pitch, $axis, $expected) {
+		$original = clone $pitch;
+		$pitch->polarReflection($axis);
+
+		$compare = $pitch->isEnharmonic($expected, $pitch);
+		$this->assertTrue($compare, $pitch->toHemholtz() . ' is not ' . $original->toHemholtz());
+	}
+	function provider_polarReflection() {
+		return array(
+			array(
+				'pitch' => new ianring\Pitch('E', 0, 4),
+				'axis' => null,
+				'expected' => new ianring\Pitch('E', 0, 4),
+			),
+			'rotate around self' => array(
+				'pitch' => new ianring\Pitch('E', 0, 4),
+				'axis' => new ianring\Pitch('E', 0, 4),
+				'expected' => new ianring\Pitch('E', 0, 4)
+			),
+			'symmetrical reflection up' => array(
+				'pitch' => new ianring\Pitch('C', 0, 4),
+				'axis' => array(
+					new ianring\Pitch('C', 0, 4), 
+					new ianring\Pitch('G', 0, 4)
+				),
+				'expected' => new ianring\Pitch('G', 0, 4),
+			),
+			'symmetrical reflection down' => array(
+				'pitch' => new ianring\Pitch('G', 0, 4),
+				'axis' => array(
+					new ianring\Pitch('C', 0, 4), 
+					new ianring\Pitch('G', 0, 4)
+				),
+				'expected' => new ianring\Pitch('C', 0, 4),
+			),
+			array(
+				'pitch' => new ianring\Pitch('E', 0, 4),
+				'axis' => array(
+					new ianring\Pitch('C', 0, 4), 
+					new ianring\Pitch('G', 0, 4)
+				),
+				'expected' => new ianring\Pitch('E', -1, 4),
+			),
+			'augmented triad up' => array(
+				'pitch' => new ianring\Pitch('C', 0, 4),
+				'axis' => new ianring\Pitch('E', 0, 4),
+				'expected' => new ianring\Pitch('G', 1, 4),
+			),
+			'augmented triad down' => array(
+				'pitch' => new ianring\Pitch('G', 1, 4),
+				'axis' => new ianring\Pitch('E', 0, 4),
+				'expected' => new ianring\Pitch('C', 0, 4),
+			),
+			'octave up' => array(
+				'pitch' => new ianring\Pitch('F', 0, 4),
+				'axis' => new ianring\Pitch('F', 0, 5),
+				'expected' => new ianring\Pitch('F', 0, 6),
+			),
+			'octave down' => array(
+				'pitch' => new ianring\Pitch('F', 0, 6),
+				'axis' => new ianring\Pitch('F', 0, 5),
+				'expected' => new ianring\Pitch('F', 0, 4),
 			),
 		);
 	}

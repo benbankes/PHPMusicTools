@@ -41,8 +41,7 @@ class Scale extends PMTObject
 		421 => 'japenese (b)',
 		585 => 'diminished seventh',
 		653 => 'kumoi',
-		661 => array('chinese mongolian','diatonic'),
-		677 => 'pentatonic major',
+		661 => 'pentatonic major',
 		819 => array('augmented inverse', 'six tone symmetrical'),
 		859 => array('ultralocrian', 'superlocrian bb7', 'diminished'),
 		935 => 'mela kanakangi (1)',
@@ -108,7 +107,7 @@ class Scale extends PMTObject
 		2419 => 'persian',
 		2457 => 'augmented',
 		2471 => 'mela ganamurti (3)',
-		2475 => array('mela dhenuka (9)','minor neapolitan','neopolitan'),
+		2475 => array('minor neapolitan','mela dhenuka (9)','neopolitan'),
 		2477 => array('harmonic minor','mela kiravani (21)','mohammedan'),
 		2483 => array('enigmatic', 'flamenco mode', 'double harmonic', 'bhairav theta', 'byzantine','double harmonic','hungarian gypsy persian','mela mayamalavagaula (15)'),
 		2485 => 'mela sarasangi (27)',
@@ -961,6 +960,13 @@ class Scale extends PMTObject
 			return 'tricohemitonic';
 		}
 		return 'multicohemitonic';
+	}
+
+	/**
+	 * returns the polar negative of this scale
+	 */
+	public function negative() {
+
 	}
 
 	/**

@@ -30,7 +30,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <xsl:for-each select="phpcs/file">
+                        <xsl:for-each select="checkstyle/file">
                             <tr>
                                 <td>
                                     <xsl:value-of select="@name" />

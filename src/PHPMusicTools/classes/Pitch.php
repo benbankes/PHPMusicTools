@@ -519,10 +519,39 @@ return false; }
     /**
      * returns the pitch in Helmoltz notation, e.g. C,, d' F# g#''
      * see https://en.wikipedia.org/wiki/Helmholtz_pitch_notation
-     *
+     * or http://www.theoreticallycorrect.com/Helmholtz-Pitch-Numbering/
      */
     public function toHemholtz() {
-        // todo
+        $str = $this->step;
+        if ($this->octave < 3) {
+            $str = strtoupper($str);
+        } else {
+            $str = strtolower($str);
+        }
+
+        switch ($this->alter) {
+            case -2:
+                $str .= 'bb';
+                break;
+            case -1:
+                $str .= 'b';
+                break;
+            case 1:
+                $str .= '#';
+                break;
+            case 2:
+                $str .= '##';
+                break;
+            default:
+                // nothing
+        }
+        if ($this->octave > 3) {
+            $str .= str_repeat("'", $this->octave - 3);
+        }
+        if ($this->octave < 2) {
+            $str .= str_repeat(",", ($this->octave * -1) + 2);
+        }
+        return $str;
     }
 
     /**
@@ -586,6 +615,44 @@ return false; }
 
     public function toVexFlowKey() {
         return strtolower($this->step) . Accidental::alterToVexFlow($this->alter) . '/' . $this->octave;
+    }
+
+    /**
+     * This "reflects" a pitch across an axis, producing an opposite pitch.
+     * Reflection alters this pitch by reference. It does not return a clone or a new Pitch.
+     *
+     * For example, if the axis is C and the pitch is E (a major 3 above), then the output is A flat
+     * (a major 3 below).
+     * The axis might be a Pitch, or it might be an array of two Pitches. If the latter then the axis is
+     * actually a point half way between the two pitches. A typical example is to use a tonic-dominant
+     * axis, e.g. C and G. The actual reflection point is half way between E and E flat.
+     * Reflected across the axis, a C becomes a G, and G becomes a C. D becomes F, and D sharp becomes F flat.
+     *
+     * Polar reflection is used to mine new sonorities from series of plagal cadences (biii, bvii, IV, I), in
+     * contrast to more conventional series of perfect cadences (vi, ii, V, I). In Jazz theory this has become
+     * popularlized as "negative harmony".
+     *
+     * We should expect that a heightless pitch will reflect into another heightless pitch, an array of Pitches
+     * should reflect into an array of Pitches, and that a Chord comprised of Notes with Pitches should reflect
+     * into a Chord with its tones inverted.
+     *
+     * When spelling a reflected pitch, if the input Pitch is altered sharp, the reflection should prefer flats, and
+     * vice versa.
+     */
+    public function polarReflection($axis) {
+        if (is_null($axis)) {
+            return null;
+        }
+        if (is_array($axis)) {
+            $axisWidth = $axis[0]->interval($axis[1]);
+            $offset = $this->interval($axis[0]);
+            $transposeBy = ($offset * 2) + $axisWidth;
+            $this->transpose($transposeBy);
+        } else {
+            $distance = $this->interval($axis);
+            $transposeBy = $distance * 2;
+            $this->transpose($transposeBy);
+        }
     }
 
 }
