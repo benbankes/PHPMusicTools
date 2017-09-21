@@ -35,25 +35,4 @@ class ClefTest extends PHPMusicToolsTest
 		$this->assertEquals(0, $clef->octaveChange);
 	}
 
-
-	/**
-	 * @dataProvider provider_resolveClefString
-	 */
-	public function test_resolveClefString($string, $expected) {
-		$result = $chord->analyzeTriad();
-		$this->assertEquals($expected, $result);
-	}
-	function provider_resolveClefString() {
-		return array(
-			array(
-				'string' => '',
-				'expected' => array(
-					'sign' => 'G',
-					'line' => 2
-				)
-			)
-
-		);
-	}
-
 }
