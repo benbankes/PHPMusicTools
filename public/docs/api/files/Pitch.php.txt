@@ -391,27 +391,6 @@ return false; }
         return $this;
     }
 
-    /**
-     * renders a canonical string description of the pitch. Uses "#" and "-" for accidentals.
-     *
-     * @return String
-     */
-    public function toString() {
-        $str = '';
-        $str .= $this->step;
-        switch ($this->alter) {
-        case 1:
-            $str .= '#';
-            break;
-        case -1:
-            $str .= '-';
-            break;
-        default:
-            break;
-        }
-        $str .= $this->octave;
-        return $str;
-    }
 
     /**
      * translates a pitch properties into a signed integer, arbitrarily centered with zero on middle C
@@ -426,6 +405,7 @@ return false; }
         $num += $this->alter; // adds a sharp or flat, e.g. 1 = sharp, -1 = flat, -2 = double-flat...
         return $num;
     }
+
 
     /**
      * accepts a note number and sets the pitch properties
@@ -461,11 +441,17 @@ return false; }
      */
     public function toLilypond() {
         $out = strtolower($this->step);
+        if ($this->alter == 2) {
+            $out .= 'isis';
+        }
         if ($this->alter == 1) {
             $out .= 'is';
         }
         if ($this->alter == -1) {
             $out .= 'es';
+        }
+        if ($this->alter == -2) {
+            $out .= 'eses';
         }
 
         // contrary to the standards in this class, lilypond thinks that B sharp belongs in the same

@@ -815,7 +815,7 @@ class ScaleTest extends PHPMusicToolsTest
 	/**
 	 * @dataProvider provider_modes
 	 */
-	public function test_modes($scale, $expected) {
+	public function test_modes($scale, $includeSelf, $expected) {
 		$scale = new \ianring\Scale($scale);
 		$actual = $scale->modes();
 		$this->assertEquals($expected, $actual);
@@ -824,18 +824,22 @@ class ScaleTest extends PHPMusicToolsTest
 		return array(
 			array(
 				'scale' => 1841,
+				'includeSelf' => false,
 				'expected' => array(371, 2233, 791, 2443, 3269, 1841)
 			),
 			array(
 				'scale' => 2741,
+				'includeSelf' => false,
 				'expected' => array(1709, 1451, 2773, 1717, 1453, 1387, 2741)
 			),			
 			'chromatic' => array(
 				'scale' => 4095,
+				'includeSelf' => false,
 				'expected' => array(4095, 4095, 4095, 4095, 4095, 4095, 4095, 4095, 4095, 4095, 4095, 4095)
 			),
 			'whole tone' => array(
 				'scale' => 1365,
+				'includeSelf' => false,
 				'expected' => array(1365, 1365, 1365, 1365, 1365, 1365)
 			),
 		);
@@ -933,5 +937,126 @@ class ScaleTest extends PHPMusicToolsTest
 
 	}
 
+	// public function test_justThePopularOnes() {
+	// 	$pop = \ianring\Scale::justThePopularOnes();
+	// 	var_dump($pop);
+	// }
+
+
+	/**
+	 * @dataProvider provider_invert
+	 */
+	public function test_invert($scale, $axis, $expected) {
+		$scale = new \ianring\Scale($scale, null);
+		$scale->invert($axis);
+		$this->assertEquals($expected, $scale->scale);
+	}
+	public function provider_invert() {
+		return array(
+			array(
+				'scale' => bindec('101010110101'),
+				'axis' => 0,
+				'expected' => bindec('010110101011')
+			),
+			array(
+				'scale' => bindec('111111111111'),
+				'axis' => 0,
+				'expected' => bindec('111111111111')
+			),
+			array(
+				'scale' => bindec('010101010101'),
+				'axis' => 0,
+				'expected' => bindec('010101010101')
+			),
+			array(
+				'scale' => bindec('110000011111'),
+				'axis' => 0,
+				'expected' => bindec('111100000111')
+			),
+			array(
+				'scale' => bindec('110000011111'),
+				'axis' => 0,
+				'expected' => bindec('111100000111')
+			),
+			array(
+				'scale' => bindec('101010110101'),
+				'axis' => 1,
+				'expected' => bindec('011010101101')
+			),
+			array(
+				'scale' => bindec('101010110101'),
+				'axis' => 2,
+				'expected' => bindec('101010110101')
+			),
+			array(
+				'scale' => bindec('101010110101'),
+				'axis' => 6,
+				'expected' => bindec('010110101011')
+			),
+
+			array(
+				'scale' => bindec('111000111001'),
+				'axis' => 0,
+				'expected' => bindec('001110001111')
+			),
+			array(
+				'scale' => bindec('111000111001'),
+				'axis' => 1,
+				'expected' => bindec('111000111100')
+			),
+			array(
+				'scale' => bindec('111000111001'),
+				'axis' => 2,
+				'expected' => bindec('100011110011')
+			),
+			array(
+				'scale' => bindec('111000111001'),
+				'axis' => 3,
+				'expected' => bindec('001111001110')
+			),
+			array(
+				'scale' => bindec('111000111001'),
+				'axis' => 4,
+				'expected' => bindec('111100111000')
+			),
+			array(
+				'scale' => bindec('111000111001'),
+				'axis' => 5,
+				'expected' => bindec('110011100011')
+			),
+			array(
+				'scale' => bindec('111000111001'),
+				'axis' => 6,
+				'expected' => bindec('001110001111')
+			),
+			array(
+				'scale' => bindec('111000111001'),
+				'axis' => 7,
+				'expected' => bindec('111000111100')
+			),
+			array(
+				'scale' => bindec('111000111001'),
+				'axis' => 8,
+				'expected' => bindec('100011110011')
+			),
+			array(
+				'scale' => bindec('111000111001'),
+				'axis' => 9,
+				'expected' => bindec('001111001110')
+			),
+			array(
+				'scale' => bindec('111000111001'),
+				'axis' => 10,
+				'expected' => bindec('111100111000')
+			),
+			array(
+				'scale' => bindec('111000111001'),
+				'axis' => 11,
+				'expected' => bindec('110011100011')
+			),
+
+
+		);
+	}
 
 }

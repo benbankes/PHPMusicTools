@@ -58,12 +58,30 @@ class ScaleVisualizer extends Scale
 				$s .= ' ('.$name.')';
 			}
 		}
-		$s .= '<i class="icon-play2 scale-player" data-scale="'.$scale->scale.'"></i>';
+
+		$middleC = new \ianring\Pitch('C', 0, 4);
+		$scale->root = $middleC;
+		$pitches = $scale->getPitches();
+		foreach ($pitches as $pitch) {
+			$c = array();
+			$c[] = $pitch->toMidiKeyNumber();
+			$notes[] = $c;
+		}
+		$jsonNotes = json_encode($notes, true);
+
+		$s .= '&nbsp;<i class="icon-play2 player" data-midi="'.htmlspecialchars($jsonNotes).'"></i>';
 		$s .= '</span>';
 		return $s;
 
 	}
 
+	public static function pitchClassSet($scale) {
+		if (is_integer($scale)) {
+			$scale = new Scale($scale);
+		}
+		$tones = $scale->getTones();
+		return '{' . implode(',', $tones) . '}';	
+	}
 
 	public static function braceletHTML($scale, $grouped = false) {
 		if (is_integer($scale)) {
@@ -82,11 +100,22 @@ class ScaleVisualizer extends Scale
 			}
 			return $str;
 		}
+
+		$middleC = new \ianring\Pitch('C', 0, 4);
+		$scale->root = $middleC;
+		$pitches = $scale->getPitches();
+		foreach ($pitches as $pitch) {
+			$c = array();
+			$c[] = $pitch->toMidiKeyNumber();
+			$notes[] = $c;
+		}
+		$jsonNotes = json_encode($notes, true);
+
 		$s = '<div class="bracelet">';
 		$s .= self::drawSVGBracelet($scale, 50);
 		$s .= '<br/>';
 		$s .= '<a href="/scales/'.$scale->scale.'">'.$scale->scale.'</a>';
-		$s .= '<i class="icon-play2 scale-player" data-scale="'.$scale->scale.'"></i>';
+		$s .= '&nbsp;<i class="icon-play2 player" data-midi="'.htmlspecialchars($jsonNotes).'"></i>';
 		$s .= '</div>';
 		return $s;
 	}

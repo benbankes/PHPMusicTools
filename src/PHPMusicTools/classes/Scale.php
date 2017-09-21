@@ -158,11 +158,15 @@ class Scale extends PMTObject
 		3419 => 'jewish (magan abot)',
 		3445 => 'sixth mode of limited transposition',
 		3549 => 'third mode of limited transposition',
-		3669 => 'prometheus',
 		3765 => 'bebop dominant',
 		3829 => 'japanese (taishikicho)',
 		4095 => 'chromatic',
 	);
+
+	public static function justThePopularOnes() {
+		$a = array(273, 585, 661, 859, 1193, 1257, 1365, 1371, 1387, 1389, 1397, 1451, 1453, 1459, 1485, 1493, 1499, 1621, 1643, 1709, 1717, 1725, 1741, 1749, 1753, 1755, 2257, 2275, 2457, 2475, 2477, 2483, 2509, 2535, 2731, 2733, 2741, 2773, 2777, 2869, 2901, 2925, 2925, 2989, 2997, 3055, 3411, 3445, 3549, 3669, 3765, 4095);
+		return array_intersect_key(self::$scaleNames, array_fill_keys($a, true));
+	}
 
 	/**
 	 * Constructor.
@@ -529,7 +533,7 @@ class Scale extends PMTObject
 	 * @param  [type] $scale [description]
 	 * @return [type]        [description]
 	 */
-	function modes() {
+	function modes($includeSelf = false) {
 		$rotateme = $this->scale;
 		$modes = array();
 		for ($i = 0; $i < 12; $i++) {
@@ -538,6 +542,9 @@ class Scale extends PMTObject
 				continue;
 			}
 			$modes[] = $rotateme;
+		}
+		if ($includeSelf) {
+			$modes[] = $this->scale;
 		}
 		return $modes;
 	}
@@ -741,6 +748,9 @@ class Scale extends PMTObject
     	return $chords;
     }
 
+    /**
+     * returns something that resembles a pitch class set, with "on" bits as members of an array, like [0,2,4,5,7,9,11]
+     */
     public static function bits2Tones($bits) {
     	$tones = array();
     	$n = $bits;
@@ -775,16 +785,19 @@ class Scale extends PMTObject
 		return self::countOnBits($this->scale);
 	}
 
-	public static function scaletype($num) {
+	public function scaletype() {
 		$types = array(
 			4 => 'tetratonic',
 			5 => 'pentatonic',
 			6 => 'hexatonic',
 			7 => 'heptatonic',
 			8 => 'octatonic',
+			9 => 'nonatonic',
+			10 => 'decatonic'
 		);
-		if (isset($types[$num])) {
-			return $types[$num];
+		$numTones = $this->countTones();
+		if (isset($types[$numTones])) {
+			return $types[$numTones];
 		}
 		return null;
 	}
@@ -833,6 +846,11 @@ class Scale extends PMTObject
 	 * ... should this be a static method?
 	 */
 	function rotateBitmask($bits, $direction = 1, $amount = 1) {
+		if ($amount < 0) {
+			$amount = $amount * -1;
+			$direction = $direction * -1;
+		}
+
 		for ($i = 0; $i < $amount; $i++) {
 			if ($direction == 1) {
 				$firstbit = $bits & 1;
@@ -964,8 +982,33 @@ class Scale extends PMTObject
 
 	/**
 	 * returns the polar negative of this scale
+	 * that's the scale where all the on bits are off, and the off bits are on. Beware that this produces a non-scale
 	 */
 	public function negative() {
+		$negative = 4095 ^ $this->scale;
+		return new Scale($negative);
+	}
+
+
+	/**
+	 * returns the inverse of this scale, reflected across the root.
+	 * Note the similarities bewtixt this and Pitch::invert() - the main difference being that this
+	 * inversion is modulo-12 and works on bits (members of a pitch class set), not actual pitches. As a consequence,
+	 */
+	public function invert($axis = 0) {
+		$inverse = $this->reflectBitmask($this->scale);
+		$rotateBy = ($axis * 2) - 11;
+		$inverse = $this->rotateBitmask($inverse, $direction = -1, $rotateBy);
+		$this->scale = $inverse;
+	}
+
+
+
+	/**
+	 *
+	 * see section 3.3 of http://composertools.com/Theory/PCSets.pdf
+	 */
+	public function primeForm() {
 
 	}
 

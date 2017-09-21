@@ -955,8 +955,25 @@ class PitchTest extends PHPMusicToolsTest
 				'expected' => 'D#,'
 			),
 			array(
+				'pitch' => new ianring\Pitch('D', 2, 1),
+				'expected' => 'D##,'
+			),
+
+			'b natural is part of octave 5' => array(
+				'pitch' => new ianring\Pitch('B', 0, 5),
+				'expected' => 'b\'\''
+			),
+			'b sharp is in octave 6' => array(
 				'pitch' => new ianring\Pitch('B', 1, 6),
 				'expected' => 'b#\'\'\''
+			),
+			'b double sharp in octave 6' => array(
+				'pitch' => new ianring\Pitch('B', 2, 6),
+				'expected' => 'b##\'\'\''
+			),
+			'c flat in octave 5' => array(
+				'pitch' => new ianring\Pitch('C', -1, 5),
+				'expected' => 'cb\'\''
 			),
 		);
 	}
@@ -1068,5 +1085,89 @@ class PitchTest extends PHPMusicToolsTest
 		);
 	}
 
+
+	/**
+	 * @dataProvider provider_toLilypond
+	 */
+	public function test_toLilypond($pitch, $expected) {
+		$result = $pitch->toLilypond();
+		$this->assertEquals($expected, $result);
+	}
+	function provider_toLilypond() {
+		return array(
+			array(
+				'pitch' => new ianring\Pitch('C', 0, 1),
+				'expected' => 'c,,'
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 0, 2),
+				'expected' => 'c,'
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 0, 3),
+				'expected' => 'c'
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 0, 4),
+				'expected' => 'c\''
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 0, 5),
+				'expected' => 'c\'\''
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 0, 6),
+				'expected' => 'c\'\'\''
+			),
+			array(
+				'pitch' => new ianring\Pitch('C', 0, 12),
+				'expected' => 'c\'\'\'\'\'\'\'\'\''
+			),
+			array(
+				'pitch' => new ianring\Pitch('G', 0, 4),
+				'expected' => 'g\''
+			),
+			array(
+				'pitch' => new ianring\Pitch('G', 1, 4),
+				'expected' => 'gis\''
+			),
+			array(
+				'pitch' => new ianring\Pitch('G', -1, 4),
+				'expected' => 'ges\''
+			),
+			array(
+				'pitch' => new ianring\Pitch('B', -2, 2),
+				'expected' => 'beses,'
+			),
+			array(
+				'pitch' => new ianring\Pitch('B', -2, 1),
+				'expected' => 'beses,,'
+			),
+			array(
+				'pitch' => new ianring\Pitch('D', 1, 1),
+				'expected' => 'dis,,'
+			),
+			'b sharp octave 5' => array(
+				'pitch' => new ianring\Pitch('B', 0, 5),
+				'expected' => 'b\'\''
+			),
+			'b sharp is the same octave as b natural' => array(
+				'pitch' => new ianring\Pitch('B', 1, 6),
+				'expected' => 'bis\'\''
+			),
+			'b double sharp is the same octave as b natural' => array(
+				'pitch' => new ianring\Pitch('B', 2, 6),
+				'expected' => 'bisis\'\''
+			),
+			'c flat is part of the octave above' => array(
+				'pitch' => new ianring\Pitch('C', -1, 5),
+				'expected' => 'ces\'\'\''
+			),
+			'c double flat is part of the octave above' => array(
+				'pitch' => new ianring\Pitch('C', -2, 5),
+				'expected' => 'ceses\'\'\''
+			),
+		);
+	}
 
 }
