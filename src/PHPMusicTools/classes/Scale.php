@@ -3,6 +3,7 @@ namespace ianring;
 require_once 'PMTObject.php';
 require_once 'Pitch.php';
 require_once 'Chord.php';
+require_once __DIR__.'/Utils/BitmaskUtils.php';
 
 /**
  * This class operates on the understanding that all scales are made from the set of 12 chromatic tempered
@@ -67,7 +68,7 @@ class Scale extends PMTObject
 		1387 => array('locrian', 'half diminished (locrian)'),
 		1389 => array('half diminished', 'locrian #2'),
 		1395 => 'oriental (a)',
-		1397 => array('arabian b', 'major locrian'),
+		1397 => array('major locrian', 'arabian b'),
 		1403 => 'eight tone spanish',
 		1447 => 'mela ratnangi (2)',
 		1451 => array('phrygian', 'bhairavi theta', 'mela hanumattodi (8)', 'neopolitan minor'),
@@ -476,8 +477,8 @@ class Scale extends PMTObject
 		$spectrum = array();
 		$rotateme = $this->scale;
 		for ($i=0; $i<6; $i++) {
-			$rotateme = $this->rotateBitmask($rotateme, $direction = 1, $amount = 1);
-			$spectrum[$i] = self::countOnBits($this->scale & $rotateme);
+			$rotateme = BitmaskUtils::rotateBitmask($rotateme, $direction = 1, $amount = 1);
+			$spectrum[$i] = BitmaskUtils::countOnBits($this->scale & $rotateme);
 		}
 		// special rule: if there is a tritone in the sonority, it will show up twice, so we divide by 2
 		$spectrum[5] = $spectrum[5] / 2;
@@ -537,7 +538,7 @@ class Scale extends PMTObject
 		$rotateme = $this->scale;
 		$modes = array();
 		for ($i = 0; $i < 12; $i++) {
-			$rotateme = $this->rotateBitmask($rotateme);
+			$rotateme = BitmaskUtils::rotateBitmask($rotateme);
 			if (($rotateme & 1) == 0) {
 				continue;
 			}
@@ -559,7 +560,7 @@ class Scale extends PMTObject
 		$rotateme = $this->scale;
 		$symmetries = array();
 		for ($i = 0; $i < 12; $i++) {
-			$rotateme = $this->rotateBitmask($rotateme);
+			$rotateme = BitmaskUtils::rotateBitmask($rotateme);
 			if ($rotateme == $this->scale) {
 				if ($i != 11) {
 					$symmetries[] = $i+1;
@@ -590,9 +591,9 @@ class Scale extends PMTObject
 	 * and http://ianring.com/scales
 	 */
 	public function isChiral() {
-		$reflected = $this->reflectBitmask($this->scale);
+		$reflected = BitmaskUtils::reflectBitmask($this->scale);
 		for ($i = 0; $i < 12; $i++) {
-			$reflected = $this->rotateBitmask($reflected, 1, 1);
+			$reflected = BitmaskUtils::rotateBitmask($reflected, 1, 1);
 			if ($reflected == $this->scale) {
 				return false;
 			}
@@ -606,8 +607,8 @@ class Scale extends PMTObject
 	 * @todo
 	 */
 	public function enantiomorph() {
-		$scale = $this->reflectBitmask($this->scale);
-		$scale = $this->rotateBitmask($scale, -1, 1);
+		$scale = BitmaskUtils::reflectBitmask($this->scale);
+		$scale = BitmaskUtils::rotateBitmask($scale, -1, 1);
 		return new \ianring\Scale($scale, $this->root, $this->direction);
 	}
 
@@ -749,30 +750,13 @@ class Scale extends PMTObject
     }
 
     /**
-     * returns something that resembles a pitch class set, with "on" bits as members of an array, like [0,2,4,5,7,9,11]
-     */
-    public static function bits2Tones($bits) {
-    	$tones = array();
-    	$n = $bits;
-    	$i = 0;
-    	while ($n > 0) {
-    		if ($bits & (1 << $i)) {
-    			$tones[] = $i;
-	    		$n = $n & ~(1 << $i); // turn the bit off
-    		}
-    		$i++;
-    	}
-    	return $tones;
-    }
-
-    /**
      * This returns the *places* where bits are on, as a 0-based set. For example, the
      * binary 101010010001 should return [0, 4, 7, 9, 11]
      * This set of tones is used to construct chords and other useful things
      * unlike some of the other methods, this one should recognize places higher than 12
      */
     public function getTones() {
-    	return self::bits2Tones($this->scale);
+    	return BitmaskUtils::bits2Tones($this->scale);
     }
 
 
@@ -782,7 +766,7 @@ class Scale extends PMTObject
 	 * @return [type] [description]
 	 */
 	public function countTones() {
-		return self::countOnBits($this->scale);
+		return BitmaskUtils::countOnBits($this->scale);
 	}
 
 	public function scaletype() {
@@ -803,68 +787,8 @@ class Scale extends PMTObject
 	}
 
 
-	/**
-	 * counts how many bits are on. Distinct from the Scale::countTones() method, in that this one
-	 * accepts a scale argument so you can check the on bits of any scale, not just this one.
-	 * ... so should this be a static method?
-	 */
-	public static function countOnBits($bits) {
-		$tones = 0;
-		for ($i = 0; $i < 12; $i++) {
-			if (($bits & (1 << $i)) > 0) {
-				$tones++;
-			}
-		}
-		return $tones;
-	}
 
-	/**
-	 * Produces the reflection of a bitmask, e.g.
-	 * 011100110001 -> 100011001110
-	 * see enantiomorph()
-	 * ... should this be a static method?
-	 */
-	function reflectBitmask($scale) {
-		$output = 0;
-		for ($i = 0; $i < 12; $i++) {
-			if ($scale & (1 << $i)) {
-				$output = $output | (1 << (11 - $i));
-			}
-		}
-		return $output;
-	}
 
-	/**
-	 * Accepts a number to use as a bitmask, and "rotates" it. e.g.
-	 * 100000000000 -> 000000000001 -> 00000000010 -> 000000000100
-	 *
-	 * @param  integer $bits     the bitmask being rotated
-	 * @param  integer $direction 1 = rotate up, 0 = rotate down
-	 * @param  integer $amount    the number of places to rotate by
-	 * @return integer            the result after rotation
-	 *
-	 * ... should this be a static method?
-	 */
-	function rotateBitmask($bits, $direction = 1, $amount = 1) {
-		if ($amount < 0) {
-			$amount = $amount * -1;
-			$direction = $direction * -1;
-		}
-
-		for ($i = 0; $i < $amount; $i++) {
-			if ($direction == 1) {
-				$firstbit = $bits & 1;
-				$bits = $bits >> 1;
-				$bits = $bits | ($firstbit << 11);
-			} else {
-				$firstbit = $bits & (1 << 11);
-				$bits = $bits << 1;
-				$bits = $bits & ~(1 << 12);
-				$bits = $bits | ($firstbit >> 11);
-			}
-		}
-		return $bits;
-	}
 
 	/**
 	 * returns the interval pattern of a scale. eg a major scale has the pattern [2,2,1,2,2,2]
@@ -943,7 +867,7 @@ class Scale extends PMTObject
 			$scale = $this->scale;
 		}
 		$rotateme = $scale; // make a copy
-		return $scale & ($this->rotateBitmask($rotateme, $direction = 1, $amount = $interval));
+		return $scale & (BitmaskUtils::rotateBitmask($rotateme, $direction = 1, $amount = $interval));
 	}
 
 	function hemitonia() {
@@ -996,19 +920,39 @@ class Scale extends PMTObject
 	 * inversion is modulo-12 and works on bits (members of a pitch class set), not actual pitches. As a consequence,
 	 */
 	public function invert($axis = 0) {
-		$inverse = $this->reflectBitmask($this->scale);
+		$inverse = BitmaskUtils::reflectBitmask($this->scale);
 		$rotateBy = ($axis * 2) - 11;
-		$inverse = $this->rotateBitmask($inverse, $direction = -1, $rotateBy);
+		$inverse = BitmaskUtils::rotateBitmask($inverse, $direction = -1, $rotateBy);
 		$this->scale = $inverse;
 	}
 
 
-
 	/**
-	 *
 	 * see section 3.3 of http://composertools.com/Theory/PCSets.pdf
+	 * 
+	 * returns the prime form of this scale, as a 
 	 */
 	public function primeForm() {
+		$pcs = new PitchClassSet($this->scale);
+		$p = $pcs->primeForm();
+		return $p;
+	}
+
+	/**
+	 * returns true if this scale is in Prime form
+	 */
+	public isPrime() {
+		return $this->scale == $this->primeForm();
+	}
+
+	/**
+	 * Scales that share the same interval spectrum but are not transpositionally related nor inversionally related are called Z-related, also 
+	 * called isomeric relation. For example, a major triad and minor triad have the same interval content, but you can't
+	 * transform one into the other by rotation or inversion. Therefore, they are Z-related. 
+	 *
+	 * This method should return all the Z-related scales 
+	 */
+	public function zRelated() {
 
 	}
 

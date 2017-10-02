@@ -878,6 +878,37 @@ class ScaleTest extends PHPMusicToolsTest
 
 
 	/**
+	 * @dataProvider provider_reflectBitmask
+	 */
+	public function test_reflectBitmask($scale, $expected) {
+		$scale = new \ianring\Scale($scale);
+		$actual = $scale->reflectBitmask($scale);
+		$this->assertEquals($expected, $actual);
+	}
+	public function provider_reflectBitmask() {
+		return array(
+			array(
+				'scale' => 		bindec('101010110101'),
+				'expected' => 	bindec('100000010000')
+			),
+			array(
+				'scale' => 		bindec('010101010101'),
+				'expected' => 	bindec('000000000000')
+			),
+			array(
+				'scale' => 		bindec('111111111111'),
+				'expected' => 	bindec('111111111111')
+			),
+			array(
+				'scale' => 		bindec('111111111110'),
+				'expected' => 	bindec('011111111110')
+			),
+		);
+
+	}
+
+
+	/**
 	 * @dataProvider provider_cohemitonics
 	 */
 	public function test_cohemitonics($scale, $expected) {

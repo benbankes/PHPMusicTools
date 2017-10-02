@@ -42,3 +42,6 @@ composer.phar
 
 # generated files that don't need to be in the repo
 /src/PHPMusicTools/scales/images
+/public
+
+

@@ -312,6 +312,16 @@ class ChordTest extends PHPMusicToolsTest
 				'expected' => 'diminished'
 			),
 
+			'dim-3' => array(
+				'chord' => \ianring\Chord::constructFromArray(array(
+					'notes' => array(
+						array('pitch' => array('step' => 'B', 'alter' => 0, 'octave' => 3)),
+						array('pitch' => array('step' => 'D', 'alter' => -1, 'octave' => 4)),
+						array('pitch' => array('step' => 'F', 'alter' => 0, 'octave' => 4))
+					)
+				)),			
+				'expected' => 'diminished flat 3'
+			),
 		);
 	}
 
