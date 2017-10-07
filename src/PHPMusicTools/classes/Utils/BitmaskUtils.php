@@ -98,4 +98,18 @@ class BitmaskUtils
 	}
 
 
+	public static function spectrum($bits) {
+		$spectrum = array();
+		$rotateme = $bits;
+		for ($i=0; $i<6; $i++) {
+			$rotateme = self::rotateBitmask($rotateme, $direction = 1, $amount = 1);
+			$spectrum[$i] = self::countOnBits($bits & $rotateme);
+		}
+		// special rule: if there is a tritone in the sonority, it will show up twice, so we divide by 2
+		$spectrum[5] = $spectrum[5] / 2;
+		return $spectrum;
+	}
+
+
+
 }

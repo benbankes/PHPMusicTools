@@ -47,11 +47,9 @@ class PitchClassSet extends PMTObject {
 	}
 
 
-	/**
-	 * returns the prime form of this PCS according to Forte's algorithm
-	 */
-	public function primeFormForte() {
-		$tones = BitmaskUtils::bits2Tones($this->bits);
+
+	private function getInteriorIntervals($bits) {
+		$tones = BitmaskUtils::bits2Tones($bits);
 		if (count($tones) == 0) {
 			return 0;
 		}
@@ -66,12 +64,40 @@ class PitchClassSet extends PMTObject {
 			$intervals[] = $tones[$i+1] - $tones[$i];
 		}
 		$intervals[] = 12 - $tones[count($tones)-1];
+		return $intervals;
+	}
+
+	/**
+	 * returns the prime form of this PCS according to Forte's algorithm. Inversions are excluded as duplicates!
+	 */
+	public function primeFormForte() {
+
+		// shortcut
+		if ($this->bits == 0) {
+			return 0;
+		}
+
 		$rotations = array();
+
+		$intervals = $this->getInteriorIntervals($this->bits);
+
+		// create rotations of this set of intervals
 		$count = count($intervals);
 		for($i=0; $i<$count; $i++) {
 			$rotations[] = $intervals;
 			array_push($intervals, array_shift($intervals));
 		}
+
+		// invert, and get those ones too
+		$inversion = \ianring\BitmaskUtils::reflectBitmask($this->bits);
+		$iIntervals = $this->getInteriorIntervals($inversion);
+		$count = count($iIntervals);
+		for($i=0; $i<$count; $i++) {
+			$rotations[] = $iIntervals;
+			array_push($iIntervals, array_shift($iIntervals));
+		}
+
+		// now sort all the PCSs for leftmost density
 		usort($rotations, function($a, $b){
 			// biggest interval at the end,
 			if ($a[count($a)-1] !== $b[count($b)-1]) {
@@ -112,16 +138,49 @@ class PitchClassSet extends PMTObject {
 	}
 
 
-	public function normalForm() {	
+	/**
+	 * returns the interval vector as an array of integers
+	 * @return array
+	 */
+	public function intervalVector() {
+		return \ianring\BitmaskUtils::spectrum($this->bits);		
 	}
 
-	public function internalVector() {
-	}
 
 	public function normalMatrix() {
 	}
 
-	public function zMate() {
+	/**
+	 * returns the cardinality of the pitch class set, aka the number of tones in it
+	 *
+	 * @return int
+	 */
+	public function cardinality() {
+		return count(\ianring\BitmaskUtils::countOnBits($this->bits));
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function cardinalityTerm($card) {
+		$terms = array(
+			2 => 'dyad',
+			3 => 'trichord',
+			4 => 'tetrachord',
+			5 => 'pentachord',
+			6 => 'hexachord'
+		);
+		if (in_array($card, $terms)) {
+			return $terms[$card];
+		}
+		return null;
+	}
+
+	/**
+	 * When two prime forms have the same internal vector, and when one can not be reduced to the other 
+	 * (by inversion or transposition), they are said to be "Z-Related". 
+	 */
+	public function zRelations() {
 	}
 
 	public function tnInvariance() {
@@ -130,19 +189,57 @@ class PitchClassSet extends PMTObject {
 	public function tniInvariance() {
 	}
 
-	public function invert() {
+	public function applyTransformation($t) {
+
 	}
 
+	/**
+	 * Returns the PitchClassSetTransformation for what it would take to transform $set1 into $set2.
+	 * For example, a rotation of one semitone is "T1". An inversion and rotation of five semitones is "T5I".
+	 *
+	 * @return PitchClassSetTransformation
+	 */
+	public static function getTransformation($set1, $set2) {
+
+	}
+
+	/**
+	 * returns the PCS that is the inverse of this one
+	 *
+	 * @return PitchClassSet
+	 */
+	public function invert() {
+
+	}
+
+	/**
+	 * The complement of a PCS is one where all the off bits are on, and the on bits are off.
+	 *
+	 * @return PitchClassSet
+	 */
 	public function complement() {
 	}
 
 	/**
-	 * A scale whose interval vector has six unique digits is said to have the deep scale property.
+	 * A scale whose interval vector has six unique digits is said to have the "deep scale" property.
+	 * @return bool 
 	 */
-	public function deepScale() {
+	public function isDeepScale() {
 
 	}
 
+	/**
+	 * A voice leading transform is one where an integer transposition is applied to each member of the PCS. 
+	 * For example, consider the PCS of a major triad, [0,4,7]. We can transform that into a minor triad by 
+	 * transposing the second tone down a semitone, so the 4 becomes a 3, and the result is [0,3,7].
+	 * The "voice leading transformation" in this case is [0,-1,0].
+	 * 
+	 * @see http://dmitri.mycpanel.princeton.edu/files/publications/fourier.pdf
+	 * 
+	 */
+	public function voiceLeadingTransform($transformation) {
+
+	}
 
 	/**
 	 * returns boolean, indicating whether a number appears x times in a set's matrix, where x is the length of the set

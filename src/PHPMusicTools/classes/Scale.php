@@ -311,26 +311,6 @@ class Scale extends PMTObject
 		return $pitches;
 	}
 
-	function type() {
-		$types = array(
-			3 => 'tritonic',
-			4 => 'tetratonic',
-			5 => 'pentatonic',
-			6 => 'hexatonic',
-			7 => 'heptatonic',
-			8 => 'octatonic',
-			9 => 'nonatonic',
-			10 => 'decatonic',
-			11 => 'ginantonic',
-			12 => 'dodecatonic',
-		);
-		$num = $this->countTones();
-		if (isset($types[$num])) {
-			return $types[$num];
-		}
-		return null;
-	}
-
 	/**
 	 * What this function has got to do is make sure that the C sharp major scale uses an E sharp, not
 	 * an F natural. To do that it recognizes scales that are diatonic, and forces each note to be on
@@ -474,15 +454,7 @@ class Scale extends PMTObject
 	 * @return [type]        [description]
 	 */
 	public function spectrum() {
-		$spectrum = array();
-		$rotateme = $this->scale;
-		for ($i=0; $i<6; $i++) {
-			$rotateme = BitmaskUtils::rotateBitmask($rotateme, $direction = 1, $amount = 1);
-			$spectrum[$i] = BitmaskUtils::countOnBits($this->scale & $rotateme);
-		}
-		// special rule: if there is a tritone in the sonority, it will show up twice, so we divide by 2
-		$spectrum[5] = $spectrum[5] / 2;
-		return $spectrum;
+		return \ianring\BitmaskUtils::spectrum($this->scale);
 	}
 
 
@@ -771,13 +743,16 @@ class Scale extends PMTObject
 
 	public function scaletype() {
 		$types = array(
+			3 => 'tritonic',
 			4 => 'tetratonic',
 			5 => 'pentatonic',
 			6 => 'hexatonic',
 			7 => 'heptatonic',
 			8 => 'octatonic',
 			9 => 'nonatonic',
-			10 => 'decatonic'
+			10 => 'decatonic',
+			11 => 'undecatonic',
+			12 => 'dodecatonic'
 		);
 		$numTones = $this->countTones();
 		if (isset($types[$numTones])) {
@@ -807,13 +782,13 @@ class Scale extends PMTObject
 	}
 
 	public function hemitonicTones() {
-		return self::bits2Tones($this->hemitonics());
+		return \ianring\BitmaskUtils::bits2Tones($this->hemitonics());
 	}
 	public function tritonicTones() {
-		return self::bits2Tones($this->tritonics());
+		return \ianring\BitmaskUtils::bits2Tones($this->tritonics());
 	}
 	public function cohemitonicTones() {
-		return self::bits2Tones($this->cohemitonics());
+		return \ianring\BitmaskUtils::bits2Tones($this->cohemitonics());
 	}
 
 	/**
@@ -941,7 +916,7 @@ class Scale extends PMTObject
 	/**
 	 * returns true if this scale is in Prime form
 	 */
-	public isPrime() {
+	public function isPrime() {
 		return $this->scale == $this->primeForm();
 	}
 

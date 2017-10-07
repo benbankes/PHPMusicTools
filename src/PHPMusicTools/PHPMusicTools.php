@@ -14,6 +14,7 @@ require_once('classes/Direction.php');
 require_once('classes/Key.php');
 require_once('classes/Clef.php');
 require_once('classes/Barline.php');
+require_once('classes/PitchClassSet.php');
 require_once('classes/Scale.php');
 require_once('classes/ScaleVisualizer.php');
 

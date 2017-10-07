@@ -24,6 +24,7 @@
 			<file>NoteTest.php</file>
 			<file>PartTest.php</file>
 			<file>PitchTest.php</file>
+			<file>PitchClassSetTest.php</file>
 			<file>PMTObjectTest.php</file>
 			<file>ScaleTest.php</file>
 			<file>ScoreTest.php</file>
