@@ -111,5 +111,15 @@ class BitmaskUtils
 	}
 
 
+	public static function isRotationOf($b1, $b2) {
+		for ($i = 0; $i < 12; $i++) {
+			$b1 = self::rotateBitmask($b1, 1, 1);
+			if ($b1 === $b2) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 
 }

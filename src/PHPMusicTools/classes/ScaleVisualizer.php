@@ -129,7 +129,7 @@ class ScaleVisualizer extends Scale
 	 * @param  boolean $showImperfections if true, puts an "i" on imperfect notes in the scale
 	 * @return string                     SVG as a string that you can insert into an HTML page
 	 */
-	public static function drawSVGBracelet($scale, $size = 200, $text = null, $showImperfections = false) {
+	public static function drawSVGBracelet($scale, $size = 200, $text = null, $showImperfections = false, $symmetries = array()) {
 		if (is_integer($scale)) {
 			$scale = new Scale($scale);
 		}

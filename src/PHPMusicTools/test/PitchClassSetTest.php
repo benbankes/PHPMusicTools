@@ -46,6 +46,148 @@ class PitchClassSetTest extends PHPMusicToolsTest
 
 
 	/**
+	 * @todo
+	 * @dataProvider provider_primeFormRahn
+	 */
+	public function test_primeFormRahn() {
+
+	}
+	public function provider_primeFormRahn() {
+		return array(
+			// there are only five sets that differ from forte, and here they are:
+			'5-20' => array(
+				'input' => array(0,1,3,7,8),
+				'expected' => array(0,1,5,6,8)
+			),
+			'6-Z29' => array(
+				'input' => array(0,1,3,6,8,9),
+				'expected' => array(0,2,3,6,7,9)
+			),
+			'6-31' => array(
+				'input' => array(0,1,3,5,8,9),
+				'expected' => array(0,1,4,5,7,9)
+			),
+			'7-20' => array(
+				'input' => array(0,1,2,4,7,8,9),
+				'expected' => array(0,1,2,5,6,7,9)
+			),
+			'8-26' => array(
+				'input' => array(0,1,2,4,5,7,9,10),
+				'expected' => array(0,1,3,4,5,7,8,10)
+			),
+			// and let's test some other ones too OK
+		);
+	}
+
+
+	/**
+	 * @dataProvider provider_getAllTransformations
+	 */
+	public function test_getAllTransformations($set, $expected) {
+		$pcs = new \ianring\PitchClassSet($set);
+		$t = $pcs->getAllTransformations();
+		$this->assertEquals($t, $expected);
+	}
+	public function provider_getAllTransformations() {
+		return array(
+			'major locrian' => array(
+				'set' => bindec('010101110101'),
+				'expected' => array(
+					'T0' => bindec('010101110101'),
+					'T1' => bindec('101010111010'),
+					'T2' => bindec('010101011101'),
+					'T3' => bindec('101010101110'),
+					'T4' => bindec('010101010111'),
+					'T5' => bindec('101010101011'),
+					'T6' => bindec('110101010101'),
+					'T7' => bindec('111010101010'),
+					'T8' => bindec('011101010101'),
+					'T9' => bindec('101110101010'),
+					'T10' => bindec('010111010101'),
+					'T11' => bindec('101011101010'),
+					'T0I' => bindec('101011101010'),
+					'T1I' => bindec('010101110101'),
+					'T2I' => bindec('101010111010'),
+					'T3I' => bindec('010101011101'),
+					'T4I' => bindec('101010101110'),
+					'T5I' => bindec('010101010111'),
+					'T6I' => bindec('101010101011'),
+					'T7I' => bindec('110101010101'),
+					'T8I' => bindec('111010101010'),
+					'T9I' => bindec('011101010101'),
+					'T10I' => bindec('101110101010'),
+					'T11I' => bindec('010111010101'),
+				)
+			),
+			'major' => array(
+				'set' => bindec('101010110101'),
+				'expected' => array(
+					'T0' => bindec('101010110101'),
+					'T1' => bindec('110101011010'),
+					'T2' => bindec('011010101101'),
+					'T3' => bindec('101101010110'),
+					'T4' => bindec('010110101011'),
+					'T5' => bindec('101011010101'),
+					'T6' => bindec('110101101010'),
+					'T7' => bindec('011010110101'),
+					'T8' => bindec('101101011010'),
+					'T9' => bindec('010110101101'),
+					'T10' => bindec('101011010110'),
+					'T11' => bindec('010101101011'),
+					'T0I' => bindec('101011010101'),
+					'T1I' => bindec('110101101010'),
+					'T2I' => bindec('011010110101'),
+					'T3I' => bindec('101101011010'),
+					'T4I' => bindec('010110101101'),
+					'T5I' => bindec('101011010110'),
+					'T6I' => bindec('010101101011'),
+					'T7I' => bindec('101010110101'),
+					'T8I' => bindec('110101011010'),
+					'T9I' => bindec('011010101101'),
+					'T10I' => bindec('101101010110'),
+					'T11I' => bindec('010110101011'),
+				)
+			)
+		);
+	}
+
+
+	/**
+	 * @dataProvider provider_getTransformation
+	 */
+	public function test_getTransformation($set1, $set2, $expected) {
+		$t = \ianring\PitchClassSet::getTransformation($set1, $set2);
+		$this->assertEquals($t, $expected);
+	}
+	public function provider_getTransformation() {
+		return array(
+			array(
+				'set1' => bindec('010101110101'),
+				'set2' => bindec('010101110101'),
+				'expected' => 'T0',
+			),
+			array(
+				'set1' => bindec('010101110101'),
+				'set2' => bindec('101010111010'),
+				'expected' => 'T1',
+			),
+			array(
+				'set1' => bindec('010101110101'),
+				'set2' => bindec('110101010101'),
+				'expected' => 'T6',
+			),
+			array(
+				'set1' => bindec('010101110101'),
+				'set2' => bindec('111111111111'),
+				'expected' => null,
+			),
+		);
+	}
+
+
+
+
+	/**
 	 * @dataProvider provider_fortePrimes
 	 */
 	public function test_fortePrimes($set) {

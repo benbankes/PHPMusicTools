@@ -39,6 +39,11 @@ class PitchClassSet extends PMTObject {
 		return new PitchClassSet($bits);
 	}
 
+
+	public function tones() {
+		return \ianring\BitmaskUtils::bits2Tones($this->bits);
+	}
+
 	public function forteNumber() {
 	}
 
@@ -67,8 +72,35 @@ class PitchClassSet extends PMTObject {
 		return $intervals;
 	}
 
+	private function getIntervalsOfAllInversionsAndRotations($bits) {
+		$rotations = array();
+		$intervals = $this->getInteriorIntervals($bits);
+		// create rotations of this set of intervals
+		$count = count($intervals);
+		for($i=0; $i<$count; $i++) {
+			$rotations[] = $intervals;
+			array_push($intervals, array_shift($intervals));
+		}
+		// invert, and get those ones too
+		$inversion = \ianring\BitmaskUtils::reflectBitmask($bits);
+		$iIntervals = $this->getInteriorIntervals($inversion);
+		$count = count($iIntervals);
+		for($i=0; $i<$count; $i++) {
+			$rotations[] = $iIntervals;
+			array_push($iIntervals, array_shift($iIntervals));
+		}
+		return $rotations;
+	}
+
+
+	public static function isPrime($bits, $algo = 'forte') {
+		$pcs = new PitchClassSet($bits);
+		return $pcs->bits == $pcs->primeFormForte();
+	}
+
 	/**
 	 * returns the prime form of this PCS according to Forte's algorithm. Inversions are excluded as duplicates!
+	 * @return int 
 	 */
 	public function primeFormForte() {
 
@@ -76,26 +108,7 @@ class PitchClassSet extends PMTObject {
 		if ($this->bits == 0) {
 			return 0;
 		}
-
-		$rotations = array();
-
-		$intervals = $this->getInteriorIntervals($this->bits);
-
-		// create rotations of this set of intervals
-		$count = count($intervals);
-		for($i=0; $i<$count; $i++) {
-			$rotations[] = $intervals;
-			array_push($intervals, array_shift($intervals));
-		}
-
-		// invert, and get those ones too
-		$inversion = \ianring\BitmaskUtils::reflectBitmask($this->bits);
-		$iIntervals = $this->getInteriorIntervals($inversion);
-		$count = count($iIntervals);
-		for($i=0; $i<$count; $i++) {
-			$rotations[] = $iIntervals;
-			array_push($iIntervals, array_shift($iIntervals));
-		}
+		$rotations = $this->getIntervalsOfAllInversionsAndRotations($this->bits);
 
 		// now sort all the PCSs for leftmost density
 		usort($rotations, function($a, $b){
@@ -156,7 +169,7 @@ class PitchClassSet extends PMTObject {
 	 * @return int
 	 */
 	public function cardinality() {
-		return count(\ianring\BitmaskUtils::countOnBits($this->bits));
+		return \ianring\BitmaskUtils::countOnBits($this->bits);
 	}
 
 	/**
@@ -178,9 +191,67 @@ class PitchClassSet extends PMTObject {
 
 	/**
 	 * When two prime forms have the same internal vector, and when one can not be reduced to the other 
-	 * (by inversion or transposition), they are said to be "Z-Related". 
+	 * by inversion or transposition, they are said to be "Z-Related". 
+	 * @return int
 	 */
-	public function zRelations() {
+	public function zRelations($usecached = true) {
+		// this is a fairly expensive calculation, so by default we'll use this cached array that we calculated earlier using the algorithm below
+		if ($usecached) {
+			include(__DIR__.'/../cache/zmates.cache.php');
+			if (array_key_exists($this->bits, $zmates)) {
+				return $zmates[$this->bits];
+			}
+			return null;
+		}
+
+		// if not using the cached calculations, we'll do this the serious brute force way with a couple of optimizations
+		$intervals = $this->intervalVector();
+		$countOnBits = \ianring\BitmaskUtils::countOnBits($this->bits);
+
+		// we can omit any that are too small to have the required number of bits on, for example if the set has a cardinality
+		// of 6, the minimum value it can have is 111111 (63). That's always 2^n-1
+		$minimum = pow(2, $countOnBits) - 1;
+
+		$same = array();
+		$all = range($minimum, 4095);
+		foreach($all as $s) {
+			// for every set in the power set, we perform some exclusions in the order of least to most complexity
+
+			// a z-mate will have the same pitch cardinality. If this one doesn't, keep looking
+			if (\ianring\BitmaskUtils::countOnBits($s) != $countOnBits) {
+				continue;
+			}
+
+			// a z-mate will not be a rotation,
+			if (\ianring\BitmaskUtils::isRotationOf($this->bits, $s)) {
+				continue;
+			}
+			// a z-mate will not be a rotation of an inversion either
+			$invertedS = \ianring\BitmaskUtils::reflectBitmask($s);
+			if (\ianring\BitmaskUtils::isRotationOf($this->bits, $invertedS)) {
+				continue;
+			}
+			// we only return the prime of the z-mate
+			if (!self::isPrime($s)) {
+				continue;
+			}
+
+			$p = new PitchClassSet($s);
+			$i = $p->intervalVector();
+			if (json_encode($i) == json_encode($intervals)) {
+				$same[] = $s;
+			}
+		}
+
+		return $same;
+
+	}
+
+	/**
+	 * @see http://lulu.esm.rochester.edu/rdm/pdflib/set-class.table.pdf
+	 */
+	public function invarianceVector() {
+
 	}
 
 	public function tnInvariance() {
@@ -196,15 +267,45 @@ class PitchClassSet extends PMTObject {
 	/**
 	 * Returns the PitchClassSetTransformation for what it would take to transform $set1 into $set2.
 	 * For example, a rotation of one semitone is "T1". An inversion and rotation of five semitones is "T5I".
-	 *
+	 * @param int set1 a bitmask PCS
+	 * @param int set2 a bitmask PCS
 	 * @return PitchClassSetTransformation
 	 */
 	public static function getTransformation($set1, $set2) {
+		$pcs1 = new PitchClassSet($set1);
+		$t = $pcs1->getAllTransformations();
+		$result = array_search($set2, $t);
+		if (false === $result) {
+			return null;
+		}
+		return $result;
+	}
 
+
+	/**
+	 * returns all the transformations, with the transformation name as its key e.g. T3, T4, T3I, T4I
+	 * @return array
+	 */
+	public function getAllTransformations() {
+		$t = array();
+		$bits = $this->bits;
+		$t['T0'] = $bits;
+		for ($i=1;$i<12;$i++) {
+			$bits = \ianring\BitmaskUtils::rotateBitmask($bits, $direction = 1, $amount = 1);
+			$t['T' . $i] = $bits;
+		}
+		
+		$bits = \ianring\BitmaskUtils::reflectBitmask($this->bits);
+		$t['T0I'] = $bits;
+		for ($i=1;$i<12;$i++) {
+			$bits = \ianring\BitmaskUtils::rotateBitmask($bits, $direction = 1, $amount = 1);
+			$t['T' . $i . 'I'] = $bits;
+		}
+		return $t;
 	}
 
 	/**
-	 * returns the PCS that is the inverse of this one
+	 * returns the PCS that is the inverse of this one, that means it's reversed
 	 *
 	 * @return PitchClassSet
 	 */
@@ -214,10 +315,29 @@ class PitchClassSet extends PMTObject {
 
 	/**
 	 * The complement of a PCS is one where all the off bits are on, and the on bits are off.
-	 *
-	 * @return PitchClassSet
+	 * This returns the complement in its prime form, aka an "abstract complement" (as opposed to a 
+	 * literal complement)
+	 * @see http://composertools.com/Theory/PCSets/PCSets7.htm
+	 * @return int
 	 */
 	public function complement() {
+		return 4095 ^ $this->bits;
+	}
+
+	/**
+	 * returns true if the argument is a complement of this PCS (ie it is a rotation of this set's literal complement)
+	 * @return bool
+	 */
+	public function isComplement($b) {
+
+	}
+
+	/**
+	 * returns true if the number passed in is a rotation of this PCS
+	 * @return bool
+	 */
+	public function isRotation($b) {
+
 	}
 
 	/**
@@ -225,7 +345,8 @@ class PitchClassSet extends PMTObject {
 	 * @return bool 
 	 */
 	public function isDeepScale() {
-
+		$v = $this->intervalVector();
+		return count($v) == count(array_unique($v));
 	}
 
 	/**
