@@ -6,6 +6,8 @@
  * The same pitch, for example the A above middle C, might have different frequency in different
  * tuning systems. This class encapulates methods that let us play with frequencies.
  */
+namespace ianring;
+require_once 'PMTObject.php';
 
 class Frequency extends PMTObject
 {
@@ -24,11 +26,26 @@ class Frequency extends PMTObject
 	}
 
 	/**
-	 * returns the GCD (greatest common divisor) for a group of frequencies which might be perceived
+	 * returns a harmonic divisor for a group of frequencies which might be perceived
 	 * as a ghost fundamental
 	 */
-	public static function getFundamental($frequencies) {
+	public static function getFundamental($fz, $max = 30, $fuzz = 0) {
+		if (!is_array($fz)) {
+			$fz = array($fz);
+		}
+		sort($fz);
 
+		for ($i = 1; $i < $max; $i++) {
+			$F = $fz[0] / $i;
+			for ($j = 1; $j < count($fz); $j++) {
+				$partial = $fz[$j] / $F;
+				if (abs($partial - round($partial)) > $partial * $fuzz) {
+					continue 2;
+				}
+			}
+			return $F;
+		}
+		return null;
 	}
 
 }

@@ -1,4 +1,5 @@
 <?php
+// not all the keys are primes. But all values are primes. That means there will be multiple keys that point to the same values.
 $zmates = array(
 	83 => 139,
 	101 => 139,

@@ -40,10 +40,18 @@ class PMTObject
     /**
      * required because PHP doesn't do modulo correctly with negative numbers.
      */
-    public function _truemod($num, $mod) {
+    public static function _truemod($num, $mod) {
         return (($mod + ($num % $mod)) % $mod);
 
     }
 
+
+    /**
+     * returns the smaller interval between a and b, in modulo 12 assuming that a is lower than b
+     * @return [type]
+     */
+    public static function _truemodDiff12($a, $b) {
+        return self::_truemod($b-$a,12);
+    }
 
 }

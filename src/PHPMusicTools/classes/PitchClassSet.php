@@ -105,9 +105,8 @@ class PitchClassSet extends PMTObject {
 	public function primeFormForte() {
 
 		// shortcut
-		if ($this->bits == 0) {
-			return 0;
-		}
+		if ($this->bits == 0) {return 0;}
+
 		$rotations = $this->getIntervalsOfAllInversionsAndRotations($this->bits);
 
 		// now sort all the PCSs for leftmost density
@@ -137,19 +136,98 @@ class PitchClassSet extends PMTObject {
 		return \ianring\BitmaskUtils::tones2Bits($tones);
 	}
 
+	private function modintdiff($a, $b) {
+		return min($a-$b, $b-$a);
+	}
+
+
 	/**
 	 * returns the prime form of this PCS according to Rahn's algorithm
+	 * @see "The Interger Model Of Pitch", Basic Atonal Theory, John Rahn p.35 ISBN 0-02-873-160-3
 	 */
-	private function primeFormRahn() {
+	public function primeFormRahn() {
+		// shortcut
+		if ($this->bits == 0) {return 0;}
 
+		$bits = \ianring\BitmaskUtils::moveDownToRootForm($this->bits);
+
+		$rotations = array();
+
+		$count = \ianring\BitmaskUtils::countOnBits($bits);
+		if ($count == 1) {
+			return $bits;
+		}
+		for ($i=0; $i<$count; $i++) {
+			$rotations[] = $bits;
+			$tones = \ianring\BitmaskUtils::bits2Tones($bits);
+			$first = $tones[1];
+			$bits = \ianring\BitmaskUtils::rotateBitmask($bits, 1, $first);
+		}
+
+		$bits = \ianring\BitmaskUtils::moveDownToRootForm(\ianring\BitmaskUtils::reflectBitmask($this->bits));
+		for ($i=0; $i<$count; $i++) {
+			$rotations[] = $bits;
+
+			$tones = \ianring\BitmaskUtils::bits2Tones($bits);
+			$first = $tones[1];
+
+			$bits = \ianring\BitmaskUtils::rotateBitmask($bits, 1, $first);
+		}
+		usort($rotations, function($a, $b) {
+			if ($a == $b) {return 0;}
+			$atones = \ianring\BitmaskUtils::bits2Tones($a);
+			$btones = \ianring\BitmaskUtils::bits2Tones($b);
+			for ($i = count($atones) - 1; $i>0; $i--) {
+
+				$diffa = \ianring\PMTObject::_truemodDiff12($atones[$i], $atones[0]);
+				$diffb = \ianring\PMTObject::_truemodDiff12($btones[$i], $btones[0]);
+				if ($diffa !== $diffb) {
+					return $diffa < $diffb;
+				}
+			}
+			return 1;
+		});
+		return $rotations[0];
 	}
 
 	/**
-	 * returns the prime form of this PCS according to Ring's criteria (bitmask with the lowest value)
+	 * returns the prime form of this PCS according to Ring's criteria (simply the bitmask with the lowest value)
 	 */
-	private function primeFormRing() {		
-	}
+	public function primeFormRing() {
+		// shortcut
+		if ($this->bits == 0) {return 0;}
 
+		$bits = \ianring\BitmaskUtils::moveDownToRootForm($this->bits);
+
+		$rotations = array();
+
+		$count = \ianring\BitmaskUtils::countOnBits($bits);
+		if ($count == 1) {
+			return $bits;
+		}
+		for ($i=0; $i<$count; $i++) {
+			$rotations[] = $bits;
+			$tones = \ianring\BitmaskUtils::bits2Tones($bits);
+			$first = $tones[1];
+			$bits = \ianring\BitmaskUtils::rotateBitmask($bits, 1, $first);
+		}
+
+		$bits = \ianring\BitmaskUtils::moveDownToRootForm(\ianring\BitmaskUtils::reflectBitmask($this->bits));
+		for ($i=0; $i<$count; $i++) {
+			$rotations[] = $bits;
+
+			$tones = \ianring\BitmaskUtils::bits2Tones($bits);
+			$first = $tones[1];
+
+			$bits = \ianring\BitmaskUtils::rotateBitmask($bits, 1, $first);
+		}
+
+
+		usort($rotations, function($a, $b) {
+			return $a > $b;
+		});
+		return $rotations[0];
+	}
 
 	/**
 	 * returns the interval vector as an array of integers

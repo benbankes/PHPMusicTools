@@ -49,34 +49,58 @@ class PitchClassSetTest extends PHPMusicToolsTest
 	 * @todo
 	 * @dataProvider provider_primeFormRahn
 	 */
-	public function test_primeFormRahn() {
-
+	public function test_primeFormRahn($input, $expected) {
+		$pcs = new \ianring\PitchClassSet($input);
+		$actual = $pcs->primeFormRahn();
+		$this->assertEquals($expected, $actual);
 	}
 	public function provider_primeFormRahn() {
 		return array(
 			// there are only five sets that differ from forte, and here they are:
 			'5-20' => array(
-				'input' => array(0,1,3,7,8),
-				'expected' => array(0,1,5,6,8)
+				'input' => \ianring\BitmaskUtils::tones2Bits(array(0,1,3,7,8)),
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(0,1,5,6,8))
 			),
 			'6-Z29' => array(
-				'input' => array(0,1,3,6,8,9),
-				'expected' => array(0,2,3,6,7,9)
+				'input' => \ianring\BitmaskUtils::tones2Bits(array(0,1,3,6,8,9)),
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(0,2,3,6,7,9))
 			),
 			'6-31' => array(
-				'input' => array(0,1,3,5,8,9),
-				'expected' => array(0,1,4,5,7,9)
+				'input' => \ianring\BitmaskUtils::tones2Bits(array(0,1,3,5,8,9)),
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(0,1,4,5,7,9))
 			),
 			'7-20' => array(
-				'input' => array(0,1,2,4,7,8,9),
-				'expected' => array(0,1,2,5,6,7,9)
+				'input' => \ianring\BitmaskUtils::tones2Bits(array(0,1,2,4,7,8,9)),
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(0,1,2,5,6,7,9))
 			),
 			'8-26' => array(
-				'input' => array(0,1,2,4,5,7,9,10),
-				'expected' => array(0,1,3,4,5,7,8,10)
+				'input' => \ianring\BitmaskUtils::tones2Bits(array(0,1,2,4,5,7,9,10)),
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(0,1,3,4,5,7,8,10))
+			),
+			'b' => array(
+				'input' => \ianring\BitmaskUtils::tones2Bits(array(0,3,4,7,8,11)),
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(0,1,4,5,8,9))
+			),
+			'a' => array(
+				'input' => \ianring\BitmaskUtils::tones2Bits(array(0,3,6,9,10,11)),
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(0,1,2,3,6,9))
 			),
 			// and let's test some other ones too OK
+			'c' => array(
+				'input' => \ianring\BitmaskUtils::tones2Bits(array(0,3,4,6,9,11)),
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(0,2,3,6,7,9))
+			),
+			'd' => array(
+				'input' => \ianring\BitmaskUtils::tones2Bits(array(1,2,3,4,6,7,11)),
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(0,1,3,4,5,6,8))
+			),
+			'e' => array(
+				'input' => \ianring\BitmaskUtils::tones2Bits(array(3,7,11)),
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(0,4,8))
+			),
 		);
+
+
 	}
 
 

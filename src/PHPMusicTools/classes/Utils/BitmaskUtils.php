@@ -42,8 +42,6 @@ class BitmaskUtils
 	 * @param  integer $direction 1 = rotate up, 0 = rotate down
 	 * @param  integer $amount    the number of places to rotate by
 	 * @return integer            the result after rotation
-	 *
-	 * ... should this be a static method?
 	 */
 	public static function rotateBitmask($bits, $direction = 1, $amount = 1) {
 		if ($amount < 0) {
@@ -98,6 +96,11 @@ class BitmaskUtils
 	}
 
 
+	/**
+	 * returns interval vector as a 6-member array, eg [1,0,1,0,1,0,1]
+	 * @param  $bits
+	 * @return array
+	 */
 	public static function spectrum($bits) {
 		$spectrum = array();
 		$rotateme = $bits;
@@ -111,6 +114,12 @@ class BitmaskUtils
 	}
 
 
+	/**
+	 * returns true if $a is a rotation of $b
+	 * @param  $b1 
+	 * @param  $b2
+	 * @return boolean
+	 */
 	public static function isRotationOf($b1, $b2) {
 		for ($i = 0; $i < 12; $i++) {
 			$b1 = self::rotateBitmask($b1, 1, 1);
@@ -119,6 +128,17 @@ class BitmaskUtils
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * rotates the bitmask so it is rooted on 0. e.g. 000010011000 [3,4,7] becomes 000000010011 [0,1,4]
+	 * @param  $bits
+	 * @return [type]
+	 */
+	public static function moveDownToRootForm($bits) {
+		$tones = self::bits2Tones($bits);
+		$rootedbits = self::rotateBitmask($bits, 1, $tones[0]);
+		return $rootedbits;
 	}
 
 
