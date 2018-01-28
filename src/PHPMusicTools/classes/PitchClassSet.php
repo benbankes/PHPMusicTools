@@ -136,6 +136,7 @@ class PitchClassSet extends PMTObject {
 		return \ianring\BitmaskUtils::tones2Bits($tones);
 	}
 
+
 	private function modintdiff($a, $b) {
 		return min($a-$b, $b-$a);
 	}
@@ -428,6 +429,26 @@ class PitchClassSet extends PMTObject {
 	}
 
 	/**
+	 * Myhill's property is the quality of musical scales or collections with exactly two specific intervals for every generic interval
+	 * @see  https://en.wikipedia.org/wiki/Generic_and_specific_intervals
+	 * @return boolean [description]
+	 */
+	public function hasMyhillProperty() {
+		$spectrum = $this->spectrum();
+		foreach($spectrum as $s) {
+			if (count($s) != 2) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	
+	public function hasMaximalEvenness() {
+
+	}
+
+	/**
 	 * A voice leading transform is one where an integer transposition is applied to each member of the PCS. 
 	 * For example, consider the PCS of a major triad, [0,4,7]. We can transform that into a minor triad by 
 	 * transposing the second tone down a semitone, so the 4 becomes a 3, and the result is [0,3,7].
@@ -447,5 +468,106 @@ class PitchClassSet extends PMTObject {
 	public function combinatoriality() {
 
 	}
+
+	/**
+	 * returns the spectra of the PCS, as described by Krantz & Douthett.
+	 * @see http://archive.bridgesmathart.org/2005/bridges2005-255.pdf
+	 * 
+	 * the 1th element in the array is the distinct lengths between "neighbours" (dupes removed).
+	 * the 2nd element is the distinct specific lengths between "next nearest neighbours" (two tones away)
+	 * the 3rd element is the distinct specific lengths between "next next nearest neighbours" (three tones away), and so on. 
+	 * So for a PCS with 7 tones, we can measure the distance to the next, next, next, next up to six times to find the 
+	 * distance to its farthest neighbour. Thus a 7 tone PCS will have 6 elements in its spectrum.
+	 *
+	 * In the literature, this is notated like:
+	 *     <1> = {1,6}
+	 *     <2> = {2,7}
+	 * 
+	 * for example, the spectrum for the major scale is this:
+	 * array(
+			1 => array(1,2),
+			2 => array(3,4),
+			3 => array(5,6),
+			4 => array(6,7),
+			5 => array(8,9),
+			6 => array(10,11),
+		)
+	 *
+	 */
+	public function spectrum() {
+		// echo "\n";
+		$spectrum = array();
+		$countOnBits = \ianring\BitmaskUtils::countOnBits($this->bits);
+		// echo 'countOnBits = '.$countOnBits."\n";
+		$tones = \ianring\BitmaskUtils::bits2Tones($this->bits);
+
+		for ($gd = 1; $gd < $countOnBits; $gd++) {
+			// echo 'gd = '.$gd."\n";
+			$spectrum[$gd] = array();
+
+			for ($i = 0; $i < $countOnBits; $i++) {
+				// echo 'i = '.$i."\n";
+				// find the specific distance between each tone and the one that is $d "generic distance" away
+				$tone1 = \ianring\BitmaskUtils::nthOnBit($this->bits, $i);
+				$tone2 = \ianring\BitmaskUtils::nthOnBit($this->bits, $i+$gd);
+
+				// echo 'tone1 = '.$tone1."\n";
+				// echo 'tone2 = '.$tone2."\n";
+
+				$dist = \ianring\BitmaskUtils::circularDistance($tone1, $tone2);
+				// echo 'dist = '.$dist."\n";
+			 	$spectrum[$gd][$dist] = true;
+			}
+			$spectrum[$gd] = array_keys($spectrum[$gd]);
+			sort($spectrum[$gd]);
+		}
+		return $spectrum;
+	}
+
+	/**
+	 * returns the spectrum widths for a PCS. Spectrum widths are used to calculate the "evenness" of pitch distribution.
+	 * The "spectrum width" is the difference between the largest and smallest member of the spectrum I.
+	 * 
+	 * In the literature, This width is notated as a "delta", ∆
+	 * So for example if the spectrum is 
+	 *     <1> = {1,3,4}
+	 *     <2> = {4,5,6}
+	 * Then we would describe the spectrum widths thusly:
+	 *     ∆(1) = 3
+	 *     ∆(2) = 2
+	 * 
+	 */
+	public function spectrumWidth() {
+		$spectrum = $this->spectrum();
+		$output = array();
+		foreach($spectrum as $len => $spec) {
+			$max = max($spec);
+			$min = min($spec);
+			$output[$len] = $max - $min;
+		}
+		return $output;
+	}
+
+	public function spectraVariation() {
+		$countOnBits = \ianring\BitmaskUtils::countOnBits($this->bits);
+		if ($countOnBits == 0) {return 0;}
+		$totalwidths = array_sum($this->spectrumWidth());
+		return $totalwidths / $countOnBits;
+	}
+
+	/**
+	 * A set is maximally even if every spectrum consists of either one number, or two consecutive numbers.
+	 * @return boolean [description]
+	 */
+	public function isMaximallyEven() {
+		$spectrum = $this->spectrumWidth();
+		foreach($spectrum as $s) {
+			if ($s > 1) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 
 }

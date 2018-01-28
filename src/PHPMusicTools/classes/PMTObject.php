@@ -40,10 +40,9 @@ class PMTObject
     /**
      * required because PHP doesn't do modulo correctly with negative numbers.
      */
-    public static function _truemod($num, $mod) {
-        return (($mod + ($num % $mod)) % $mod);
-
-    }
+	public static function _truemod($num, $mod) {
+		return (($mod + ($num % $mod)) % $mod);
+	}
 
 
     /**

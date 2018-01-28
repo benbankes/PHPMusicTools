@@ -34,4 +34,47 @@ class BitmaskUtilsTest extends PHPMusicToolsTest
 	}
 
 
+	/**
+	 * @dataProvider provider_nthOnBit
+	 */
+	public function test_nthOnBit($tones, $n, $expected) {
+		$b = \ianring\BitmaskUtils::tones2bits($tones);
+		$actual = \ianring\BitmaskUtils::nthOnBit($b, $n);
+		$this->assertEquals($expected, $actual);
+	}
+	public function provider_nthOnBit() {
+		return array(
+			array('tones' => array(0,1,2,3,4,5,6,7,8,9,10,11), 'n' => 0, 'expected' => 0),
+			array('tones' => array(0,1,2,3,4,5,6,7,8,9,10,11), 'n' => 11, 'expected' => 11),
+			array('tones' => array(0,1,2,3,4,5,6,7,8,9,10,11), 'n' => 12, 'expected' => 0),
+			array('tones' => array(0,1,2,3,4,5,6,7,8,9,10,11), 'n' => 16, 'expected' => 4),
+			array('tones' => array(0,1,2,3,4,5,6,7,8,9,10,11), 'n' => -1, 'expected' => 11),
+			array('tones' => array(0,1,2,3,4,5,6,7,8,9,10,11), 'n' => -8, 'expected' => 4),
+			array('tones' => array(0,1,2,3,4,5,6,7,8,9,10,11), 'n' => -100, 'expected' => 8),
+			array('tones' => array(0,2,4,6,8,10), 'n' => 1, 'expected' => 2),
+			array('tones' => array(0,2,4,6,8,10), 'n' => 4, 'expected' => 8),
+			array('tones' => array(0,2,4,6,8,10), 'n' => 6, 'expected' => 0),
+			array('tones' => array(0,2,4,6,8,10), 'n' => 7, 'expected' => 2),
+			array('tones' => array(0,2,4,6,8,10), 'n' => -1, 'expected' => 10),
+			array('tones' => array(0,2,4,6,8,10), 'n' => -8, 'expected' => 8),
+		);
+	}
+
+
+	/**
+	 * @dataProvider provider_circularDistance
+	 */
+	public function test_circularDistance($tone1, $tone2, $expected) {
+		$actual = \ianring\BitmaskUtils::circularDistance($tone1, $tone2);
+		$this->assertEquals($expected, $actual);
+	}
+	public function provider_circularDistance() {
+		return array(
+			array('tone1' => 0, 'tone2' => 1, 'expected' => 1),
+			array('tone1' => 3, 'tone2' => 7, 'expected' => 4),
+			array('tone1' => 11, 'tone2' => 0, 'expected' => 1),
+			array('tone1' => 9, 'tone2' => 2, 'expected' => 5),
+		);
+	}
+
 }

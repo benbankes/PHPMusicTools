@@ -1,9 +1,16 @@
 <?php
-
 namespace ianring;
 
 class BitmaskUtils
 {
+
+    /**
+     * required because PHP doesn't do modulo correctly with negative numbers.
+     */
+	public static function truemod($num, $mod = 12) {
+		return (($mod + ($num % $mod)) % $mod);
+	}
+
 
 	/**
 	 * for example, 432 => [0,3,4]
@@ -32,6 +39,24 @@ class BitmaskUtils
     	}
     	return $bits;
     }
+
+    public static function nthOnBit($bits, $n) {
+    	$countOnBits = self::countOnBits($bits);
+    	$tones = self::bits2Tones($bits);
+    	$n = self::truemod($n, $countOnBits);
+    	return $tones[$n];
+    }
+
+	/**
+	 * distance clockwise around a 12-tone circle, from one tone to another.
+	 * eg the distance between 4 and 3 is not -1, it's 11
+	 * @param  [type] $tone1 [description]
+	 * @param  [type] $tone2 [description]
+	 * @return [type]        [description]
+	 */
+	public static function circularDistance($tone1, $tone2, $clockwise = true) {
+		return self::truemod($tone2 - $tone1);
+	}
 
 
 	/**
