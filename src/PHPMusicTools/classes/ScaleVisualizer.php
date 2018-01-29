@@ -83,6 +83,14 @@ class ScaleVisualizer extends Scale
 		return '{' . implode(',', $tones) . '}';	
 	}
 
+	public static function distributionSpectrum($spectrum) {
+	 	$str = '';
+	 	foreach ($spectrum as $key => $value) {
+	 		$str .= '&lt;'.$key.'&gt; = {'.implode(',',$value).'}<br/>';
+	 	}
+	 	return $str;
+	}
+
 	public static function braceletHTML($scale, $grouped = false) {
 		if (is_integer($scale)) {
 			$scale = new Scale($scale);

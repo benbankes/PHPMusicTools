@@ -443,7 +443,7 @@ class PitchClassSet extends PMTObject {
 		return true;
 	}
 
-	
+
 	public function hasMaximalEvenness() {
 
 	}
@@ -522,6 +522,22 @@ class PitchClassSet extends PMTObject {
 			sort($spectrum[$gd]);
 		}
 		return $spectrum;
+	}
+
+	/**
+	 * Coherence means that a scale/pcs has an unambiguous relationships between specific intervals and generic distances
+	 * @return boolean [description]
+	 */
+	public function isCoherent() {
+		$spectrum = $this->spectrum();
+		$maxSpecificInterval = 0;
+		foreach($spectrum as $g=>$s) {
+			if (min($s) <= $maxSpecificInterval) {
+				return false;
+			}
+			$maxSpecificInterval = max($s);
+		}
+		return true;
 	}
 
 	/**

@@ -294,6 +294,79 @@ class PitchClassSetTest extends PHPMusicToolsTest
 
 
 	/**
+	 * @dataProvider provider_isCoherent
+	 */
+	public function test_isCoherent($input, $expected){
+		$pcs = new \ianring\PitchClassSet($input);
+
+		$s = $pcs->spectrum();
+//		print_r($s);
+//		echo $expected?'expected COHERENT':'expected NOPE';
+//		echo "\n";
+
+		$actual = $pcs->isCoherent();
+//		echo ($actual?'ACTUALLY YES':'NO') . "\n\n\n\n";
+		$this->assertEquals($expected, $actual);
+	}
+	public function provider_isCoherent() {
+		return array(
+			array('input' => 661, 'expected' => true),
+			array('input' => 1193, 'expected' => true),
+			array('input' => 1387, 'expected' => false),
+			array('input' => 1451, 'expected' => false),
+			array('input' => 1453, 'expected' => false),
+			array('input' => 1709, 'expected' => false),
+			array('input' => 1717, 'expected' => false),
+			array('input' => 2741, 'expected' => false),
+			array('input' => 2773, 'expected' => false),
+
+			array('input' => 273, 'expected' => true),
+			array('input' => 585, 'expected' => true),
+			array('input' => 859, 'expected' => false),
+			array('input' => 1257, 'expected' => false),
+			array('input' => 1365, 'expected' => true),
+			array('input' => 1371, 'expected' => false),
+			array('input' => 1389, 'expected' => false),
+			array('input' => 1397, 'expected' => false),
+			array('input' => 1459, 'expected' => false),
+			array('input' => 1485, 'expected' => false),
+			array('input' => 1493, 'expected' => false),
+			array('input' => 1499, 'expected' => false),
+			array('input' => 1621, 'expected' => false),
+			array('input' => 1643, 'expected' => false),
+			array('input' => 1725, 'expected' => false),
+			array('input' => 1741, 'expected' => false),
+			array('input' => 1749, 'expected' => false),
+			array('input' => 1753, 'expected' => false),
+			array('input' => 1755, 'expected' => true),
+			array('input' => 2257, 'expected' => false),
+			array('input' => 2275, 'expected' => false),
+			array('input' => 2457, 'expected' => true),
+			array('input' => 2475, 'expected' => false),
+			array('input' => 2477, 'expected' => false),
+			array('input' => 2483, 'expected' => false),
+			array('input' => 2509, 'expected' => false),
+			array('input' => 2535, 'expected' => false),
+			array('input' => 2731, 'expected' => false),
+			array('input' => 2733, 'expected' => false),
+			array('input' => 2777, 'expected' => false),
+			array('input' => 2869, 'expected' => false),
+			array('input' => 2901, 'expected' => false),
+			array('input' => 2925, 'expected' => true),
+			array('input' => 2989, 'expected' => false),
+			array('input' => 2997, 'expected' => false),
+			array('input' => 3055, 'expected' => false),
+			array('input' => 3411, 'expected' => false),
+			array('input' => 3445, 'expected' => false),
+			array('input' => 3549, 'expected' => false),
+			array('input' => 3669, 'expected' => false),
+			array('input' => 3765, 'expected' => false),
+			array('input' => 4095, 'expected' => true),
+		);
+	}
+
+
+	/**
 	 * @dataProvider provider_spectraVariation
 	 */
 	public function test_spectraVariation($pcs, $expected) {
