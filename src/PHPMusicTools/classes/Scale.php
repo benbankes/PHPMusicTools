@@ -825,8 +825,6 @@ class Scale extends PMTObject
 				$modes[] = $rotateme;
 			}
 		}
-		// remove the self from the end
-		array_pop($modes);
 
 		if ($includeSelf) {
 			$modes[] = $this->scale;
