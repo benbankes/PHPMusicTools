@@ -34,6 +34,7 @@ class BitmaskUtils
 	 */
     public static function tones2Bits($tones) {
     	$bits = 0;
+    	if (empty($tones)) {return 0;}
     	foreach ($tones as $tone) {
     		$bits += pow(2, $tone);
     	}
