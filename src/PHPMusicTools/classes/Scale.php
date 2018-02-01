@@ -813,22 +813,39 @@ class Scale extends PMTObject
 	 * @param  [type] $scale [description]
 	 * @return [type]        [description]
 	 */
-	function modes($includeSelf = true) {
+	function modes($includeSelf = true, $unique = false) {
 		$rotateme = $this->scale;
 		$modes = array();
-		for ($i = 0; $i < 12; $i++) {
+
+		$modes[] = $this->scale;
+
+		for ($i = 0; $i < 11; $i++) {
 			$rotateme = BitmaskUtils::rotateBitmask($rotateme);
 			if (($rotateme & 1) == 0) {
 				continue;
 			}
-			if ($rotateme != $this->scale) {
-				$modes[] = $rotateme;
+			if ($rotateme == $this->scale) {
+				break;
 			}
+
+			// if (!$includeSelf && $rotateme != $this->scale) {
+				$modes[] = $rotateme;
+			// }
 		}
 
-		if ($includeSelf) {
-			$modes[] = $this->scale;
+		// // take self off the end and put it at the start
+		// $end = array_pop($modes);
+		// array_unshift($modes, $end);
+
+		// // remove self if it's not wanted
+		if (!$includeSelf) {
+			array_shift($modes);
 		}
+
+		if ($unique) {
+			$modes = array_unique($modes);
+		}
+
 		return $modes;
 	}
 

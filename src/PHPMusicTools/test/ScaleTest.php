@@ -815,33 +815,92 @@ class ScaleTest extends PHPMusicToolsTest
 	/**
 	 * @dataProvider provider_modes
 	 */
-	public function test_modes($scale, $includeSelf, $expected) {
+	public function test_modes($scale, $includeSelf, $unique, $expected) {
 		$scale = new \ianring\Scale($scale);
-		$actual = $scale->modes();
-		$this->assertEquals($expected, $actual);
+		$actual = $scale->modes($includeSelf, $unique);
+		$this->assertEquals($actual, $expected);
 	}
 	public function provider_modes() {
 		return array(
 			array(
 				'scale' => 1841,
 				'includeSelf' => false,
-				'expected' => array(371, 2233, 791, 2443, 3269, 1841)
+				'unique' => false,
+				'expected' => array(371, 2233, 791, 2443, 3269)
 			),
 			array(
 				'scale' => 2741,
 				'includeSelf' => false,
-				'expected' => array(1709, 1451, 2773, 1717, 1453, 1387, 2741)
+				'unique' => false,
+				'expected' => array(1709, 1451, 2773, 1717, 1453, 1387)
+			),			
+			array(
+				'scale' => 2741,
+				'includeSelf' => true,
+				'unique' => false,
+				'expected' => array(2741, 1709, 1451, 2773, 1717, 1453, 1387)
 			),			
 			'chromatic' => array(
 				'scale' => 4095,
 				'includeSelf' => false,
-				'expected' => array(4095, 4095, 4095, 4095, 4095, 4095, 4095, 4095, 4095, 4095, 4095, 4095)
+				'unique' => false,
+				'expected' => array() // nothing to show!
+			),
+			'chromatic with self' => array(
+				'scale' => 4095,
+				'includeSelf' => true,
+				'unique' => false,
+				'expected' => array(4095)
+			),
+			'chromatic unique' => array(
+				'scale' => 4095,
+				'includeSelf' => true,
+				'unique' => true,
+				'expected' => array(4095)
 			),
 			'whole tone' => array(
 				'scale' => 1365,
 				'includeSelf' => false,
-				'expected' => array(1365, 1365, 1365, 1365, 1365, 1365)
+				'unique' => false,
+				'expected' => array() // nothing!
 			),
+			'whole tone with self' => array(
+				'scale' => 1365,
+				'includeSelf' => true,
+				'unique' => false,
+				'expected' => array(1365)
+			),
+			'whole tone unique' => array(
+				'scale' => 1365,
+				'includeSelf' => false,
+				'unique' => true,
+				'expected' => array()
+			),
+			'octatonic' => array(
+				'scale' => 1755,
+				'includeSelf' => false,
+				'unique' => false,
+				'expected' => array(2925)
+			),
+			'octatonic with self' => array(
+				'scale' => 1755,
+				'includeSelf' => true,
+				'unique' => false,
+				'expected' => array(1755, 2925)
+			),
+			'octatonic unique' => array(
+				'scale' => 1755,
+				'includeSelf' => false,
+				'unique' => true,
+				'expected' => array(2925)
+			),
+			'octatonic with self unique' => array(
+				'scale' => 1755,
+				'includeSelf' => true,
+				'unique' => true,
+				'expected' => array(1755, 2925)
+			),
+
 		);
 
 	}
