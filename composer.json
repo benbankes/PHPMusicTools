@@ -3,7 +3,7 @@
     "description": "A PHP library for music analysis, construction, generation, and more",
     "keywords":["music","musicxml","lilypond","php"],
     "type": "library",
-    "license": "GNU",
+    "license": "GPL-1.0-or-later",
     "homepage": "https://github.com/ianring/PHPMusicTools",
     "authors": [
     	{

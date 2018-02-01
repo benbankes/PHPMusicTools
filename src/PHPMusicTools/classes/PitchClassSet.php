@@ -247,8 +247,29 @@ class PitchClassSet extends PMTObject {
 	}
 
 
+	private function getAllInversionsAndRotations($bits) {
+		$rotations = array();
+		$count = \ianring\BitmaskUtils::countOnBits($bits);
+		for ($i=0; $i<$count; $i++) {
+			$rotations[] = $bits;
+			$tones = \ianring\BitmaskUtils::bits2Tones($bits);
+			$first = $tones[1];
+			$bits = \ianring\BitmaskUtils::rotateBitmask($bits, 1, $first);
+		}
+		$bits = \ianring\BitmaskUtils::moveDownToRootForm(\ianring\BitmaskUtils::reflectBitmask($this->bits));
+		for ($i=0; $i<$count; $i++) {
+			$rotations[] = $bits;
+			$tones = \ianring\BitmaskUtils::bits2Tones($bits);
+			$first = $tones[1];
+			$bits = \ianring\BitmaskUtils::rotateBitmask($bits, 1, $first);
+		}
+		return $rotations;
+	}
+
 	/**
 	 * returns the prime form of this PCS according to Rahn's algorithm
+	 * It has been proven by brute force that this algorithm produces the same results as primeFormRing()
+	 * 
 	 * @see "The Interger Model Of Pitch", Basic Atonal Theory, John Rahn p.35 ISBN 0-02-873-160-3
 	 */
 	public function primeFormRahn() {
@@ -272,14 +293,14 @@ class PitchClassSet extends PMTObject {
 		}
 
 		$bits = \ianring\BitmaskUtils::moveDownToRootForm(\ianring\BitmaskUtils::reflectBitmask($this->bits));
+
 		for ($i=0; $i<$count; $i++) {
 			$rotations[] = $bits;
-
 			$tones = \ianring\BitmaskUtils::bits2Tones($bits);
 			$first = $tones[1];
-
 			$bits = \ianring\BitmaskUtils::rotateBitmask($bits, 1, $first);
 		}
+
 		usort($rotations, function($a, $b) {
 			if ($a == $b) {return 0;}
 			$atones = \ianring\BitmaskUtils::bits2Tones($a);
@@ -298,7 +319,9 @@ class PitchClassSet extends PMTObject {
 	}
 
 	/**
-	 * returns the prime form of this PCS according to Ring's criteria (simply the bitmask with the lowest value)
+	 * returns the prime form of this PCS according to Ian Ring's algorithm.
+	 * Invented by Ian Ring, 2016
+	 * Proven in 2016 to produce idential results as the Rahn algorithm, but the method is less complicated.
 	 */
 	public function primeFormRing() {
 		// shortcut
@@ -312,6 +335,7 @@ class PitchClassSet extends PMTObject {
 		if ($count == 1) {
 			return $bits;
 		}
+
 		for ($i=0; $i<$count; $i++) {
 			$rotations[] = $bits;
 			$tones = \ianring\BitmaskUtils::bits2Tones($bits);
@@ -320,12 +344,11 @@ class PitchClassSet extends PMTObject {
 		}
 
 		$bits = \ianring\BitmaskUtils::moveDownToRootForm(\ianring\BitmaskUtils::reflectBitmask($this->bits));
+
 		for ($i=0; $i<$count; $i++) {
 			$rotations[] = $bits;
-
 			$tones = \ianring\BitmaskUtils::bits2Tones($bits);
 			$first = $tones[1];
-
 			$bits = \ianring\BitmaskUtils::rotateBitmask($bits, 1, $first);
 		}
 
