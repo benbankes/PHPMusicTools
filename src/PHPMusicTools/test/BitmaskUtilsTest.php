@@ -77,4 +77,41 @@ class BitmaskUtilsTest extends PHPMusicToolsTest
 		);
 	}
 
+	/**
+	 * @dataProvider provider_isSubSetOf
+	 */
+	public function test_isSubSetOf($subset, $set, $expected) {
+		$actual = \ianring\BitmaskUtils::isSubSetOf($subset, $set);
+		$this->assertEquals($actual, $expected);
+	}
+	public function provider_isSubSetOf() {
+		return array(
+			array(
+				'subset' => 33,
+				'set' => 44,
+				'expected' => false
+			),
+			array(
+				'subset' => 2741,
+				'set' => 3765,
+				'expected' => true
+			),
+			array(
+				'subset' => 2741,
+				'set' => 3773,
+				'expected' => true
+			),
+			array(
+				'subset' => 3765,
+				'set' => 3773,
+				'expected' => true
+			),
+			array(
+				'subset' => 2741,
+				'set' => 3253,
+				'expected' => false
+			),
+		);
+	}
+
 }

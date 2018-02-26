@@ -1350,5 +1350,10 @@ class PitchClassSetTest extends PHPMusicToolsTest
 	}
 	*/
 
+
+
+
+
+
 }
 

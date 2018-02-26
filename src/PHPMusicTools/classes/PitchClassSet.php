@@ -101,7 +101,8 @@ class PitchClassSet extends PMTObject {
 		4095 => 1
 	);
 
-	// these are the RING PRIMES (not the forte primes!) that have a Z.
+	// these are the RING PRIMES (not the forte primes!) that have a Z. 
+	// @todo ... um change the name of this
 	public static $forteZeds = array(83,101,139,209,107,283,179,205,151,233,313,295,457,111,123,119,231,187,221,183,237,215,235,219,407,467,411,435,365,347,437,363,429,427,619,717,159,249,287,399,317,377,303,489,335,485,591,359,461,615,807,605,599,629,663,669,679,667,723,671,631,755,979,367,493,443,439,475,863,1003,751,989);
 
 	/**
@@ -582,6 +583,13 @@ class PitchClassSet extends PMTObject {
 	}
 
 
+	/**
+	 * @todo 
+	 * this should return true if this PCS has the property of maximal evenness. 
+	 * maximal evenness is only true for one set for each cardinality; e.g. the tritone dyad, augmented triad,
+	 * diminished seventh, major pentatonic, whole tone scale, diatonic scale, octatonic scale, etc.
+	 * @return boolean true if this scale has maximal evenness
+	 */
 	public function hasMaximalEvenness() {
 
 	}
@@ -723,5 +731,75 @@ class PitchClassSet extends PMTObject {
 		return true;
 	}
 
+	/**
+	 * Transposes a subset within a superset by an interval.
+	 * For example, if the set is [C,D,E,G,A], and the subset is [C,E,A], transposing it up one step will make it [D,G,C]
+	 * But if the superset is a major diatonic, then transposing [C,E,A] up one step becomes [D,F,B].
+	 * If $subset is not a subset of $set, then this returns false.
+	 * @param  [type] $set      [description]
+	 * @param  [type] $subset   [description]
+	 * @param  [type] $interval [description]
+	 * @return [type]           [description]
+	 */
+	function scalarTranspose($set, $subset, $interval) {
+
+	}
+
+
+	/**
+	 * Cardinality equals variety for a set, if you can choose any N members of the set, and the number of different interval patterns 
+	 * between the notes in that sbuset and all SCALAR TRANSPOSITIONS of that subset is also N.
+	 * 
+	 * For example, say your pitch class set is the diatonic major scale. [C,D,E,F,G,A,B]
+	 * You can choose any N notes, so if N is 3 we could choose the subset [C,E,F].
+	 * The scalar transpositions are not the same as chromatic transpositions. A chromatic transposition would be [C#,E#,F#], whereas a
+	 * scalar transposition up one step from [C,E,F] is [D,F,G].
+	 * 
+	 * We look at the interval patterns present between the notes for all scalar transpositions. In the case of a diatonic scale, we'll
+	 * find there are 3 different patterns: [M3,m2], [m3,M2], [m3,M2]. Since there are 3 interval patterns and the cardinality of the set 
+	 * is also3, we can assert that for the diatonic scale, CARDINALITY EQUALS VARIETY.
+	 *
+	 * As a counter-example, look at the whole tone scale. Because of its total symmetry it will have the same pattern of intervals for all 
+	 * scalar transpositions of any subset; the variety will always be 1 regardless of the cardinality. Therefore this function will return 
+	 * false for the whole tone scale.
+	 * 
+	 * @return boolean returns true if cardinality equals variety for this set
+	 */
+	public function cardinalityEqualsVariety() {
+
+	}
+
+	/**
+	 * Like cardinalityEqualsVariety, this property of a scale also pays attention to the interval pattern between scalar transpositions of 
+	 * a subset of a pitch class set. 
+	 * 
+	 * Take for example the major scale [C,D,E,F,G,A,B], and we take a subset [C,D,E].
+	 * First we figure out all the interval patterns present in the subset and all its scalar transpositions:
+	 * [M2,M2],[M2,m2],[m2,M2],[M2,M2],[M2,M2],[M2,m2],[m2,M2]
+	 * here we don't just care about their variety, we want to know their occurence.
+	 * [M2,M2] appears 3 times
+	 * [m2,M2] appears 2 times
+	 * [M2,m2] appears 2 times
+	 * ^ That is the "multiplicity".
+	 *
+	 * Structure is the measurement of intervals in relation to the circle of fifths.
+	 * Taking our subset [C,D,E], if we measure their distance around the circle of fifths, 
+	 * the distance between C and D is 2. (C -> G -> D)
+	 * the distance between D and E is also 2. (D -> A -> E)
+	 * 
+	 * That the distance between C and E is 3 seems unintuitive, but we are working with a cyclic circle of fifths that doesn't
+	 * contain all 12 equal-temepered tones! Our circle goes [C,G,D,A,E,B,F], and thus the shortest distance 
+	 * between C and E is not 4 (going clockwise), it is 3 (going widdershins from E to C).
+	 * This, to me, seems like sleight-of-hand to get the result we're after, but that's literally what the theory prescribes.
+	 * That collection of 5th-intervals [3,2,2] is the Structure.
+	 * 
+	 * Since the Structure [3,2,2] is the same as the multiplicity [3,2,2], we can say that "Structure Implies Multiplicity" is TRUE.
+	 *
+	 * @see  Foundations of Diatonic Theory: A Mathematically Based Approach to Music Fundamentals by Timothy A. Johnson. Scarecrow Press 2008. ISBN 0810862336, 9780810862333.
+	 * @return [type] [description]
+	 */
+	public function structureImpliesMultiplicity() {
+
+	}
 
 }

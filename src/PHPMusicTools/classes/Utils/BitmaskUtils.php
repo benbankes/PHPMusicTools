@@ -141,7 +141,7 @@ class BitmaskUtils
 
 
 	/**
-	 * returns true if $a is a rotation of $b
+	 * returns true if $b1 is a rotation of $b2
 	 * @param  $b1 
 	 * @param  $b2
 	 * @return boolean
@@ -155,6 +155,17 @@ class BitmaskUtils
 		}
 		return false;
 	}
+
+	/**
+	 * returns true if all the tones in $subset are present in $set
+	 * @param  $subset
+	 * @param  $set
+	 * @return boolean 
+	 */
+	public static function isSubsetOf($subset, $set) {
+		return 0 == ($subset & (~$set));
+	}
+
 
 	/**
 	 * rotates the bitmask so it is rooted on 0. e.g. 000010011000 [3,4,7] becomes 000000010011 [0,1,4]
