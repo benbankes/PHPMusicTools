@@ -826,11 +826,13 @@ class PitchClassSet extends PMTObject {
 	 * For example, say your pitch class set is the diatonic major scale. [C,D,E,F,G,A,B]
 	 * You can choose any N notes, so if N is 3 we could choose the subset [C,E,F].
 	 * The scalar transpositions are not the same as chromatic transpositions. A chromatic transposition would be [C#,E#,F#], whereas a
-	 * scalar transposition up one step from [C,E,F] is [D,F,G].
+	 * scalar transposition up one step from [C,E,F] is [D,F,G] - the tones are all within the steps of the scale (or set).
 	 * 
 	 * We look at the interval patterns present between the notes for all scalar transpositions. In the case of a diatonic scale, we'll
 	 * find there are 3 different patterns: [M3,m2], [m3,M2], [m3,M2]. Since there are 3 interval patterns and the cardinality of the set 
-	 * is also3, we can assert that for the diatonic scale, CARDINALITY EQUALS VARIETY.
+	 * is also 3, we can assert that for THIS SUBSET the diatonic scale, CARDINALITY EQUALS VARIETY.
+	 *
+	 * If a set exhibits this behaviour for all the possible subsets, then the whole set has the "Cardinality Equals Variety" property.
 	 *
 	 * Some texts also mention the third interval between the last and first note, e.g. [M3,m2,P5] because there's a perfect 5 between the 
 	 * F and C. Since that last "wrap around" interval is just 12 minus the sum of the others, wen can omit it without any ill effects.
@@ -845,28 +847,35 @@ class PitchClassSet extends PMTObject {
 	 * @return boolean returns true if cardinality equals variety for this set
 	 */
 	public static function cardinalityEqualsVariety($set) {
+		$tonesInSet = \ianring\BitmaskUtils::countOnBits($set);
 
-		$cardinality = \ianring\BitmaskUtils::countOnBits($set);
-
-		$patterns = self::getUniqueSubsetPatterns($cardinality);
+		// this is every possible way that a set of N things can be arranged, excluding rotational duplicates.
+		$patterns = self::getUniqueSubsetPatterns($tonesInSet);
 
 		foreach ($patterns as $pattern) {
-			$countOfPattern = \ianring\BitmaskUtils::countOnBits($pattern);
+			$cardinality = \ianring\BitmaskUtils::countOnBits($pattern);
 
-			if ($pattern == 0) {continue;}
-			$mapped = \ianring\BitmaskUtils::mapTo($pattern, $set); // so we have an actual pattern in the key, like [C,D,E]
-			$v = self::getVariety($set, $mapped);
+			if ($pattern == 0) {
+				continue;
+			}
+			$mapped = \ianring\BitmaskUtils::mapTo($pattern, $set); // using the pattern like [0,1,2], we map it to tones in the set, like [C,D,E]
 
-			if ($countOfPattern !== $v) {
+			// this fancy method does a lot of work to get the number of different interval patterns
+			$variety = self::getVariety($set, $mapped);
+
+			// does cardinality equal variety? Here's where we find out.
+			if ($cardinality !== $variety) {
 				return false;
 			}
 		}
 
+		// if we've tried every pattern and CV is true for them all, then we have a winner!
 		return true;
 	}
 
 	/**
-	 * given just the number of items in the set
+	 * This one creates all the different patterns that can be made from a set of X things, omitting any that are duplicates
+	 * by rotation. This is the set of patterns that we look at to compute all the different cases for cardinaltiyEqualsVariety.
 	 * 
 	 * @param  [type] $set [description]
 	 * @return [type]      [description]

@@ -1606,21 +1606,24 @@ class PitchClassSetTest extends PHPMusicToolsTest
 	public function provider_cardinalityEqualsVariety() {
 		return array(
 			array(
-				'cardinality' => 2417,
+				'set' => 2417,
 				'expected' => false
 			),
 			'major diatonic' => array(
-				'cardinality' => 2741,
+				'set' => 2741,
 				'expected' => true
 			),
 			'major pentatonic' => array(
-				'cardinality' => 661,
+				'set' => 661,
 				'expected' => true
+			),
+			'chromatic' => array(
+				'set' => 4095,
+				'expected' => false
 			),
 
 		);
 	}
-
 
 
 }
