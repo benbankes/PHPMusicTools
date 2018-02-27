@@ -111,6 +111,21 @@ class BitmaskUtilsTest extends PHPMusicToolsTest
 				'set' => 3253,
 				'expected' => false
 			),
+			array(
+				'subset' => 0,
+				'set' => 1,
+				'expected' => true
+			),
+			array(
+				'subset' => 1,
+				'set' => 0,
+				'expected' => false
+			),
+			array(
+				'subset' => 1,
+				'set' => 1,
+				'expected' => true
+			),
 		);
 	}
 

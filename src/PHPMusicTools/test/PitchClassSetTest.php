@@ -619,12 +619,6 @@ class PitchClassSetTest extends PHPMusicToolsTest
 	 */
 	public function test_hasMyhillProperty($input, $expected){
 		$pcs = new \ianring\PitchClassSet($input);
-
-		$s = $pcs->spectrum();
-		// print_r($s);
-		// echo $expected?'MYHILL':'NOPE';
-		// echo "\n\n\n\n";
-
 		$pf = $pcs->hasMyhillProperty();
 		$this->assertEquals($expected, $pf);
 	}
@@ -692,14 +686,7 @@ class PitchClassSetTest extends PHPMusicToolsTest
 	 */
 	public function test_isCoherent($input, $expected){
 		$pcs = new \ianring\PitchClassSet($input);
-
-		$s = $pcs->spectrum();
-//		print_r($s);
-//		echo $expected?'expected COHERENT':'expected NOPE';
-//		echo "\n";
-
 		$actual = $pcs->isCoherent();
-//		echo ($actual?'ACTUALLY YES':'NO') . "\n\n\n\n";
 		$this->assertEquals($expected, $actual);
 	}
 	public function provider_isCoherent() {
@@ -1351,8 +1338,213 @@ class PitchClassSetTest extends PHPMusicToolsTest
 	*/
 
 
+	/**
+	 * @dataProvider provider_scalarTranspose
+	 */
+	public function test_scalarTranspose($set, $subset, $interval, $expected) {
+		$actual = \ianring\PitchClassSet::scalarTranspose($set, $subset, $interval);
+		$this->assertEquals($expected, $actual);
+	}
+	public function provider_scalarTranspose() {
+		return array(
+			array(
+				'set' => 2741, 
+				'subset' => 21,
+				'interval' => 0,
+				'expected' => array(0,2,4)
+			),
+			array(
+				'set' => 2741, 
+				'subset' => 21,
+				'interval' => 1,
+				'expected' => array(2,4,5)
+			),
+			array(
+				'set' => 2741, 
+				'subset' => 21,
+				'interval' => 2,
+				'expected' => array(4,5,7)
+			),
+			array(
+				'set' => 2741, 
+				'subset' => 21,
+				'interval' => 3,
+				'expected' => array(5,7,9)
+			),
+			array(
+				'set' => 2741, 
+				'subset' => 21,
+				'interval' => 4,
+				'expected' => array(7,9,11)
+			),
+			array(
+				'set' => 2741, 
+				'subset' => 21,
+				'interval' => 5,
+				'expected' => array(9,11,0) // here's where the order starts to matter
+			),
+			array(
+				'set' => 2741, 
+				'subset' => 21,
+				'interval' => 6,
+				'expected' => array(11,0,2)
+			),
+			array(
+				'set' => 2741, 
+				'subset' => 21,
+				'interval' => 7,
+				'expected' => array(0,2,4)
+			),
+			array(
+				'set' => 2741, 
+				'subset' => 21,
+				'interval' => -1,
+				'expected' => array(11,0,2)
+			),
+			array(
+				'set' => 2741, 
+				'subset' => 21,
+				'interval' => -2,
+				'expected' => array(9,11,0)
+			),
+			array(
+				'set' => 2741, 
+				'subset' => 13,
+				'interval' => 0,
+				'expected' => false
+			),
+			array(
+				'set' => 1365, // whole-tone
+				'subset' => 273,
+				'interval' => 1,
+				'expected' => array(2,6,10)
+			),
+			array(
+				'set' => 1365, // whole-tone
+				'subset' => 273,
+				'interval' => -1,
+				'expected' => array(10,2,6)
+			),
+			array(
+				'set' => 1365, // whole-tone
+				'subset' => 1092,
+				'interval' => 1,
+				'expected' => array(4,8,0)
+			),
+			array(
+				'set' => 1365, // whole-tone
+				'subset' => 1092,
+				'interval' => -1,
+				'expected' => array(0,4,8)
+			),
+			array(
+				'set' => 2047,
+				'subset' => 1023,
+				'interval' => 2,
+				'expected' => array(2,3,4,5,6,7,8,9,10,0)
+			),
+		);
+	}
 
 
+	/**
+	 * @dataProvider provider_getScalarTranspositions
+	 */
+	public function test_getScalarTranspositions($set, $subset, $expected) {
+		$actual = \ianring\PitchClassSet::getScalarTranspositions($set, $subset);
+		$this->assertEquals($expected, $actual);
+	}
+	public function provider_getScalarTranspositions() {
+		return array(
+			array(
+				'set' => 2741, // major
+				'subset' => 21,
+				'expected' => array(
+					array(0,2,4),
+					array(2,4,5),
+					array(4,5,7),
+					array(5,7,9),
+					array(7,9,11),
+					array(9,11,0),
+					array(11,0,2)
+				),
+			),
+			array(
+				'set' => 1365, // whole-tone
+				'subset' => 273,
+				'expected' => array(
+					array(0,4,8),
+					array(2,6,10),
+					array(4,8,0),
+					array(6,10,2),
+					array(8,0,4),
+					array(10,2,6),
+				)
+			),
+		);
+	}
+
+
+	/**
+	 * @dataProvider provider_getIntervalsBetweenTones
+	 */
+	public function test_getIntervalsBetweenTones($tones, $expected) {
+		$actual = \ianring\PitchClassSet::getIntervalsBetweenTones($tones);
+		$this->assertEquals($expected, $actual);
+	}
+	public function provider_getIntervalsBetweenTones() {
+		return array(
+			'major triad' => array(
+				'tones' => array(0,4,7), // major triad
+				'expected' => array(4,3,5) // major third, and minor third, perfect 4th
+			),
+			'minor triad' => array(
+				'tones' => array(0,3,7), // minor triad
+				'expected' => array(3,4,5) // minor third, and major third, perfect 4th
+			),
+			array(
+				'tones' => array(5,9,2),
+				'expected' => array(4,5,3)
+			),
+			array(
+				'tones' => array(10,3,4),
+				'expected' => array(5,1,6)
+			),
+		);
+	}
+
+
+	/**
+	 * @dataProvider provider_getVariety
+	 */
+	public function test_getVariety($set, $subset, $expected) {
+		$actual = \ianring\PitchClassSet::getVariety($set, $subset);
+		$this->assertEquals($expected, $actual);
+	}
+	public function provider_getVariety() {
+		return array(
+			'major triad' => array(
+				'set' => 2741, // major scale
+				'subset' => 145, // major triad
+				'expected' => 3
+			),
+			array(
+				'set' => 2741, // major scale
+				'subset' => 37,
+				'expected' => 3
+			),
+			array(
+				'set' => 2741, // major scale
+				'subset' => 549,
+				'expected' => 4
+			),
+			array(
+				'set' => 2741, // major scale
+				'subset' => 2228,
+				'expected' => 5
+			),
+		);
+	}
 
 
 }

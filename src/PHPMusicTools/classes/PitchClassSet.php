@@ -736,19 +736,92 @@ class PitchClassSet extends PMTObject {
 	 * For example, if the set is [C,D,E,G,A], and the subset is [C,E,A], transposing it up one step will make it [D,G,C]
 	 * But if the superset is a major diatonic, then transposing [C,E,A] up one step becomes [D,F,B].
 	 * If $subset is not a subset of $set, then this returns false.
-	 * @param  [type] $set      [description]
-	 * @param  [type] $subset   [description]
-	 * @param  [type] $interval [description]
-	 * @return [type]           [description]
+	 * We care about preserving the order of the transposed result, so we don't just return a bitmask of on bits modded to 12.
+	 * Instead we return an array like [4,6,9]
+	 * @param  int $set      a bitmask, of the PCS context
+	 * @param  int $subset   a bitmask, of the notes in the line
+	 * @param  int $interval the distance to transpose, in scalar steps
+	 * @return array         array of the generic intervals of the transposed steps.
 	 */
-	function scalarTranspose($set, $subset, $interval) {
+	public static function scalarTranspose($set, $subset, $interval) {
+		if (!\ianring\BitmaskUtils::isSubsetOf($subset, $set)) {
+			return false;
+		}
+		$setTones = \ianring\BitmaskUtils::bits2Tones($set);
+		// print_r($setTones);
+		$subsetTones = \ianring\BitmaskUtils::bits2Tones($subset);
+		// print_r($subsetTones);
 
+		// which members of the set are in the subset?
+		$setMemberIndices = array();
+		foreach($subsetTones as $i=>$val) {
+			$result = array_search($val, $setTones);
+			if (false !== $result) {
+				$setMemberIndices[] = $result;
+			}
+		}
+		// print_r($setMemberIndices);
+
+		// now we have the scale steps that are on; we need to rotate these to get the scalar transposition
+		$transposedTones = array();
+		foreach($setMemberIndices as $i=>$s) {
+			$newscalar = \ianring\PMTObject::_truemod($s + $interval, count($setTones));
+			$transposedTones[] = $setTones[$newscalar];
+		}
+		
+		return $transposedTones;
 	}
 
 
 	/**
+	 * we get all the scalar transpositions of a subset within a set. For example, let's say we're in the context of a major scale (2741).
+	 * Our subset might be a three-note line [C,D,E] (21). 
+	 * First of all, if the subset is not an actual subset of the set, what we're asking for is invalid so it returns false.
+	 * This function should return the series: [C,D,E],[D,E,F],[E,F,G] etc. up to [B,C,D]
+	 * 
+	 * @param  [type] $set    [description]
+	 * @param  [type] $subset [description]
+	 * @return [type]         [description]
+	 */
+	public static function getScalarTranspositions($set, $subset) {
+		$transpositions = array();
+		for($i=0; $i<\ianring\BitmaskUtils::countOnBits($set); $i++) {
+			$transpositions[] = self::scalarTranspose($set, $subset, $i);
+		}
+		return $transpositions;
+	}
+
+
+	/**
+	 * Gets the intervals between members of an array. for example, if the input is [0,4,7] the result is [4,3,5].
+	 * This is an important step for figuring out Cardinality Equals Variety
+	 * @param  [type] $bits [description]
+	 * @return [type]       [description]
+	 */
+	public static function getIntervalsBetweenTones($tones) {
+		$cardinality = count($tones);
+		$intervals = array();
+		for ($i=0; $i<$cardinality; $i++) {
+			$interval = $tones[($i+1) % $cardinality] - $tones[$i % $cardinality];
+			$intervals[] = \ianring\PMTObject::_truemod($interval, 12);
+		}
+		return $intervals;
+	}
+
+	public static function getVariety($set, $subset) {
+		$transpositions = self::getScalarTranspositions($set, $subset);
+		$variety = array();
+		foreach ($transpositions as $t) {
+			$int = self::getIntervalsBetweenTones($t);
+			$intslug = json_encode($int);
+			$variety[$intslug] = true;
+		}
+		return count($variety);
+	}
+
+	/**
 	 * Cardinality equals variety for a set, if you can choose any N members of the set, and the number of different interval patterns 
-	 * between the notes in that sbuset and all SCALAR TRANSPOSITIONS of that subset is also N.
+	 * between the notes in that subset and all SCALAR TRANSPOSITIONS of that subset is also N.
 	 * 
 	 * For example, say your pitch class set is the diatonic major scale. [C,D,E,F,G,A,B]
 	 * You can choose any N notes, so if N is 3 we could choose the subset [C,E,F].
@@ -759,9 +832,15 @@ class PitchClassSet extends PMTObject {
 	 * find there are 3 different patterns: [M3,m2], [m3,M2], [m3,M2]. Since there are 3 interval patterns and the cardinality of the set 
 	 * is also3, we can assert that for the diatonic scale, CARDINALITY EQUALS VARIETY.
 	 *
+	 * Some texts also mention the third interval between the last and first note, e.g. [M3,m2,P5] because there's a perfect 5 between the 
+	 * F and C. Since that last "wrap around" interval is just 12 minus the sum of the others, wen can omit it without any ill effects.
+	 * 
 	 * As a counter-example, look at the whole tone scale. Because of its total symmetry it will have the same pattern of intervals for all 
 	 * scalar transpositions of any subset; the variety will always be 1 regardless of the cardinality. Therefore this function will return 
 	 * false for the whole tone scale.
+	 *
+	 * Since this is an "is it true" function, we can exit early with FALSE if any combination is found where C!=V. But in those rare cases 
+	 * where it is true, we may need to do a lot of calculations to return a TRUE.
 	 * 
 	 * @return boolean returns true if cardinality equals variety for this set
 	 */
@@ -776,6 +855,7 @@ class PitchClassSet extends PMTObject {
 	 * Take for example the major scale [C,D,E,F,G,A,B], and we take a subset [C,D,E].
 	 * First we figure out all the interval patterns present in the subset and all its scalar transpositions:
 	 * [M2,M2],[M2,m2],[m2,M2],[M2,M2],[M2,M2],[M2,m2],[m2,M2]
+	 * (in decimal we'll represent these as [[2,2],[2,1],[1,2]...])
 	 * here we don't just care about their variety, we want to know their occurence.
 	 * [M2,M2] appears 3 times
 	 * [m2,M2] appears 2 times

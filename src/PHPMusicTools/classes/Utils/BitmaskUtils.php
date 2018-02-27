@@ -157,7 +157,8 @@ class BitmaskUtils
 	}
 
 	/**
-	 * returns true if all the tones in $subset are present in $set
+	 * returns true if all the tones in $subset are present in $set.
+	 * NOTE this will return true if the two sets are the same!
 	 * @param  $subset
 	 * @param  $set
 	 * @return boolean 
