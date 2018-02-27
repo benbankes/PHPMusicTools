@@ -129,4 +129,116 @@ class BitmaskUtilsTest extends PHPMusicToolsTest
 		);
 	}
 
+	/**
+	 * @dataProvider provider_rotateBitmask
+	 */
+	public function test_rotateBitmask($bits, $direction, $amount, $base, $expected) {
+		$actual = \ianring\BitmaskUtils::rotateBitmask($bits, $direction, $amount, $base);
+		$this->assertEquals($expected, $actual);
+	}
+	public function provider_rotateBitmask() {
+		return array(
+			array(
+				'bits' => 33,
+				'direction' => 1,
+				'amount' => 1,
+				'base' => 12,
+				'expected' => 2064
+			),
+			array(
+				'bits' => 3055,
+				'direction' => 1,
+				'amount' => 1,
+				'base' => 12,
+				'expected' => 3575
+			),
+			array(
+				'bits' => 3055,
+				'direction' => 1,
+				'amount' => 2,
+				'base' => 12,
+				'expected' => 3835
+			),
+			array(
+				'bits' => 3055,
+				'direction' => 1,
+				'amount' => 3,
+				'base' => 12,
+				'expected' => 3965
+			),
+			array(
+				'bits' => 13,
+				'direction' => 1,
+				'amount' => 1,
+				'base' => 5,
+				'expected' => 22
+			),
+			array(
+				'bits' => 22,
+				'direction' => -1,
+				'amount' => 1,
+				'base' => 5,
+				'expected' => 13
+			),
+			array(
+				'bits' => 13,
+				'direction' => 1,
+				'amount' => 2,
+				'base' => 5,
+				'expected' => 11
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider provider_allRotationsOf
+	 */
+	public function test_allRotationsOf($set, $base, $expected) {
+		$actual = \ianring\BitmaskUtils::allRotationsOf($set, $base);
+		$this->assertEquals($actual, $expected);
+	}
+	public function provider_allRotationsOf() {
+		return array(
+			array(
+				'set' => 33,
+				'base' => 12,
+				'expected' => array(33, 2064, 1032, 516, 258, 129, 2112, 1056, 528, 264, 132, 66)
+			),
+			array(
+				'set' => 13,
+				'base' => 5,
+				'expected' => array(13, 22, 11, 21, 26)
+			),
+			array(
+				'set' => 107,
+				'base' => 7,
+				'expected' => array(107, 117, 122, 61, 94, 47, 87)
+			),
+		);
+	}
+
+
+	/**
+	 * @dataProvider provider_mapTo
+	 */
+	public function test_mapTo($tones, $set, $expected) {
+		$actual = \ianring\BitmaskUtils::mapTo($tones, $set);
+		$this->assertEquals($actual, $expected);
+	}
+	public function provider_mapTo() {
+		return array(
+			array(
+				'tones' => 7, // just the lowest three tones
+				'set' => 2741,
+				'expected' => 21
+			),
+			array(
+				'tones' => 21,
+				'set' => 2741,
+				'expected' => 145
+			),
+		);
+	}
+
+
 }

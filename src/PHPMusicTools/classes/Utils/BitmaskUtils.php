@@ -67,9 +67,10 @@ class BitmaskUtils
 	 * @param  integer $bits     the bitmask being rotated
 	 * @param  integer $direction 1 = rotate up, 0 = rotate down
 	 * @param  integer $amount    the number of places to rotate by
+	 * @param  integer $base      the mod base. Default 12
 	 * @return integer            the result after rotation
 	 */
-	public static function rotateBitmask($bits, $direction = 1, $amount = 1) {
+	public static function rotateBitmask($bits, $direction = 1, $amount = 1, $base = 12) {
 		if ($amount < 0) {
 			$amount = $amount * -1;
 			$direction = $direction * -1;
@@ -79,15 +80,29 @@ class BitmaskUtils
 			if ($direction == 1) {
 				$firstbit = $bits & 1;
 				$bits = $bits >> 1;
-				$bits = $bits | ($firstbit << 11);
+				$bits = $bits | ($firstbit << ($base-1));
 			} else {
-				$firstbit = $bits & (1 << 11);
+				$lastbit = $bits & (1 << ($base-1));
 				$bits = $bits << 1;
-				$bits = $bits & ~(1 << 12);
-				$bits = $bits | ($firstbit >> 11);
+				$bits = $bits & ~(1 << $base);
+				$bits = $bits | ($lastbit >> ($base-1));
 			}
 		}
 		return $bits;
+	}
+
+	/**
+	 * returns an array of all the unique rotations of a set
+	 * @param  [type]  $set  [description]
+	 * @param  integer $base [description]
+	 * @return [type]        [description]
+	 */
+	public static function allRotationsOf($set, $base = 12) {
+		$rotations = array();
+		for($i=0; $i<$base; $i++) {
+			$rotations[] = self::rotateBitmask($set, 1, $i, $base);
+		}
+		return $rotations;
 	}
 
 	/**
@@ -95,11 +110,11 @@ class BitmaskUtils
 	 * 011100110001 -> 100011001110
 	 * see enantiomorph()
 	 */
-	public static function reflectBitmask($scale) {
+	public static function reflectBitmask($scale, $base = 12) {
 		$output = 0;
-		for ($i = 0; $i < 12; $i++) {
+		for ($i = 0; $i < $base; $i++) {
 			if ($scale & (1 << $i)) {
-				$output = $output | (1 << (11 - $i));
+				$output = $output | (1 << (($base-1) - $i));
 			}
 		}
 		return $output;
@@ -137,6 +152,29 @@ class BitmaskUtils
 		// special rule: if there is a tritone in the sonority, it will show up twice, so we divide by 2
 		$spectrum[5] = $spectrum[5] / 2;
 		return $spectrum;
+	}
+
+	/**
+	 * Maps a scalar bitmask to a set. For example, if the set is the major scale [0,2,4,5,7,9,11], and the tones are the 
+	 * tonic triad [0,2,4]. We return the specific tones from the set corresponding to the scale steps: [0,4,7].
+	 * it's important to note that the tones and set can be in a base other than 12. The maximum step in the scale can't be
+	 * larger than the length of the set.
+	 * 
+	 * @param  array $tones the scalar (generic) tones
+	 * @param  array $set   the specific tones
+	 * @return array        [description]
+	 */
+	public static function mapTo($tones, $set) {
+		$tonesArray = self::bits2Tones($tones);
+		$setArray = self::bits2Tones($set);
+		if (max($tonesArray) > count($setArray)) {
+			return false;
+		}
+		$output = array();
+		foreach($tonesArray as $t) {
+			$output[] = $setArray[$t];
+		}
+		return self::tones2Bits($output);
 	}
 
 

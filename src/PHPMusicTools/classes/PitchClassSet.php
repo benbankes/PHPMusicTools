@@ -844,9 +844,33 @@ class PitchClassSet extends PMTObject {
 	 * 
 	 * @return boolean returns true if cardinality equals variety for this set
 	 */
-	public function cardinalityEqualsVariety() {
+	public function cardinalityEqualsVariety($set) {
+
+		// figure out all the unique patterns possible in the set and then call getVariety() on them.
 
 	}
+
+	public static function getUniqueSubsetPatterns($set) {
+		$uniqueOnes = array();
+		$cardinality = \ianring\BitmaskUtils::countOnBits($set);
+
+		$powerset = pow(2, $cardinality);
+		$possibilities = array();
+		for ($i=0;$i<$powerset;$i++) {
+			$possibilities[$i] = true; // true means it's a pattern that needs to be tested
+		}
+
+		while (count($possibilities) > 0) {
+			$next = array_search(true, $possibilities, true);
+			$uniqueOnes[] = $next;
+
+			// remove it and all its rotations from the set
+			
+						
+		}
+
+	}
+
 
 	/**
 	 * Like cardinalityEqualsVariety, this property of a scale also pays attention to the interval pattern between scalar transpositions of 
