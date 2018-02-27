@@ -1236,7 +1236,7 @@ class Scale extends PMTObject
 	 */
 	public function primeForm() {
 		$pcs = new PitchClassSet($this->scale);
-		$p = $pcs->primeForm();
+		$p = $pcs->primeFormRing();
 		return $p;
 	}
 
