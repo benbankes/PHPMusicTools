@@ -844,15 +844,35 @@ class PitchClassSet extends PMTObject {
 	 * 
 	 * @return boolean returns true if cardinality equals variety for this set
 	 */
-	public function cardinalityEqualsVariety($set) {
+	public static function cardinalityEqualsVariety($set) {
 
-		// figure out all the unique patterns possible in the set and then call getVariety() on them.
+		$cardinality = \ianring\BitmaskUtils::countOnBits($set);
 
+		$patterns = self::getUniqueSubsetPatterns($cardinality);
+
+		foreach ($patterns as $pattern) {
+			$countOfPattern = \ianring\BitmaskUtils::countOnBits($pattern);
+
+			if ($pattern == 0) {continue;}
+			$mapped = \ianring\BitmaskUtils::mapTo($pattern, $set); // so we have an actual pattern in the key, like [C,D,E]
+			$v = self::getVariety($set, $mapped);
+
+			if ($countOfPattern !== $v) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
-	public static function getUniqueSubsetPatterns($set) {
+	/**
+	 * given just the number of items in the set
+	 * 
+	 * @param  [type] $set [description]
+	 * @return [type]      [description]
+	 */
+	public static function getUniqueSubsetPatterns($cardinality) {
 		$uniqueOnes = array();
-		$cardinality = \ianring\BitmaskUtils::countOnBits($set);
 
 		$powerset = pow(2, $cardinality);
 		$possibilities = array();
@@ -860,14 +880,20 @@ class PitchClassSet extends PMTObject {
 			$possibilities[$i] = true; // true means it's a pattern that needs to be tested
 		}
 
+		// get the next true one
 		while (count($possibilities) > 0) {
 			$next = array_search(true, $possibilities, true);
+
 			$uniqueOnes[] = $next;
 
 			// remove it and all its rotations from the set
-			
-						
+			$allRotations = \ianring\BitmaskUtils::allRotationsOf($next, $cardinality);
+			foreach ($allRotations as $rot) {
+				unset($possibilities[$rot]);
+			}
 		}
+
+		return $uniqueOnes;
 
 	}
 

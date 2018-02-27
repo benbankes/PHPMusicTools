@@ -1547,5 +1547,81 @@ class PitchClassSetTest extends PHPMusicToolsTest
 	}
 
 
+	/**
+	 * @dataProvider provider_getUniqueSubsetPatterns
+	 */
+	public function test_getUniqueSubsetPatterns($cardinality, $expected) {
+		$actual = \ianring\PitchClassSet::getUniqueSubsetPatterns($cardinality);
+		$this->assertEquals($expected, $actual);
+	}
+	public function provider_getUniqueSubsetPatterns() {
+		return array(
+			array(
+				'cardinality' => 3,
+				'expected' => array(0,1,3,7)
+			),
+			array(
+				'cardinality' => 4,
+				'expected' => array(0,1,3,5,7,15)
+			),
+			array(
+				'cardinality' => 5,
+				'expected' => array(0,1,3,5,7,11,15,31)
+			),
+			array(
+				'cardinality' => 6,
+				'expected' => array(0,1,3,5,7,9,11,13,15,21,23,27,31,63)
+			),
+			array(
+				'cardinality' => 7,
+				'expected' => array(0,1,3,5,7,9,11,13,15,19,21,23,27,29,31,43,47,55,63,127)
+			),
+			array(
+				'cardinality' => 8,
+				'expected' => array(0,1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,37,39,43,45,47,51,53,55,59,61,63,85,87,91,95,111,119,127,255)
+			),
+			array(
+				'cardinality' => 9,
+				'expected' => array(0,1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,35,37,39,41,43,45,47,51,53,55,57,59,61,63,73,75,77,79,83,85,87,91,93,95,103,107,109,111,117,119,123,125,127,171,175,183,187,191,219,223,239,255,511)
+			),
+			array(
+				'cardinality' => 10,
+				'expected' => array(0,1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,69,71,73,75,77,79,83,85,87,89,91,93,95,99,101,103,105,107,109,111,115,117,119,121,123,125,127,147,149,151,155,157,159,165,167,171,173,175,179,181,183,187,189,191,205,207,213,215,219,221,223,231,235,237,239,245,247,251,253,255,341,343,347,351,363,367,375,379,383,439,447,479,495,511,1023)
+			),
+			array(
+				'cardinality' => 11,
+				'expected' => array(0,1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,67,69,71,73,75,77,79,81,83,85,87,89,91,93,95,99,101,103,105,107,109,111,113,115,117,119,121,123,125,127,137,139,141,143,147,149,151,153,155,157,159,163,165,167,169,171,173,175,179,181,183,185,187,189,191,199,201,203,205,207,211,213,215,217,219,221,223,229,231,233,235,237,239,243,245,247,249,251,253,255,293,295,299,301,303,307,309,311,315,317,319,331,333,335,339,341,343,347,349,351,359,363,365,367,371,373,375,379,381,383,411,413,415,423,427,429,431,437,439,443,445,447,463,469,471,475,477,479,491,493,495,501,503,507,509,511,683,687,695,699,703,727,731,735,751,759,763,767,879,887,895,959,991,1023,2047)
+			),
+		);
+	}
+
+
+	/**
+	 * @dataProvider provider_cardinalityEqualsVariety
+	 */
+	public function test_cardinalityEqualsVariety($set, $expected) {
+		$actual = \ianring\PitchClassSet::cardinalityEqualsVariety($set);
+		$this->assertEquals($expected, $actual);
+	}
+	public function provider_cardinalityEqualsVariety() {
+		return array(
+			array(
+				'cardinality' => 2417,
+				'expected' => false
+			),
+			'major diatonic' => array(
+				'cardinality' => 2741,
+				'expected' => true
+			),
+			'major pentatonic' => array(
+				'cardinality' => 661,
+				'expected' => true
+			),
+
+		);
+	}
+
+
+
 }
 
