@@ -122,7 +122,7 @@ class ScaleVisualizer extends Scale
 		$s = '<div class="bracelet">';
 		$s .= self::drawSVGBracelet($scale, 50);
 		$s .= '<br/>';
-		$s .= '<a href="/scales/'.$scale->scale.'">'.$scale->scale.'</a>';
+		$s .= '<a href="https://ianring.com/musictheory/scales/'.$scale->scale.'">'.$scale->scale.'</a>';
 		$s .= '&nbsp;<i class="icon-play2 player" data-midi="'.htmlspecialchars($jsonNotes).'"></i>';
 		$s .= '</div>';
 		return $s;
