@@ -414,14 +414,13 @@ class PitchClassSet extends PMTObject {
 		// this is a fairly expensive calculation, so by default we'll use this cached array that we calculated earlier using the algorithm below
 		if ($usecached) {
 			include(__DIR__.'/../cache/zmates.cache.php');
-			if (array_key_exists($this->bits, $zmates)) {
+			if (array_key_exists($this->primeFormRing($this->bits), $zmates)) {
 				return $zmates[$this->bits];
 			}
 			return null;
 		}
 
 		// if not using the cached calculations, we'll do this the serious brute force way with a couple of optimizations
-		$intervals = $this->intervalVector();
 		$countOnBits = \ianring\BitmaskUtils::countOnBits($this->bits);
 
 		// we can omit any that are too small to have the required number of bits on, for example if the set has a cardinality
@@ -449,13 +448,16 @@ class PitchClassSet extends PMTObject {
 				continue;
 			}
 
-			// we only return the prime of the z-mate
+			// we only return the prime of the z-mate, so we can discard all non-primes
 			if (!self::isPrime($s)) {
 				continue;
 			}
 
+			// very few candidates will reach this point, so for those we can do the more expensive calculation of interval vectors
 			$p = new PitchClassSet($s);
 			$i = $p->intervalVector();
+			$intervals = $this->intervalVector();
+			// to compare the content of two arrays it's really easy to squash them into strings and compare those
 			if (json_encode($i) == json_encode($intervals)) {
 				$same[] = $s;
 			}
@@ -523,15 +525,6 @@ class PitchClassSet extends PMTObject {
 	}
 
 	/**
-	 * returns the PCS that is the inverse of this one, that means it's reversed
-	 *
-	 * @return PitchClassSet
-	 */
-	public function invert() {
-
-	}
-
-	/**
 	 * The complement of a PCS is one where all the off bits are on, and the on bits are off.
 	 * This returns the complement in its prime form, aka an "abstract complement" (as opposed to a 
 	 * literal complement)
@@ -547,15 +540,7 @@ class PitchClassSet extends PMTObject {
 	 * @return bool
 	 */
 	public function isComplement($b) {
-
-	}
-
-	/**
-	 * returns true if the number passed in is a rotation of this PCS
-	 * @return bool
-	 */
-	public function isRotation($b) {
-
+		return \ianring\BitmaskUtils::isRotationOf($this->bits, $this->complement($b));
 	}
 
 	/**
@@ -730,6 +715,24 @@ class PitchClassSet extends PMTObject {
 		}
 		return true;
 	}
+
+	/**
+	 * A scale or PCS is "well-formed" if it can be created by a "generator" consisting of an interval, and an interval of equivalence (which 
+	 * is usually an octave, or 12). For example, the Locrian scale can be created by fifths: C,G,D,A,E,B,F#. Therefore it is well-formed.
+	 *
+	 * Note: it is usual that a generator interval and the interval of equivalence will be coprime. There is also such a thing as a 
+	 * "degenerate" well-formed scale, which is a scale where all the steps are the same distance. For example: chromatic, whole-tone, dim7, 
+	 * aug triad, tritone dyad. What makes a degenerate scale different from other well-formed scales is that the generator interval doesn't
+	 * "wrap around" the interval of equivalence; the stack of generator intervals is all contained within one octave. In a non-degenerate well-formed
+	 * scale, the stack of generator intervals exceeds the interval of equivalence.
+	 * 
+	 * @return boolean [description]
+	 */
+	public function isWellFormed() {
+
+	}
+
+
 
 	/**
 	 * Transposes a subset within a superset by an interval.
