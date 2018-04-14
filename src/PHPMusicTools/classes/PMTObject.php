@@ -50,7 +50,7 @@ class PMTObject
      * @return [type]
      */
     public static function _truemodDiff12($a, $b) {
-        return self::_truemod($b-$a,12);
+        return self::_truemod($b-$a, 12);
     }
 
 }

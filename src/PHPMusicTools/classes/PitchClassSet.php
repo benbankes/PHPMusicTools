@@ -3,7 +3,7 @@
  * PitchClassSet Class
  *
  * PitchClassSet internally represents a PCS the same way that Scale represents a scale; as a bitmask word of 12 bits.
- * Set theory typically calls the first position "0", but in bits that first spot is equal to 1. So we need to be 
+ * Set theory typically calls the first position "0", but in bits that first spot is equal to 1. So we need to be
  * cognizant of that in our maths.
  *
  * @package      PHPMusicTools
@@ -29,8 +29,8 @@ class PitchClassSet extends PMTObject {
 
 	// Data array for fast lookup. Keys are the bits for a forte prime. Values are the Forte number, ie the digit that appears
 	// after the hyphen in a name like "8-3". Only Forte primes are in this table; if it's not a forte prime then it shouldn't
-	// be here, because let's leave some of the grunt work to calculation 
-	// 
+	// be here, because let's leave some of the grunt work to calculation
+	//
 	// IRONICALLY, the keys in this data are Primes according to Ring/Rahn, not Forte primes!
 	// Rahn(355) = Forte(395)
 	// Rahn(755) = Forte(815)
@@ -38,70 +38,70 @@ class PitchClassSet extends PMTObject {
 	// Rahn(717) = Forte(843)
 	// Rahn(743) = Forte(919)
 	// Rahn(1467) = Forte(1719)
-	// 
-	// One question is why have we multiple keys with the same value? look into this because it might be a clue for refactoring and optimizing this 
-	// 
+	//
+	// One question is why have we multiple keys with the same value? look into this because it might be a clue for refactoring and optimizing this
+	//
 	public static $fortePrimes = array(
-		0 => 1, 		1 => 1, 		
+		0 => 1, 		1 => 1,
 
 		// 2 tones
-		3 => 1, 		5 => 2, 		9 => 3, 		17 => 4, 		33 => 5, 		65 => 6, 		
+		3 => 1, 		5 => 2, 		9 => 3, 		17 => 4, 		33 => 5, 		65 => 6,
 
 		// 3 tones
-		7 => 1, 		11 => 2, 		13 => 2, 		19 => 3, 		25 => 3, 		35 => 4, 		49 => 4, 		67 => 5, 		97 => 5, 		21 => 6, 		
-		37 => 7, 		41 => 7, 		69 => 8, 		81 => 8, 		133 => 9, 		73 => 10, 		137 => 11, 		145 => 11, 		273 => 12, 		
+		7 => 1, 		11 => 2, 		13 => 2, 		19 => 3, 		25 => 3, 		35 => 4, 		49 => 4, 		67 => 5, 		97 => 5, 		21 => 6,
+		37 => 7, 		41 => 7, 		69 => 8, 		81 => 8, 		133 => 9, 		73 => 10, 		137 => 11, 		145 => 11, 		273 => 12,
 
 		// 4 tones
-		15 => 1, 		23 => 2, 		29 => 2, 		27 => 3, 		39 => 4, 		57 => 4, 		71 => 5, 		
-		113 => 5, 		135 => 6, 		51 => 7, 		99 => 8, 		195 => 9, 		45 => 10, 		43 => 11, 		53 => 11, 		77 => 12, 		89 => 12, 		75 => 13, 		105 => 13, 		141 => 14, 		177 => 14, 		83 => 15, 		
-		101 => 15, 		163 => 16, 		197 => 16, 		153 => 17, 		147 => 18, 		201 => 18, 		275 => 19, 		281 => 19, 		291 => 20, 		85 => 21, 		149 => 22, 		169 => 22, 		165 => 23, 		277 => 24, 		
-		325 => 25, 		297 => 26, 		293 => 27, 		329 => 27, 		585 => 28, 		139 => 29, 		209 => 29, 		
+		15 => 1, 		23 => 2, 		29 => 2, 		27 => 3, 		39 => 4, 		57 => 4, 		71 => 5,
+		113 => 5, 		135 => 6, 		51 => 7, 		99 => 8, 		195 => 9, 		45 => 10, 		43 => 11, 		53 => 11, 		77 => 12, 		89 => 12, 		75 => 13, 		105 => 13, 		141 => 14, 		177 => 14, 		83 => 15,
+		101 => 15, 		163 => 16, 		197 => 16, 		153 => 17, 		147 => 18, 		201 => 18, 		275 => 19, 		281 => 19, 		291 => 20, 		85 => 21, 		149 => 22, 		169 => 22, 		165 => 23, 		277 => 24,
+		325 => 25, 		297 => 26, 		293 => 27, 		329 => 27, 		585 => 28, 		139 => 29, 		209 => 29,
 
 		// 5 tones
-		31 => 1, 		47 => 2, 		61 => 2, 		55 => 3, 		59 => 3, 		79 => 4, 		121 => 4, 		143 => 5, 		
-		241 => 5, 		103 => 6, 		115 => 6, 		199 => 7, 		227 => 7, 		93 => 8, 		87 => 9, 		117 => 9, 		91 => 10, 		109 => 10, 		157 => 11, 		185 => 11, 		107 => 12, 		279 => 13, 		285 => 13, 		
-		167 => 14, 		229 => 14, 		327 => 15, 		155 => 16, 		217 => 16, 		283 => 17, 		179 => 18, 		205 => 18, 		203 => 19, 		211 => 19, 		355 => 20, 		419 => 20, 		307 => 21, 		409 => 21, 		
-		403 => 22, 		173 => 23, 		181 => 23, 		171 => 24, 		213 => 24, 		301 => 25, 		361 => 23, 		309 => 26, 		345 => 26, 		299 => 27, 		425 => 27, 		333 => 28, 		357 => 28, 		331 => 29, 		
-		421 => 29, 		339 => 30, 		405 => 30, 		587 => 31, 		589 => 31, 		595 => 32, 		659 => 32, 		341 => 33, 		597 => 34, 		661 => 35, 		151 => 36, 		233 => 36, 		313 => 37, 		295 => 38, 		
-		457 => 38, 		
+		31 => 1, 		47 => 2, 		61 => 2, 		55 => 3, 		59 => 3, 		79 => 4, 		121 => 4, 		143 => 5,
+		241 => 5, 		103 => 6, 		115 => 6, 		199 => 7, 		227 => 7, 		93 => 8, 		87 => 9, 		117 => 9, 		91 => 10, 		109 => 10, 		157 => 11, 		185 => 11, 		107 => 12, 		279 => 13, 		285 => 13,
+		167 => 14, 		229 => 14, 		327 => 15, 		155 => 16, 		217 => 16, 		283 => 17, 		179 => 18, 		205 => 18, 		203 => 19, 		211 => 19, 		355 => 20, 		419 => 20, 		307 => 21, 		409 => 21,
+		403 => 22, 		173 => 23, 		181 => 23, 		171 => 24, 		213 => 24, 		301 => 25, 		361 => 23, 		309 => 26, 		345 => 26, 		299 => 27, 		425 => 27, 		333 => 28, 		357 => 28, 		331 => 29,
+		421 => 29, 		339 => 30, 		405 => 30, 		587 => 31, 		589 => 31, 		595 => 32, 		659 => 32, 		341 => 33, 		597 => 34, 		661 => 35, 		151 => 36, 		233 => 36, 		313 => 37, 		295 => 38,
+		457 => 38,
 
 		// 6 tones
-		63 => 1, 		95 => 2, 		125 => 2, 		111 => 3, 		123 => 3, 		119 => 4, 		207 => 5, 		243 => 5, 		231 => 6, 		455 => 7, 		189 => 8, 		175 => 9, 		245 => 9, 		187 => 10, 		
-		221 => 10, 		183 => 11, 		237 => 11, 		215 => 12, 		235 => 12, 		219 => 13, 		315 => 14, 		441 => 14, 		311 => 15, 		473 => 15, 		371 => 16, 		413 => 16, 		407 => 17, 		467 => 17, 		
-		423 => 18, 		459 => 18, 		411 => 19, 		435 => 19, 		819 => 20, 		349 => 21, 		373 => 21, 		343 => 22, 		469 => 22, 		365 => 23, 		347 => 24, 		437 => 24, 		363 => 25, 		429 => 25, 		
-		427 => 26, 		603 => 27, 		621 => 27, 		619 => 28, 		717 => 29, 		715 => 30, 		845 => 30, 		691 => 31, 		851 => 31, 		693 => 32, 		685 => 33, 		725 => 33, 		683 => 34, 		853 => 34, 		
-		1365 => 35, 	159 => 36, 		249 => 36, 		287 => 37, 		399 => 38, 		317 => 39, 		377 => 39, 		303 => 40, 		489 => 40, 		335 => 41, 		485 => 41, 		591 => 42, 		359 => 43, 		461 => 43, 		
-		615 => 44, 		807 => 44, 		605 => 45, 		599 => 46, 		629 => 46, 		663 => 47, 		669 => 47, 		679 => 48, 		667 => 49, 		723 => 50, 		
+		63 => 1, 		95 => 2, 		125 => 2, 		111 => 3, 		123 => 3, 		119 => 4, 		207 => 5, 		243 => 5, 		231 => 6, 		455 => 7, 		189 => 8, 		175 => 9, 		245 => 9, 		187 => 10,
+		221 => 10, 		183 => 11, 		237 => 11, 		215 => 12, 		235 => 12, 		219 => 13, 		315 => 14, 		441 => 14, 		311 => 15, 		473 => 15, 		371 => 16, 		413 => 16, 		407 => 17, 		467 => 17,
+		423 => 18, 		459 => 18, 		411 => 19, 		435 => 19, 		819 => 20, 		349 => 21, 		373 => 21, 		343 => 22, 		469 => 22, 		365 => 23, 		347 => 24, 		437 => 24, 		363 => 25, 		429 => 25,
+		427 => 26, 		603 => 27, 		621 => 27, 		619 => 28, 		717 => 29, 		715 => 30, 		845 => 30, 		691 => 31, 		851 => 31, 		693 => 32, 		685 => 33, 		725 => 33, 		683 => 34, 		853 => 34,
+		1365 => 35, 	159 => 36, 		249 => 36, 		287 => 37, 		399 => 38, 		317 => 39, 		377 => 39, 		303 => 40, 		489 => 40, 		335 => 41, 		485 => 41, 		591 => 42, 		359 => 43, 		461 => 43,
+		615 => 44, 		807 => 44, 		605 => 45, 		599 => 46, 		629 => 46, 		663 => 47, 		669 => 47, 		679 => 48, 		667 => 49, 		723 => 50,
 
 		// 7 tones
-		127 => 1, 		191 => 2, 		253 => 2, 		319 => 3, 		
-		505 => 3, 		223 => 4, 		251 => 4, 		239 => 5, 		247 => 5, 		415 => 6, 		499 => 6, 		463 => 7, 		487 => 7, 		381 => 8, 		351 => 9, 		501 => 9, 		607 => 10, 		637 => 10, 		379 => 11, 		
-		445 => 11, 		671 => 12, 		375 => 13, 		477 => 13, 		431 => 14, 		491 => 14, 		471 => 15, 		623 => 16, 		635 => 16, 		631 => 17, 		755 => 18, 		979 => 18, 		719 => 19, 		847 => 19, 		
-		743 => 20, 		935 => 20, 		823 => 21, 		827 => 21, 		871 => 22, 		701 => 23, 		757 => 23, 		687 => 24, 		981 => 24, 		733 => 25, 		749 => 25, 		699 => 26, 		885 => 26, 		695 => 27, 		
-		949 => 27, 		747 => 28, 		861 => 28, 		727 => 29, 		941 => 29, 		855 => 30, 		939 => 30, 		731 => 31, 		877 => 31, 		859 => 32, 		875 => 32, 		1367 => 33, 	1371 => 34, 	1387 => 35, 		
-		367 => 36, 		493 => 36, 		443 => 37, 		439 => 38, 		475 => 38, 		
+		127 => 1, 		191 => 2, 		253 => 2, 		319 => 3,
+		505 => 3, 		223 => 4, 		251 => 4, 		239 => 5, 		247 => 5, 		415 => 6, 		499 => 6, 		463 => 7, 		487 => 7, 		381 => 8, 		351 => 9, 		501 => 9, 		607 => 10, 		637 => 10, 		379 => 11,
+		445 => 11, 		671 => 12, 		375 => 13, 		477 => 13, 		431 => 14, 		491 => 14, 		471 => 15, 		623 => 16, 		635 => 16, 		631 => 17, 		755 => 18, 		979 => 18, 		719 => 19, 		847 => 19,
+		743 => 20, 		935 => 20, 		823 => 21, 		827 => 21, 		871 => 22, 		701 => 23, 		757 => 23, 		687 => 24, 		981 => 24, 		733 => 25, 		749 => 25, 		699 => 26, 		885 => 26, 		695 => 27,
+		949 => 27, 		747 => 28, 		861 => 28, 		727 => 29, 		941 => 29, 		855 => 30, 		939 => 30, 		731 => 31, 		877 => 31, 		859 => 32, 		875 => 32, 		1367 => 33, 	1371 => 34, 	1387 => 35,
+		367 => 36, 		493 => 36, 		443 => 37, 		439 => 38, 		475 => 38,
 
 		// 8 tones
-		255 => 1, 		383 => 2, 		509 => 2, 		639 => 3, 		447 => 4, 		507 => 4, 		479 => 5, 		503 => 5, 		495 => 6, 		831 => 7, 		
-		927 => 8, 		975 => 9, 		765 => 10, 		703 => 11, 		1013 => 11, 	763 => 12, 		893 => 12, 		735 => 13, 		1005 => 13, 	759 => 14, 		957 => 14, 		863 => 15, 		1003 => 15, 		943 => 16, 		
-		983 => 16, 		891 => 17, 		879 => 18, 		987 => 18, 		887 => 19, 		955 => 19, 		951 => 20, 		1375 => 21, 	1391 => 22, 	1711 => 22, 	1455 => 23, 	1399 => 24, 	1495 => 25, 		
-		1467 => 26, 	1463 => 27, 	1751 => 27, 	1755 => 28, 	751 => 29, 		989 => 29, 		
+		255 => 1, 		383 => 2, 		509 => 2, 		639 => 3, 		447 => 4, 		507 => 4, 		479 => 5, 		503 => 5, 		495 => 6, 		831 => 7,
+		927 => 8, 		975 => 9, 		765 => 10, 		703 => 11, 		1013 => 11, 	763 => 12, 		893 => 12, 		735 => 13, 		1005 => 13, 	759 => 14, 		957 => 14, 		863 => 15, 		1003 => 15, 		943 => 16,
+		983 => 16, 		891 => 17, 		879 => 18, 		987 => 18, 		887 => 19, 		955 => 19, 		951 => 20, 		1375 => 21, 	1391 => 22, 	1711 => 22, 	1455 => 23, 	1399 => 24, 	1495 => 25,
+		1467 => 26, 	1463 => 27, 	1751 => 27, 	1755 => 28, 	751 => 29, 		989 => 29,
 
 		// 9 tones
-		511 => 1, 		767 => 2, 		1021 => 2, 		895 => 3, 		1019 => 3, 		959 => 4, 		1015 => 4, 		991 => 5, 		
-		1007 => 5, 		1407 => 6, 		1471 => 7, 		1727 => 7, 		1503 => 8, 		1887 => 8, 		1519 => 9, 		1759 => 10, 	1775 => 11, 	1903 => 11, 	1911 => 12, 		
+		511 => 1, 		767 => 2, 		1021 => 2, 		895 => 3, 		1019 => 3, 		959 => 4, 		1015 => 4, 		991 => 5,
+		1007 => 5, 		1407 => 6, 		1471 => 7, 		1727 => 7, 		1503 => 8, 		1887 => 8, 		1519 => 9, 		1759 => 10, 	1775 => 11, 	1903 => 11, 	1911 => 12,
 
 		// 10 tones
-		1023 => 1, 		1535 => 2, 		1791 => 3, 		1919 => 4, 		1983 => 5, 		2015 => 6, 		
+		1023 => 1, 		1535 => 2, 		1791 => 3, 		1919 => 4, 		1983 => 5, 		2015 => 6,
 
 		// 11 tones
-		2047 => 1, 		
+		2047 => 1,
 
 		// 12 tones
 		4095 => 1
 	);
 
-	// these are the RING PRIMES (not the forte primes!) that have a Z. 
+	// these are the RING PRIMES (not the forte primes!) that have a Z.
 	// @todo ... um change the name of this
 	public static $forteZeds = array(83,101,139,209,107,283,179,205,151,233,313,295,457,111,123,119,231,187,221,183,237,215,235,219,407,467,411,435,365,347,437,363,429,427,619,717,159,249,287,399,317,377,303,489,335,485,591,359,461,615,807,605,599,629,663,669,679,667,723,671,631,755,979,367,493,443,439,475,863,1003,751,989);
 
@@ -175,7 +175,7 @@ class PitchClassSet extends PMTObject {
 		$intervals = $this->getInteriorIntervals($bits);
 		// create rotations of this set of intervals
 		$count = count($intervals);
-		for($i=0; $i<$count; $i++) {
+		for ($i=0; $i<$count; $i++) {
 			$rotations[] = $intervals;
 			array_push($intervals, array_shift($intervals));
 		}
@@ -183,7 +183,7 @@ class PitchClassSet extends PMTObject {
 		$inversion = \ianring\BitmaskUtils::reflectBitmask($bits);
 		$iIntervals = $this->getInteriorIntervals($inversion);
 		$count = count($iIntervals);
-		for($i=0; $i<$count; $i++) {
+		for ($i=0; $i<$count; $i++) {
 			$rotations[] = $iIntervals;
 			array_push($iIntervals, array_shift($iIntervals));
 		}
@@ -192,7 +192,7 @@ class PitchClassSet extends PMTObject {
 
 
 	/**
-	 * Drawing a line in the electrons here, declaring that our "isPrime" method will use the Ring method, which 
+	 * Drawing a line in the electrons here, declaring that our "isPrime" method will use the Ring method, which
 	 * produces identical results as the Rahn formula. Apologies to Forte.
 	 * @param  [type]  $bits [description]
 	 * @param  string  $algo [description]
@@ -205,10 +205,11 @@ class PitchClassSet extends PMTObject {
 
 	/**
 	 * returns the prime form of this PCS according to Forte's algorithm. Inversions are excluded as duplicates!
-	 * @return int 
+	 * @return int
 	 */
 	public function primeFormForte() {
-		if ($this->bits == 0) {return 0;}
+		if ($this->bits == 0) {
+return 0;}
 
 		$rotations = $this->getIntervalsOfAllInversionsAndRotations($this->bits);
 
@@ -270,11 +271,12 @@ class PitchClassSet extends PMTObject {
 	/**
 	 * returns the prime form of this PCS according to Rahn's algorithm
 	 * It has been proven by brute force that this algorithm produces the same results as primeFormRing()
-	 * 
+	 *
 	 * @see "The Interger Model Of Pitch", Basic Atonal Theory, John Rahn p.35 ISBN 0-02-873-160-3
 	 */
 	public function primeFormRahn() {
-		if ($this->bits == 0) {return 0;}
+		if ($this->bits == 0) {
+return 0;}
 
 		$bits = \ianring\BitmaskUtils::moveDownToRootForm($this->bits);
 
@@ -303,7 +305,8 @@ class PitchClassSet extends PMTObject {
 		}
 
 		usort($rotations, function($a, $b) {
-			if ($a == $b) {return 0;}
+			if ($a == $b) {
+return 0;}
 			$atones = \ianring\BitmaskUtils::bits2Tones($a);
 			$btones = \ianring\BitmaskUtils::bits2Tones($b);
 			for ($i = count($atones) - 1; $i>0; $i--) {
@@ -326,7 +329,8 @@ class PitchClassSet extends PMTObject {
 	 */
 	public function primeFormRing() {
 		// shortcut
-		if ($this->bits == 0) {return 0;}
+		if ($this->bits == 0) {
+return 0;}
 
 		$bits = \ianring\BitmaskUtils::moveDownToRootForm($this->bits);
 
@@ -353,7 +357,6 @@ class PitchClassSet extends PMTObject {
 			$bits = \ianring\BitmaskUtils::rotateBitmask($bits, 1, $first);
 		}
 
-
 		usort($rotations, function($a, $b) {
 			return $a > $b;
 		});
@@ -365,7 +368,7 @@ class PitchClassSet extends PMTObject {
 	 * @return array
 	 */
 	public function intervalVector() {
-		return \ianring\BitmaskUtils::spectrum($this->bits);		
+		return \ianring\BitmaskUtils::spectrum($this->bits);
 	}
 
 
@@ -399,11 +402,11 @@ class PitchClassSet extends PMTObject {
 	}
 
 	/**
-	 * When two prime forms have the same internal vector, and when one can not be reduced to the other 
+	 * When two prime forms have the same internal vector, and when one can not be reduced to the other
 	 * by inversion or transposition, they are said to be "Z-Related".
 	 *
 	 * This function will accept any set, whether it is prime or not. But it will only return the prime z-mate.
-	 * 
+	 *
 	 * Z-related sets are always in pairs. Isn't that interesting? That is a consequence of the 12-TET system. In other tuning systems,
 	 * Z-mates can occur in different groupings.
 	 *
@@ -429,7 +432,7 @@ class PitchClassSet extends PMTObject {
 
 		$same = array();
 		$all = range($minimum, 4095);
-		foreach($all as $s) {
+		foreach ($all as $s) {
 			// for every set in the power set, we perform some exclusions in the order of least to most complexity
 
 			// a z-mate will have the same pitch cardinality. If this one doesn't, keep looking
@@ -510,14 +513,14 @@ class PitchClassSet extends PMTObject {
 		$t = array();
 		$bits = $this->bits;
 		$t['T0'] = $bits;
-		for ($i=1;$i<12;$i++) {
+		for ($i=1; $i<12; $i++) {
 			$bits = \ianring\BitmaskUtils::rotateBitmask($bits, $direction = 1, $amount = 1);
 			$t['T' . $i] = $bits;
 		}
-		
+
 		$bits = \ianring\BitmaskUtils::reflectBitmask($this->bits);
 		$t['T0I'] = $bits;
-		for ($i=1;$i<12;$i++) {
+		for ($i=1; $i<12; $i++) {
 			$bits = \ianring\BitmaskUtils::rotateBitmask($bits, $direction = 1, $amount = 1);
 			$t['T' . $i . 'I'] = $bits;
 		}
@@ -526,7 +529,7 @@ class PitchClassSet extends PMTObject {
 
 	/**
 	 * The complement of a PCS is one where all the off bits are on, and the on bits are off.
-	 * This returns the complement in its prime form, aka an "abstract complement" (as opposed to a 
+	 * This returns the complement in its prime form, aka an "abstract complement" (as opposed to a
 	 * literal complement)
 	 * @see http://composertools.com/Theory/PCSets/PCSets7.htm
 	 * @return int
@@ -545,7 +548,7 @@ class PitchClassSet extends PMTObject {
 
 	/**
 	 * A scale whose interval vector has six unique digits is said to have the "deep scale" property.
-	 * @return bool 
+	 * @return bool
 	 */
 	public function isDeepScale() {
 		$v = $this->intervalVector();
@@ -559,7 +562,7 @@ class PitchClassSet extends PMTObject {
 	 */
 	public function hasMyhillProperty() {
 		$spectrum = $this->spectrum();
-		foreach($spectrum as $s) {
+		foreach ($spectrum as $s) {
 			if (count($s) != 2) {
 				return false;
 			}
@@ -569,8 +572,8 @@ class PitchClassSet extends PMTObject {
 
 
 	/**
-	 * @todo 
-	 * this should return true if this PCS has the property of maximal evenness. 
+	 * @todo
+	 * this should return true if this PCS has the property of maximal evenness.
 	 * maximal evenness is only true for one set for each cardinality; e.g. the tritone dyad, augmented triad,
 	 * diminished seventh, major pentatonic, whole tone scale, diatonic scale, octatonic scale, etc.
 	 * @return boolean true if this scale has maximal evenness
@@ -580,13 +583,13 @@ class PitchClassSet extends PMTObject {
 	}
 
 	/**
-	 * A voice leading transform is one where an integer transposition is applied to each member of the PCS. 
-	 * For example, consider the PCS of a major triad, [0,4,7]. We can transform that into a minor triad by 
+	 * A voice leading transform is one where an integer transposition is applied to each member of the PCS.
+	 * For example, consider the PCS of a major triad, [0,4,7]. We can transform that into a minor triad by
 	 * transposing the second tone down a semitone, so the 4 becomes a 3, and the result is [0,3,7].
 	 * The "voice leading transformation" in this case is [0,-1,0].
-	 * 
+	 *
 	 * @see http://dmitri.mycpanel.princeton.edu/files/publications/fourier.pdf
-	 * 
+	 *
 	 */
 	public function voiceLeadingTransform($transformation) {
 
@@ -603,17 +606,17 @@ class PitchClassSet extends PMTObject {
 	/**
 	 * returns the spectra of the PCS, as described by Krantz & Douthett.
 	 * @see http://archive.bridgesmathart.org/2005/bridges2005-255.pdf
-	 * 
+	 *
 	 * the 1th element in the array is the distinct lengths between "neighbours" (dupes removed).
 	 * the 2nd element is the distinct specific lengths between "next nearest neighbours" (two tones away)
-	 * the 3rd element is the distinct specific lengths between "next next nearest neighbours" (three tones away), and so on. 
-	 * So for a PCS with 7 tones, we can measure the distance to the next, next, next, next up to six times to find the 
+	 * the 3rd element is the distinct specific lengths between "next next nearest neighbours" (three tones away), and so on.
+	 * So for a PCS with 7 tones, we can measure the distance to the next, next, next, next up to six times to find the
 	 * distance to its farthest neighbour. Thus a 7 tone PCS will have 6 elements in its spectrum.
 	 *
 	 * In the literature, this is notated like:
 	 *     <1> = {1,6}
 	 *     <2> = {2,7}
-	 * 
+	 *
 	 * for example, the spectrum for the major scale is this:
 	 * array(
 			1 => array(1,2),
@@ -662,7 +665,7 @@ class PitchClassSet extends PMTObject {
 	public function isCoherent() {
 		$spectrum = $this->spectrum();
 		$maxSpecificInterval = 0;
-		foreach($spectrum as $g=>$s) {
+		foreach ($spectrum as $g => $s) {
 			if (min($s) <= $maxSpecificInterval) {
 				return false;
 			}
@@ -674,20 +677,20 @@ class PitchClassSet extends PMTObject {
 	/**
 	 * returns the spectrum widths for a PCS. Spectrum widths are used to calculate the "evenness" of pitch distribution.
 	 * The "spectrum width" is the difference between the largest and smallest member of the spectrum I.
-	 * 
+	 *
 	 * In the literature, This width is notated as a "delta", ∆
-	 * So for example if the spectrum is 
+	 * So for example if the spectrum is
 	 *     <1> = {1,3,4}
 	 *     <2> = {4,5,6}
 	 * Then we would describe the spectrum widths thusly:
 	 *     ∆(1) = 3
 	 *     ∆(2) = 2
-	 * 
+	 *
 	 */
 	public function spectrumWidth() {
 		$spectrum = $this->spectrum();
 		$output = array();
-		foreach($spectrum as $len => $spec) {
+		foreach ($spectrum as $len => $spec) {
 			$max = max($spec);
 			$min = min($spec);
 			$output[$len] = $max - $min;
@@ -697,7 +700,8 @@ class PitchClassSet extends PMTObject {
 
 	public function spectraVariation() {
 		$countOnBits = \ianring\BitmaskUtils::countOnBits($this->bits);
-		if ($countOnBits == 0) {return 0;}
+		if ($countOnBits == 0) {
+return 0;}
 		$totalwidths = array_sum($this->spectrumWidth());
 		return $totalwidths / $countOnBits;
 	}
@@ -708,7 +712,7 @@ class PitchClassSet extends PMTObject {
 	 */
 	public function isMaximallyEven() {
 		$spectrum = $this->spectrumWidth();
-		foreach($spectrum as $s) {
+		foreach ($spectrum as $s) {
 			if ($s > 1) {
 				return false;
 			}
@@ -717,15 +721,15 @@ class PitchClassSet extends PMTObject {
 	}
 
 	/**
-	 * A scale or PCS is "well-formed" if it can be created by a "generator" consisting of an interval, and an interval of equivalence (which 
+	 * A scale or PCS is "well-formed" if it can be created by a "generator" consisting of an interval, and an interval of equivalence (which
 	 * is usually an octave, or 12). For example, the Locrian scale can be created by fifths: C,G,D,A,E,B,F#. Therefore it is well-formed.
 	 *
-	 * Note: it is usual that a generator interval and the interval of equivalence will be coprime. There is also such a thing as a 
-	 * "degenerate" well-formed scale, which is a scale where all the steps are the same distance. For example: chromatic, whole-tone, dim7, 
+	 * Note: it is usual that a generator interval and the interval of equivalence will be coprime. There is also such a thing as a
+	 * "degenerate" well-formed scale, which is a scale where all the steps are the same distance. For example: chromatic, whole-tone, dim7,
 	 * aug triad, tritone dyad. What makes a degenerate scale different from other well-formed scales is that the generator interval doesn't
 	 * "wrap around" the interval of equivalence; the stack of generator intervals is all contained within one octave. In a non-degenerate well-formed
 	 * scale, the stack of generator intervals exceeds the interval of equivalence.
-	 * 
+	 *
 	 * @return boolean [description]
 	 */
 	public function isWellFormed() {
@@ -757,7 +761,7 @@ class PitchClassSet extends PMTObject {
 
 		// which members of the set are in the subset?
 		$setMemberIndices = array();
-		foreach($subsetTones as $i=>$val) {
+		foreach ($subsetTones as $i => $val) {
 			$result = array_search($val, $setTones);
 			if (false !== $result) {
 				$setMemberIndices[] = $result;
@@ -767,28 +771,28 @@ class PitchClassSet extends PMTObject {
 
 		// now we have the scale steps that are on; we need to rotate these to get the scalar transposition
 		$transposedTones = array();
-		foreach($setMemberIndices as $i=>$s) {
+		foreach ($setMemberIndices as $i => $s) {
 			$newscalar = \ianring\PMTObject::_truemod($s + $interval, count($setTones));
 			$transposedTones[] = $setTones[$newscalar];
 		}
-		
+
 		return $transposedTones;
 	}
 
 
 	/**
 	 * we get all the scalar transpositions of a subset within a set. For example, let's say we're in the context of a major scale (2741).
-	 * Our subset might be a three-note line [C,D,E] (21). 
+	 * Our subset might be a three-note line [C,D,E] (21).
 	 * First of all, if the subset is not an actual subset of the set, what we're asking for is invalid so it returns false.
 	 * This function should return the series: [C,D,E],[D,E,F],[E,F,G] etc. up to [B,C,D]
-	 * 
+	 *
 	 * @param  [type] $set    [description]
 	 * @param  [type] $subset [description]
 	 * @return [type]         [description]
 	 */
 	public static function getScalarTranspositions($set, $subset) {
 		$transpositions = array();
-		for($i=0; $i<\ianring\BitmaskUtils::countOnBits($set); $i++) {
+		for ($i=0; $i<\ianring\BitmaskUtils::countOnBits($set); $i++) {
 			$transpositions[] = self::scalarTranspose($set, $subset, $i);
 		}
 		return $transpositions;
@@ -823,30 +827,30 @@ class PitchClassSet extends PMTObject {
 	}
 
 	/**
-	 * Cardinality equals variety for a set, if you can choose any N members of the set, and the number of different interval patterns 
+	 * Cardinality equals variety for a set, if you can choose any N members of the set, and the number of different interval patterns
 	 * between the notes in that subset and all SCALAR TRANSPOSITIONS of that subset is also N.
-	 * 
+	 *
 	 * For example, say your pitch class set is the diatonic major scale. [C,D,E,F,G,A,B]
 	 * You can choose any N notes, so if N is 3 we could choose the subset [C,E,F].
 	 * The scalar transpositions are not the same as chromatic transpositions. A chromatic transposition would be [C#,E#,F#], whereas a
 	 * scalar transposition up one step from [C,E,F] is [D,F,G] - the tones are all within the steps of the scale (or set).
-	 * 
+	 *
 	 * We look at the interval patterns present between the notes for all scalar transpositions. In the case of a diatonic scale, we'll
-	 * find there are 3 different patterns: [M3,m2], [m3,M2], [m3,M2]. Since there are 3 interval patterns and the cardinality of the set 
+	 * find there are 3 different patterns: [M3,m2], [m3,M2], [m3,M2]. Since there are 3 interval patterns and the cardinality of the set
 	 * is also 3, we can assert that for THIS SUBSET the diatonic scale, CARDINALITY EQUALS VARIETY.
 	 *
 	 * If a set exhibits this behaviour for all the possible subsets, then the whole set has the "Cardinality Equals Variety" property.
 	 *
-	 * Some texts also mention the third interval between the last and first note, e.g. [M3,m2,P5] because there's a perfect 5 between the 
+	 * Some texts also mention the third interval between the last and first note, e.g. [M3,m2,P5] because there's a perfect 5 between the
 	 * F and C. Since that last "wrap around" interval is just 12 minus the sum of the others, wen can omit it without any ill effects.
-	 * 
-	 * As a counter-example, look at the whole tone scale. Because of its total symmetry it will have the same pattern of intervals for all 
-	 * scalar transpositions of any subset; the variety will always be 1 regardless of the cardinality. Therefore this function will return 
+	 *
+	 * As a counter-example, look at the whole tone scale. Because of its total symmetry it will have the same pattern of intervals for all
+	 * scalar transpositions of any subset; the variety will always be 1 regardless of the cardinality. Therefore this function will return
 	 * false for the whole tone scale.
 	 *
-	 * Since this is an "is it true" function, we can exit early with FALSE if any combination is found where C!=V. But in those rare cases 
+	 * Since this is an "is it true" function, we can exit early with FALSE if any combination is found where C!=V. But in those rare cases
 	 * where it is true, we may need to do a lot of calculations to return a TRUE.
-	 * 
+	 *
 	 * @return boolean returns true if cardinality equals variety for this set
 	 */
 	public static function cardinalityEqualsVariety($set) {
@@ -879,7 +883,7 @@ class PitchClassSet extends PMTObject {
 	/**
 	 * This one creates all the different patterns that can be made from a set of X things, omitting any that are duplicates
 	 * by rotation. This is the set of patterns that we look at to compute all the different cases for cardinaltiyEqualsVariety.
-	 * 
+	 *
 	 * @param  [type] $set [description]
 	 * @return [type]      [description]
 	 */
@@ -888,7 +892,7 @@ class PitchClassSet extends PMTObject {
 
 		$powerset = pow(2, $cardinality);
 		$possibilities = array();
-		for ($i=0;$i<$powerset;$i++) {
+		for ($i=0; $i<$powerset; $i++) {
 			$possibilities[$i] = true; // true means it's a pattern that needs to be tested
 		}
 
@@ -911,9 +915,9 @@ class PitchClassSet extends PMTObject {
 
 
 	/**
-	 * Like cardinalityEqualsVariety, this property of a scale also pays attention to the interval pattern between scalar transpositions of 
-	 * a subset of a pitch class set. 
-	 * 
+	 * Like cardinalityEqualsVariety, this property of a scale also pays attention to the interval pattern between scalar transpositions of
+	 * a subset of a pitch class set.
+	 *
 	 * Take for example the major scale [C,D,E,F,G,A,B], and we take a subset [C,D,E].
 	 * First we figure out all the interval patterns present in the subset and all its scalar transpositions:
 	 * [M2,M2],[M2,m2],[m2,M2],[M2,M2],[M2,M2],[M2,m2],[m2,M2]
@@ -925,16 +929,16 @@ class PitchClassSet extends PMTObject {
 	 * ^ That is the "multiplicity".
 	 *
 	 * Structure is the measurement of intervals in relation to the circle of fifths.
-	 * Taking our subset [C,D,E], if we measure their distance around the circle of fifths, 
+	 * Taking our subset [C,D,E], if we measure their distance around the circle of fifths,
 	 * the distance between C and D is 2. (C -> G -> D)
 	 * the distance between D and E is also 2. (D -> A -> E)
-	 * 
+	 *
 	 * That the distance between C and E is 3 seems unintuitive, but we are working with a cyclic circle of fifths that doesn't
-	 * contain all 12 equal-temepered tones! Our circle goes [C,G,D,A,E,B,F], and thus the shortest distance 
+	 * contain all 12 equal-temepered tones! Our circle goes [C,G,D,A,E,B,F], and thus the shortest distance
 	 * between C and E is not 4 (going clockwise), it is 3 (going widdershins from E to C).
 	 * This, to me, seems like sleight-of-hand to get the result we're after, but that's literally what the theory prescribes.
 	 * That collection of 5th-intervals [3,2,2] is the Structure.
-	 * 
+	 *
 	 * Since the Structure [3,2,2] is the same as the multiplicity [3,2,2], we can say that "Structure Implies Multiplicity" is TRUE.
 	 *
 	 * @see  Foundations of Diatonic Theory: A Mathematically Based Approach to Music Fundamentals by Timothy A. Johnson. Scarecrow Press 2008. ISBN 0810862336, 9780810862333.
@@ -942,6 +946,21 @@ class PitchClassSet extends PMTObject {
 	 */
 	public function structureImpliesMultiplicity() {
 
+	}
+
+
+	/**
+	 * performs multiplicative transformation.
+	 * @param  [type] $multiplicand [description]
+	 * @return [type]               [description]
+	 */
+	public function multiply($multiplicand) {
+		$tones = $this->tones();
+		$newtones = array();
+		foreach ($tones as $tone) {
+			$newtones[] = (($tone * $multiplicand) % 12);
+		}
+		$this->bits = \ianring\BitmaskUtils::tones2Bits($newtones);
 	}
 
 }

@@ -1626,5 +1626,185 @@ class PitchClassSetTest extends PHPMusicToolsTest
 	}
 
 
+	/**
+	 * @dataProvider provider_multiply
+	 */
+	public function test_multiply($set, $multiplicand, $expected) {
+		$pcs = new \ianring\PitchClassSet($set);
+		$pcs->multiply($multiplicand);
+		$actual = $pcs->bits;
+		$this->assertEquals($expected, $actual);
+	}
+	public function provider_multiply() {
+		return array(
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(0,1,2,3)),
+				'multiplicand' => 7,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(0,7,2,9))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(0)),
+				'multiplicand' => 7,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(0))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(1)),
+				'multiplicand' => 7,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(7))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(2)),
+				'multiplicand' => 7,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(2))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(3)),
+				'multiplicand' => 7,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(9))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(4)),
+				'multiplicand' => 7,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(4))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(5)),
+				'multiplicand' => 7,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(11))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(6)),
+				'multiplicand' => 7,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(6))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(7)),
+				'multiplicand' => 7,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(1))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(8)),
+				'multiplicand' => 7,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(8))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(9)),
+				'multiplicand' => 7,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(3))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(10)),
+				'multiplicand' => 7,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(10))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(11)),
+				'multiplicand' => 7,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(5))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(0,1,2,3,4)),
+				'multiplicand' => 5,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(0,5,10,3,8))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(0)),
+				'multiplicand' => 5,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(0))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(1)),
+				'multiplicand' => 5,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(5))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(2)),
+				'multiplicand' => 5,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(10))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(3)),
+				'multiplicand' => 5,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(3))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(4)),
+				'multiplicand' => 5,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(8))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(5)),
+				'multiplicand' => 5,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(1))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(6)),
+				'multiplicand' => 5,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(6))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(7)),
+				'multiplicand' => 5,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(11))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(8)),
+				'multiplicand' => 5,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(4))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(9)),
+				'multiplicand' => 5,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(9))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(10)),
+				'multiplicand' => 5,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(2))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(11)),
+				'multiplicand' => 5,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(7))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(5)),
+				'multiplicand' => 1,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(5))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(5)),
+				'multiplicand' => 2,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(10))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(5)),
+				'multiplicand' => 3,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(3))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(5)),
+				'multiplicand' => 4,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(8))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(5)),
+				'multiplicand' => 5,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(1))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(5)),
+				'multiplicand' => 6,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(6))
+			),
+			array(
+				'set' => \ianring\BitmaskUtils::tones2Bits(array(5)),
+				'multiplicand' => 7,
+				'expected' => \ianring\BitmaskUtils::tones2Bits(array(11))
+			),
+
+		);
+	}
+
 }
 

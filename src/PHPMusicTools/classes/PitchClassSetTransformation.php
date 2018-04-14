@@ -35,7 +35,7 @@ class PitchClassSetTransformation extends PMTObject {
 	public static function constructFromString($str) {
 		$str = strtoupper($str);
 		$i = substr($str, -1) == 'I';
-		
+
 		preg_match('/^T[0-9]{1,}/', $str, $matches);
 //		print_r($matches);
 		$r = $matches[0];

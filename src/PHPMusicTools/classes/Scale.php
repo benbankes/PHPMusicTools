@@ -234,7 +234,7 @@ class Scale extends PMTObject
 		1709 => array("Dorian","Greek Phrygian","Medieval Dorian","Medieval Hypomixolydian","Kafi That","Kafi Theta","Mela Kharaharapriya","Raga Bageshri","Bhimpalasi","Nayaki Kanada","Sriraga","Ritigaula","Huseni","Kanara","Mischung 5","Gregorian nr.8","Eskimo Heptatonic","Yu","Hyojo","Oshikicho","Banshikicho","Nam"),
 		1711 => array("Adonai Malakh","Jewish"),
 		1713 => array("Raga Khamas","Desya Khamas","Bahudari"),
-		1715 => array("Harmonic Minor inverse","Mela Cakravaka","Mela Chakravakam","Raga Ahir Bhairav","Bindumalini","Vegavahini","Makam Hicaz","Zanjaran"),		
+		1715 => array("Harmonic Minor inverse","Mela Cakravaka","Mela Chakravakam","Raga Ahir Bhairav","Bindumalini","Vegavahini","Makam Hicaz","Zanjaran"),
 		1717 => array("Mixolydian","Greek Hypophrygian","Greek Ionian","Greek Iastian","Medieval Mixolydian","Greek Medieval Hypoionian","Hypermixolydian","Khamaj That","Khamaj Theta","Mela Harikambhoji","Raga Harini","Janjhuti","Khambhavati","Surati","Balahamsa","Devamanohari","Mischung 3","Gregorian nr.7","Enharmonic Byzantine Liturgical","Rast descending","Ching","Shang"),
 		1721 => array("Mela Vagadhisvari","Raga Bhogachayanata","Nandkauns","Ganavaridhi","Chayanata","Bluesy Rock 'n Roll"),
 		1723 => array("JG Octatonic"),
@@ -610,7 +610,7 @@ class Scale extends PMTObject
 	 */
 	public function normalizeScalePitches($pitches) {
 		if ($this->isHeliotonic()) {
-			// first priority rule is that a heliotonic scale - which CAN be represented with 
+			// first priority rule is that a heliotonic scale - which CAN be represented with
 			// a note on every step, MUST be notated that way. Even if there are lots of accidentals.
 			$currentStep = $pitches[0]->step;
 			for ($i = 1; $i < count($pitches); $i++) {
@@ -639,7 +639,7 @@ class Scale extends PMTObject
 		}
 
 		// rule: a minor third should be more favoured than an augmented second
-		// 
+		//
 		// in fact, any major or minor interval should be preferred instead of an augmented or diminished one
 
 		return $pitches;
@@ -1231,8 +1231,8 @@ class Scale extends PMTObject
 
 	/**
 	 * see section 3.3 of http://composertools.com/Theory/PCSets.pdf
-	 * 
-	 * returns the prime form of this scale, as a 
+	 *
+	 * returns the prime form of this scale, as a
 	 */
 	public function primeForm() {
 		$pcs = new PitchClassSet($this->scale);
@@ -1248,11 +1248,11 @@ class Scale extends PMTObject
 	}
 
 	/**
-	 * Scales that share the same interval spectrum but are not transpositionally related nor inversionally related are called Z-related, also 
+	 * Scales that share the same interval spectrum but are not transpositionally related nor inversionally related are called Z-related, also
 	 * called isomeric relation. For example, a major triad and minor triad have the same interval content, but you can't
-	 * transform one into the other by rotation or inversion. Therefore, they are Z-related. 
+	 * transform one into the other by rotation or inversion. Therefore, they are Z-related.
 	 *
-	 * This method should return all the Z-related scales 
+	 * This method should return all the Z-related scales
 	 */
 	public function zRelated() {
 

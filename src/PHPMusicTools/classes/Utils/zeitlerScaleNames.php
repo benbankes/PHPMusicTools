@@ -1,6 +1,6 @@
 <?php
 // These scale names were conceived and published by William Zeitler, at http://allthescales.org
-// reproduced here with permission for use in this toolset. If you are using these names in a 
+// reproduced here with permission for use in this toolset. If you are using these names in a
 // published context, please obtain permission and/or attribute them appropriately.
 
 $zeitler = array(

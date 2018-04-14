@@ -80,13 +80,13 @@ class ScaleVisualizer extends Scale
 			$scale = new Scale($scale);
 		}
 		$tones = $scale->getTones();
-		return '{' . implode(',', $tones) . '}';	
+		return '{' . implode(',', $tones) . '}';
 	}
 
 	public static function distributionSpectrum($spectrum) {
 	 	$str = '';
 	 	foreach ($spectrum as $key => $value) {
-	 		$str .= '&lt;'.$key.'&gt; = {'.implode(',',$value).'}<br/>';
+	 		$str .= '&lt;'.$key.'&gt; = {'.implode(',', $value).'}<br/>';
 	 	}
 	 	return $str;
 	}

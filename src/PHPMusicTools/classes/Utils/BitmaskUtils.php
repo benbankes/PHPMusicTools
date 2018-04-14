@@ -34,7 +34,8 @@ class BitmaskUtils
 	 */
     public static function tones2Bits($tones) {
     	$bits = 0;
-    	if (empty($tones)) {return 0;}
+    	if (empty($tones)) {
+return 0;}
     	foreach ($tones as $tone) {
     		$bits += pow(2, $tone);
     	}
@@ -99,7 +100,7 @@ class BitmaskUtils
 	 */
 	public static function allRotationsOf($set, $base = 12) {
 		$rotations = array();
-		for($i=0; $i<$base; $i++) {
+		for ($i=0; $i<$base; $i++) {
 			$rotations[] = self::rotateBitmask($set, 1, $i, $base);
 		}
 		return $rotations;
@@ -155,11 +156,11 @@ class BitmaskUtils
 	}
 
 	/**
-	 * Maps a scalar bitmask to a set. For example, if the set is the major scale [0,2,4,5,7,9,11], and the tones are the 
+	 * Maps a scalar bitmask to a set. For example, if the set is the major scale [0,2,4,5,7,9,11], and the tones are the
 	 * tonic triad [0,2,4]. We return the specific tones from the set corresponding to the scale steps: [0,4,7].
 	 * it's important to note that the tones and set can be in a base other than 12. The maximum step in the scale can't be
 	 * larger than the length of the set.
-	 * 
+	 *
 	 * @param  array $tones the scalar (generic) tones
 	 * @param  array $set   the specific tones
 	 * @return array        [description]
@@ -171,7 +172,7 @@ class BitmaskUtils
 			return false;
 		}
 		$output = array();
-		foreach($tonesArray as $t) {
+		foreach ($tonesArray as $t) {
 			$output[] = $setArray[$t];
 		}
 		return self::tones2Bits($output);
@@ -180,7 +181,7 @@ class BitmaskUtils
 
 	/**
 	 * returns true if $b1 is a rotation of $b2
-	 * @param  $b1 
+	 * @param  $b1
 	 * @param  $b2
 	 * @return boolean
 	 */
@@ -199,7 +200,7 @@ class BitmaskUtils
 	 * NOTE this will return true if the two sets are the same!
 	 * @param  $subset
 	 * @param  $set
-	 * @return boolean 
+	 * @return boolean
 	 */
 	public static function isSubsetOf($subset, $set) {
 		return 0 == ($subset & (~$set));
