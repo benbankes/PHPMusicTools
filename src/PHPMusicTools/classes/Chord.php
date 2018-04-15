@@ -83,8 +83,7 @@ class Chord extends PMTObject
 
 
     function clear() {
-        $this->notes[] = array();
-
+        $this->notes = array();
     }
 
 

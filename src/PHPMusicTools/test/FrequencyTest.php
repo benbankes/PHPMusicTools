@@ -59,8 +59,38 @@ class FrequencyTest extends PHPMusicToolsTest {
 				'fuzz' => 0.001,
 				'expected' => null
 			),
+			'just one frequency' => array(
+				'fz' => array(7374),
+				'max' => 30,
+				'fuzz' => 0.001,
+				'expected' => 7374
+			),
+			'not an array' => array(
+				'fz' => 7374,
+				'max' => 30,
+				'fuzz' => 0.001,
+				'expected' => 7374
+			),
 		);
 	}
 
+
+	/**
+	 * @dataProvider provider_getHarmonic
+	 */
+	public function test_getHarmonic($fz, $h, $expected){
+		$f = new \ianring\Frequency($fz);
+		$actual = $f->getHarmonic($h);
+		$this->assertEquals($expected, $actual);
+	}
+	public function provider_getHarmonic() {
+		return array(
+			array(
+				'fz' => 30,
+				'h' => 2,
+				'expected' => 60
+			),
+		);
+	}
 
 }

@@ -12,6 +12,13 @@ require_once 'PMTObject.php';
 class Frequency extends PMTObject
 {
 
+	/**
+	 * constructor
+	 * @param int $frequency  in Hertz
+	 */
+	public function __construct($frequency) {
+		$this->frequency = $frequency;
+	}
 
 	/**
 	 *
@@ -20,7 +27,7 @@ class Frequency extends PMTObject
 	 */
 	public function getHarmonic($n) {
 		if (!is_integer($n) || $n < 0) {
-			throw new Error('harmonic must be a positive integer');
+			throw new Exception('harmonic must be a positive integer');
 		}
 		return $this->frequency * $n;
 	}

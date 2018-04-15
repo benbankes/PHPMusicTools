@@ -225,6 +225,19 @@ class ChordTest extends PHPMusicToolsTest
 	}
 
 
+	public function test_clear() {
+		$chord = \ianring\Chord::constructFromArray(array(
+			'notes' => array(
+				array('pitch' => array('step' => 'A', 'alter' => -1, 'octave' => 3)),
+				array('pitch' => array('step' => 'C', 'alter' => -1, 'octave' => 4)),
+				array('pitch' => array('step' => 'E', 'alter' => -1, 'octave' => 4))
+			)
+		));
+		$chord->clear();
+		$this->assertEquals($chord->notes, array());
+	}
+
+
 	/**
 	 * @dataProvider provider_toVexFlow
 	 */
@@ -322,6 +335,18 @@ class ChordTest extends PHPMusicToolsTest
 				)),			
 				'expected' => 'diminished flat 3'
 			),
+
+			'unknown' => array(
+				'chord' => \ianring\Chord::constructFromArray(array(
+					'notes' => array(
+						array('pitch' => array('step' => 'B', 'alter' => 0, 'octave' => 3)),
+						array('pitch' => array('step' => 'C', 'alter' => 1, 'octave' => 4)),
+						array('pitch' => array('step' => 'D', 'alter' => 0, 'octave' => 4))
+					)
+				)),			
+				'expected' => null
+			),
+
 		);
 	}
 

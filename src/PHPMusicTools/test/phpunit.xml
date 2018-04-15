@@ -14,21 +14,25 @@
 		<testsuite name='PHPMusicTools'>
 			
 			<file>AccidentalTest.php</file>			
+			<file>ArticulationTest.php</file>			
 			<file>BarlineTest.php</file>			
+			<file>BitmaskUtilsTest.php</file>	
 			<file>ChordNameTest.php</file>
 			<file>ChordTest.php</file>
 			<file>ClefTest.php</file>
 			<file>DirectionTest.php</file>
+			<file>FrequencyTest.php</file>
 			<file>LayerTest.php</file>
 			<file>MeasureTest.php</file>
 			<file>NoteTest.php</file>
 			<file>PartTest.php</file>
-			<file>PitchTest.php</file>
 			<file>PitchClassSetTest.php</file>
+			<file>PitchTest.php</file>
 			<file>PMTObjectTest.php</file>
 			<file>ScaleTest.php</file>
 			<file>ScoreTest.php</file>
 			<file>TimeTest.php</file>
+			<file>ToneRowTest.php</file>
 			
 		</testsuite>
 	

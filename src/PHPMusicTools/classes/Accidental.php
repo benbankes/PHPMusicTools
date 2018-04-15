@@ -29,7 +29,8 @@ class Accidental extends PMTObject {
 	);
 
 	/**
-	 * @var  array  $types         the types of accidentals
+	 * @var  array  $types  the types of accidentals
+	 * @see  https://usermanuals.musicxml.com/MusicXML/Content/ST-MusicXML-accidental-value.htm
 	 */
 	public static $types = array(
 		'sharp',
@@ -45,6 +46,28 @@ class Accidental extends PMTObject {
 		'quarter-sharp',
 		'three-quarters-flat',
 		'three-quarters-sharp',
+    	'sharp-down',
+    	'sharp-up',
+    	'natural-down',
+    	'natural-up',
+    	'flat-down',
+    	'flat-up',
+    	'triple-sharp',
+    	'triple-flat',
+    	'slash-quarter-sharp',
+    	'slash-sharp',
+    	'slash-flat',
+    	'double-slash-flat',
+    	'sharp-1',
+    	'sharp-2',
+    	'sharp-3',
+    	'sharp-5',
+    	'flat-1',
+    	'flat-2',
+    	'flat-3',
+    	'flat-4',
+    	'sori',
+    	'koron',
 	);
 
 
@@ -120,6 +143,7 @@ class Accidental extends PMTObject {
 	function toMusicXML() {
 		$out  = '';
 		$out .= '<accidental';
+
 		$out .= '/>';
 		return $out;
 	}
@@ -135,5 +159,16 @@ class Accidental extends PMTObject {
         return $map[$alter];
     }
 
+    public function toLilypond($alter) {
+        $map = array(
+            -2 => 'eses',
+            -1 => 'es',
+            0 => '',
+            1 => 'is',
+            2 => 'isis'
+        );
+        return $map[$alter];
+
+    }
 
 }

@@ -237,8 +237,48 @@ class BitmaskUtilsTest extends PHPMusicToolsTest
 				'set' => 2741,
 				'expected' => 145
 			),
+			'too many steps for set' => array(
+				'tones' => 127,
+				'set' => 181,
+				'expected' => false
+			),
 		);
 	}
+
+
+	/**
+	 * @dataProvider provider_isRotationOf
+	 */
+	public function test_isRotationOf($a, $b, $expected) {
+		$actual = \ianring\BitmaskUtils::isRotationOf($a, $b);
+		$this->assertEquals($actual, $expected);
+	}
+	public function provider_isRotationOf() {
+		return array(
+			array(
+				'a' => 127,
+				'b' => 3103,
+				'expected' => true
+			),
+			array(
+				'a' => 3103,
+				'b' => 127,
+				'expected' => true
+			),
+			array(
+				'a' => 127,
+				'b' => 127,
+				'expected' => true
+			),
+			array(
+				'a' => 3103,
+				'b' => 2591,
+				'expected' => false
+			),
+		);
+	}
+
+
 
 
 }
