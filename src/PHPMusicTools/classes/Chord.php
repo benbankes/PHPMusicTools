@@ -1,19 +1,19 @@
 <?php
-namespace ianring;
-require_once 'PMTObject.php';
-require_once 'Note.php';
-
 /**
- * Chord is a collection of notes that share the same stem, and which are sounded simultaneously.
+ * Chord is a collection of notes that are sounded simultaneously, and which may share the same stem.
  *
  * @package ianring/PHPMusicTools
  * @author  Ian Ring <httpwebwitch@gmail.com>
  */
+
+namespace ianring;
+require_once 'PMTObject.php';
+require_once 'Note.php';
+
 class Chord extends PMTObject
 {
 
     public $notes = array();
-
 
     /**
      * Constructor

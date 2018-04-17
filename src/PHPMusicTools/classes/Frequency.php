@@ -1,11 +1,19 @@
 <?php
 /**
+ * Frequency Class
+ *
+ * Frequency is a measurement of vibrations over time.
+ *
  * Whilst a Pitch represents the conceptual notion of a sound's height, the frequency is a
  * specific scientific property of something's vibration, as measured in Hertz (cycles per second).
  *
  * The same pitch, for example the A above middle C, might have different frequency in different
  * tuning systems. This class encapulates methods that let us play with frequencies.
+ * 
+ * @package      PHPMusicTools
+ * @author       Ian Ring <httpwebwitch@email.com>
  */
+
 namespace ianring;
 require_once 'PMTObject.php';
 

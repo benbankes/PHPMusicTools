@@ -1,10 +1,16 @@
 <?php
+/**
+ * Direction Class
+ *
+ * Direction is extra information added to a score to instruct the performer how to interpret the score
+ *
+ * @package      PHPMusicTools
+ * @author       Ian Ring <httpwebwitch@email.com>
+ */
+
 namespace ianring;
 require_once 'PMTObject.php';
 
-/**
- * Direction is extra information added to a score to instruct the performer how to interpret the score
- */
 class Direction extends PMTObject
 {
 

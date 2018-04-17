@@ -5,7 +5,7 @@ require_once 'PMTObject.php';
 class LilypondObject extends PMTObject {
 
 	public $text = '';
-	const LILYPOND_TEMP_FOLDER = '/var/www/html/ianring.com/lilytemp';
+	const LILYPOND_TEMP_FOLDER = __DIR__ . '/lilytemp';
 
 	public function set($text) {
 		$this->text = $text;

@@ -1,10 +1,16 @@
 <?php
+/**
+ * Clef Class
+ *
+ * Clef is a symbol which defines which pitches are mapped to the five staff lines.
+ *
+ * @package      PHPMusicTools
+ * @author       Ian Ring <httpwebwitch@email.com>
+ */
+
 namespace ianring;
 require_once 'PMTObject.php';
 
-/**
- * Clef is a symbol which defines which pitches are mapped to the five staff lines.
- */
 class Clef extends PMTObject
 {
 

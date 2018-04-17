@@ -272,6 +272,11 @@ class ToneRowTest extends PHPMusicToolsTest
 				'multiplicand' => 7,
 				'expected' => array(0,7,2,9,4,11,6,1,8,3,10,5)
 			),
+			array(
+				'row' => array(0,1,2,3,4,5),
+				'multiplicand' => 7,
+				'expected' => array(0,7,2,9,4,11)
+			),
 		);
 	}
 

@@ -25,9 +25,10 @@ class BarlineTest extends PHPMusicToolsTest
 		);
 	}
 	
-	public function test_constructFromArray(){
-		$input = $this->sample();
-
+	/**
+	 * @dataProvider provider_constructFromArray
+	 */
+	public function test_constructFromArray($input){
 		$barline = \ianring\Barline::constructFromArray($input);
 
 		$this->assertObjectHasAttribute('location', $barline);
@@ -48,6 +49,45 @@ class BarlineTest extends PHPMusicToolsTest
 		$this->assertEquals('left', $barline->repeat->direction);
 		$this->assertEquals(true, $barline->repeat->winged);
 
+	}
+
+	public function provider_constructFromArray() {
+		return array(
+			array(
+				'input' => array(
+					'location' => 1,
+					'barStyle' => 'double',
+					'footnote' => 'wtf',
+					'ending' => \ianring\BarlineEnding::constructFromArray(
+						array(
+							'number' => 12,
+							'type' => 'final'
+						)
+					),
+					'repeat' => \ianring\BarlineRepeat::constructFromArray(
+						array(
+							'direction' => 'left',
+							'winged' => true
+						)
+					)
+				)
+			),
+			array(
+				'input' => array(
+					'location' => 1,
+					'barStyle' => 'double',
+					'footnote' => 'wtf',
+					'ending' => array(
+						'number' => 12,
+						'type' => 'final'
+					),
+					'repeat' => array(
+						'direction' => 'left',
+						'winged' => true
+					)
+				)
+			),
+		);
 	}
 
 

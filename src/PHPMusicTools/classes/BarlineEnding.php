@@ -1,10 +1,16 @@
 <?php
+/**
+ * BarlineEnding Class
+ *
+ * BarlineEnding is a notation for the final bar in a repeated section.
+ *
+ * @package      PHPMusicTools
+ * @author       Ian Ring <httpwebwitch@email.com>
+ */
+
 namespace ianring;
 require_once 'PMTObject.php';
 
-/**
- * BarlineEnding is a notation for the final bar in a repeated section
- */
 class BarlineEnding extends PMTObject
 {
 

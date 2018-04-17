@@ -1,8 +1,7 @@
 <?php
-namespace ianring;
-require_once 'PMTObject.php';
-
 /**
+ * Key Class
+ * 
  * Key is a concept which describes the root and pitches used in diatonic harmony.
  * To be congruent with the definition of a key in MusicXML, this class has the properties
  * "fifths", which is basically how mant fifths above or below C the key is, aka how many
@@ -13,7 +12,14 @@ require_once 'PMTObject.php';
  * Please beware the difference between a major/minor Key, and a major or minor Scale. Key is for
  * making a signature on a staff that affects the accidentals of altered notes. Scale is a more
  * complex object describing a set of heightless Pitches.
+ *
+ * @package ianring/PHPMusicTools
+ * @author  Ian Ring <httpwebwitch@gmail.com>
  */
+
+namespace ianring;
+require_once 'PMTObject.php';
+
 class Key extends PMTObject
 {
 

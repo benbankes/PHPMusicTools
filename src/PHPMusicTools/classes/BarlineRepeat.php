@@ -1,4 +1,13 @@
 <?php
+/**
+ * BarlineRepeat Class
+ *
+ * BarlineRepeat is a notation that instructs a performer to repeat the previous section.
+ *
+ * @package      PHPMusicTools
+ * @author       Ian Ring <httpwebwitch@email.com>
+ */
+
 namespace ianring;
 require_once 'PMTObject.php';
 

@@ -1,4 +1,13 @@
 <?php
+/**
+ * Arpeggiate Class
+ *
+ * Arpeggiate is a symbol that indicates for the performer to play notes in quick sequence, instead of simultaneous.
+ *
+ * @package      PHPMusicTools
+ * @author       Ian Ring <httpwebwitch@email.com>
+ */
+
 namespace ianring;
 require_once 'PMTObject.php';
 

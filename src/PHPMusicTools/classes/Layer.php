@@ -1,11 +1,17 @@
 <?php
+/**
+ * Layer Class
+ * 
+ * Layer is a collection of chords, aka a "voice" of consecutive sets of notes in a measure
+ *
+ * @package ianring/PHPMusicTools
+ * @author  Ian Ring <httpwebwitch@gmail.com>
+ */
+
 namespace ianring;
 require_once 'PMTObject.php';
 require_once 'Chord.php';
 
-/**
- * Layer is a collection of chords, aka a "voice" of consecutive sets of notes in a measure
- */
 class Layer extends PMTObject
 {
 

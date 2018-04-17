@@ -1,4 +1,13 @@
 <?php
+/**
+ * Articulation Class
+ *
+ * Articulation is a symbol that directs a performer to change how a note sounds.
+ *
+ * @package      PHPMusicTools
+ * @author       Ian Ring <httpwebwitch@email.com>
+ */
+
 namespace ianring;
 require_once 'PMTObject.php';
 

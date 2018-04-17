@@ -1,12 +1,18 @@
 <?php
+/**
+ * Barline Class
+ *
+ * Barline is a separator between measures
+ *
+ * @package      PHPMusicTools
+ * @author       Ian Ring <httpwebwitch@email.com>
+ */
+
 namespace ianring;
 require_once 'PMTObject.php';
 require_once 'BarlineEnding.php';
 require_once 'BarlineRepeat.php';
 
-/**
- * Barline is a vertical separator between measures
- */
 class Barline extends PMTObject
 {
 
@@ -45,7 +51,7 @@ class Barline extends PMTObject
 
 		if (isset($props['ending'])) {
             if ($props['ending'] instanceof BarlineEnding) {
-                $ending = $ending;
+                $ending = $props['ending'];
             } else {
 				$ending = BarlineEnding::constructFromArray($props['ending']);
 			}
@@ -53,7 +59,7 @@ class Barline extends PMTObject
 
 		if (isset($props['repeat'])) {
             if ($props['repeat'] instanceof BarlineRepeat) {
-                $repeat = $repeat;
+                $repeat = $props['repeat'];
             } else {
 				$repeat = BarlineRepeat::constructFromArray($props['repeat']);
 			}
