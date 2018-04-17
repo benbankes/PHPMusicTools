@@ -4,7 +4,7 @@ require_once('Visualization.php');
 
 
 /**
- * renders a piano keyboard, with notes indicated
+ * renders a guitar chord diagram
  * @param  [type] $notes [description]
  * @return [type]        [description]
  */
