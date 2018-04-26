@@ -14,7 +14,9 @@
     	}
     ],
     "require": {
-        "php": ">=5.3.0",
+        "php": ">=5.3.0"
+    },
+    "require-dev": {
         "phpdocumentor/phpdocumentor": "2.*",
         "squizlabs/php_codesniffer":"*",
         "phpunit/phpunit":"*",
